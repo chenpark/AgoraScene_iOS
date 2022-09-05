@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Kingfisher
 import SVGAPlayer
 class AgoraChatRoom3DMoveUserView: UIView {
 
