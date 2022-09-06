@@ -8,7 +8,14 @@
 import UIKit
 import SnapKit
 
+public enum HEADER_ACTION {
+    case back
+    case notice
+}
+
 class AgoraChatRoomHeaderView: UIView {
+    
+    typealias resBlock = (HEADER_ACTION) -> Void
     
     private var backBtn: UIButton = UIButton()
     private var iconImgView: UIImageView = UIImageView()
@@ -22,6 +29,8 @@ class AgoraChatRoomHeaderView: UIView {
     private var noticeView: UIView = UIView()
     private var configView: UIView = UIView()
     private var soundSetLabel: UILabel = UILabel()
+    
+    var completeBlock: resBlock?
 
     override func draw(_ rect: CGRect) {
         // Drawing code
@@ -243,10 +252,12 @@ class AgoraChatRoomHeaderView: UIView {
     }
     
     @objc private func back() {
-        
+        guard let block = completeBlock else {return}
+        block(.back)
     }
     
     @objc private func click() {
-        
+        guard let block = completeBlock else {return}
+        block(.notice)
     }
 }

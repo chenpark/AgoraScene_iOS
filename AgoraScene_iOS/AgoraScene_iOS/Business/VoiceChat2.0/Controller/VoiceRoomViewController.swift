@@ -7,6 +7,12 @@
 
 import UIKit
 import SnapKit
+import ZSwiftBaseLib
+
+public enum ROLE_TYPE {
+    case owner
+    case audience
+}
 
 class VoiceRoomViewController: VRBaseViewController {
     
@@ -36,6 +42,9 @@ class VoiceRoomViewController: VRBaseViewController {
         self.view.addSubview(bgImgView)
         
         headerView = AgoraChatRoomHeaderView()
+        headerView.completeBlock = {[weak self] action in
+            self?.didHeaderAction(with: action)
+        }
         self.view.addSubview(headerView)
         
         self.sRtcView = AgoraChatRoom3DRtcView()
@@ -63,5 +72,25 @@ class VoiceRoomViewController: VRBaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigation.isHidden = false
+    }
+}
+
+extension VoiceRoomViewController {
+    func didHeaderAction(with action: HEADER_ACTION) {
+        showNoticeView(with: .owner)
+    }
+    
+    func showNoticeView(with role: ROLE_TYPE) {
+        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        noticeView.roleType = .owner
+        noticeView.resBlock = {[weak self] (flag, str) in
+            self?.dismiss(animated: true)
+            guard let str = str else {return}
+            
+        }
+     //   noticeView.noticeStr = "Welcome to Agora Chat Room 2.0 I am therobot Agora Red. Can you see the robot assistant at the right coner? Click it and experience the new features"
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
+        self.presentViewController(vc)
+        
     }
 }

@@ -75,18 +75,18 @@ public struct PresentedViewComponent {
 public protocol PresentedViewType {
     
     /// presentedView的设置
-    var presentedViewComponent: PresentedViewComponent { get set }
+    var presentedViewComponent: PresentedViewComponent? { get set }
     
 }
 
 extension PresentedViewType {
     
     var presentTransitionType: TransitionType {
-        return presentedViewComponent.presentTransitionType ?? .translation(origin: presentedViewComponent.destination.defaultOrigin)
+        return presentedViewComponent!.presentTransitionType ?? .translation(origin: presentedViewComponent!.destination.defaultOrigin)
     }
     
     var dismissTransitionType: TransitionType {
-        return presentedViewComponent.dismissTransitionType ?? presentTransitionType
+        return presentedViewComponent!.dismissTransitionType ?? presentTransitionType
     }
     
 }
