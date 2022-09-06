@@ -88,11 +88,7 @@ extension AgoraChatRoom3DRtcView {
         lastPrePoint = currentPoint!
         sendTS = getCurrentTimeStamp()
     }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touchState == .moved {return}
         let touch = touches.first

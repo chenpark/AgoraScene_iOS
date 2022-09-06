@@ -65,15 +65,22 @@
 		E36BE15628C5EF9300270D52 /* VRCreateRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE14728C5EF9200270D52 /* VRCreateRoomView.swift */; };
 		E36BE15728C5EF9300270D52 /* VRSoundEffectsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE14828C5EF9300270D52 /* VRSoundEffectsList.swift */; };
 		E36BE15928C5F49600270D52 /* ASRTCKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE15828C5F49600270D52 /* ASRTCKit.swift */; };
-		E36BE16028C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15A28C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework */; };
-		E36BE16128C5FECB00270D52 /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15B28C5FECB00270D52 /* AgoraRtcKit.xcframework */; };
-		E36BE16228C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15C28C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework */; };
-		E36BE16328C5FECB00270D52 /* AgoraSoundTouch.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15D28C5FECB00270D52 /* AgoraSoundTouch.xcframework */; };
-		E36BE16428C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; };
-		E36BE16528C5FECB00270D52 /* Agorafdkaac.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */; };
 		E36BE16728C605F100270D52 /* VoiceRoomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE16628C605F100270D52 /* VoiceRoomRequest.swift */; };
+		E36BE16F28C6EACA00270D52 /* LauchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE16E28C6EACA00270D52 /* LauchViewController.swift */; };
+		E36BE17028C6F72100270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15A28C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework */; };
+		E36BE17128C6F72100270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15A28C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE17328C6F72200270D52 /* AgoraAudioBeautyExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15C28C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework */; };
+		E36BE17428C6F72200270D52 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15C28C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE17528C6F72300270D52 /* Agorafdkaac.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */; };
+		E36BE17628C6F72300270D52 /* Agorafdkaac.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE17728C6F72500270D52 /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15B28C5FECB00270D52 /* AgoraRtcKit.xcframework */; };
+		E36BE17828C6F72500270D52 /* AgoraRtcKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15B28C5FECB00270D52 /* AgoraRtcKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE17928C6F72600270D52 /* AgoraSoundTouch.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15D28C5FECB00270D52 /* AgoraSoundTouch.xcframework */; };
+		E36BE17A28C6F72600270D52 /* AgoraSoundTouch.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15D28C5FECB00270D52 /* AgoraSoundTouch.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE17B28C6F72800270D52 /* AgoraSpatialAudioExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; };
+		E36BE17C28C6F72800270D52 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E36BE18428C7242300270D52 /* VoiceRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */; };
 		E39B688828C5948C0083D0F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B688728C5948C0083D0F9 /* AppDelegate.swift */; };
-		E39B688A28C5948C0083D0F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B688928C5948C0083D0F9 /* SceneDelegate.swift */; };
 		E39B689128C5948D0083D0F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E39B689028C5948D0083D0F9 /* Assets.xcassets */; };
 		E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */; };
 		E39B68B628C5A41E0083D0F9 /* AgoraChatRoomBaseAlienCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B68AE28C5A41E0083D0F9 /* AgoraChatRoomBaseAlienCollectionViewCell.swift */; };
@@ -88,6 +95,25 @@
 		E39B68C328C5A4D30083D0F9 /* arrow.svga in Resources */ = {isa = PBXBuildFile; fileRef = E39B68C228C5A4D30083D0F9 /* arrow.svga */; };
 		E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B68C528C5A5200083D0F9 /* SwiftyFitSize.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E36BE17228C6F72100270D52 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E36BE17128C6F72100270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */,
+				E36BE17828C6F72500270D52 /* AgoraRtcKit.xcframework in Embed Frameworks */,
+				E36BE17628C6F72300270D52 /* Agorafdkaac.xcframework in Embed Frameworks */,
+				E36BE17A28C6F72600270D52 /* AgoraSoundTouch.xcframework in Embed Frameworks */,
+				E36BE17C28C6F72800270D52 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */,
+				E36BE17428C6F72200270D52 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1EB37DBD2D4136E6E32EC97B /* Pods-AgoraScene_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraScene_iOS.debug.xcconfig"; path = "Target Support Files/Pods-AgoraScene_iOS/Pods-AgoraScene_iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -156,9 +182,10 @@
 		E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AgoraSpatialAudioExtension.xcframework; sourceTree = "<group>"; };
 		E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Agorafdkaac.xcframework; sourceTree = "<group>"; };
 		E36BE16628C605F100270D52 /* VoiceRoomRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomRequest.swift; sourceTree = "<group>"; };
+		E36BE16E28C6EACA00270D52 /* LauchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchViewController.swift; sourceTree = "<group>"; };
+		E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
 		E39B688428C5948C0083D0F9 /* AgoraScene_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AgoraScene_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39B688728C5948C0083D0F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E39B688928C5948C0083D0F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E39B689028C5948D0083D0F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E39B689328C5948D0083D0F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E39B689528C5948D0083D0F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -182,13 +209,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E36BE17328C6F72200270D52 /* AgoraAudioBeautyExtension.xcframework in Frameworks */,
+				E36BE17528C6F72300270D52 /* Agorafdkaac.xcframework in Frameworks */,
+				E36BE17728C6F72500270D52 /* AgoraRtcKit.xcframework in Frameworks */,
+				E36BE17B28C6F72800270D52 /* AgoraSpatialAudioExtension.xcframework in Frameworks */,
+				E36BE17928C6F72600270D52 /* AgoraSoundTouch.xcframework in Frameworks */,
 				1C3786A7F669C170D4FFA5CE /* Pods_AgoraScene_iOS.framework in Frameworks */,
-				E36BE16528C5FECB00270D52 /* Agorafdkaac.xcframework in Frameworks */,
-				E36BE16028C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */,
-				E36BE16128C5FECB00270D52 /* AgoraRtcKit.xcframework in Frameworks */,
-				E36BE16328C5FECB00270D52 /* AgoraSoundTouch.xcframework in Frameworks */,
-				E36BE16428C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework in Frameworks */,
-				E36BE16228C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework in Frameworks */,
+				E36BE17028C6F72100270D52 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +287,14 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		E36BE16D28C6EA9F00270D52 /* LoginService */ = {
+			isa = PBXGroup;
+			children = (
+				E36BE16E28C6EACA00270D52 /* LauchViewController.swift */,
+			);
+			path = LoginService;
+			sourceTree = "<group>";
+		};
 		E39B687B28C5948C0083D0F9 = {
 			isa = PBXGroup;
 			children = (
@@ -294,7 +329,6 @@
 			isa = PBXGroup;
 			children = (
 				E39B688728C5948C0083D0F9 /* AppDelegate.swift */,
-				E39B688928C5948C0083D0F9 /* SceneDelegate.swift */,
 				E39B689028C5948D0083D0F9 /* Assets.xcassets */,
 				E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */,
 			);
@@ -304,6 +338,7 @@
 		E39B689C28C59BDF0083D0F9 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				E36BE16D28C6EA9F00270D52 /* LoginService */,
 				E39B689D28C59BDF0083D0F9 /* VoiceChat2.0 */,
 				E39B68A128C59BDF0083D0F9 /* RoomService */,
 			);
@@ -324,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				E36BE11C28C5EF1700270D52 /* VoiceRoomAlertViewController.swift */,
+				E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -538,6 +574,7 @@
 				E39B688128C5948C0083D0F9 /* Frameworks */,
 				E39B688228C5948C0083D0F9 /* Resources */,
 				3F7419CC4E20410EE70FBFF2 /* [CP] Embed Pods Frameworks */,
+				E36BE17228C6F72100270D52 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -676,7 +713,6 @@
 				E36BE14F28C5EF9300270D52 /* VRVerifyCodeTextView.swift in Sources */,
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
 				E36BE15728C5EF9300270D52 /* VRSoundEffectsList.swift in Sources */,
-				E39B688A28C5948C0083D0F9 /* SceneDelegate.swift in Sources */,
 				E39B68B828C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift in Sources */,
 				E36BE10728C5ECD500270D52 /* VoiceRoomBusinessApi.swift in Sources */,
 				E36BE13928C5EF8400270D52 /* VRBaseViewController.swift in Sources */,
@@ -685,6 +721,8 @@
 				E36BE15128C5EF9300270D52 /* VRRoomCreateView.swift in Sources */,
 				E36BE10E28C5ECD500270D52 /* PresentationEnums.swift in Sources */,
 				E36BE12E28C5EF7700270D52 /* VRRoomMenuBarCell.swift in Sources */,
+				E36BE18428C7242300270D52 /* VoiceRoomViewController.swift in Sources */,
+				E36BE16F28C6EACA00270D52 /* LauchViewController.swift in Sources */,
 				E36BE12C28C5EF7700270D52 /* VRRoomListCell.swift in Sources */,
 				E39B68BA28C5A41E0083D0F9 /* AgoraChatRoom3DUserCollectionViewCell.swift in Sources */,
 				E36BE14928C5EF9300270D52 /* VREmptyView.swift in Sources */,
@@ -855,6 +893,7 @@
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -884,6 +923,7 @@
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
