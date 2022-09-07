@@ -81,6 +81,15 @@
 		E36BE17C28C6F72800270D52 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E36BE18428C7242300270D52 /* VoiceRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */; };
 		E36BE18628C7305400270D52 /* VMNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18528C7305400270D52 /* VMNoticeView.swift */; };
+		E36BE18828C8390000270D52 /* VMUserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18728C8390000270D52 /* VMUserListView.swift */; };
+		E36BE18A28C83CF100270D52 /* VMUpstageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18928C83CF100270D52 /* VMUpstageView.swift */; };
+		E36BE18C28C8426000270D52 /* VMManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18B28C8426000270D52 /* VMManagerView.swift */; };
+		E36BE18E28C8737200270D52 /* VMAudioSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18D28C8737200270D52 /* VMAudioSettingView.swift */; };
+		E36BE19028C876FC00270D52 /* VMSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE18F28C876FC00270D52 /* VMSwitchTableViewCell.swift */; };
+		E36BE19228C8771100270D52 /* VMSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19128C8771100270D52 /* VMSliderTableViewCell.swift */; };
+		E36BE19428C8778600270D52 /* VMNorSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */; };
+		E36BE19628C8780A00270D52 /* VMANISSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */; };
+		E36BE19828C8781B00270D52 /* VMANISSUPTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */; };
 		E39B688828C5948C0083D0F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B688728C5948C0083D0F9 /* AppDelegate.swift */; };
 		E39B689128C5948D0083D0F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E39B689028C5948D0083D0F9 /* Assets.xcassets */; };
 		E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */; };
@@ -186,6 +195,15 @@
 		E36BE16E28C6EACA00270D52 /* LauchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauchViewController.swift; sourceTree = "<group>"; };
 		E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
 		E36BE18528C7305400270D52 /* VMNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMNoticeView.swift; sourceTree = "<group>"; };
+		E36BE18728C8390000270D52 /* VMUserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMUserListView.swift; sourceTree = "<group>"; };
+		E36BE18928C83CF100270D52 /* VMUpstageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMUpstageView.swift; sourceTree = "<group>"; };
+		E36BE18B28C8426000270D52 /* VMManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMManagerView.swift; sourceTree = "<group>"; };
+		E36BE18D28C8737200270D52 /* VMAudioSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMAudioSettingView.swift; sourceTree = "<group>"; };
+		E36BE18F28C876FC00270D52 /* VMSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		E36BE19128C8771100270D52 /* VMSliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSliderTableViewCell.swift; sourceTree = "<group>"; };
+		E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMNorSetTableViewCell.swift; sourceTree = "<group>"; };
+		E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSetTableViewCell.swift; sourceTree = "<group>"; };
+		E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSUPTableViewCell.swift; sourceTree = "<group>"; };
 		E39B688428C5948C0083D0F9 /* AgoraScene_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AgoraScene_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39B688728C5948C0083D0F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E39B689028C5948D0083D0F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -386,6 +404,15 @@
 				E36BE11828C5EEE900270D52 /* VoiceRoomChatCell.swift */,
 				E36BE11728C5EEE900270D52 /* VoiceRoomGiftCell.swift */,
 				E36BE18528C7305400270D52 /* VMNoticeView.swift */,
+				E36BE18728C8390000270D52 /* VMUserListView.swift */,
+				E36BE18928C83CF100270D52 /* VMUpstageView.swift */,
+				E36BE18B28C8426000270D52 /* VMManagerView.swift */,
+				E36BE18D28C8737200270D52 /* VMAudioSettingView.swift */,
+				E36BE18F28C876FC00270D52 /* VMSwitchTableViewCell.swift */,
+				E36BE19128C8771100270D52 /* VMSliderTableViewCell.swift */,
+				E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */,
+				E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */,
+				E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -693,6 +720,7 @@
 				E36BE16728C605F100270D52 /* VoiceRoomRequest.swift in Sources */,
 				E36BE10828C5ECD500270D52 /* UIViewController+Presentation.swift in Sources */,
 				E39B68BB28C5A41E0083D0F9 /* AgoraChatRoomBaseRtcUserView.swift in Sources */,
+				E36BE18C28C8426000270D52 /* VMManagerView.swift in Sources */,
 				E36BE11528C5EE7E00270D52 /* VoiceRoomGiftEntity.swift in Sources */,
 				E36BE15628C5EF9300270D52 /* VRCreateRoomView.swift in Sources */,
 				E36BE13628C5EF8400270D52 /* VRSoundEffectsViewController.swift in Sources */,
@@ -700,20 +728,24 @@
 				E36BE10D28C5ECD500270D52 /* PresentedViewType.swift in Sources */,
 				E36BE10028C5ECD500270D52 /* UIViewToastExtension.swift in Sources */,
 				E36BE11A28C5EEE900270D52 /* VoiceRoomGiftCell.swift in Sources */,
+				E36BE19628C8780A00270D52 /* VMANISSetTableViewCell.swift in Sources */,
 				E36BE10C28C5ECD500270D52 /* CrossDissolveAnimation.swift in Sources */,
 				E36BE14D28C5EF9300270D52 /* VRCreateRoomInputView.swift in Sources */,
 				E36BE10B28C5ECD500270D52 /* CrossZoomAnimation.swift in Sources */,
 				E36BE11028C5ECD500270D52 /* PresentationSegue.swift in Sources */,
 				E36BE14C28C5EF9300270D52 /* VRVerifyCodeNumberView.swift in Sources */,
 				E36BE12D28C5EF7700270D52 /* HorizontalCardCell.swift in Sources */,
+				E36BE18A28C83CF100270D52 /* VMUpstageView.swift in Sources */,
 				E36BE15528C5EF9300270D52 /* VRRoomListView.swift in Sources */,
 				E36BE10A28C5ECD500270D52 /* FlipHorizontalAnimation.swift in Sources */,
 				E36BE12B28C5EF7700270D52 /* VRCreateRoomCardCell.swift in Sources */,
+				E36BE18828C8390000270D52 /* VMUserListView.swift in Sources */,
 				E39B688828C5948C0083D0F9 /* AppDelegate.swift in Sources */,
 				E36BE10628C5ECD500270D52 /* LanguageManager.swift in Sources */,
 				E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */,
 				E36BE14E28C5EF9300270D52 /* VRRoomMenuBar.swift in Sources */,
 				E36BE14F28C5EF9300270D52 /* VRVerifyCodeTextView.swift in Sources */,
+				E36BE19028C876FC00270D52 /* VMSwitchTableViewCell.swift in Sources */,
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
 				E36BE15728C5EF9300270D52 /* VRSoundEffectsList.swift in Sources */,
 				E39B68B828C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift in Sources */,
@@ -725,11 +757,14 @@
 				E36BE15128C5EF9300270D52 /* VRRoomCreateView.swift in Sources */,
 				E36BE10E28C5ECD500270D52 /* PresentationEnums.swift in Sources */,
 				E36BE12E28C5EF7700270D52 /* VRRoomMenuBarCell.swift in Sources */,
+				E36BE19828C8781B00270D52 /* VMANISSUPTableViewCell.swift in Sources */,
 				E36BE18428C7242300270D52 /* VoiceRoomViewController.swift in Sources */,
 				E36BE16F28C6EACA00270D52 /* LauchViewController.swift in Sources */,
 				E36BE12C28C5EF7700270D52 /* VRRoomListCell.swift in Sources */,
 				E39B68BA28C5A41E0083D0F9 /* AgoraChatRoom3DUserCollectionViewCell.swift in Sources */,
+				E36BE19428C8778600270D52 /* VMNorSetTableViewCell.swift in Sources */,
 				E36BE14928C5EF9300270D52 /* VREmptyView.swift in Sources */,
+				E36BE19228C8771100270D52 /* VMSliderTableViewCell.swift in Sources */,
 				E36BE15028C5EF9300270D52 /* VRSoundTypeCard.swift in Sources */,
 				E36BE13728C5EF8400270D52 /* VRUserProfileViewController.swift in Sources */,
 				E36BE12528C5EF2A00270D52 /* VoiceRoomChatView.swift in Sources */,
@@ -751,6 +786,7 @@
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,
 				E36BE15428C5EF9300270D52 /* VRVerifyCodeView.swift in Sources */,
 				E36BE12328C5EF2A00270D52 /* VoiceRoomChatBar.swift in Sources */,
+				E36BE18E28C8737200270D52 /* VMAudioSettingView.swift in Sources */,
 				E39B68C028C5A4770083D0F9 /* AgoraChatRoomHeaderView.swift in Sources */,
 				E36BE10328C5ECD500270D52 /* VRRoomEntity.swift in Sources */,
 			);
