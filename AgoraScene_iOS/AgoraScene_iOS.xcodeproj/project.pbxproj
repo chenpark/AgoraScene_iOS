@@ -90,6 +90,10 @@
 		E36BE19428C8778600270D52 /* VMNorSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */; };
 		E36BE19628C8780A00270D52 /* VMANISSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */; };
 		E36BE19828C8781B00270D52 /* VMANISSUPTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */; };
+		E36BE19A28C8C04200270D52 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19928C8C04200270D52 /* Test.swift */; };
+		E36BE19D28C9C47900270D52 /* VMPresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19C28C9C47900270D52 /* VMPresentView.swift */; };
+		E36BE19F28C9E54A00270D52 /* VMEQSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */; };
+		E36BE1A128CAE4A300270D52 /* VMSoundSelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */; };
 		E39B688828C5948C0083D0F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B688728C5948C0083D0F9 /* AppDelegate.swift */; };
 		E39B689128C5948D0083D0F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E39B689028C5948D0083D0F9 /* Assets.xcassets */; };
 		E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */; };
@@ -204,6 +208,10 @@
 		E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMNorSetTableViewCell.swift; sourceTree = "<group>"; };
 		E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSetTableViewCell.swift; sourceTree = "<group>"; };
 		E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSUPTableViewCell.swift; sourceTree = "<group>"; };
+		E36BE19928C8C04200270D52 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		E36BE19C28C9C47900270D52 /* VMPresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMPresentView.swift; sourceTree = "<group>"; };
+		E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMEQSettingView.swift; sourceTree = "<group>"; };
+		E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSoundSelTableViewCell.swift; sourceTree = "<group>"; };
 		E39B688428C5948C0083D0F9 /* AgoraScene_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AgoraScene_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39B688728C5948C0083D0F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E39B689028C5948D0083D0F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -380,6 +388,7 @@
 			children = (
 				E36BE11C28C5EF1700270D52 /* VoiceRoomAlertViewController.swift */,
 				E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */,
+				E36BE19928C8C04200270D52 /* Test.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -413,6 +422,9 @@
 				E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */,
 				E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */,
 				E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */,
+				E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */,
+				E36BE19C28C9C47900270D52 /* VMPresentView.swift */,
+				E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -722,11 +734,13 @@
 				E39B68BB28C5A41E0083D0F9 /* AgoraChatRoomBaseRtcUserView.swift in Sources */,
 				E36BE18C28C8426000270D52 /* VMManagerView.swift in Sources */,
 				E36BE11528C5EE7E00270D52 /* VoiceRoomGiftEntity.swift in Sources */,
+				E36BE19F28C9E54A00270D52 /* VMEQSettingView.swift in Sources */,
 				E36BE15628C5EF9300270D52 /* VRCreateRoomView.swift in Sources */,
 				E36BE13628C5EF8400270D52 /* VRSoundEffectsViewController.swift in Sources */,
 				E36BE10928C5ECD500270D52 /* PresentationAnimation.swift in Sources */,
 				E36BE10D28C5ECD500270D52 /* PresentedViewType.swift in Sources */,
 				E36BE10028C5ECD500270D52 /* UIViewToastExtension.swift in Sources */,
+				E36BE19D28C9C47900270D52 /* VMPresentView.swift in Sources */,
 				E36BE11A28C5EEE900270D52 /* VoiceRoomGiftCell.swift in Sources */,
 				E36BE19628C8780A00270D52 /* VMANISSetTableViewCell.swift in Sources */,
 				E36BE10C28C5ECD500270D52 /* CrossDissolveAnimation.swift in Sources */,
@@ -742,6 +756,7 @@
 				E36BE18828C8390000270D52 /* VMUserListView.swift in Sources */,
 				E39B688828C5948C0083D0F9 /* AppDelegate.swift in Sources */,
 				E36BE10628C5ECD500270D52 /* LanguageManager.swift in Sources */,
+				E36BE1A128CAE4A300270D52 /* VMSoundSelTableViewCell.swift in Sources */,
 				E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */,
 				E36BE14E28C5EF9300270D52 /* VRRoomMenuBar.swift in Sources */,
 				E36BE14F28C5EF9300270D52 /* VRVerifyCodeTextView.swift in Sources */,
@@ -781,6 +796,7 @@
 				E36BE12228C5EF2A00270D52 /* VoiceRoomAlertContainer.swift in Sources */,
 				E36BE14A28C5EF9300270D52 /* BaseNavigationView.swift in Sources */,
 				E36BE11D28C5EF1700270D52 /* VoiceRoomAlertViewController.swift in Sources */,
+				E36BE19A28C8C04200270D52 /* Test.swift in Sources */,
 				E36BE11928C5EEE900270D52 /* VoiceRoomChatBarCell.swift in Sources */,
 				E36BE14B28C5EF9300270D52 /* VRUserInfoView.swift in Sources */,
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,

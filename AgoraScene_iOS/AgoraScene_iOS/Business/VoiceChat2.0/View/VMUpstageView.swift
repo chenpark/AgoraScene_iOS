@@ -8,6 +8,7 @@
 import UIKit
 import ZSwiftBaseLib
 class VMUpstageView: UIView {
+    
     private var lineImgView: UIImageView = UIImageView()
     private var canBtn: UIButton = UIButton()
     private var subBtn: UIButton = UIButton()
