@@ -22,8 +22,8 @@ class AgoraChatRoom3DRtcView: UIView {
     private var _lastPointAngle: Double = 0
     private var lastPoint:CGPoint = .zero
     fileprivate var sendTS: CLongLong = 0
-    private var lastPrePoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 225~)
-    private var lastMovedPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 225~)
+    private var lastPrePoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
+    private var lastMovedPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var touchState: TouchState = .began
     public override func draw(_ rect: CGRect) {
         // Drawing code
@@ -142,7 +142,7 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
         if indexPath.item != 3  {
             return CGSize(width: self.bounds.size.width / 3.0, height: 150~)
         } else {
-            return CGSize(width: self.bounds.size.width, height: 150~)
+            return CGSize(width: self.bounds.size.width, height: 250~)
         }
     }
     

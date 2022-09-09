@@ -66,7 +66,7 @@ class VoiceRoomViewController: VRBaseViewController {
         self.sRtcView.snp.makeConstraints { make in
             make.top.equalTo(self.headerView.snp.bottom);
             make.left.right.equalTo(self.view);
-            make.height.equalTo(450~);
+            make.height.equalTo(550~);
         }
         
     }

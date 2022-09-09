@@ -122,7 +122,7 @@ class AgoraChatRoom3DMoveUserView: UIView {
     fileprivate func layoutUI() {
         
         lineView.backgroundColor = .clear
-        lineView.layer.bounds = CGRect(x: 0, y: 0, width: 10~, height: 105~)
+        lineView.layer.bounds = CGRect(x: 0, y: 0, width: 30~, height: 82~)
         lineView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
         self.addSubview(lineView)
         
@@ -135,7 +135,7 @@ class AgoraChatRoom3DMoveUserView: UIView {
         svgaPlayer.loops = 0
         svgaPlayer.clearsAfterStop = true
         
-        parser.parse(withNamed: "一个箭头", in: nil) {[weak self] videoItem in
+        parser.parse(withNamed: "arrow", in: nil) {[weak self] videoItem in
             self?.svgaPlayer.videoItem = videoItem
             self?.svgaPlayer.startAnimation()
         }
@@ -159,15 +159,17 @@ class AgoraChatRoom3DMoveUserView: UIView {
         self.addSubview(self.nameBtn)
         
         lineView.snp.makeConstraints { make in
-            make.center.equalTo(self)
-            make.height.equalTo(self).multipliedBy(0.5)
+            make.centerX.equalTo(self)
+            make.height.equalTo(82~)
             make.width.equalTo(30~)
+            make.top.equalTo(self).offset(40~);
         }
         
         svgaPlayer.snp.makeConstraints { make in
-            make.top.left.right.equalTo(lineView)
+            make.left.right.equalTo(lineView)
             make.height.equalTo(30~)
             make.width.equalTo(30~)
+            make.top.equalTo(8)
         }
         
         self.bgView.snp.makeConstraints { make in
