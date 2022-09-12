@@ -23,6 +23,7 @@ class AgoraChatRoom3DRtcView: UIView {
     private var lastPoint:CGPoint = .zero
     fileprivate var sendTS: CLongLong = 0
     private var lastPrePoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
+    private var lastCenterPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var lastMovedPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var touchState: TouchState = .began
     public override func draw(_ rect: CGRect) {
@@ -58,58 +59,88 @@ class AgoraChatRoom3DRtcView: UIView {
             make.width.height.equalTo(150~)
         }
         
+        self.isUserInteractionEnabled = true
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(taptap))
+        self.addGestureRecognizer(tap)
+        
+        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan))
+        self.addGestureRecognizer(pan)
     }
+    
+    
 }
 
 extension AgoraChatRoom3DRtcView {
+    
+    @objc private  func taptap( tap: UIGestureRecognizer) {
+        
+        var location = tap.location(in: self)
+        
+        //处理边界
+        if location.x <= 75~ {
+            location.x = 75~
+        }
+        
+        if location.y <= 75~ {
+            location.y = 75~
+        }
+        
+        if location.x >= self.bounds.size.width - 75~ {
+            location.x = self.bounds.size.width - 75~
+        }
+        
+        
+        if location.y >= self.bounds.size.height - 75~ {
+            location.y = self.bounds.size.height - 75~
+        }
+        
+        let angle = getAngle(location, preP: lastCenterPoint);
+        self.rtcUserView.angle = angle - _lastPointAngle
+        UIView.animate(withDuration: 3, delay: 0) { [self] in
+            self.rtcUserView.center = CGPoint(x: location.x, y: location.y)
+        }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchState = .began
+        if  angle == _lastPointAngle {return}
+        _lastPointAngle = angle
+        lastCenterPoint = self.rtcUserView.center
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        let currentPoint = touch?.location(in: self)
-        let presentPoint = touch?.precisePreviousLocation(in: self)
-        touchState = .moved
+    @objc private func pan(pan: UIPanGestureRecognizer) {
+        let translation = pan.translation(in: self)
         
-        let offsetX = currentPoint!.x - presentPoint!.x
-        let offsetY = currentPoint!.y - presentPoint!.y
-        self.rtcUserView.transform = self.rtcUserView.transform.translatedBy(x: offsetX, y: offsetY)
+        var moveCenter = CGPoint(x: self.rtcUserView.center.x + translation.x, y: self.rtcUserView.center.y + translation.y)
+        
+        //处理边界
+        if moveCenter.x <= 75~ {
+            moveCenter.x = 75~
+        }
+        
+        if moveCenter.y <= 75~ {
+            moveCenter.y = 75~
+        }
+        
+        if moveCenter.x >= self.bounds.size.width - 75~ {
+            moveCenter.x = self.bounds.size.width - 75~
+        }
+        
+        if moveCenter.y >= self.bounds.size.height - 75~ {
+            moveCenter.y = self.bounds.size.height - 75~
+        }
+        
+        self.rtcUserView.center = CGPoint(x: moveCenter.x, y: moveCenter.y)
+        pan.setTranslation(.zero, in: self)
         
         if getCurrentTimeStamp() - sendTS < 300 {return}
-        let angle = getAngle(currentPoint!, preP: lastPrePoint);
+        let angle = getAngle(self.rtcUserView.center, preP: self.lastCenterPoint);
         if abs(angle - _lastPointAngle) < 0.2 {
             return
         }
         self.rtcUserView.angle = angle - _lastPointAngle
         if  angle == _lastPointAngle {return}
         _lastPointAngle = angle
-        lastPrePoint = currentPoint!
+        lastCenterPoint = self.rtcUserView.center
         sendTS = getCurrentTimeStamp()
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touchState == .moved {return}
-        let touch = touches.first
-        let currentPoint = touch?.location(in: self)
-        let presentPoint = self.lastMovedPoint
-
-        let offsetX = currentPoint!.x - presentPoint.x
-        let offsetY = currentPoint!.y - presentPoint.y
-
-        let angle = getAngle(currentPoint!, preP: lastPrePoint);
-        self.rtcUserView.angle = angle - _lastPointAngle
-        UIView.animate(withDuration: 3, delay: 0) { [self] in
-            self.rtcUserView.transform = self.rtcUserView.transform.translatedBy(x: offsetX, y: offsetY)
-        }
-        
-        if  angle == _lastPointAngle {return}
-        _lastPointAngle = angle
-        lastPrePoint = currentPoint!
-        sendTS = getCurrentTimeStamp()
-        lastMovedPoint = currentPoint!
-        
     }
     
     fileprivate func getAngle(_ curP: CGPoint, preP: CGPoint) -> Double {
