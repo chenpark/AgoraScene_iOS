@@ -45,7 +45,6 @@ class AgoraChatRoom3DRtcView: UIView {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.isUserInteractionEnabled = false
         
         self.collectionView = collectionView
         self.addSubview(collectionView)

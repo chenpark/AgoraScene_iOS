@@ -90,7 +90,6 @@
 		E36BE19428C8778600270D52 /* VMNorSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */; };
 		E36BE19628C8780A00270D52 /* VMANISSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */; };
 		E36BE19828C8781B00270D52 /* VMANISSUPTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */; };
-		E36BE19A28C8C04200270D52 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19928C8C04200270D52 /* Test.swift */; };
 		E36BE19D28C9C47900270D52 /* VMPresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19C28C9C47900270D52 /* VMPresentView.swift */; };
 		E36BE19F28C9E54A00270D52 /* VMEQSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */; };
 		E36BE1A128CAE4A300270D52 /* VMSoundSelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */; };
@@ -208,7 +207,6 @@
 		E36BE19328C8778600270D52 /* VMNorSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMNorSetTableViewCell.swift; sourceTree = "<group>"; };
 		E36BE19528C8780A00270D52 /* VMANISSetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSetTableViewCell.swift; sourceTree = "<group>"; };
 		E36BE19728C8781B00270D52 /* VMANISSUPTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMANISSUPTableViewCell.swift; sourceTree = "<group>"; };
-		E36BE19928C8C04200270D52 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		E36BE19C28C9C47900270D52 /* VMPresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMPresentView.swift; sourceTree = "<group>"; };
 		E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMEQSettingView.swift; sourceTree = "<group>"; };
 		E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSoundSelTableViewCell.swift; sourceTree = "<group>"; };
@@ -388,7 +386,6 @@
 			children = (
 				E36BE11C28C5EF1700270D52 /* VoiceRoomAlertViewController.swift */,
 				E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */,
-				E36BE19928C8C04200270D52 /* Test.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -796,7 +793,6 @@
 				E36BE12228C5EF2A00270D52 /* VoiceRoomAlertContainer.swift in Sources */,
 				E36BE14A28C5EF9300270D52 /* BaseNavigationView.swift in Sources */,
 				E36BE11D28C5EF1700270D52 /* VoiceRoomAlertViewController.swift in Sources */,
-				E36BE19A28C8C04200270D52 /* Test.swift in Sources */,
 				E36BE11928C5EEE900270D52 /* VoiceRoomChatBarCell.swift in Sources */,
 				E36BE14B28C5EF9300270D52 /* VRUserInfoView.swift in Sources */,
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,

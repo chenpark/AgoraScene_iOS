@@ -130,12 +130,16 @@ class AgoraChatRoom3DMoveUserView: UIView {
         self.bgView.layer.masksToBounds = true
         self.bgView.backgroundColor = UIColor(red: 104/255.0, green: 128/255.0, blue: 1, alpha: 1)
         self.addSubview(self.bgView)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapClick))
+        self.bgView.addGestureRecognizer(tap)
+        self.bgView.isUserInteractionEnabled = true
 
         lineView.addSubview(svgaPlayer)
         svgaPlayer.loops = 0
         svgaPlayer.clearsAfterStop = true
         
-        parser.parse(withNamed: "arrow", in: nil) {[weak self] videoItem in
+        parser.parse(withNamed: "一个箭头", in: nil) {[weak self] videoItem in
             self?.svgaPlayer.videoItem = videoItem
             self?.svgaPlayer.startAnimation()
         }
@@ -203,5 +207,8 @@ class AgoraChatRoom3DMoveUserView: UIView {
         }
     }
    
+    @objc private func tapClick(tap: UITapGestureRecognizer) {
+        print("3D 头像点击")
+    }
 
 }

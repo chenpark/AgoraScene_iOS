@@ -20,10 +20,6 @@ class VoiceRoomViewController: VRBaseViewController {
     private var rtcView: AgoraChatRoomNormalRtcView!
     private var sRtcView: AgoraChatRoom3DRtcView!
     
-    private var _lastPointAngle: Double = 0
-    private var lastPoint:CGPoint = .zero
-    fileprivate var sendTS: CLongLong = 0
-    private var lastPrePoint: CGPoint = .zero
     private var preView: VMPresentView!
     private var isShowPreSentView: Bool = false
     override func viewWillAppear(_ animated: Bool) {

@@ -131,6 +131,10 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         self.bgView.layer.masksToBounds = true
         self.bgView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         self.addSubview(self.bgView)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapClick))
+        self.bgView.addGestureRecognizer(tap)
+        self.bgView.isUserInteractionEnabled = true
 
         self.bgIconView.image = UIImage(named: "icons／solid／add(1)")
         self.bgIconView.layer.cornerRadius = 15~
@@ -209,5 +213,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
    
-
+    @objc private func tapClick(tap: UITapGestureRecognizer) {
+        
+    }
 }
