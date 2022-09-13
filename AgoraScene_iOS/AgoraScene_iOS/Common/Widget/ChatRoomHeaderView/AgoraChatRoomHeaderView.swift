@@ -68,16 +68,10 @@ class AgoraChatRoomHeaderView: UIView {
         
         self.addSubview(self.richView)
         
-        self.configView.layer.cornerRadius = 19~;
+        self.configView.layer.cornerRadius = 11~;
         self.configView.layer.masksToBounds = true;
         self.configView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
         self.addSubview(self.configView)
-        
-        let tipLabel = UILabel()
-        tipLabel.text = "Best Agora Sound:"
-        tipLabel.textColor = .white
-        tipLabel.font = UIFont.systemFont(ofSize: 9)~
-        self.configView.addSubview(tipLabel)
         
         let soundSetView = UIView()
         self.configView.addSubview(soundSetView)
@@ -88,7 +82,7 @@ class AgoraChatRoomHeaderView: UIView {
         self.configView.addSubview(self.soundSetLabel)
         
         let soundImgView = UIImageView()
-        soundImgView.image = UIImage(named: "icons／outlined／arrow_down")
+        soundImgView.image = UIImage(named: "icons／outlined／arrow_right")
         self.configView.addSubview(soundImgView)
 
         self.giftBtn.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
@@ -164,20 +158,13 @@ class AgoraChatRoomHeaderView: UIView {
         self.configView.snp.makeConstraints { make in
             make.right.equalTo(self.snp.right).offset(19~);
             make.width.equalTo(150~);
-            make.height.equalTo(38~);
+            make.height.equalTo(22~);
             make.top.equalTo(94~);
-        }
-        
-        tipLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.configView).offset(20~);
-            make.top.equalTo(self.configView);
-            make.width.equalTo(85~);
-            make.height.equalTo(13~);
         }
         
         soundSetView.snp.makeConstraints { make in
             make.left.equalTo(self.configView).offset(10~);
-            make.top.equalTo(tipLabel.snp.bottom).offset(3~);
+            make.top.equalTo(self.configView).offset(3~);
             make.width.equalTo(105~);
             make.height.equalTo(18~);
         }
@@ -186,18 +173,6 @@ class AgoraChatRoomHeaderView: UIView {
             make.left.equalTo(soundSetView).offset(5~);
             make.centerY.equalTo(soundSetView);
         }
-        
-        soundSetView.layoutIfNeeded()
-        // gradient
-        let gl: CAGradientLayer = CAGradientLayer()
-        gl.startPoint = CGPoint(x: 0.18, y: 0)
-        gl.endPoint = CGPoint(x: 0.66, y: 1)
-        gl.colors = [UIColor(red: 191/255.0, green: 92/255.0, blue: 1, alpha: 1).cgColor, UIColor(red: 141/255.0, green: 77/255.0, blue: 1, alpha: 1).cgColor]
-        gl.locations = [0, 1.0]
-        soundSetView.layer.cornerRadius = 9~;
-        soundSetView.layer.masksToBounds = true;
-        gl.frame = soundSetView.bounds;
-        soundSetView.layer.addSublayer(gl)
         
         self.soundSetLabel.snp.makeConstraints { make in
             make.left.equalTo(soundSetView).offset(5~);
