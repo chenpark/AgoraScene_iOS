@@ -15,11 +15,12 @@ public class VoiceRoomAlertContainer: UIView {
     }()
     
     lazy var cover: UIView = {
-        UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56)).backgroundColor(.clear).setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
+        UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56)).backgroundColor(.clear).setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
     }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .white
         self.addSubViews([self.indicator,self.cover])
     }
     

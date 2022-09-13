@@ -7,14 +7,13 @@
 
 import UIKit
 import ZSwiftBaseLib
+//public enum
 
 public class VoiceRoomAlertViewController: UIViewController,PresentedViewType {
     
     public var presentedViewComponent: PresentedViewComponent?
     
     var customView: UIView?
-
-    var limitHeight = ScreenHeight/2.0
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)

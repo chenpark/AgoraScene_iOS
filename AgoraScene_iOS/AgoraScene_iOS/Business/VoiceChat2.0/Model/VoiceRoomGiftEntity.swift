@@ -6,14 +6,26 @@
 //
 
 import Foundation
+import UIKit
 
-@objcMembers open class VoiceRoomGiftEntity: NSObject {
+@objcMembers open class VoiceRoomGiftEntity: NSObject,Codable {
     var gift_id: String? = ""
     var gift_name: String? = ""
     var userName: String? = ""
+    var gift_value: String? = ""
     var avatar: UIImage? {
         UIImage(self.gift_id ?? "")
     }
     var gift_count: String? = "0"
+    var selected = false
 }
 
+open class VoiceRoomGiftCount {
+    var number: Int
+    var selected: Bool
+    
+    init(number: Int,selected: Bool) {
+        self.number = number
+        self.selected = selected
+    }
+}

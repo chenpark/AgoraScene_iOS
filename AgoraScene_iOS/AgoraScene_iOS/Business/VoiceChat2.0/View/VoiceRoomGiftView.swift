@@ -10,10 +10,16 @@ import ZSwiftBaseLib
 
 public class VoiceRoomGiftView: UIView,UITableViewDelegate,UITableViewDataSource {
     
-    public var gifts = [VoiceRoomGiftEntity]()
-
+    public var gifts = [VoiceRoomGiftEntity]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.cellAnimation()
+            }
+        }
+    }
+    
     private var lastOffsetY = CGFloat(0)
-        
+                
     public lazy var giftList: UITableView = {
         UITableView(frame: CGRect(x: 15, y: 0, width: self.frame.width-30, height: self.frame.height), style: .plain).tableFooterView(UIView()).separatorStyle(.none).registerCell(VoiceRoomGiftCell.self, forCellReuseIdentifier: "VoiceRoomGiftCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).delegate(self).dataSource(self).backgroundColor(.clear)
     }()
@@ -38,7 +44,16 @@ extension VoiceRoomGiftView {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        self.giftList.frame.width/5.0
+        self.giftList.frame.width/4.5
+    }
+    
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        cell.alpha = 0
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,17 +65,22 @@ extension VoiceRoomGiftView {
         return cell ?? VoiceRoomGiftCell()
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let indexPath = self.giftList.indexPathForRow(at: scrollView.contentOffset) ?? IndexPath(row: 0, section: 0)
+    private func cellAnimation() {
+        self.alpha = 1
+        self.giftList.reloadData()
+        let indexPath = IndexPath(row: self.gifts.count-2, section: 0)
         let cell = self.giftList.cellForRow(at: indexPath)
-        let offsetY = scrollView.contentOffset.y
-        if offsetY - self.lastOffsetY > 0 {
-            UIView.animate(withDuration: 0.3) {
-                cell?.alpha = 0.35
-                cell?.contentView.transform = CGAffineTransform(scaleX: 0.618, y: 0.618)
+        UIView.animate(withDuration: 0.3) {
+            cell?.alpha = 0.35
+            cell?.contentView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+            self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count-1, section: 0), at: .bottom, animated: false)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+3) {
+            UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut) {
+                self.alpha = 0
             }
         }
-        self.lastOffsetY = offsetY
     }
 
 }
+

@@ -6,20 +6,38 @@
 //
 
 import Foundation
+import KakaJSON
 
-@objcMembers open class VRRoomsEntity:NSObject, Codable {
-    var total: Int? //总房间数量
-    var cursor: String? //下一次请求房间列表的cursor
-    var rooms: [VRRoomEntity]?//房间信息数组
+@objc public class VRRoomsEntity:NSObject, Convertible {
+    public var total: Int? //总房间数量
+    public var cursor: String? //下一次请求房间列表的cursor
+    public var rooms: [VRRoomEntity]?//房间信息数组
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
 }
 
-@objcMembers open class VRRoomEntity:NSObject, Codable {
-    var room_id: String? //房间id
-    var channel_id: String? //agora rtc channel id
-    var chat_room_id: String? //agora chat chatroom id
-    var name: String? // 房间名称
-    var owner: VRUser?
-    var is_private: Bool? //是否为私密房间
-    var type: Int? //房间类型， 0 ：普通房间，1:3D房间
-    var created_at: UInt? //创建房间时间戳，单位毫秒
+@objc open class VRRoomEntity:NSObject, Convertible {
+    public var room_id: String? //房间id
+    public var channel_id: String? //agora rtc channel id
+    public var chat_room_id: String? //agora chat chatroom id
+    public var name: String? // 房间名称
+    public var member_count: Int? = 0 // 房间人数
+    public var owner: VRUser?
+    public var is_private: Bool? //是否为私密房间
+    public var type: Int? //房间类型， 0 ：普通房间，1:3D房间
+    public var created_at: UInt? //创建房间时间戳，单位毫秒
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
 }

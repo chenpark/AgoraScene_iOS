@@ -8,7 +8,7 @@
 import Foundation
 import ZSwiftBaseLib
 
-@objcMembers open class VoiceRoomChatEntity:NSObject {
+@objcMembers open class VoiceRoomChatEntity:NSObject,Codable {
     var uid: String? = ""
     var userName: String? = ""
     var content: String? = ""
@@ -29,10 +29,16 @@ extension VoiceRoomChatEntity {
     
     func renderAttributeText() -> NSAttributedString {
         if self.joined! == false {
-            return NSAttributedString {
+            var text = NSMutableAttributedString {
                 AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .regular))
                 AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
             }
+            for symbol in VoiceRoomEmojiManager.shared.emojis {
+                if text.string.contains(symbol) {
+                    text = VoiceRoomEmojiManager.shared.convertEmoji(text)
+                }
+            }
+            return text
         } else {
             let attachment = NSTextAttachment()
             attachment.image = UIImage("shaking_hand")
