@@ -29,7 +29,11 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
     }()
     
     lazy var likeView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.frame.width-53, y: self.frame.height - 43, width: 38, height: 38))
+        UIButton(type: .custom).frame(CGRect(x: self.frame.width-53, y: self.frame.height - 43, width: 38, height: 38)).addTargetFor(self, action: #selector(toLike(_:)), for: .touchUpInside)
+    }()
+    
+    lazy var emitter: VoiceRoomPraiseEmitterView = {
+        VoiceRoomPraiseEmitterView(frame: CGRect(x: ScreenWidth-80, y: -20, width: 80, height: self.frame.height-20))
     }()
 
     public override init(frame: CGRect) {
@@ -45,7 +49,7 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
                 }
             }
         }
-        self.addSubViews([self.chatView,self.likeView])
+        self.addSubViews([self.chatView,self.likeView,self.emitter])
         self.likeView.setImage(UIImage("unlike"), for: .normal)
         self.chatView.bounces = false
     }
@@ -69,7 +73,7 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
 extension VoiceRoomChatView {
     
     @objc func toLike(_ sender: UIButton) {
-        
+        self.emitter.setupEmitter()
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,6 +91,7 @@ extension VoiceRoomChatView {
             cell = VoiceRoomChatCell(style: .default, reuseIdentifier: "VoiceRoomChatCell")
         }
         cell?.chat = self.messages![safe: indexPath.row]
+        cell?.selectionStyle = .none
         return cell!
     }
     
@@ -121,7 +126,6 @@ extension VoiceRoomChatView {
         if self.lastOffsetY == 0 {
             self.cellOffset = 0
         }
-        debugPrint("down indexPath.row:\(indexPath.row) maxAlphaOffset:\(maxAlphaOffset) lastOffsetY:\(self.lastOffsetY) offsetY:\(offsetY) cellOffset:\(self.cellOffset) alpha:\(alpha)")
     }
 
 }

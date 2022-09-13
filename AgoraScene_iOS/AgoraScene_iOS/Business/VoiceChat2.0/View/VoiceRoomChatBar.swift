@@ -8,16 +8,38 @@
 import UIKit
 import ZSwiftBaseLib
 
+@objc public enum VoiceRoomChatBarStyle: Int {
+    case Default = 0
+    case SpatialAudio = 1
+}
+
+@objc public enum VoiceRoomChatBarEvents: Int {
+    case Mic = 0
+    case HandsUp = 1
+    case EQ = 2
+    case Gift = 3
+}
+
+@objc public enum VoiceRoomChatBarState: Int {
+    case unSelected = 1
+    case selected = 2
+    case disable = 3
+}
+
 public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewDataSource {
     
-    public var events: ((IndexPath) -> ())?
+    public var events: ((VoiceRoomChatBarEvents) -> ())?
+    
+    public var creator = false
+    
+    var handsState: VoiceRoomChatBarState = .unSelected
     
     public var raiseKeyboard: (() -> ())?
     
     public var datas = ["mic","handuphard","eq","sendgift"]
     
     lazy var chatRaiser: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (111/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.white, .normal)
+        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (111/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.white, .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
     }()
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -34,6 +56,15 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    public convenience init(frame: CGRect,style: VoiceRoomChatBarStyle) {
+        self.init(frame: frame)
+        if style == .Default {
+            self.datas = ["mic","handuphard","eq","sendgift"]
+        } else {
+            self.datas = ["mic","handuphard","eq"]
+        }
         self.addSubViews([self.chatRaiser,self.toolBar])
         self.chatRaiser.set(image: UIImage("chatraise"), title: "Let's Chat!", titlePosition: .right, additionalSpacing: 5, state: .normal)
     }
@@ -52,6 +83,42 @@ extension VoiceRoomChatBar {
         }
     }
     
+    @objc func refresh(event: VoiceRoomChatBarEvents,state: VoiceRoomChatBarState,asCreator: Bool) {
+        self.creator = asCreator
+        switch event {
+        case .Mic:
+            switch state {
+            case .unSelected:
+                self.datas[0] = "mic"
+            case .selected:
+                self.datas[0] = "unmic"
+            case .disable:
+                break
+            }
+        case .HandsUp:
+            self.handsState = state
+            var idx = 0
+            for (index,element) in self.datas.enumerated() {
+                if element == "handuphard" {
+                    idx = index
+                    break
+                }
+            }
+            if !asCreator {
+                switch state {
+                case .unSelected:
+                    self.datas[idx] = "handuphard"
+                case .selected:
+                    self.datas[idx] = "handup_dot"
+                case .disable:
+                    self.datas[idx] = "handuphard-1"
+                }
+            }
+            self.toolBar.reloadItems(at: [IndexPath(row: idx, section: 0)])
+        default: break
+        }
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.datas.count
     }
@@ -59,11 +126,23 @@ extension VoiceRoomChatBar {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VoiceRoomChatBarCell", for: indexPath) as? VoiceRoomChatBarCell
         cell?.icon.image = UIImage(self.datas[indexPath.row])
+        if indexPath.row == 1,self.creator {
+            cell?.redDot.isHidden = false
+        } else {
+            cell?.redDot.isHidden = true
+        }
         return cell ?? VoiceRoomChatBarCell()
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        if self.events != nil { self.events!(indexPath) }
+        
+        if self.events != nil {
+            if indexPath.row == 1,self.handsState != .disable {
+                self.events!(VoiceRoomChatBarEvents(rawValue: indexPath.row)!)
+            } else {
+                self.events!(VoiceRoomChatBarEvents(rawValue: indexPath.row)!)
+            }
+        }
     }
 }

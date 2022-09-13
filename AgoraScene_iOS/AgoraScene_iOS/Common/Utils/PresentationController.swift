@@ -74,7 +74,9 @@ public final class PresentationController: UIPresentationController {
     /// 将要弹出时添加背景按钮
     public override func presentationTransitionWillBegin() {
         /// 注册键盘通知
-        registerObservers()
+        if self.component.destination != .topBaseline, self.component.destination != .center {
+            registerObservers()
+        }
         /// 背景动画
         guard let containerView = containerView else { return }
         containerView.addSubview(backgroundView)

@@ -7,15 +7,15 @@
 
 import Foundation
 
-extension Notification {
+public extension Notification {
     
     /// 键盘frame
-    public var keyboardEndFrame: CGRect? {
+    var keyboardEndFrame: CGRect? {
         return (userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
     }
     
     /// 键盘动画时间
-    public var keyboardAnimationDuration: TimeInterval? {
+    var keyboardAnimationDuration: TimeInterval? {
         return (userInfo?[UIApplication.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
     }
     

@@ -6,10 +6,31 @@
 //
 
 import Foundation
+import KakaJSON
 
-@objcMembers open class VRUser:NSObject, Codable {
-    var uid: String?
-    var channel_id: String?
-    var name: String?
-    var portrait: String?
+@objc open class VRUser:NSObject, Convertible {
+    public var uid: String?
+    public var chat_uid: String?
+    public var channel_id: String?
+    public var name: String?
+    public var portrait: String?
+    public var authorization: String?
+    public var im_token: String?
+    public var invited = false
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
+@objc open class VoiceRoomUserInfo: NSObject {
+    
+    public static let shared = VoiceRoomUserInfo()
+    
+    public var user: VRUser?
+    
 }

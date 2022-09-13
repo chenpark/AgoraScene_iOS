@@ -1,12 +1,13 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '13.0'
-
+source 'https://github.com/CocoaPods/Specs.git'
 target 'AgoraScene_iOS' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'AgoraChat'
-  pod 'ZSwiftBaseLib',:git =>"https://github.com/zjc19891106/ZSwiftBaseLib"
+  pod 'ZSwiftBaseLib','0.1.5'
   pod 'SnapKit'
   pod 'SVGAPlayer'
+  pod 'KakaJSON'
+  pod 'Agora_Chat_iOS'
 end
