@@ -12,7 +12,7 @@ public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollection
     
     var selectClosure: ((IndexPath) -> ())?
     
-    static let menusMap = [["title":"All(2)","selected":true],["title":"Chat Room(1)","selected":false],["title":"Spatial Audio Mode Room(1)","selected":false]]
+    static let menusMap = [["title":"All","detail":"(1)","selected":true],["title":"Chat Room","detail":"(1)","selected":false],["title":"Spatial Audio Mode Room","detail":"(1)","selected":false]]
 
     private var indicatorImage = UIImage()
     
@@ -92,7 +92,7 @@ extension VRRoomMenuBar {
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let item = self.dataSource[safe: indexPath.row] {
-            let width = item.title.z.sizeWithText(font: item.selected == true ? VRRoomMenuBarCell.selectedFont:VRRoomMenuBarCell.normalFont, size: CGSize(width: 999, height: 18)).width
+            let width = (item.title+item.detail).z.sizeWithText(font: item.selected == true ? VRRoomMenuBarCell.selectedFont:VRRoomMenuBarCell.normalFont, size: CGSize(width: 999, height: 18)).width
             return CGSize(width: width, height: self.frame.height)
         } else {
             return .zero
@@ -101,16 +101,20 @@ extension VRRoomMenuBar {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        self.refreshSelected(indexPath: indexPath)
+        if self.selectClosure != nil {
+            self.selectClosure!(indexPath)
+        }
+    }
+    
+    func refreshSelected(indexPath: IndexPath) {
         self.dataSource.forEach { $0.selected = false }
         let item = self.dataSource[safe: indexPath.row] ?? VRRoomMenuBarEntity()
         item.selected = !item.selected
         self.menuList.scrollToItem(at: indexPath, at: .right, animated: true)
         self.menuList.reloadData()
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRRoomMenuBarCell", for: indexPath) as? VRRoomMenuBarCell {
+        if let cell = self.menuList.dequeueReusableCell(withReuseIdentifier: "VRRoomMenuBarCell", for: indexPath) as? VRRoomMenuBarCell {
             self.indicatorMove(cell)
-        }
-        if self.selectClosure != nil {
-            self.selectClosure!(indexPath)
         }
     }
     

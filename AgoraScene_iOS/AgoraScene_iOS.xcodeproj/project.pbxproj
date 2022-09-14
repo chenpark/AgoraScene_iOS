@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */; };
+		054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */; };
+		054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */; };
+		054AF7B328D16EF8004C60A3 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3ED28D06B5400820391 /* AgoraAiNoiseSuppressionExtension.xcframework */; };
+		054AF7B428D16EF8004C60A3 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3ED28D06B5400820391 /* AgoraAiNoiseSuppressionExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		054AF7B528D16EF8004C60A3 /* AgoraAudioBeautyExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E928D06B5400820391 /* AgoraAudioBeautyExtension.xcframework */; };
+		054AF7B628D16EF8004C60A3 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E928D06B5400820391 /* AgoraAudioBeautyExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		054AF7B728D16EF8004C60A3 /* Agorafdkaac.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EC28D06B5400820391 /* Agorafdkaac.xcframework */; };
+		054AF7B828D16EF8004C60A3 /* Agorafdkaac.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EC28D06B5400820391 /* Agorafdkaac.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		054AF7B928D16EF8004C60A3 /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E828D06B5400820391 /* AgoraRtcKit.xcframework */; };
+		054AF7BA28D16EF8004C60A3 /* AgoraRtcKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E828D06B5400820391 /* AgoraRtcKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		054AF7BB28D16EF8004C60A3 /* AgoraSoundTouch.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EA28D06B5400820391 /* AgoraSoundTouch.xcframework */; };
+		054AF7BC28D16EF8004C60A3 /* AgoraSoundTouch.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EA28D06B5400820391 /* AgoraSoundTouch.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		054AF7BD28D16EF8004C60A3 /* AgoraSpatialAudioExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EB28D06B5400820391 /* AgoraSpatialAudioExtension.xcframework */; };
+		054AF7BE28D16EF8004C60A3 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EB28D06B5400820391 /* AgoraSpatialAudioExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
 		05D8C3D628D068D100820391 /* VoiceRoomGiftersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */; };
 		05D8C3D728D068D100820391 /* VoiceRoomApplyUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */; };
@@ -61,32 +76,20 @@
 		05D8C45528D06EA000820391 /* VRVerifyCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C45028D06EA000820391 /* VRVerifyCodeView.swift */; };
 		05D8C45628D06EA000820391 /* VRVerifyCodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C45128D06EA000820391 /* VRVerifyCodeTextView.swift */; };
 		05D8C45728D06EA000820391 /* VoiceRoomEmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C45228D06EA000820391 /* VoiceRoomEmojiManager.swift */; };
-		05D8C46428D070FB00820391 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3ED28D06B5400820391 /* AgoraAiNoiseSuppressionExtension.xcframework */; };
-		05D8C46528D070FB00820391 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3ED28D06B5400820391 /* AgoraAiNoiseSuppressionExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		05D8C46728D0710200820391 /* AgoraAudioBeautyExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E928D06B5400820391 /* AgoraAudioBeautyExtension.xcframework */; };
-		05D8C46828D0710200820391 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E928D06B5400820391 /* AgoraAudioBeautyExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		05D8C46928D0710600820391 /* Agorafdkaac.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EC28D06B5400820391 /* Agorafdkaac.xcframework */; };
-		05D8C46A28D0710600820391 /* Agorafdkaac.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EC28D06B5400820391 /* Agorafdkaac.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		05D8C46B28D0710900820391 /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E828D06B5400820391 /* AgoraRtcKit.xcframework */; };
-		05D8C46C28D0710900820391 /* AgoraRtcKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3E828D06B5400820391 /* AgoraRtcKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		05D8C46D28D0710D00820391 /* AgoraSoundTouch.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EA28D06B5400820391 /* AgoraSoundTouch.xcframework */; };
-		05D8C46E28D0710D00820391 /* AgoraSoundTouch.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EA28D06B5400820391 /* AgoraSoundTouch.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		05D8C46F28D0710F00820391 /* AgoraSpatialAudioExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EB28D06B5400820391 /* AgoraSpatialAudioExtension.xcframework */; };
-		05D8C47028D0710F00820391 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 05D8C3EB28D06B5400820391 /* AgoraSpatialAudioExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		05D8C47528D0734700820391 /* VoiceRoomIMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C47428D0734700820391 /* VoiceRoomIMManager.swift */; };
 		1C3786A7F669C170D4FFA5CE /* Pods_AgoraScene_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7FDA5B4BD12E652325A52AB /* Pods_AgoraScene_iOS.framework */; };
-		E3101F4D28D065E400979E75 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15A28C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework */; };
-		E3101F4E28D065E400979E75 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15A28C5FECB00270D52 /* AgoraAiNoiseSuppressionExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3101F5028D065E500979E75 /* AgoraAudioBeautyExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15C28C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework */; };
-		E3101F5128D065E500979E75 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15C28C5FECB00270D52 /* AgoraAudioBeautyExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3101F5228D065E700979E75 /* Agorafdkaac.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */; };
-		E3101F5328D065E700979E75 /* Agorafdkaac.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15F28C5FECB00270D52 /* Agorafdkaac.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3101F5428D065E900979E75 /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15B28C5FECB00270D52 /* AgoraRtcKit.xcframework */; };
-		E3101F5528D065E900979E75 /* AgoraRtcKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15B28C5FECB00270D52 /* AgoraRtcKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3101F5628D065EA00979E75 /* AgoraSoundTouch.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15D28C5FECB00270D52 /* AgoraSoundTouch.xcframework */; };
-		E3101F5728D065EA00979E75 /* AgoraSoundTouch.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15D28C5FECB00270D52 /* AgoraSoundTouch.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3101F5828D065EC00979E75 /* AgoraSpatialAudioExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; };
-		E3101F5928D065EC00979E75 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E36BE15E28C5FECB00270D52 /* AgoraSpatialAudioExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F4D28D065E400979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F4E28D065E400979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F5028D065E500979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F5128D065E500979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F5228D065E700979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F5328D065E700979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F5428D065E900979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F5528D065E900979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F5628D065EA00979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F5728D065EA00979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3101F5828D065EC00979E75 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E3101F5928D065EC00979E75 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E36BE0E228C5E74500270D52 /* AgoraSceneConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */; };
 		E36BE0FE28C5ECD500270D52 /* UIButtonLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */; };
 		E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */; };
@@ -153,12 +156,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E3101F4E28D065E400979E75 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */,
-				E3101F5528D065E900979E75 /* AgoraRtcKit.xcframework in Embed Frameworks */,
-				E3101F5328D065E700979E75 /* Agorafdkaac.xcframework in Embed Frameworks */,
-				E3101F5728D065EA00979E75 /* AgoraSoundTouch.xcframework in Embed Frameworks */,
-				E3101F5928D065EC00979E75 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */,
-				E3101F5128D065E500979E75 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */,
+				E3101F4E28D065E400979E75 /* (null) in Embed Frameworks */,
+				E3101F5528D065E900979E75 /* (null) in Embed Frameworks */,
+				E3101F5328D065E700979E75 /* (null) in Embed Frameworks */,
+				054AF7B428D16EF8004C60A3 /* AgoraAiNoiseSuppressionExtension.xcframework in Embed Frameworks */,
+				054AF7BE28D16EF8004C60A3 /* AgoraSpatialAudioExtension.xcframework in Embed Frameworks */,
+				054AF7BC28D16EF8004C60A3 /* AgoraSoundTouch.xcframework in Embed Frameworks */,
+				054AF7B828D16EF8004C60A3 /* Agorafdkaac.xcframework in Embed Frameworks */,
+				E3101F5728D065EA00979E75 /* (null) in Embed Frameworks */,
+				E3101F5928D065EC00979E75 /* (null) in Embed Frameworks */,
+				054AF7BA28D16EF8004C60A3 /* AgoraRtcKit.xcframework in Embed Frameworks */,
+				E3101F5128D065E500979E75 /* (null) in Embed Frameworks */,
+				054AF7B628D16EF8004C60A3 /* AgoraAudioBeautyExtension.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +175,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRAllRoomsViewController.swift; sourceTree = "<group>"; };
+		054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRNormalRoomsViewController.swift; sourceTree = "<group>"; };
+		054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRSpatialSoundViewController.swift; sourceTree = "<group>"; };
 		05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesViewController.swift; sourceTree = "<group>"; };
 		05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomGiftersViewController.swift; sourceTree = "<group>"; };
 		05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomApplyUsersViewController.swift; sourceTree = "<group>"; };
@@ -297,12 +309,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3101F5028D065E500979E75 /* AgoraAudioBeautyExtension.xcframework in Frameworks */,
-				E3101F5228D065E700979E75 /* Agorafdkaac.xcframework in Frameworks */,
-				E3101F5428D065E900979E75 /* AgoraRtcKit.xcframework in Frameworks */,
-				E3101F5828D065EC00979E75 /* AgoraSpatialAudioExtension.xcframework in Frameworks */,
-				E3101F5628D065EA00979E75 /* AgoraSoundTouch.xcframework in Frameworks */,
-				E3101F4D28D065E400979E75 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */,
+				E3101F5028D065E500979E75 /* (null) in Frameworks */,
+				E3101F5228D065E700979E75 /* (null) in Frameworks */,
+				E3101F5428D065E900979E75 /* (null) in Frameworks */,
+				054AF7B528D16EF8004C60A3 /* AgoraAudioBeautyExtension.xcframework in Frameworks */,
+				054AF7BD28D16EF8004C60A3 /* AgoraSpatialAudioExtension.xcframework in Frameworks */,
+				054AF7B928D16EF8004C60A3 /* AgoraRtcKit.xcframework in Frameworks */,
+				E3101F5828D065EC00979E75 /* (null) in Frameworks */,
+				E3101F5628D065EA00979E75 /* (null) in Frameworks */,
+				054AF7B728D16EF8004C60A3 /* Agorafdkaac.xcframework in Frameworks */,
+				054AF7BB28D16EF8004C60A3 /* AgoraSoundTouch.xcframework in Frameworks */,
+				054AF7B328D16EF8004C60A3 /* AgoraAiNoiseSuppressionExtension.xcframework in Frameworks */,
+				E3101F4D28D065E400979E75 /* (null) in Frameworks */,
 				1C3786A7F669C170D4FFA5CE /* Pods_AgoraScene_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +349,9 @@
 				05D8C42F28D06E0F00820391 /* VRRoomsViewController.swift */,
 				05D8C42D28D06E0F00820391 /* VRSoundEffectsViewController.swift */,
 				05D8C42C28D06E0F00820391 /* VRUserProfileViewController.swift */,
+				054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */,
+				054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */,
+				054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -418,6 +439,7 @@
 				05D8C44F28D06EA000820391 /* VoiceRoomPasswordAlert.swift */,
 				05D8C44E28D06EA000820391 /* VRVerifyCodeNumberView.swift */,
 				05D8C45128D06EA000820391 /* VRVerifyCodeTextView.swift */,
+				05D8C43A28D06E4E00820391 /* VoiceRoomPageContainer.swift */,
 				05D8C45028D06EA000820391 /* VRVerifyCodeView.swift */,
 				E36BE0F028C5ECD500270D52 /* PresentationController.swift */,
 				E36BE0F128C5ECD500270D52 /* LanguageManager.swift */,
@@ -542,7 +564,6 @@
 				05D8C43E28D06E4E00820391 /* VoiceRoomEmojiListView.swift */,
 				05D8C43F28D06E4E00820391 /* VoiceRoomGiftsView.swift */,
 				05D8C44028D06E4E00820391 /* VoiceRoomInputBar.swift */,
-				05D8C43A28D06E4E00820391 /* VoiceRoomPageContainer.swift */,
 				05D8C43728D06E4E00820391 /* VoiceRoomPopView.swift */,
 				05D8C43828D06E4E00820391 /* VoiceRoomPraiseEmitterView.swift */,
 				05D8C43928D06E4E00820391 /* VoiceRoomSwitchBar.swift */,
@@ -818,10 +839,12 @@
 				05D8C44428D06E4E00820391 /* VoiceRoomPraiseEmitterView.swift in Sources */,
 				E36BE11428C5EE7E00270D52 /* VoiceRoomChatModel.swift in Sources */,
 				05D8C3E528D0699100820391 /* VoiceRoomBusinessRequest.swift in Sources */,
+				054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */,
 				05D8C44828D06E4E00820391 /* PopTip.swift in Sources */,
 				E36BE11128C5ECD500270D52 /* Notification+Presentation.swift in Sources */,
 				E39B68BD28C5A41E0083D0F9 /* AgoraChatRoomNormalRtcView.swift in Sources */,
 				05D8C41128D06DED00820391 /* VRRoomListCell.swift in Sources */,
+				054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */,
 				05D8C43328D06E0F00820391 /* VRCreateRoomViewController.swift in Sources */,
 				E36BE12428C5EF2A00270D52 /* VoiceRoomGiftView.swift in Sources */,
 				05D8C45628D06EA000820391 /* VRVerifyCodeTextView.swift in Sources */,
@@ -919,6 +942,7 @@
 				E36BE18E28C8737200270D52 /* VMAudioSettingView.swift in Sources */,
 				05D8C44628D06E4E00820391 /* VoiceRoomPageContainer.swift in Sources */,
 				E39B68C028C5A4770083D0F9 /* AgoraChatRoomHeaderView.swift in Sources */,
+				054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */,
 				05D8C44B28D06E4E00820391 /* VoiceRoomGiftsView.swift in Sources */,
 				E36BE10328C5ECD500270D52 /* VRRoomEntity.swift in Sources */,
 			);

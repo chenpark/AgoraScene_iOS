@@ -15,11 +15,19 @@ public class VoiceRoomPageContainer: UIView, UIPageViewControllerDataSource,UIPa
     
     var nextViewController: UIViewController?
     
-    var index = 0
+    var index = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                if let vc = self.controllers?[self.index] {
+                    self.pageController.setViewControllers([vc], direction: .forward, animated: false)
+                }
+            }
+        }
+    }
     
     lazy var pageController: UIPageViewController = {
         let page = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        page.view.backgroundColor = .white
+        page.view.backgroundColor = .clear
         page.dataSource = self
         page.delegate = self
         return page

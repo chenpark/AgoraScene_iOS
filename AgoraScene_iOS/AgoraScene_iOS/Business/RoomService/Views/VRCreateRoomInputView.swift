@@ -10,18 +10,20 @@ import ZSwiftBaseLib
 
 public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     
-    private var code = ""
+    var code = ""
+    
+    var name = ""
     
     var action: (()->())?
     
-    private let codeMessage = "Enter 4 Digit Password."
+    private let codeMessage = LanguageManager.localValue(key: "Enter 4 Digit Password.")
     
-    private let nameMessage = "Please set a name."
+    private let nameMessage = LanguageManager.localValue(key: "Please set a name.")
     
     private var offset = CGFloat(ScreenHeight < 812 ? 140:60)
     
     lazy var roomName: UILabel = {
-        UILabel(frame: CGRect(x: 40, y: 0, width: 80, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).text("Room Name").textColor(.darkText).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: 40, y: 0, width: 80, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).text(LanguageManager.localValue(key: "Room Name")).textColor(.darkText).backgroundColor(.clear)
     }()
     
     lazy var randomName: UIButton = {
@@ -33,19 +35,19 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var roomNameField: UITextField = {
-        UITextField(frame: CGRect(x: 45, y: self.roomName.frame.maxY+15, width: ScreenWidth - 90, height: 40)).placeholder("Set Room Name").font(.systemFont(ofSize: 18, weight: .regular)).textColor(.darkText).delegate(self)
+        UITextField(frame: CGRect(x: 45, y: self.roomName.frame.maxY+15, width: ScreenWidth - 90, height: 40)).placeholder(LanguageManager.localValue(key: "Set Room Name")).font(.systemFont(ofSize: 18, weight: .regular)).textColor(.darkText).delegate(self)
     }()
     
     lazy var roomEncryption: UILabel = {
-        UILabel(frame: CGRect(x: self.roomName.frame.minX, y: self.roomBackground.frame.maxY+12, width: 150, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.darkText).text("Room Encryption").backgroundColor(.clear)
+        UILabel(frame: CGRect(x: self.roomName.frame.minX, y: self.roomBackground.frame.maxY+12, width: 150, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.darkText).text(LanguageManager.localValue(key: "Room Encryption")).backgroundColor(.clear)
     }()
     
     lazy var publicChoice: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.roomEncryption.frame.minX, y: self.roomEncryption.frame.maxY + 12, width: 90, height: 32)).title("Public", .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x3C4267), .normal).backgroundColor(.clear).tag(21).addTargetFor(self, action: #selector(chooseEncryption(_:)), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.roomEncryption.frame.minX, y: self.roomEncryption.frame.maxY + 12, width: 90, height: 32)).title(LanguageManager.localValue(key: "Public"), .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x3C4267), .normal).backgroundColor(.clear).tag(21).addTargetFor(self, action: #selector(chooseEncryption(_:)), for: .touchUpInside)
     }()
     
     lazy var privateChoice: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.publicChoice.frame.maxX+20, y: self.roomEncryption.frame.maxY + 12, width: 90, height: 32)).title("Private", .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x3C4267), .normal).backgroundColor(.clear).tag(22).addTargetFor(self, action: #selector(chooseEncryption(_:)), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.publicChoice.frame.maxX+20, y: self.roomEncryption.frame.maxY + 12, width: 90, height: 32)).title(LanguageManager.localValue(key: "Private"), .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x3C4267), .normal).backgroundColor(.clear).tag(22).addTargetFor(self, action: #selector(chooseEncryption(_:)), for: .touchUpInside)
     }()
     
     lazy var pinCode: VRVerifyCodeView = {
@@ -57,7 +59,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var create: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title("Next", .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)])
+        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)])
     }()
 
     public override init(frame: CGRect) {
@@ -92,7 +94,6 @@ extension VRCreateRoomInputView {
     private func setupAttributes() {
         self.warnMessage.alpha = 0
         self.pinCode.alpha = 0
-        self.roomNameField.keyboardType = .numberPad
         self.randomName.set(image: UIImage("random"), title: "Random", titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.stateImage(button: self.publicChoice)
         self.stateImage(button: self.privateChoice)
@@ -175,6 +176,10 @@ extension VRCreateRoomInputView {
     
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         true
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        self.name = textField.text ?? ""
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

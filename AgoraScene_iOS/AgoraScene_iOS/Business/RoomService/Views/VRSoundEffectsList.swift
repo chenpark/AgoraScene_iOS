@@ -10,6 +10,8 @@ import ZSwiftBaseLib
 
 public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewDataSource {
     
+    var type = ""
+    
     static var heightMap = Dictionary<String,CGFloat>()
     
     private var datas = VRSoundEffectsCell.items()
@@ -18,7 +20,7 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
         super.init(frame: frame, style: style)
         self.separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self).registerCell(VRSoundEffectsCell.self, forCellReuseIdentifier: "VRSoundEffectsCell")
         for item in self.datas {
-            VRSoundEffectsList.heightMap[item.title] = item.detail!.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: ScreenWidth - 80, height: 999)).height
+            VRSoundEffectsList.heightMap[item.title] = item.detail.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: ScreenWidth - 80, height: 999)).height
         }
     }
     
@@ -48,6 +50,7 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         for item in self.datas { item.selected = false }
         self.datas[safe:indexPath.row]?.selected = true
+        self.type = self.datas[safe:indexPath.row]?.title ?? ""
         self.reloadData()
     }
 

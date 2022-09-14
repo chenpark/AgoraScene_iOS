@@ -12,6 +12,8 @@ public class VoiceRoomPasswordAlert: UIView {
     /// 30 is cancel,other is confirm
     @objc public var actionEvents: ((Int)->())?
     
+    var code = ""
+    
     lazy var title: UILabel = {
         UILabel(frame: CGRect(x: 30, y: 30, width: self.frame.width-60, height: 20)).textColor(.darkText).font(.systemFont(ofSize: 16, weight: .regular)).textAlignment(.center).text(LanguageManager.localValue(key: "Enter 4 Digit Password"))
     }()
@@ -32,6 +34,9 @@ public class VoiceRoomPasswordAlert: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.title,self.pinCode,self.cancel,self.confirm])
+        self.pinCode.inputFinish = { [weak self] in
+            self?.code = $0
+        }
     }
     
     required init?(coder: NSCoder) {

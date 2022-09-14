@@ -10,7 +10,7 @@ import Foundation
 public enum VoiceRoomBusinessApi {
     case login(Void)
     //MARK: - room api
-    case fetchRoomList(cursor:String,pageSize:Int)//String cursor(上次请求游标) Int pageSize
+    case fetchRoomList(cursor:String,pageSize:Int,type:Int?)//String cursor(上次请求游标) Int pageSize
     case createRoom(Void)
     case fetchRoomInfo(roomId:String)//String roomId
     case deleteRoom(roomId:String)//String roomId
