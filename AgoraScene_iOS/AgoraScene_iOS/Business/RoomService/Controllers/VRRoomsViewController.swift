@@ -13,6 +13,18 @@ let page_size = 15
 
 public final class VRRoomsViewController: VRBaseViewController {
     
+    var index: Int = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                self.container.index = self.index
+            }
+        }
+    }
+    
+    private let all = VRAllRoomsViewController()
+    private let normal = VRNormalRoomsViewController()
+    private let spatialSound = VRSpatialSoundViewController()
+    
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage("roomList")!)
     }()
@@ -21,16 +33,12 @@ public final class VRRoomsViewController: VRBaseViewController {
         VRRoomMenuBar(frame: CGRect(x: 20, y: ZNavgationHeight, width: ScreenWidth-40, height: 35), items: VRRoomMenuBar.entities, indicatorImage: UIImage("fline")!,indicatorFrame: CGRect(x: 0, y: 35 - 2, width: 18, height: 2)).backgroundColor(.clear)
     }()
     
-    lazy var empty: VREmptyView = {
-        VREmptyView(frame: CGRect(x: 0, y: self.menuBar.frame.maxY, width: ScreenWidth, height: ScreenHeight - self.menuBar.frame.maxY - 10 - CGFloat(ZBottombarHeight) - 30), title: "No Chat Room yet", image: nil)
-    }()
-    
-    lazy var roomList: VRRoomListView = {
-        VRRoomListView(frame: CGRect(x: 0, y: self.menuBar.frame.maxY+10, width: ScreenWidth, height: ScreenHeight - self.menuBar.frame.maxY - 10 - CGFloat(ZBottombarHeight) - 30), style: .plain)
+    lazy var container: VoiceRoomPageContainer = {
+        VoiceRoomPageContainer(frame: CGRect(x: 0, y: self.menuBar.frame.maxY, width: ScreenWidth, height: ScreenHeight - self.menuBar.frame.maxY - 10 - CGFloat(ZBottombarHeight) - 30), viewControllers: [self.all,self.normal,self.spatialSound]).backgroundColor(.clear)
     }()
     
     lazy var create: VRRoomCreateView = {
-        VRRoomCreateView(frame: CGRect(x: 0, y: self.roomList.frame.maxY - 50, width: ScreenWidth, height: 72)).image(UIImage("blur")!).backgroundColor(.clear)
+        VRRoomCreateView(frame: CGRect(x: 0, y: self.container.frame.maxY - 50, width: ScreenWidth, height: 72)).image(UIImage("blur")!).backgroundColor(.clear)
     }()
     
     let avatar = UIButton {
@@ -42,8 +50,7 @@ public final class VRRoomsViewController: VRBaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
-        self.view.addSubViews([self.background,self.empty,self.menuBar,self.roomList,self.create])
+        self.view.addSubViews([self.background,self.menuBar,self.container,self.create])
         self.view.bringSubviewToFront(self.navigation)
         self.navigation.title.text = "Agora Chat Room"
         self.navigation.addSubview(self.avatar)
@@ -51,10 +58,8 @@ public final class VRRoomsViewController: VRBaseViewController {
         if let header = self.avatar.viewWithTag(112) as? UIImageView {
             header.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
         }
-        self.create.action = { [weak self] in
-            self?.navigationController?.pushViewController(VRCreateRoomViewController.init(), animated: true)
-        }
-        self.roomListEvent()
+        self.viewsAction()
+        self.childViewControllersEvent()
     }
     
 
@@ -68,27 +73,51 @@ extension VRRoomsViewController {
         self.navigationController?.pushViewController(VRUserProfileViewController.init(), animated: true)
     }
     
-    private func fetchRooms(cursor: String) {
-        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size), params: [:], classType: VRRoomsEntity.self) { rooms, error in
-            if error == nil {
-                self.fillDataSource(rooms: rooms)
-                self.roomList.reloadData()
-            } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")")
+    private func viewsAction() {
+        self.create.action = { [weak self] in
+            self?.navigationController?.pushViewController(VRCreateRoomViewController.init(), animated: true)
+        }
+        self.container.scrollClosure = { [weak self] in
+            let idx = IndexPath(row: $0, section: 0)
+            guard let `self` = self else { return }
+            self.menuBar.refreshSelected(indexPath: idx)
+        }
+        self.menuBar.selectClosure = { [weak self] in
+            self?.index = $0.row
+        }
+    }
+    
+    private func entryRoom(room: VRRoomEntity) {
+        if room.is_private ?? false {
+            let alert = VoiceRoomPasswordAlert(frame: CGRect(x: 37.5, y: 168, width: ScreenWidth-75, height: (ScreenWidth-75)*(240/300.0))).cornerRadius(16).backgroundColor(.white)
+            let vc = VoiceRoomAlertViewController(compent: self.compponent(), custom: alert)
+            self.presentViewController(vc)
+            alert.actionEvents = {
+                if $0 == 31 {
+                    room.roomPassword = alert.code
+                    self.loginIMThenPush(room: room)
+                }
+                vc.dismiss(animated: true)
             }
         }
+        
     }
     
-    private func fillDataSource(rooms: VRRoomsEntity?) {
-        if self.roomList.rooms == nil {
-            self.roomList.rooms = rooms
-        } else {
-            self.roomList.rooms?.total = rooms?.total
-            self.roomList.rooms?.cursor = rooms?.cursor
-            self.roomList.rooms?.rooms?.append(contentsOf: rooms?.rooms ?? [])
-        }
+    private func compponent() -> PresentedViewComponent {
+        var component = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: ScreenHeight))
+        component.destination = .topBaseline
+        component.canPanDismiss = false
+        return component
     }
     
+    private func loginIMThenPush(room: VRRoomEntity) {
+        VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.authorization ?? "", completion: { userName, error in
+            if error == nil {
+                let vc = VoiceRoomViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+
     private func entryRoom(with entity: VRRoomEntity) {
         let vc = VoiceRoomViewController()
         vc.entity = entity
@@ -104,7 +133,35 @@ extension VRRoomsViewController {
             if self?.roomList.rooms?.total ?? 0 > self?.roomList.rooms?.rooms?.count ?? 0 {
                 self?.fetchRooms(cursor: self?.roomList.rooms?.cursor ?? "")
             }
+        })
+    }
+
+    private func childViewControllersEvent() {
+        self.all.didSelected = { [weak self] in
+            self?.entryRoom(room: $0)
+        }
+        self.all.totalCountClosure = { [weak self] in
+            guard let `self` = self else { return }
+            self.menuBar.dataSource[0].detail = "(\($0))"
+            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 0, section: 0)])
+        }
+        
+        self.normal.didSelected = { [weak self] in
+            self?.entryRoom(room: $0)
+        }
+        self.normal.totalCountClosure = { [weak self] in
+            guard let `self` = self else { return }
+            self.menuBar.dataSource[1].detail = "(\($0))"
+            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 1, section: 0)])
+        }
+        
+        self.spatialSound.didSelected = { [weak self] in
+            self?.entryRoom(room: $0)
+        }
+        self.spatialSound.totalCountClosure = { [weak self] in
+            guard let `self` = self else { return }
+            self.menuBar.dataSource[2].detail = "(\($0))"
+            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 2, section: 0)])
         }
     }
-    
 }

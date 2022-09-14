@@ -30,8 +30,13 @@ import KakaJSON
     public var member_count: Int? = 0 // 房间人数
     public var owner: VRUser?
     public var is_private: Bool? //是否为私密房间
-    public var type: Int? //房间类型， 0 ：普通房间，1:3D房间
+    public var type: Int? = 0 //房间类型， 0 ：普通房间，1:3D房间
     public var created_at: UInt? //创建房间时间戳，单位毫秒
+    public var roomPassword = ""
+    public var click_count: Int? = 0 // 观看人数
+    public var announcement: String? // Notice
+    public var ranking_list: [VRUser]? // 土豪榜
+    public var member_list: [VRUser]? // 用户榜
     
     required public override init() {
         
@@ -41,3 +46,36 @@ import KakaJSON
         property.name
     }
 }
+
+@objc open class VRRoomMic:NSObject, Convertible {
+    
+    var index: Int = 0
+    
+    var status: Int = 0//0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
+    
+    var user: VRUser?
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
+@objc open class VRRoomInfo:NSObject, Convertible {
+    
+    var room: VRRoomEntity?
+    var mic_info: VRRoomMic?
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
+

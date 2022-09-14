@@ -19,7 +19,7 @@ public class VoiceRoomUserView: UIView {
     }()
     
     lazy var container: VoiceRoomPageContainer = {
-        VoiceRoomPageContainer(frame: CGRect(x: 0, y: self.header.frame.maxY, width: ScreenWidth, height: self.frame.height-self.header.frame.height), viewControllers: [VoiceRoomGiftersViewController.init(),VoiceRoomAudiencesViewController.init()])
+        VoiceRoomPageContainer(frame: CGRect(x: 0, y: self.header.frame.maxY, width: ScreenWidth, height: self.frame.height-self.header.frame.height), viewControllers: [VoiceRoomGiftersViewController.init(),VoiceRoomAudiencesViewController.init()]).backgroundColor(.white)
     }()
 
     public override init(frame: CGRect) {

@@ -312,11 +312,13 @@ public extension VoiceRoomBusinessRequest {
         switch api {
         case .login(_):
             uri = "/user/login/device"
-        case let .fetchRoomList(cursor,pageSize):
-            if cursor.isEmpty {
-                uri += "/list?limit=\(pageSize)"
-            } else {
-                uri += "/list?limit=\(pageSize)&cursor=\(cursor)"
+        case let .fetchRoomList(cursor,pageSize,type):
+            uri += "/list?limit=\(pageSize)"
+            if !cursor.isEmpty {
+                uri += "&cursor=\(cursor)"
+            }
+            if type != nil,let idx = type {
+                uri += "&type=\(idx)"
             }
         case .createRoom(_):
             uri += "/create"

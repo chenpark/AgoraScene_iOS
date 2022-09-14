@@ -50,6 +50,7 @@ public final class VRRoomListCell: UITableViewCell {
         self.seenCount.set(image: UIImage("person_in_circle"), title: "  ", titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.seenCount.contentHorizontalAlignment = .left
         self.seenCount.titleLabel?.lineBreakMode(.byTruncatingTail)
+        self.ownerName.contentHorizontalAlignment = .left
     }
     
     required init?(coder: NSCoder) {
@@ -64,9 +65,14 @@ public final class VRRoomListCell: UITableViewCell {
         } else {
             self.accessSymbol.isHidden = true
         }
-        self.ownerName.contentHorizontalAlignment = .left
+        self.roomName.text = room.name
         self.ownerName.setTitle("  \(room.owner?.name ?? "")", for: .normal)
         self.seenCount.setTitle("  \(room.member_count ?? 0)", for: .normal)
+        var image = UIImage("normal_room")
+        if (room.type ?? 0) == 1 {
+            image = UIImage("specific_room")
+        }
+        self.background.image = image
     }
     
     public override func layoutSubviews() {

@@ -9,6 +9,6 @@ import Foundation
 
 @objcMembers open class VRRoomMenuBarEntity: Codable {
     var title: String = ""
-    var detail: String? = ""
+    var detail: String = ""
     var selected: Bool = false
 }

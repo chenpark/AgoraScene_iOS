@@ -10,9 +10,13 @@ import ZSwiftBaseLib
 
 public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDataSource {
     
-    private let datas = [["title":"Chat Room","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"chat_room"],["title":"Spatial audio chat Mode Room","detail":"Spatial audio chat room mode\nCo-Watch / Team Chat / Gaming Buddy Cha","image":"sa_mode"],["title":"Karaoke","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"karaoke"]]
+    private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial audio chat Mode Room"),"detail":"Spatial audio chat room mode\nCo-Watch / Team Chat / Gaming Buddy Cha","image":"sa_mode"]]
+//    ["title":"Karaoke","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"karaoke"]
     
     var velocity = CGPoint.zero
+    
+    /// 0 normal 1 sp
+    var idx = 0
     
     let cardHeight = (200/315.0)*(ScreenWidth-60)
     
@@ -41,6 +45,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         super.init(frame: frame)
         self.addSubViews([self.menuBar,self.audioEffectCards,self.roomInput])
         self.menuBar.selectClosure = { [weak self] in
+            self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
         }
         self.roomInput.action = { [weak self] in
@@ -63,6 +68,7 @@ extension VRCreateRoomView {
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, scrollIndex: Int) {
+        self.idx = scrollIndex
         self.menuBar.dataSource.forEach { $0.selected = false }
         self.menuBar.dataSource[safe: scrollIndex]?.selected = true
         self.menuBar.menuList.reloadData()
@@ -74,7 +80,7 @@ extension VRCreateRoomView {
     }
     
     public func horizontalCardsViewNumberOfItems(_: HorizontalCardsView) -> Int {
-        3
+        2
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, viewForIndex index: Int) -> HorizontalCardView {

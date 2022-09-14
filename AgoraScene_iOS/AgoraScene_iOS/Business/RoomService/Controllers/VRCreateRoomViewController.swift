@@ -25,10 +25,20 @@ public final class VRCreateRoomViewController: VRBaseViewController {
         self.view.bringSubviewToFront(self.navigation)
         self.navigation.title.text = "Create a room"
         self.container.createAction = { [weak self] in
-            self?.navigationController?.pushViewController(VRSoundEffectsViewController.init(), animated: true)
+            self?.settingSound()
         }
     }
+
+
+}
+
+extension VRCreateRoomViewController {
     
-
-
+    private func settingSound() {
+        let vc = VRSoundEffectsViewController()
+        vc.code = self.container.roomInput.code
+        vc.type = self.container.idx
+        vc.name = self.container.roomInput.name
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
