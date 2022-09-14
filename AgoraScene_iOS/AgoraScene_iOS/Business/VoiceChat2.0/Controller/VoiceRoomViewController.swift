@@ -21,6 +21,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var sRtcView: AgoraChatRoom3DRtcView!
     
     private var preView: VMPresentView!
+    private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
     public var entity: VRRoomEntity?
@@ -119,33 +120,41 @@ extension VoiceRoomViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if self.isShowPreSentView {
             UIView.animate(withDuration: 0.5, animations: {
-                self.preView.snp.updateConstraints { make in
-                    make.top.equalTo(ScreenHeight)
-                }
+                self.preView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~)
             }) { _ in
                 self.preView.removeFromSuperview()
                 self.preView = nil
                 self.sRtcView.isUserInteractionEnabled = true
+                self.rtcView.isUserInteractionEnabled = true
+                self.headerView.isUserInteractionEnabled = true
                 self.isShowPreSentView = false
             }
         }
     }
     
     private func showNoticeView(with role: ROLE_TYPE) {
-        preView = VMPresentView()
+        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        noticeView.roleType = role
+        noticeView.resBlock = {[weak self] (flag, str) in
+            self?.dismiss(animated: true)
+            guard let str = str else {return}
+
+        }
+        noticeView.noticeStr = "Welcome to Agora Chat Room 2.0 I am therobot Agora Red. Can you see the robot assistant at the right coner? Click it and experience the new features"
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
+        self.presentViewController(vc)
+    }
+    
+    private func showEQView(with role: ROLE_TYPE) {
+        preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false
-        preView.snp.makeConstraints { make in
-            make.left.right.equalTo(self.view)
-            make.height.equalTo(450~)
-            make.top.equalTo(ScreenHeight)
-        }
-        
+        self.rtcView.isUserInteractionEnabled = false
+        self.headerView.isUserInteractionEnabled = false
+
         UIView.animate(withDuration: 0.5, animations: {
-            self.preView.snp.updateConstraints { make in
-                make.top.equalTo(ScreenHeight - 450~)
-            }
+            self.preView.frame = CGRect(x: 0, y: ScreenHeight - 450~, width: ScreenWidth, height: 450~)
         }, completion: nil)
 //        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
 //        noticeView.roleType = .owner
@@ -166,14 +175,5 @@ extension VoiceRoomViewController {
        // }
       //  let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 450~)), custom: upView)
        // self.presentViewController(vc)
-        
-//        let nav: UINavigationController = UINavigationController(rootViewController: LauchViewController())
-//        self.present(nav, animated: true, completion: nil)
-//        let vc: LauchViewController = LauchViewController()
-//        let nav = UINavigationController(rootViewController: vc)
-//        self.preferredContentSize = CGSize(width: ScreenWidth, height: ScreenHeight/2.0)
-//        self.present(nav, animated: true, completion: nil)
-//        let modal = YXModal()
-//        modal.showContentView(upView)
     }
 }
