@@ -26,6 +26,8 @@ class VoiceRoomViewController: VRBaseViewController {
     
     public var entity: VRRoomEntity?
     
+    public var roomInfo: VRRoomInfo?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
@@ -70,7 +72,7 @@ extension VoiceRoomViewController {
         self.view.addSubview(bgImgView)
         
         headerView = AgoraChatRoomHeaderView()
-        headerView.entity = entity!
+        headerView.entity = (entity == nil ? (roomInfo?.room ?? VRRoomEntity()) :entity!)
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
         }

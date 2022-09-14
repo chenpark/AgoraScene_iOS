@@ -13,6 +13,8 @@ public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollection
     var selectClosure: ((IndexPath) -> ())?
     
     static let menusMap = [["title":"All","detail":"(1)","selected":true],["title":"Chat Room","detail":"(1)","selected":false],["title":"Spatial Audio Mode Room","detail":"(1)","selected":false]]
+    
+    static let menusMap1 = [["title":"Chat Room","detail":"","selected":false],["title":"Spatial Audio Mode Room","detail":"","selected":false]]
 
     private var indicatorImage = UIImage()
     
@@ -67,6 +69,20 @@ extension VRRoomMenuBar {
         var items = [VRRoomMenuBarEntity]()
         do {
             for map in VRRoomMenuBar.menusMap {
+                let data = try JSONSerialization.data(withJSONObject: map, options: [])
+                let item = try JSONDecoder().decode(VRRoomMenuBarEntity.self, from: data)
+                items.append(item)
+            }
+        } catch {
+            assert(false, "\(error.localizedDescription)")
+        }
+        return items
+    }
+    
+    static var entities1: [VRRoomMenuBarEntity] {
+        var items = [VRRoomMenuBarEntity]()
+        do {
+            for map in VRRoomMenuBar.menusMap1 {
                 let data = try JSONSerialization.data(withJSONObject: map, options: [])
                 let item = try JSONDecoder().decode(VRRoomMenuBarEntity.self, from: data)
                 items.append(item)
