@@ -90,7 +90,7 @@ extension VRRoomsViewController {
     private func entryRoom(room: VRRoomEntity) {
         if room.is_private ?? false {
             let alert = VoiceRoomPasswordAlert(frame: CGRect(x: 37.5, y: 168, width: ScreenWidth-75, height: (ScreenWidth-75)*(240/300.0))).cornerRadius(16).backgroundColor(.white)
-            let vc = VoiceRoomAlertViewController(compent: self.compponent(), custom: alert)
+            let vc = VoiceRoomAlertViewController(compent: self.component(), custom: alert)
             self.presentViewController(vc)
             alert.actionEvents = {
                 if $0 == 31 {
@@ -103,7 +103,7 @@ extension VRRoomsViewController {
         
     }
     
-    private func compponent() -> PresentedViewComponent {
+    private func component() -> PresentedViewComponent {
         var component = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: ScreenHeight))
         component.destination = .topBaseline
         component.canPanDismiss = false
@@ -115,23 +115,6 @@ extension VRRoomsViewController {
             if error == nil {
                 let vc = VoiceRoomViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-            }
-            
-
-    private func entryRoom(with entity: VRRoomEntity) {
-        let vc = VoiceRoomViewController()
-        vc.entity = entity
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    private func roomListEvent() {
-        self.roomList.didSelected = { [weak self] in
-            print($0.name ?? "")
-            self?.entryRoom(with: $0)
-        }
-        self.roomList.loadMore = { [weak self] in
-            if self?.roomList.rooms?.total ?? 0 > self?.roomList.rooms?.rooms?.count ?? 0 {
-                self?.fetchRooms(cursor: self?.roomList.rooms?.cursor ?? "")
             }
         })
     }
