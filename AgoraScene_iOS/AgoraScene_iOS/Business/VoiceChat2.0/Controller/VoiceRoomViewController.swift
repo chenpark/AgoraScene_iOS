@@ -24,7 +24,11 @@ class VoiceRoomViewController: VRBaseViewController {
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
-    public var entity: VRRoomEntity?
+    public var entity: VRRoomEntity? {
+        didSet {
+            
+        }
+    }
     
     public var roomInfo: VRRoomInfo?
     
