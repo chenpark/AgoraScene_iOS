@@ -47,6 +47,11 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         self.menuBar.selectClosure = { [weak self] in
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
+            if $0.row > 0 {
+                self?.roomInput.create.setTitle(LanguageManager.localValue(key: "Go Live"), for: .normal)
+            } else {
+                self?.roomInput.create.setTitle(LanguageManager.localValue(key: "Next"), for: .normal)
+            }
         }
         self.roomInput.action = { [weak self] in
             self?.create()
