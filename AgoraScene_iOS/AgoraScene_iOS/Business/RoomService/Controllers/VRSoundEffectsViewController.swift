@@ -59,6 +59,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             if error == nil {
                 let vc = VoiceRoomViewController()
+                vc.roomInfo = room
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 self.view.makeToast("\(error?.errorDescription ?? "")")
