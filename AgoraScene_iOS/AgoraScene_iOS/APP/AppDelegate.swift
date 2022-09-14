@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func applicationWillTerminate(_ application: UIApplication) {
+        VoiceRoomIMManager.shared?.userQuitRoom(completion: { error in
+            
+        })
+    }
 
 }
 

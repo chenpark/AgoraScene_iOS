@@ -28,7 +28,7 @@ class LauchViewController: UIViewController {
 extension LauchViewController {
     
     func login() {
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":"avatar1","name":"1234"],classType:VRUser.self) { [weak self] user, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":"avatar1","name":"1238"],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""

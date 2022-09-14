@@ -25,7 +25,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
     var createAction: (()->())?
 
     lazy var menuBar: VRRoomMenuBar = {
-        VRRoomMenuBar(frame: CGRect(x: 20, y: 0, width: ScreenWidth-40, height: 42), items: VRRoomMenuBar.entities, indicatorImage: UIImage("indicator")!,indicatorFrame: CGRect(x: 0, y: 42 - 8, width: 14, height: 8)).backgroundColor(.clear)
+        VRRoomMenuBar(frame: CGRect(x: 20, y: 0, width: ScreenWidth-40, height: 42), items: VRRoomMenuBar.entities1, indicatorImage: UIImage("indicator")!,indicatorFrame: CGRect(x: 0, y: 42 - 8, width: 14, height: 8)).backgroundColor(.clear)
     }()
     
     lazy var audioEffectCards: HorizontalCardsView = {

@@ -67,7 +67,7 @@ import KakaJSON
 @objc open class VRRoomInfo:NSObject, Convertible {
     
     var room: VRRoomEntity?
-    var mic_info: VRRoomMic?
+    var mic_info: [VRRoomMic]?
     
     required public override init() {
         

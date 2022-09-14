@@ -58,10 +58,10 @@ fileprivate let once = VoiceRoomIMManager()
         let options = AgoraChatOptions(appkey: appkey.isEmpty ? "easemob-demo#easeim":appkey)
         options.enableConsoleLog = true
         options.isAutoLogin = true
-        options.setValue(false, forKeyPath: "enableDnsConfig")
-        options.setValue(6717, forKeyPath: "chatPort")
-        options.setValue("52.80.99.104", forKeyPath: "chatServer")
-        options.setValue("http://a1-test.easemob.com", forKeyPath: "restServer")
+//        options.setValue(false, forKeyPath: "enableDnsConfig")
+//        options.setValue(6717, forKeyPath: "chatPort")
+//        options.setValue("52.80.99.104", forKeyPath: "chatServer")
+//        options.setValue("http://a1-test.easemob.com", forKeyPath: "restServer")
         AgoraChatClient.shared().initializeSDK(with: options)
     }
     

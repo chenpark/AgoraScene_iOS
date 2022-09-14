@@ -10,7 +10,7 @@ import ZSwiftBaseLib
 
 public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewDataSource {
     
-    var type = ""
+    var type = "Social Chat"
     
     static var heightMap = Dictionary<String,CGFloat>()
     
