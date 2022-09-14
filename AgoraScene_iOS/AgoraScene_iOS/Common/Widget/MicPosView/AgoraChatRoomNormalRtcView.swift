@@ -64,6 +64,10 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         
         if indexPath.item < 6 {
             let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
+            cell.tag = indexPath.item + 200
+            cell.clickBlock = {[weak self] tag in
+                print("------\(tag)")
+            }
             switch indexPath.item {
             case 0:
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd

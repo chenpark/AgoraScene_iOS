@@ -19,6 +19,8 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var clickBlock: ((Int) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -31,6 +33,12 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
     
     fileprivate func layoutUI() {
         
+        rtcUserView.clickBlock = {[weak self] in
+            guard let clickBlock = self?.clickBlock else {
+                return
+            }
+            clickBlock(self?.tag ?? 0)
+        }
         self.contentView.addSubview(rtcUserView)
         
         rtcUserView.snp.makeConstraints { make in

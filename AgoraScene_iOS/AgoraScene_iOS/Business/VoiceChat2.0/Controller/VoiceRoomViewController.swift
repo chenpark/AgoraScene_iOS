@@ -154,24 +154,5 @@ extension VoiceRoomViewController {
         UIView.animate(withDuration: 0.5, animations: {
             self.preView.frame = CGRect(x: 0, y: ScreenHeight - 450~, width: ScreenWidth, height: 450~)
         }, completion: nil)
-//        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
-//        noticeView.roleType = .owner
-//        noticeView.resBlock = {[weak self] (flag, str) in
-//            self?.dismiss(animated: true)
-//            guard let str = str else {return}
-//
-//        }
-     //   noticeView.noticeStr = "Welcome to Agora Chat Room 2.0 I am therobot Agora Red. Can you see the robot assistant at the right coner? Click it and experience the new features"
-        
-      //  let upView = VMAudioSettingView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 450~))
-       // upView.action = .kickoff
-       // upView.resBlock = {[weak self] type in
-//            let test = UIWindow(frame: CGRect(x: 0, y: 300, width: ScreenWidth, height: ScreenHeight*2.0/3.0))
-//            test.windowLevel = .alert
-//            test.rootViewController = UINavigationController(rootViewController: UIViewController())
-//            self?.navigationController?.pushViewController(LauchViewController(), animated: true)
-       // }
-      //  let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 450~)), custom: upView)
-       // self.presentViewController(vc)
     }
 }

@@ -40,6 +40,7 @@ class VMNoticeView: UIView {
     var noticeStr: String = "" {
         didSet {
             tv.text = noticeStr
+            limLabel.text = "\(noticeStr.count)/140"
         }
     }
     
@@ -72,12 +73,7 @@ class VMNoticeView: UIView {
         self.addSubview(canBtn)
 
         subBtn.frame = CGRect(x: ScreenWidth - 100~, y: 20~, width: 80~, height: 30~)
-        subBtn.setTitle("Submit", for: .normal)
-        subBtn.font(UIFont.systemFont(ofSize: 13))
-        subBtn.addTargetFor(self, action: #selector(sub), for: .touchUpInside)
-        subBtn.setTitleColor(.white, for: .normal)
-        self.addSubview(subBtn)
-        
+
         let gl: CAGradientLayer = CAGradientLayer()
         gl.startPoint = CGPoint(x: 0.18, y: 0)
         gl.endPoint = CGPoint(x: 0.66, y: 1)
@@ -87,6 +83,12 @@ class VMNoticeView: UIView {
         subBtn.layer.masksToBounds = true;
         gl.frame = subBtn.bounds;
         subBtn.layer.addSublayer(gl)
+        
+        subBtn.setTitleColor(.white, for: .normal)
+        subBtn.setTitle("Submit", for: .normal)
+        subBtn.font(UIFont.systemFont(ofSize: 13))
+        subBtn.addTargetFor(self, action: #selector(sub), for: .touchUpInside)
+        self.addSubview(subBtn)
 
         titleLabel.frame = CGRect(x: ScreenWidth / 2.0 - 40~, y: 20~, width: 80~, height: 40~)
         titleLabel.textAlignment = .center
@@ -101,7 +103,7 @@ class VMNoticeView: UIView {
         tv.delegate = self
         self.addSubview(tv)
 
-        limLabel.frame = CGRect(x: ScreenWidth - 80, y:170~, width: 80~, height: 20~)
+        limLabel.frame = CGRect(x: ScreenWidth - 80, y:self.bounds.size.height - 30~, width: 80~, height: 20~)
         limLabel.textColor = UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1)
         limLabel.font = UIFont.systemFont(ofSize: 14)
         limLabel.textAlignment = .center

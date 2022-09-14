@@ -116,6 +116,8 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     private var coverView: UIView = UIView()
     private var activeButton: UIButton = UIButton()
     
+    var clickBlock: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -214,6 +216,9 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     }
    
     @objc private func tapClick(tap: UITapGestureRecognizer) {
-        
+        guard let clickBlock = clickBlock else {
+            return
+        }
+        clickBlock()
     }
 }
