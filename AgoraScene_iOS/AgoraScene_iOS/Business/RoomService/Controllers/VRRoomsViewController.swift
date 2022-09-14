@@ -116,7 +116,8 @@ extension VRRoomsViewController {
                 let vc = VoiceRoomViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            
+        })
+    }
 
     private func entryRoom(with entity: VRRoomEntity) {
         let vc = VoiceRoomViewController()
@@ -133,7 +134,7 @@ extension VRRoomsViewController {
             if self?.roomList.rooms?.total ?? 0 > self?.roomList.rooms?.rooms?.count ?? 0 {
                 self?.fetchRooms(cursor: self?.roomList.rooms?.cursor ?? "")
             }
-        })
+        }
     }
 
     private func childViewControllersEvent() {

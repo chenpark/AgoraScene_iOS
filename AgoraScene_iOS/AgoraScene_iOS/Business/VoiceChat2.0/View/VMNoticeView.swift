@@ -64,20 +64,29 @@ class VMNoticeView: UIView {
         lineImgView.image = UIImage(named: "pop_indicator")
         self.addSubview(lineImgView)
 
-        canBtn.frame = CGRect(x: 0, y: 20~, width: 80~, height: 40~)
+        canBtn.frame = CGRect(x: 20~, y: 20~, width: 80~, height: 30~)
         canBtn.setTitle("Cancel", for: .normal)
         canBtn.setTitleColor(.lightGray, for: .normal)
+        canBtn.font(UIFont.systemFont(ofSize: 13))
         canBtn.addTargetFor(self, action: #selector(can), for: .touchUpInside)
         self.addSubview(canBtn)
 
-        subBtn.frame = CGRect(x: ScreenWidth - 80~, y: 20~, width: 80~, height: 40~)
-        let img = UIImage(named: "createRoom")
-        img!.stretchableImage(withLeftCapWidth: Int(img!.size.width / 2.0), topCapHeight: Int(img!.size.height / 2.0))
-        subBtn.setBackgroundImage(img, for: .normal)
+        subBtn.frame = CGRect(x: ScreenWidth - 100~, y: 20~, width: 80~, height: 30~)
         subBtn.setTitle("Submit", for: .normal)
+        subBtn.font(UIFont.systemFont(ofSize: 13))
         subBtn.addTargetFor(self, action: #selector(sub), for: .touchUpInside)
-        subBtn.setTitleColor(.lightGray, for: .normal)
+        subBtn.setTitleColor(.white, for: .normal)
         self.addSubview(subBtn)
+        
+        let gl: CAGradientLayer = CAGradientLayer()
+        gl.startPoint = CGPoint(x: 0.18, y: 0)
+        gl.endPoint = CGPoint(x: 0.66, y: 1)
+        gl.colors = [UIColor(red: 33/255.0, green: 155/255.0, blue: 1, alpha: 1).cgColor, UIColor(red: 52/255.0, green: 93/255.0, blue: 1, alpha: 1).cgColor]
+        gl.locations = [0, 1.0]
+        subBtn.layer.cornerRadius = 15~;
+        subBtn.layer.masksToBounds = true;
+        gl.frame = subBtn.bounds;
+        subBtn.layer.addSublayer(gl)
 
         titleLabel.frame = CGRect(x: ScreenWidth / 2.0 - 40~, y: 20~, width: 80~, height: 40~)
         titleLabel.textAlignment = .center
