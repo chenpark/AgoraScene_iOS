@@ -22,6 +22,9 @@ class VoiceRoomViewController: VRBaseViewController {
     
     private var preView: VMPresentView!
     private var isShowPreSentView: Bool = false
+    
+    public var entity: VRRoomEntity?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
@@ -31,7 +34,34 @@ class VoiceRoomViewController: VRBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        layoutUI()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigation.isHidden = false
+    }
+    
+}
+
+extension VoiceRoomViewController {
+    
+    //加载RTC
+    private func loadRtc() {
         
+    }
+    
+    //加载IM
+    private func loadIM() {
+        
+    }
+    
+    //加入房间获取房间详情
+    private func requestRoomDetail() {
+        
+    }
+    
+    private func layoutUI() {
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
         
         let bgImgView = UIImageView()
@@ -39,6 +69,7 @@ class VoiceRoomViewController: VRBaseViewController {
         self.view.addSubview(bgImgView)
         
         headerView = AgoraChatRoomHeaderView()
+        headerView.entity = entity!
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
         }
@@ -46,9 +77,11 @@ class VoiceRoomViewController: VRBaseViewController {
         
         self.sRtcView = AgoraChatRoom3DRtcView()
         self.view.addSubview(self.sRtcView)
+        self.sRtcView.isHidden = entity!.type == 0
         
         self.rtcView = AgoraChatRoomNormalRtcView()
         self.view.addSubview(self.rtcView)
+        self.rtcView.isHidden = entity!.type == 1
         
         bgImgView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(self.view);
@@ -59,11 +92,11 @@ class VoiceRoomViewController: VRBaseViewController {
             make.height.equalTo(140~);
         }
         
-//        self.sRtcView.snp.makeConstraints { make in
-//            make.top.equalTo(self.headerView.snp.bottom);
-//            make.left.right.equalTo(self.view);
-//            make.height.equalTo(550~);
-//        }
+        self.sRtcView.snp.makeConstraints { make in
+            make.top.equalTo(self.headerView.snp.bottom);
+            make.left.right.equalTo(self.view);
+            make.height.equalTo(550~);
+        }
         
         self.rtcView.snp.makeConstraints { make in
             make.top.equalTo(self.headerView.snp.bottom);
@@ -73,9 +106,12 @@ class VoiceRoomViewController: VRBaseViewController {
         
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigation.isHidden = false
+    private func didHeaderAction(with action: HEADER_ACTION) {
+        if action == .back {
+            navigationController?.popViewController(animated: true)
+        } else {
+            showNoticeView(with: .owner)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -92,14 +128,8 @@ class VoiceRoomViewController: VRBaseViewController {
             }
         }
     }
-}
-
-extension VoiceRoomViewController {
-    func didHeaderAction(with action: HEADER_ACTION) {
-        showNoticeView(with: .owner)
-    }
     
-    func showNoticeView(with role: ROLE_TYPE) {
+    private func showNoticeView(with role: ROLE_TYPE) {
         preView = VMPresentView()
         self.view.addSubview(preView)
         self.isShowPreSentView = true

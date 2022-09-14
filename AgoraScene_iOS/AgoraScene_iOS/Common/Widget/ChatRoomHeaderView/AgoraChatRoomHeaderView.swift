@@ -31,6 +31,15 @@ class AgoraChatRoomHeaderView: UIView {
     private var soundSetLabel: UILabel = UILabel()
     
     var completeBlock: resBlock?
+    
+    var entity: VRRoomEntity = VRRoomEntity() {
+        didSet {
+            guard let user = entity.owner else {return}
+            self.iconImgView.image = UIImage(named: user.portrait ?? "")
+            self.titleLabel.text = entity.name
+            self.roomLabel.text = entity.room_id
+        }
+    }
 
     override func draw(_ rect: CGRect) {
         // Drawing code
@@ -48,21 +57,22 @@ class AgoraChatRoomHeaderView: UIView {
         self.iconImgView.image = UIImage(named: "longkui")
         self.addSubview(self.iconImgView)
         
-        self.titleLabel.textColor = .white;
-        self.titleLabel.text = "Susan Stark"
-        self.titleLabel.font = UIFont.systemFont(ofSize: 15)~
-        self.addSubview(self.titleLabel)
-        
-        self.roomLabel.textColor = .white
-        self.roomLabel.font = UIFont.systemFont(ofSize: 10)~
-        self.roomLabel.text = "Chatroom-0728-001"
+        self.roomLabel.textColor = .white;
+        self.roomLabel.text = entity.room_id
+        self.roomLabel.font = UIFont.systemFont(ofSize: 15)~
         self.addSubview(self.roomLabel)
+        
+        self.titleLabel.textColor = .white
+        self.titleLabel.font = UIFont.systemFont(ofSize: 10)~
+        self.titleLabel.text = entity.name
+        self.addSubview(self.titleLabel)
         
         self.totalCountLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
         self.totalCountLabel.layer.cornerRadius = 13~
-        self.totalCountLabel.text = "2.8K"
+        self.totalCountLabel.text = "\(entity.member_count ?? 0)"
         self.totalCountLabel.font = UIFont.systemFont(ofSize: 10)~
         self.totalCountLabel.textColor = .white
+        self.totalCountLabel.textAlignment = .center
         self.totalCountLabel.layer.masksToBounds = true;
         self.addSubview(self.totalCountLabel)
         
@@ -135,14 +145,14 @@ class AgoraChatRoomHeaderView: UIView {
             make.width.height.equalTo(38~);
         }
         
-        self.titleLabel.snp.makeConstraints { make in
+        self.roomLabel.snp.makeConstraints { make in
             make.left.equalTo(self.iconImgView.snp.right).offset(5~);
             make.height.equalTo(22~);
             make.width.lessThanOrEqualTo(100~);
             make.top.equalTo(self.iconImgView);
         }
         
-        self.roomLabel.snp.makeConstraints { make in
+        self.titleLabel.snp.makeConstraints { make in
             make.left.equalTo(self.iconImgView.snp.right).offset(5~);
             make.height.equalTo(16~);
             make.width.lessThanOrEqualTo(100~);
