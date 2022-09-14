@@ -120,24 +120,6 @@ extension VRRoomsViewController {
         })
     }
 
-    private func entryRoom(with entity: VRRoomEntity) {
-        let vc = VoiceRoomViewController()
-        vc.entity = entity
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    private func roomListEvent() {
-        self.roomList.didSelected = { [weak self] in
-            print($0.name ?? "")
-            self?.entryRoom(with: $0)
-        }
-        self.roomList.loadMore = { [weak self] in
-            if self?.roomList.rooms?.total ?? 0 > self?.roomList.rooms?.rooms?.count ?? 0 {
-                self?.fetchRooms(cursor: self?.roomList.rooms?.cursor ?? "")
-            }
-        }
-    }
-
     private func childViewControllersEvent() {
         self.all.didSelected = { [weak self] in
             self?.entryRoom(room: $0)
