@@ -111,7 +111,7 @@ extension VRRoomsViewController {
     }
     
     private func loginIMThenPush(room: VRRoomEntity) {
-        VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.authorization ?? "", completion: { userName, error in
+        VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             if error == nil {
                 let vc = VoiceRoomViewController()
                 vc.entity = room

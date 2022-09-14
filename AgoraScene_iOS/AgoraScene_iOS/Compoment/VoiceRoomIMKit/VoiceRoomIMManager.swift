@@ -57,7 +57,7 @@ fileprivate let once = VoiceRoomIMManager()
     @objc public func configIM(appkey: String) {
         let options = AgoraChatOptions(appkey: appkey.isEmpty ? "easemob-demo#easeim":appkey)
         options.enableConsoleLog = true
-        options.isAutoLogin = true
+        options.isAutoLogin = false
 //        options.setValue(false, forKeyPath: "enableDnsConfig")
 //        options.setValue(6717, forKeyPath: "chatPort")
 //        options.setValue("52.80.99.104", forKeyPath: "chatServer")
@@ -66,7 +66,11 @@ fileprivate let once = VoiceRoomIMManager()
     }
     
     @objc public func loginIM(userName: String,token: String,completion: @escaping (String,AgoraChatError?)->Void) {
-        AgoraChatClient.shared().login(withUsername: userName, agoraToken: token, completion: completion)
+        if AgoraChatClient.shared().isLoggedIn {
+            completion(AgoraChatClient.shared().currentUsername ?? "",nil)
+        } else {
+            AgoraChatClient.shared().login(withUsername: userName, agoraToken: token, completion: completion)
+        }
     }
     
     @objc public func addChatRoomListener() {
