@@ -25,7 +25,12 @@ public final class VRCreateRoomViewController: VRBaseViewController {
         self.view.bringSubviewToFront(self.navigation)
         self.navigation.title.text = "Create a room"
         self.container.createAction = { [weak self] in
-            self?.settingSound()
+            guard let `self` = self else { return }
+            if self.container.idx <= 0 {
+                self.goLive()
+            } else {
+                self.settingSound()
+            }
         }
     }
 
@@ -40,5 +45,29 @@ extension VRCreateRoomViewController {
         vc.type = self.container.idx
         vc.name = self.container.roomInput.name
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func goLive() {
+        if self.container.roomInput.name.isEmpty {
+            self.view.makeToast("param error!")
+        }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.container.roomInput.name,"is_privacy":!self.container.roomInput.code.isEmpty,"password":self.container.roomInput.code,"type":self.container.idx,"allow_free_join_mic":false], classType: VRRoomInfo.self) { info, error in
+            if error == nil {
+                self.entryRoom(room: info)
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    private func entryRoom(room: VRRoomInfo?) {
+        VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
+            if error == nil {
+                let vc = VoiceRoomViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                self.view.makeToast("\(error?.errorDescription ?? "")")
+            }
+        })
     }
 }
