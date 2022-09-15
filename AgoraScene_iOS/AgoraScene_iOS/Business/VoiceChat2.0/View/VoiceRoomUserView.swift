@@ -10,6 +10,8 @@ import ZSwiftBaseLib
 
 public class VoiceRoomUserView: UIView {
     
+    private var controllers = [UIViewController]()
+    
     lazy var header: VoiceRoomAlertContainer = {
         VoiceRoomAlertContainer(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56))
     }()
@@ -19,11 +21,16 @@ public class VoiceRoomUserView: UIView {
     }()
     
     lazy var container: VoiceRoomPageContainer = {
-        VoiceRoomPageContainer(frame: CGRect(x: 0, y: self.header.frame.maxY, width: ScreenWidth, height: self.frame.height-self.header.frame.height), viewControllers: [VoiceRoomGiftersViewController.init(),VoiceRoomAudiencesViewController.init()]).backgroundColor(.white)
+        VoiceRoomPageContainer(frame: CGRect(x: 0, y: self.header.frame.maxY, width: ScreenWidth, height: self.frame.height-self.header.frame.height), viewControllers: self.controllers).backgroundColor(.white)
     }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    convenience init(frame: CGRect,controllers: [UIViewController]) {
+        self.init(frame: frame)
+        self.controllers = controllers
         self.addSubViews([self.header,self.switchBar,self.container])
         self.container.scrollClosure = { [weak self] in
             self?.switchBar.moveTo(direction: $0 > 0 ? .right:.left)

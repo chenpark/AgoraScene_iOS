@@ -186,8 +186,13 @@ public extension VoiceRoomIMManager {
     }
     
     //MARK: - Send
-    @objc func sendMessage(roomId: String,text: String,completion: @escaping (AgoraChatMessage?,AgoraChatError?) -> (Void)) {
-        let message = AgoraChatMessage(conversationID: roomId, body: AgoraChatTextMessageBody(text: text), ext: nil)
+    @objc func sendMessage(roomId: String,text: String, ext: [AnyHashable : Any]?,completion: @escaping (AgoraChatMessage?,AgoraChatError?) -> (Void)) {
+        let message = AgoraChatMessage(conversationID: roomId, body: AgoraChatTextMessageBody(text: text), ext: ext)
+        AgoraChatClient.shared().chatManager?.send(message, progress: nil, completion: completion)
+    }
+    
+    @objc func sendCustomMessage(roomId: String,event: String,customExt: [String:String],completion: @escaping (AgoraChatMessage?,AgoraChatError?) -> (Void)) {
+        let message = AgoraChatMessage(conversationID: roomId, body: AgoraChatCustomMessageBody(event: event, customExt: customExt), ext: nil)
         AgoraChatClient.shared().chatManager?.send(message, progress: nil, completion: completion)
     }
     

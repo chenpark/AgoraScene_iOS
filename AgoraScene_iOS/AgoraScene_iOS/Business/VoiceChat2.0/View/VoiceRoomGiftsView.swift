@@ -168,8 +168,12 @@ extension VoiceRoomGiftsView {
         self.current = gift
         if let value = gift?.gift_value {
             if Int(value)! >= 100 {
+                self.gift_count = "1"
+                self.chooseQuantity.setTitle(self.gift_count, for: .normal)
+                gift?.gift_count = "1"
                 self.chooseQuantity.isEnabled = false
             } else {
+                gift?.gift_count = self.gift_count
                 self.chooseQuantity.isEnabled = true
             }
         }

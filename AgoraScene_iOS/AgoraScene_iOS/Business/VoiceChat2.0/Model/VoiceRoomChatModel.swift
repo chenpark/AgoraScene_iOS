@@ -33,9 +33,11 @@ extension VoiceRoomChatEntity {
                 AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .regular))
                 AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
             }
+            let string = text.string as NSString
             for symbol in VoiceRoomEmojiManager.shared.emojis {
-                if text.string.contains(symbol) {
-                    text = VoiceRoomEmojiManager.shared.convertEmoji(text)
+                if string.range(of: symbol).location != NSNotFound {
+                    let ranges = ZSwiftLib<String>.rangesOfString(symbol, inString: text.string as NSString)
+                    text = VoiceRoomEmojiManager.shared.convertEmoji(input: text, ranges: ranges,symbol: symbol)
                 }
             }
             return text
