@@ -191,7 +191,7 @@ public extension VoiceRoomIMManager {
         AgoraChatClient.shared().chatManager?.send(message, progress: nil, completion: completion)
     }
     
-    @objc func joinedChatRoom(roomId: String,uid: String,completion: @escaping ((AgoraChatroom?,AgoraChatError?)->())) {
+    @objc func joinedChatRoom(roomId: String,completion: @escaping ((AgoraChatroom?,AgoraChatError?)->())) {
         AgoraChatClient.shared().roomManager?.joinChatroom(roomId, completion: { room, error in
             if error == nil,let id = room?.chatroomId {
                 self.currentRoomId = id
@@ -200,14 +200,16 @@ public extension VoiceRoomIMManager {
         })
     }
     
-    @objc func userQuitRoom(completion: @escaping ((AgoraChatError?)->())) {
+    @objc func userQuitRoom(completion: ((AgoraChatError?)->())?) {
         AgoraChatClient.shared().roomManager?.leaveChatroom(self.currentRoomId, completion: { error in
             if error == nil {
                 AgoraChatClient.shared().roomManager?.remove(self)
                 AgoraChatClient.shared().chatManager?.remove(self)
                 self.currentRoomId = ""
             }
-            completion(error)
+            if completion != nil {
+                completion!(error)
+            }
         })
         AgoraChatClient.shared().logout(false)
     }

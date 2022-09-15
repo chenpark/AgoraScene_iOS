@@ -54,7 +54,7 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
         self.chatView.bounces = false
     }
     
-    private func getItem(dic: [String:String],join: Bool) -> VoiceRoomChatEntity {
+    func getItem(dic: [String:String],join: Bool) -> VoiceRoomChatEntity {
         let item = VoiceRoomChatEntity()
         item.userName = dic["userName"]
         item.content = dic["content"]
