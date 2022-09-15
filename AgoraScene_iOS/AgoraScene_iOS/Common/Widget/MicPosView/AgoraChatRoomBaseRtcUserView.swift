@@ -34,16 +34,16 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             case .AgoraChatRoomBaseUserCellTypeAdd:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
-                self.bgIconView.image = UIImage(named: "icons／solid／add(1)")
+                self.bgIconView.image = UIImage(named: "icons／solid／add")
             case .AgoraChatRoomBaseUserCellTypeMute:
                 self.iconView.isHidden = true
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-                self.bgIconView.image = UIImage(named: "icons／solid／add(1)")
+                self.bgIconView.image = UIImage(named: "icons／solid／add")
             case .AgoraChatRoomBaseUserCellTypeLock:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
-                self.bgIconView.image = UIImage(named: "icons／solid／add")
+                self.bgIconView.image = UIImage(named: "icons／solid／lock")
             case .AgoraChatRoomBaseUserCellTypeNormalUser:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
@@ -53,12 +53,12 @@ class AgoraChatRoomBaseRtcUserView: UIView {
                 self.iconView.isHidden = true
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-                self.bgIconView.image = UIImage(named: "icons／solid／add")
+                self.bgIconView.image = UIImage(named: "icons／solid／lock")
             case .AgoraChatRoomBaseUserCellTypeAdmin:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.on)
-                self.nameBtn.setImage(UIImage(named: "fangzhu"), for: .normal)
+                self.nameBtn.setImage(UIImage(named: "Landlord"), for: .normal)
             case .AgoraChatRoomBaseUserCellTypeAlienNonActive:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
@@ -138,12 +138,12 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         self.bgView.addGestureRecognizer(tap)
         self.bgView.isUserInteractionEnabled = true
 
-        self.bgIconView.image = UIImage(named: "icons／solid／add(1)")
+        self.bgIconView.image = UIImage(named: "icons／solid／add")
         self.bgIconView.layer.cornerRadius = 15~
         self.bgIconView.layer.masksToBounds = true
         self.addSubview(self.bgIconView)
         
-        self.iconView.image = UIImage(named: "longkui")
+        self.iconView.image = UIImage(named: "avatar1")
         self.iconView.layer.cornerRadius = 30~
         self.iconView.layer.masksToBounds = true
         self.addSubview(self.iconView)
