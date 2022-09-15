@@ -37,18 +37,25 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
-    public var roomInfo: VRRoomInfo?
+    public var roomInfo: VRRoomInfo? {
+        didSet {
+            
+            if let entity = roomInfo?.room {
+                if headerView == nil {return}
+                headerView.entity = entity
+            }
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
+        requestRoomDetail()
         layoutUI()
     }
     
@@ -85,7 +92,20 @@ extension VoiceRoomViewController {
     
     //加入房间获取房间详情
     private func requestRoomDetail() {
-        
+        guard let user = VoiceRoomUserInfo.shared.user else {return}
+        guard let owner = self.roomInfo?.room?.owner else {return}
+        //如果不是房主。需要主动获取房间详情
+        guard let room_id = self.roomInfo?.room?.room_id else {return}
+        if user.uid != owner.uid {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchMicsInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
+                if error == nil {
+                    guard let info = room else { return }
+                    self?.roomInfo = info
+                } else {
+                    self?.view.makeToast("\(error?.localizedDescription ?? "")")
+                }
+            }
+        }
     }
     
     private func layoutUI() {
