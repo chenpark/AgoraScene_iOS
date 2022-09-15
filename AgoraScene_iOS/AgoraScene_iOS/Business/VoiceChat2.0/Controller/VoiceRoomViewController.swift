@@ -94,9 +94,10 @@ extension VoiceRoomViewController {
             make.left.right.top.bottom.equalTo(self.view);
         }
         
+        let isHairScreen = SwiftyFitsize.isFullScreen
         self.headerView.snp.makeConstraints { make in
             make.left.top.right.equalTo(self.view);
-            make.height.equalTo(140~);
+            make.height.equalTo(isHairScreen ? 140~ : 140~ - 25);
         }
         
         self.sRtcView.snp.makeConstraints { make in

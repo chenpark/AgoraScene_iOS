@@ -35,7 +35,7 @@ class AgoraChatRoomHeaderView: UIView {
     var entity: VRRoomEntity = VRRoomEntity() {
         didSet {
             guard let user = entity.owner else {return}
-            self.iconImgView.image = UIImage(named: user.portrait ?? "")
+            self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
             self.titleLabel.text = entity.name
             self.roomLabel.text = entity.room_id
         }
@@ -54,7 +54,8 @@ class AgoraChatRoomHeaderView: UIView {
  
         self.iconImgView.layer.cornerRadius = 16~;
         self.iconImgView.layer.masksToBounds = true;
-        self.iconImgView.image = UIImage(named: "longkui")
+        guard let user = entity.owner else {return}
+        self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
         self.addSubview(self.iconImgView)
         
         self.roomLabel.textColor = .white;
@@ -133,9 +134,10 @@ class AgoraChatRoomHeaderView: UIView {
         arrowImgView.image = UIImage(named: "icons／outlined／arrow_right")
         self.noticeView.addSubview(arrowImgView)
         
+        let isHairScreen = SwiftyFitsize.isFullScreen
         self.backBtn.snp.makeConstraints { make in
             make.left.equalTo(12~);
-            make.top.equalTo(54~);
+            make.top.equalTo(isHairScreen ? 54~ : 54~ - 25);
             make.width.height.equalTo(30~);
         }
  
@@ -169,7 +171,7 @@ class AgoraChatRoomHeaderView: UIView {
             make.right.equalTo(self.snp.right).offset(19~);
             make.width.equalTo(150~);
             make.height.equalTo(22~);
-            make.top.equalTo(94~);
+            make.top.equalTo(isHairScreen ? 94~ : 94~ - 25);
         }
         
         soundSetView.snp.makeConstraints { make in

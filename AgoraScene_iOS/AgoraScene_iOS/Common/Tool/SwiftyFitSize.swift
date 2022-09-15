@@ -21,6 +21,21 @@ fileprivate let ScreenW = UIScreen.main.bounds.width
 
 @objc public final class SwiftyFitsize: NSObject {
     static let shared = SwiftyFitsize()
+    
+    static var isFullScreen: Bool {
+        if #available(iOS 11, *) {
+              guard let w = UIApplication.shared.delegate?.window, let unwrapedWindow = w else {
+                  return false
+              }
+              
+              if unwrapedWindow.safeAreaInsets.left > 0 || unwrapedWindow.safeAreaInsets.bottom > 0 {
+                  print(unwrapedWindow.safeAreaInsets)
+                  return true
+              }
+        }
+        return false
+    }
+    
     private override init() { }
     
     @objc public class func sharedSwiftyFitsize() -> SwiftyFitsize {
