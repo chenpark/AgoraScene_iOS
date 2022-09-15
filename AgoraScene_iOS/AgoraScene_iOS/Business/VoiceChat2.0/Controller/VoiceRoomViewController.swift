@@ -97,7 +97,7 @@ extension VoiceRoomViewController {
         //如果不是房主。需要主动获取房间详情
         guard let room_id = self.roomInfo?.room?.room_id else {return}
         if user.uid != owner.uid {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchMicsInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
                 if error == nil {
                     guard let info = room else { return }
                     self?.roomInfo = info
