@@ -22,22 +22,17 @@ fileprivate let manager = VoiceRoomEmojiManager()
         self.emojis = emojis
     }
     
-    @objc func convertEmoji(_ input: NSMutableAttributedString) -> NSMutableAttributedString {
-        var range: NSRange = NSMakeRange(0, 0)
-        let text = input
-        for key in self.emojiMap.keys {
-            range.length = text.length
-            let string = text.string as NSString
-            let subRange = string.range(of: key)
-            if subRange.location != NSNotFound,subRange.length != NSNotFound {
-                let value = self.emojiMap[key]
+    @objc func convertEmoji(input: NSMutableAttributedString,ranges: [NSRange],symbol: String) -> NSMutableAttributedString {
+        let text = NSMutableAttributedString(attributedString: input)
+        for range in ranges.reversed() {
+            if range.location != NSNotFound,range.length != NSNotFound {
+                let value = self.emojiMap[symbol]
                 let attachment = NSTextAttachment()
                 attachment.image = value
                 attachment.bounds = CGRect(x: 0, y: -2.5, width: 18, height: 18)
-                text.replaceCharacters(in: subRange, with: NSAttributedString(attachment: attachment))
+                text.replaceCharacters(in: range, with: NSAttributedString(attachment: attachment))
             }
         }
-
         return text
     }
 }
