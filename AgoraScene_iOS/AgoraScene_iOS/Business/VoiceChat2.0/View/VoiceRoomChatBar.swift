@@ -9,15 +9,15 @@ import UIKit
 import ZSwiftBaseLib
 
 @objc public enum VoiceRoomChatBarStyle: Int {
-    case Default = 0
-    case SpatialAudio = 1
+    case normal = 0
+    case spatialAudio = 1
 }
 
 @objc public enum VoiceRoomChatBarEvents: Int {
-    case Mic = 0
-    case HandsUp = 1
-    case EQ = 2
-    case Gift = 3
+    case mic = 0
+    case handsUp = 1
+    case eq = 2
+    case gift = 3
 }
 
 @objc public enum VoiceRoomChatBarState: Int {
@@ -60,7 +60,7 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     
     public convenience init(frame: CGRect,style: VoiceRoomChatBarStyle) {
         self.init(frame: frame)
-        if style == .Default {
+        if style == .normal {
             self.datas = ["mic","handuphard","eq","sendgift"]
         } else {
             self.datas = ["mic","handuphard","eq"]
@@ -86,7 +86,7 @@ extension VoiceRoomChatBar {
     @objc func refresh(event: VoiceRoomChatBarEvents,state: VoiceRoomChatBarState,asCreator: Bool) {
         self.creator = asCreator
         switch event {
-        case .Mic:
+        case .mic:
             switch state {
             case .unSelected:
                 self.datas[0] = "mic"
@@ -95,7 +95,7 @@ extension VoiceRoomChatBar {
             case .disable:
                 break
             }
-        case .HandsUp:
+        case .handsUp:
             self.handsState = state
             var idx = 0
             for (index,element) in self.datas.enumerated() {

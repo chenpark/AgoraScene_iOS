@@ -8,17 +8,30 @@
 import UIKit
 import SnapKit
 import ZSwiftBaseLib
+import AgoraChat
 
 public enum ROLE_TYPE {
     case owner
     case audience
 }
 
-class VoiceRoomViewController: VRBaseViewController {
+class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     
     private var headerView: AgoraChatRoomHeaderView!
     private var rtcView: AgoraChatRoomNormalRtcView!
     private var sRtcView: AgoraChatRoom3DRtcView!
+    
+    lazy var giftList: VoiceRoomGiftView  = {
+        VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear)
+    }()
+    
+    private lazy var chatView: VoiceRoomChatView = {
+        VoiceRoomChatView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight) - (ScreenHeight/667)*210 - 50, width: ScreenWidth, height:(ScreenHeight/667)*210))
+    }()
+    
+    lazy var chatBar: VoiceRoomChatBar = {
+        VoiceRoomChatBar(frame: CGRect(x: 0, y: ScreenHeight-CGFloat(ZBottombarHeight)-50, width: ScreenWidth, height: 50),style:.normal)
+    }()
     
     private var preView: VMPresentView!
     private var noticeView: VMNoticeView!
@@ -41,12 +54,18 @@ class VoiceRoomViewController: VRBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        VoiceRoomIMManager.shared?.delegate = self
         layoutUI()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigation.isHidden = false
+    }
+    
+    deinit {
+        VoiceRoomIMManager.shared?.delegate = nil
+        VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
     }
     
 }
@@ -60,7 +79,13 @@ extension VoiceRoomViewController {
     
     //加载IM
     private func loadIM() {
-        
+        VoiceRoomIMManager.shared?.joinedChatRoom(roomId: self.entity?.chat_room_id ?? "", completion: { room, error in
+            if error == nil {
+                
+            } else {
+                self.view.makeToast("\(error?.errorDescription ?? "")")
+            }
+        })
     }
     
     //加入房间获取房间详情
@@ -69,12 +94,15 @@ extension VoiceRoomViewController {
     }
     
     private func layoutUI() {
+        
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
         
         let bgImgView = UIImageView()
         bgImgView.image = UIImage(named: "lbg")
         self.view.addSubview(bgImgView)
         
+            
+        self.view.addSubViews([self.chatView,self.giftList,self.chatBar])
         headerView = AgoraChatRoomHeaderView()
         headerView.entity = (entity == nil ? (roomInfo?.room ?? VRRoomEntity()) :entity!)
         headerView.completeBlock = {[weak self] action in
@@ -111,6 +139,13 @@ extension VoiceRoomViewController {
             make.left.right.equalTo(self.view);
             make.height.equalTo(240~);
         }
+        
+
+//        self.chatView.snp.makeConstraints { make in
+//            make.top.equalTo(self.rtcView.snp.bottom).offset(80);
+//            make.left.right.equalTo(self.view);
+//            make.height.equalTo(210~);
+//        }
         
     }
     
@@ -162,4 +197,69 @@ extension VoiceRoomViewController {
             self.preView.frame = CGRect(x: 0, y: ScreenHeight - 450~, width: ScreenWidth, height: 450~)
         }, completion: nil)
     }
+    
+    //MARK: - VoiceRoomIMDelegate
+    func chatTokenDidExpire(code: AgoraChatErrorCode) {
+        
+    }
+    
+    func chatTokenWillExpire(code: AgoraChatErrorCode) {
+        
+    }
+    
+    func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
+        if let body = message.body as? AgoraChatTextMessageBody {
+            let dic = ["userName":message.from,"content":body.text]
+            self.chatView.messages?.append(self.chatView.getItem(dic: dic, join: false))
+        }
+    }
+    
+    func receiveGift(roomId: String, meta: [String : String]?) {
+        
+    }
+    
+    func receiveApplySite(roomId: String, meta: [String : String]?) {
+        
+    }
+    
+    func receiveInviteSite(roomId: String, meta: [String : String]?) {
+        
+    }
+    
+    func refuseInvite(roomId: String, meta: [String : String]?) {
+        
+    }
+    
+    func userJoinedRoom(roomId: String, username: String) {
+        
+    }
+    
+    func announcementChanged(roomId: String, content: String) {
+        
+    }
+    
+    func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason) {
+        VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
+        VoiceRoomIMManager.shared?.delegate = nil
+        var message = ""
+        switch reason {
+        case .beRemoved: message = "you be removed by owner"
+        case .destroyed: message = "VoiceRoom is destroyed"
+        case .offline: message = "you are offline"
+        @unknown default:
+            break
+        }
+        self.view.makeToast(message)
+    }
+    
+    func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
+        
+    }
+    
+    func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
+        
+    }
+    
 }
+
+
