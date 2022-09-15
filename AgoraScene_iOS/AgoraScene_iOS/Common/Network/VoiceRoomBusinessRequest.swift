@@ -32,7 +32,7 @@ import KakaJSON
         uri: String,
         params: Dictionary<String, Any>,
         callBack:@escaping ((T?,Error?) -> Void)) -> URLSessionTask? {
-        let headers = ["Authorization:"+self.userToken:"Content-Type:application/json"]
+            let headers = ["Authorization":self.userToken,"Content-Type":"application/json"]
         let task = VoiceRoomRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             DispatchQueue.main.async {
                 print("------\(uri)---\(data?.z.toDictionary())")
@@ -326,9 +326,9 @@ public extension VoiceRoomBusinessRequest {
         case let .fetchRoomInfo(roomId):
             uri += "/\(roomId)"
         case let .deleteRoom(roomId):
-            uri += roomId
+            uri += "/\(roomId)"
         case let .modifyRoomInfo(roomId):
-            uri += roomId
+            uri += "/\(roomId)"
         case let .fetchRoomMembers(roomId, cursor, pageSize):
             if cursor.isEmpty {
                 uri += roomId + "/members/list?limit=\(pageSize)"
