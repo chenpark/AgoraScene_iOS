@@ -37,12 +37,6 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
-    public var entity: VRRoomEntity? {
-        didSet {
-            
-        }
-    }
-    
     public var roomInfo: VRRoomInfo?
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +73,8 @@ extension VoiceRoomViewController {
     
     //加载IM
     private func loadIM() {
-        VoiceRoomIMManager.shared?.joinedChatRoom(roomId: self.entity?.chat_room_id ?? "", completion: { room, error in
+        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
+        VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: { room, error in
             if error == nil {
                 
             } else {
@@ -104,7 +99,6 @@ extension VoiceRoomViewController {
             
         self.view.addSubViews([self.chatView,self.giftList,self.chatBar])
         headerView = AgoraChatRoomHeaderView()
-        headerView.entity = (entity == nil ? (roomInfo?.room ?? VRRoomEntity()) :entity!)
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
         }
@@ -112,11 +106,16 @@ extension VoiceRoomViewController {
         
         self.sRtcView = AgoraChatRoom3DRtcView()
         self.view.addSubview(self.sRtcView)
-        self.sRtcView.isHidden = entity!.type == 0
         
         self.rtcView = AgoraChatRoomNormalRtcView()
         self.view.addSubview(self.rtcView)
-        self.rtcView.isHidden = entity!.type == 1
+        
+        if let entity = self.roomInfo?.room {
+            self.sRtcView.isHidden = entity.type == 0
+            self.rtcView.isHidden = entity.type == 1
+            headerView.entity = entity
+        }
+        
         
         bgImgView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(self.view);
