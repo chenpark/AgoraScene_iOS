@@ -38,6 +38,8 @@ class AgoraChatRoomHeaderView: UIView {
             self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
             self.titleLabel.text = entity.name
             self.roomLabel.text = entity.room_id
+            self.lookBtn.setTitle("\(entity.click_count ?? 0)" , for: .normal)
+            self.totalCountLabel.text = "\(entity.member_count ?? 0)"
         }
     }
 

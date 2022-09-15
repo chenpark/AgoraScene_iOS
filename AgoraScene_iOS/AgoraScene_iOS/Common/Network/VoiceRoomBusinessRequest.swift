@@ -36,6 +36,7 @@ import KakaJSON
         let task = VoiceRoomRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             DispatchQueue.main.async {
                 if error == nil,response?.statusCode ?? 0 == 200 {
+                    print("---------\(data?.z.toDictionary())")
                     callBack(model(from: data?.z.toDictionary() ?? [:], type: T.self) as? T,error)
                 } else {
                     callBack(nil,error)

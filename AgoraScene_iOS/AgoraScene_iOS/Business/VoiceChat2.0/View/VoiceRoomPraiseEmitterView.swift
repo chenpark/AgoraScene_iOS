@@ -9,7 +9,7 @@ import UIKit
 
 public class VoiceRoomPraiseEmitterView: UIView, CAAnimationDelegate {
     
-    var images = ["finger_heart","thunder","thumbs_up","No_of_the_beast","lips","heart1"]
+    var images = ["finger_heart","thunder","thumbs_up","No_of_the_beast","lips","heart"]
     
     var liveLayers = [CALayer]()
     

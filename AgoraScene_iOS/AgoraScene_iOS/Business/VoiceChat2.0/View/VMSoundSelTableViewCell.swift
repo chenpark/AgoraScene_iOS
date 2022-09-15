@@ -51,7 +51,7 @@ class VMSoundSelTableViewCell: UITableViewCell {
                 bgView.layer.borderWidth = 1
                 bgView.layer.borderColor = UIColor.lightGray.cgColor
                 selView.isHidden = true
-                iconView.image = UIImage(named: "icons／Stock／listen(1)")
+                iconView.image = UIImage(named: "icons／Stock／change")
             }
         }
     }
@@ -94,7 +94,7 @@ class VMSoundSelTableViewCell: UITableViewCell {
         detailLabel.lineBreakMode = .byCharWrapping
         bgView.addSubview(detailLabel)
 
-        selView.image = UIImage(named: "form／dan-check")
+        selView.image = UIImage(named: "effect-check")
         self.addSubview(selView)
 
         yallaView.image = UIImage(named: "yalla")

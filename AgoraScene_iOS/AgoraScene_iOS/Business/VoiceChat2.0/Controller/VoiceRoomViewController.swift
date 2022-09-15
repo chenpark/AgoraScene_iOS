@@ -43,24 +43,25 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
-    public var entity: VRRoomEntity? {
+    public var roomInfo: VRRoomInfo? {
         didSet {
             
+            if let entity = roomInfo?.room {
+                if headerView == nil {return}
+                headerView.entity = entity
+            }
         }
     }
-    
-    public var roomInfo: VRRoomInfo?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
+        requestRoomDetail()
         layoutUI()
         self.charBarEvents()
         self.requestRoomDetail()
@@ -87,7 +88,7 @@ extension VoiceRoomViewController {
     
     //加载IM
     private func loadIM() {
-        guard let roomId = self.roomInfo?.room?.room_id  else { return }
+        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
         VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: { room, error in
             if error == nil {
                 
@@ -102,7 +103,12 @@ extension VoiceRoomViewController {
         guard let roomId = self.roomInfo?.room?.room_id  else { return }
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: roomId), params: [:], classType: VRRoomInfo.self) { info, error in
             if info != nil,error == nil {
-                
+                if error == nil {
+                    guard let info = room else { return }
+                    self?.roomInfo = info
+                } else {
+                    self?.view.makeToast("\(error?.localizedDescription ?? "")")
+                }
             }
         }
     }
@@ -116,7 +122,6 @@ extension VoiceRoomViewController {
         self.view.addSubview(bgImgView)
         
         headerView = AgoraChatRoomHeaderView()
-        headerView.entity = roomInfo?.room ?? VRRoomEntity()
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
         }
@@ -124,11 +129,18 @@ extension VoiceRoomViewController {
         
         self.sRtcView = AgoraChatRoom3DRtcView()
         self.view.addSubview(self.sRtcView)
-        self.sRtcView.isHidden = (roomInfo?.room?.type ?? 0) == 0
         
         self.rtcView = AgoraChatRoomNormalRtcView()
         self.view.addSubview(self.rtcView)
         self.rtcView.isHidden = (roomInfo?.room?.type ?? 0) != 0
+        self.rtcView = AgoraChatRoomNormalRtcView()
+        self.view.addSubview(self.rtcView)
+        
+        if let entity = self.roomInfo?.room {
+            self.sRtcView.isHidden = entity.type == 0
+            self.rtcView.isHidden = entity.type == 1
+            headerView.entity = entity
+        }
         
         bgImgView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(self.view);
