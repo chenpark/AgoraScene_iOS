@@ -63,6 +63,7 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
         VoiceRoomIMManager.shared?.delegate = self
         layoutUI()
         self.charBarEvents()
+        self.requestRoomDetail()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -86,7 +87,7 @@ extension VoiceRoomViewController {
     
     //加载IM
     private func loadIM() {
-        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
+        guard let roomId = self.roomInfo?.room?.room_id  else { return }
         VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: { room, error in
             if error == nil {
                 
@@ -98,7 +99,12 @@ extension VoiceRoomViewController {
     
     //加入房间获取房间详情
     private func requestRoomDetail() {
-        
+        guard let roomId = self.roomInfo?.room?.room_id  else { return }
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: roomId), params: [:], classType: VRRoomInfo.self) { info, error in
+            if info != nil,error == nil {
+                
+            }
+        }
     }
     
     private func layoutUI() {
@@ -246,7 +252,7 @@ extension VoiceRoomViewController {
     }
     
     private func showUsers() {
-        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController.init(),VoiceRoomAudiencesViewController.init()]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController()],titles: ["Top Gifters"]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: tmp)
         self.presentViewController(vc)
     }
