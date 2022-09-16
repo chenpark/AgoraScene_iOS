@@ -11,6 +11,8 @@ import SnapKit
 public enum HEADER_ACTION {
     case back
     case notice
+    case soundClick
+    case rank
 }
 
 class AgoraChatRoomHeaderView: UIView {
@@ -35,7 +37,6 @@ class AgoraChatRoomHeaderView: UIView {
     private var rankTBtn: UIButton = UIButton() //榜三小弟
     
     var completeBlock: resBlock?
-    var rankBlock: (() -> Void)?
     
     var entity: VRRoomEntity = VRRoomEntity() {
         didSet {
@@ -105,6 +106,10 @@ class AgoraChatRoomHeaderView: UIView {
         self.configView.layer.masksToBounds = true;
         self.configView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
         self.addSubview(self.configView)
+        
+        let soundTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundClick))
+        self.configView.addGestureRecognizer(soundTap)
+        self.configView.isUserInteractionEnabled = true
         
         let soundSetView = UIView()
         self.configView.addSubview(soundSetView)
@@ -336,8 +341,13 @@ class AgoraChatRoomHeaderView: UIView {
         block(.notice)
     }
     
+    @objc private func soundClick() {
+        guard let block = completeBlock else {return}
+        block(.soundClick)
+    }
+    
     @objc private func rankClick() {
-        guard let block = rankBlock else {return}
-        block()
+        guard let block = completeBlock else {return}
+        block(.rank)
     }
 }

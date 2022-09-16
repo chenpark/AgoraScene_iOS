@@ -19,6 +19,13 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var user: VRUser? {
+        didSet {
+            rtcUserView.iconImgUrl = user?.portrait ?? "avatar1"
+            rtcUserView.nameStr = user?.name ?? ""
+        }
+    }
+    
     var clickBlock: ((Int) -> Void)?
     
     override init(frame: CGRect) {

@@ -25,7 +25,7 @@ import KakaJSON
 @objc open class VRRoomEntity:NSObject, Convertible {
     public var room_id: String? //房间id
     public var channel_id: String? //agora rtc channel id
-    public var chat_room_id: String? //agora chat chatroom id
+    public var chatroom_id: String? //agora chat chatroom id
     public var name: String? // 房间名称
     public var member_count: Int? = 0 // 房间人数
     public var gift_amount: Int? = 0 // 礼物数

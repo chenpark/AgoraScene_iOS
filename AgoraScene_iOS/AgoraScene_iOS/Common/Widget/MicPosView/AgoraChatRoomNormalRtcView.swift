@@ -14,9 +14,11 @@ class AgoraChatRoomNormalRtcView: UIView {
     private let nIdentifier = "normal"
     private let aIdentifier = "alien"
     
-    var info: VRRoomInfo? {
+    var clickBlock: ((AgoraChatRoomBaseUserCellType, Int) -> Void)?
+    
+    var micInfos: [VRRoomMic]? {
         didSet {
-            
+            collectionView.reloadData()
         }
     }
     
@@ -71,28 +73,37 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         if indexPath.item < 6 {
             let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
             cell.tag = indexPath.item + 200
-//            if let mic_infos = info?.mic_info {
-//                if let mic_info = mic_infos[indexPath.]
-//            } else {
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
-//            }
+            /*
+             0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
+             */
+            if let mic_info = micInfos?[indexPath.item] {
+                cell.user = mic_info.user
+                switch mic_info.status {
+                case -1:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
+                case 0:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
+                case 1:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+                case 2:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+                case 3:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
+                case 4:
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
+                default:
+                    break
+                }
+            } else {
+                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
+            }
+            
             cell.clickBlock = {[weak self] tag in
                 print("------\(tag)")
+                guard let block = self?.clickBlock else {return}
+                block(cell.cellType, tag)
             }
-//            switch indexPath.item {
-//            case 0:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
-//            case 1:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
-//            case 2:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
-//            case 3:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
-//            case 4:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdmin
-//            default:
-//                cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
-//            }
+
             return cell
         } else {
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell

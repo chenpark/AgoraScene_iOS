@@ -42,6 +42,8 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     private var preView: VMPresentView!
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
+    private var rtckit: ASRTCKit = ASRTCKit.getSharedInstance()
+    private var isOwner: Bool = false
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -49,6 +51,20 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
                 if headerView == nil {return}
                 headerView.entity = entity
             }
+            
+            if let mics = roomInfo?.mic_info {
+                if let type = roomInfo?.room?.type {
+                    if type == 0 && self.rtcView != nil {
+                        self.rtcView.micInfos = mics
+                    } else if type == 1 && self.sRtcView != nil {
+                        
+                    }
+                }
+            }
+            
+            guard let user = VoiceRoomUserInfo.shared.user else {return}
+            guard let owner = self.roomInfo?.room?.owner else {return}
+            isOwner = user.uid == owner.uid
         }
     }
     
@@ -60,10 +76,17 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
+        
+        //获取房间详情
         requestRoomDetail()
+        
+        //加载RTC+IM
+        loadKit()
+        //布局UI
         layoutUI()
+        //处理底部事件
         self.charBarEvents()
-        self.requestRoomDetail()
+       
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -81,29 +104,57 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
 extension VoiceRoomViewController {
     
     //加载RTC
-    private func loadRtc() {
+    private func loadKit() {
         
-    }
-    
-    //加载IM
-    private func loadIM() {
-        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
-        VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: { room, error in
-            if error == nil {
-                
-            } else {
-                self.view.makeToast("\(error?.errorDescription ?? "")")
+        guard let channel_id = self.roomInfo?.room?.channel_id else {return}
+        guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
+        rtckit.setClientRole(role: isOwner ? .owner : .audience)
+        rtckit.delegate = self
+        
+        var rtcJoinSuccess: Bool = false
+        var IMJoinSuccess: Bool = false
+
+        let VMGroup = DispatchGroup()
+        let VMQueue = DispatchQueue(label: "com.agora.vm.www")
+        
+        VMGroup.enter()
+        VMQueue.async {[weak self] in
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: channel_id, rtcUid: 0, scene: .live) == 0
+            VMGroup.leave()
+        }
+        
+        VMGroup.enter()
+        VMQueue.async {[weak self] in
+            
+            VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: {[weak self] room, error in
+                if error == nil {
+                    IMJoinSuccess = true
+                    VMGroup.leave()
+                } else {
+                    self?.view.makeToast("\(error?.errorDescription ?? "")")
+                    IMJoinSuccess = false
+                    VMGroup.leave()
+                }
+            })
+            
+        }
+        
+        VMGroup.notify(queue: VMQueue){[weak self] in
+            DispatchQueue.main.async {
+                let joinSuccess = rtcJoinSuccess && IMJoinSuccess
+                //上传登陆信息到服务器
+                self?.uploadStatus(status: joinSuccess)
             }
-        })
+        }
+        
     }
     
     //加入房间获取房间详情
     private func requestRoomDetail() {
-        guard let user = VoiceRoomUserInfo.shared.user else {return}
-        guard let owner = self.roomInfo?.room?.owner else {return}
+        
         //如果不是房主。需要主动获取房间详情
         guard let room_id = self.roomInfo?.room?.room_id else {return}
-        if user.uid != owner.uid {
+        if !isOwner {
             VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
                 if error == nil {
                     guard let info = room else { return }
@@ -127,18 +178,15 @@ extension VoiceRoomViewController {
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
         }
-        headerView.rankBlock = {[weak self] in
-            //展示土豪榜
-        }
         self.view.addSubview(headerView)
         
         self.sRtcView = AgoraChatRoom3DRtcView()
         self.view.addSubview(self.sRtcView)
         
         self.rtcView = AgoraChatRoomNormalRtcView()
-        self.view.addSubview(self.rtcView)
-        self.rtcView.isHidden = (roomInfo?.room?.type ?? 0) != 0
-        self.rtcView = AgoraChatRoomNormalRtcView()
+        self.rtcView.clickBlock = {[weak self] (type, tag) in
+            
+        }
         self.view.addSubview(self.rtcView)
         
         if let entity = self.roomInfo?.room {
@@ -173,19 +221,33 @@ extension VoiceRoomViewController {
         
     }
     
-    
+    private func uploadStatus( status: Bool) {
+        let pwd: String = roomInfo?.room?.roomPassword ?? ""
+        let params: Dictionary<String, Any> = ["password": pwd]
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: pwd), params: params) { dic, error in
+            if error != nil {
+                
+            } else {
+                
+            }
+        }
+    }
     
     private func didHeaderAction(with action: HEADER_ACTION) {
         if action == .back {
             self.notifySeverLeave()
             navigationController?.popViewController(animated: true)
-        } else {
+        } else if action == .notice {
             showNoticeView(with: .owner)
+        } else if action == .rank {
+            //展示土豪榜
+        } else if action == .soundClick {
+            showSoundView()
         }
     }
     
     private func notifySeverLeave() {
-        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
+        guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
                 debugPrint("result:\(result)")
@@ -215,12 +277,17 @@ extension VoiceRoomViewController {
         noticeView.resBlock = {[weak self] (flag, str) in
             self?.dismiss(animated: true)
             guard let str = str else {return}
+            //修改群公告
             
         }
         let noticeStr = self.roomInfo?.room?.announcement ?? ""
         noticeView.noticeStr = noticeStr
         let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
         self.presentViewController(vc)
+    }
+    
+    private func showSoundView() {
+        
     }
     
     private func showEQView(with role: ROLE_TYPE) {
@@ -416,4 +483,16 @@ extension VoiceRoomViewController {
     
 }
 
-
+extension VoiceRoomViewController: ASManagerDelegate {
+    func didRtcLocalUserJoinedOfUid(uid: UInt) {
+        
+    }
+    
+    func didRtcRemoteUserJoinedOfUid(uid: UInt) {
+        
+    }
+    
+    func didRtcUserOfflineOfUid(uid: UInt) {
+        
+    }
+}

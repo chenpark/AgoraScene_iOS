@@ -255,7 +255,7 @@ public let kMPK_RTC_UID: UInt = 1
      * @param rtcUid RTCUid 如果传0，大网会自动分配
      * @param rtmUid 可选，如果不使用RTM，使用自己的IM，这个值不用传
      */
-    public func joinVoicRoomWith(with channelName: String, rtcUid: Int?, scene: VMScene) {
+    public func joinVoicRoomWith(with channelName: String, rtcUid: Int?, scene: VMScene) -> Int32 {
 
         self.type = .VoiceChat
         rtcKit.enableAudioVolumeIndication(200, smooth: 3, reportVad: false)
@@ -267,7 +267,8 @@ public let kMPK_RTC_UID: UInt = 1
             rtcKit.setChannelProfile(.communication)
         }
         loadKit(with: channelName, rtcUid: rtcUid)
-        rtcKit.joinChannel(byToken: nil, channelId: channelName, info: nil, uid: UInt(rtcUid ?? 0))
+        let code: Int32 = rtcKit.joinChannel(byToken: nil, channelId: channelName, info: nil, uid: UInt(rtcUid ?? 0))
+        return code
     }
 
     /**
