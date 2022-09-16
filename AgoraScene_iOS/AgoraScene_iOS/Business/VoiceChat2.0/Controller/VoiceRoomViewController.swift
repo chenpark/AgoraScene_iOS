@@ -237,22 +237,25 @@ extension VoiceRoomViewController {
             }
         }
         self.chatBar.events = { [weak self] in
+            guard let `self` = self else { return }
             switch $0 {
             case .mic:
-                self?.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
+                self.chatBar.micState = !self.chatBar.micState
+                self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
             case .handsUp:
-                self?.showUsers()
+                self.showUsers()
             case .gift:
-                self?.showGiftAlert()
+                self.showGiftAlert()
             case .eq:
-                self?.showEQView(with: .audience)
+                self.showEQView(with: .audience)
             default: break
             }
         }
     }
     
     private func showUsers() {
-        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController()],titles: ["Top Gifters"]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: roomId)],titles: ["Contribution List"]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: tmp)
         self.presentViewController(vc)
     }
@@ -329,11 +332,15 @@ extension VoiceRoomViewController {
     
     private func showMessage(message: AgoraChatMessage) {
         if let body = message.body as? AgoraChatTextMessageBody,let userName = message.ext?["userName"] as? String {
-            let dic = ["userName":userName,"content":body.text]
-            self.chatView.messages?.append(self.chatView.getItem(dic: dic, join: false))
-            DispatchQueue.main.async {
-                self.perform(#selector(VoiceRoomViewController.refreshChatView), with: nil, afterDelay: 1)
-            }
+            self.convertShowText(userName: userName, content: body.text,joined: false)
+        }
+    }
+    
+    private func convertShowText(userName: String,content: String,joined: Bool) {
+        let dic = ["userName":userName,"content":content]
+        self.chatView.messages?.append(self.chatView.getItem(dic: dic, join: joined))
+        DispatchQueue.main.async {
+            self.perform(#selector(VoiceRoomViewController.refreshChatView), with: nil, afterDelay: 1)
         }
     }
     
@@ -353,25 +360,37 @@ extension VoiceRoomViewController {
             assert(false, "\(error.localizedDescription)")
         }
     }
-    
+    /// 只有owner会收到此回调
     func receiveApplySite(roomId: String, meta: [String : String]?) {
-        
+        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
     }
-    
+    /// 只有观众会收到此回调
     func receiveInviteSite(roomId: String, meta: [String : String]?) {
-        
+        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 65), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16)
+        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 65))
+        compent.destination = .center
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: alert)
+        alert.actionEvents = { [weak self] in
+            if $0 == 30 {
+                self?.refuse()
+            } else {
+                self?.agreeInvite()
+            }
+            vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
     }
-    
+    /// 只有owner会收到此回调
     func refuseInvite(roomId: String, meta: [String : String]?) {
-        
+//        self.view.makeToast("")
     }
     
     func userJoinedRoom(roomId: String, username: String) {
-        
+        self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }
     
     func announcementChanged(roomId: String, content: String) {
-        
+        self.view.makeToast("Voice room announcement changed!")
     }
     
     func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason) {
@@ -386,6 +405,9 @@ extension VoiceRoomViewController {
             break
         }
         self.view.makeToast(message)
+        if reason == .destroyed {
+            self.backAction()
+        }
     }
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
@@ -396,6 +418,19 @@ extension VoiceRoomViewController {
         
     }
     
+    private func refuse() {
+        if let roomId = self.roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .refuseInvite(roomId: roomId), params: [:]) { _, _ in
+            }
+        }
+    }
+    
+    private func agreeInvite() {
+        if let roomId = self.roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
+            }
+        }
+    }
 }
 
 

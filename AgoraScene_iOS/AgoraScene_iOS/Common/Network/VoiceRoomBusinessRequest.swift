@@ -340,12 +340,8 @@ public extension VoiceRoomBusinessRequest {
             uri += roomId + "/members/leave"
         case let .kickUser(roomId):
             uri += roomId + "/members/kick"
-        case let .fetchGiftContribute(roomId, cursor, pageSize):
-            if cursor.isEmpty {
-                uri += roomId + "/gift/list?limit=\(pageSize)"
-            } else {
-                uri += roomId + "/gift/list?limit=\(pageSize)&cursor=\(cursor)"
-            }
+        case let .fetchGiftContribute(roomId):
+            uri += "/\(roomId)/gift/list"
         case let .giftTo(roomId):
             uri += roomId + "/gift/add"
         case let .fetchApplyMembers(roomId, cursor, pageSize):
