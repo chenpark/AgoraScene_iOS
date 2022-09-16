@@ -30,7 +30,12 @@ class AgoraChatRoomHeaderView: UIView {
     private var configView: UIView = UIView()
     private var soundSetLabel: UILabel = UILabel()
     
+    private var rankFBtn: UIButton = UIButton() //榜一大哥
+    private var rankSBtn: UIButton = UIButton() //榜二土豪
+    private var rankTBtn: UIButton = UIButton() //榜三小弟
+    
     var completeBlock: resBlock?
+    var rankBlock: (() -> Void)?
     
     var entity: VRRoomEntity = VRRoomEntity() {
         didSet {
@@ -38,8 +43,9 @@ class AgoraChatRoomHeaderView: UIView {
             self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
             self.titleLabel.text = entity.name
             self.roomLabel.text = entity.room_id
-            self.lookBtn.setTitle("\(entity.click_count ?? 0)" , for: .normal)
+            self.lookBtn.setTitle(" \(entity.click_count ?? 0)" , for: .normal)
             self.totalCountLabel.text = "\(entity.member_count ?? 0)"
+            self.giftBtn.setTitle(" \(entity.gift_amount ?? 0)", for: .normal)
         }
     }
 
@@ -79,7 +85,21 @@ class AgoraChatRoomHeaderView: UIView {
         self.totalCountLabel.layer.masksToBounds = true;
         self.addSubview(self.totalCountLabel)
         
-        self.addSubview(self.richView)
+        //self.addSubview(self.richView)
+        self.rankFBtn.layer.cornerRadius = 13~
+        self.rankFBtn.layer.masksToBounds = true
+        self.rankFBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
+        self.addSubview(self.rankFBtn)
+        
+        self.rankSBtn.layer.cornerRadius = 13~
+        self.rankSBtn.layer.masksToBounds = true
+        self.rankSBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
+        self.addSubview(self.rankSBtn)
+        
+        self.rankTBtn.layer.cornerRadius = 13~
+        self.rankTBtn.layer.masksToBounds = true
+        self.rankTBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
+        self.addSubview(self.rankTBtn)
         
         self.configView.layer.cornerRadius = 11~;
         self.configView.layer.masksToBounds = true;
@@ -101,7 +121,7 @@ class AgoraChatRoomHeaderView: UIView {
         self.giftBtn.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         self.giftBtn.layer.cornerRadius = 13~
         self.giftBtn.setImage(UIImage(named: "icons／Stock／gift"), for: .normal)
-        self.giftBtn.setTitle(" 2000", for: .normal)
+        self.giftBtn.setTitle(" \(entity.gift_amount ?? 0)", for: .normal)
         self.giftBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         self.giftBtn.isUserInteractionEnabled = false
         self.addSubview(self.giftBtn)
@@ -109,7 +129,7 @@ class AgoraChatRoomHeaderView: UIView {
         self.lookBtn.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         self.lookBtn.layer.cornerRadius = 13~
         self.lookBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)~
-        self.lookBtn.setTitle(" 1000", for: .normal)
+        self.lookBtn.setTitle(" \(entity.click_count ?? 0)", for: .normal)
         self.lookBtn.isUserInteractionEnabled = false
         self.lookBtn.setImage(UIImage(named:"icons／Stock／look"), for: .normal)
         self.addSubview(self.lookBtn)
@@ -167,6 +187,72 @@ class AgoraChatRoomHeaderView: UIView {
             make.right.equalTo(self.snp.right).offset(-16~);
             make.centerY.equalTo(self.backBtn);
             make.width.height.equalTo(26~);
+        }
+        
+        //土豪榜展示逻辑
+        if let rankList = entity.ranking_list {
+            
+            if let fImg = rankList[0].portrait {
+                self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)
+            }
+            
+            if let sImg = rankList[1].portrait {
+                print(sImg)
+                self.rankSBtn.setImage(UIImage(named: sImg), for: .normal)
+            }
+            
+            if let tImg = rankList[2].portrait {
+                print(tImg)
+                self.rankTBtn.setImage(UIImage(named: tImg), for: .normal)
+            }
+            
+            if rankList.count == 1 {
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = true
+                self.rankTBtn.isHidden = true
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            } else if rankList.count == 2 {
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = false
+                self.rankTBtn.isHidden = true
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
+                }
+                self.rankSBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            } else if rankList.count >= 3 {
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = false
+                self.rankTBtn.isHidden = false
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-76)
+                }
+                self.rankSBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
+                }
+                self.rankTBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            }
+        } else {
+            self.rankFBtn.isHidden = true
+            self.rankSBtn.isHidden = true
+            self.rankTBtn.isHidden = true
         }
         
         self.configView.snp.makeConstraints { make in
@@ -248,5 +334,10 @@ class AgoraChatRoomHeaderView: UIView {
     @objc private func click() {
         guard let block = completeBlock else {return}
         block(.notice)
+    }
+    
+    @objc private func rankClick() {
+        guard let block = rankBlock else {return}
+        block()
     }
 }

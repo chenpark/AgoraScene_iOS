@@ -45,7 +45,6 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     
     public var roomInfo: VRRoomInfo? {
         didSet {
-            
             if let entity = roomInfo?.room {
                 if headerView == nil {return}
                 headerView.entity = entity
@@ -127,6 +126,9 @@ extension VoiceRoomViewController {
         headerView = AgoraChatRoomHeaderView()
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
+        }
+        headerView.rankBlock = {[weak self] in
+            //展示土豪榜
         }
         self.view.addSubview(headerView)
         
@@ -215,7 +217,8 @@ extension VoiceRoomViewController {
             guard let str = str else {return}
             
         }
-        noticeView.noticeStr = "Welcome to Agora Chat Room 2.0 I am therobot Agora Red. Can you see the robot assistant at the right coner? Click it and experience the new features"
+        let noticeStr = self.roomInfo?.room?.announcement ?? ""
+        noticeView.noticeStr = noticeStr
         let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
         self.presentViewController(vc)
     }

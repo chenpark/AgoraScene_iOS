@@ -28,6 +28,7 @@ import KakaJSON
     public var chat_room_id: String? //agora chat chatroom id
     public var name: String? // 房间名称
     public var member_count: Int? = 0 // 房间人数
+    public var gift_amount: Int? = 0 // 礼物数
     public var owner: VRUser?
     public var is_private: Bool? //是否为私密房间
     public var type: Int? = 0 //房间类型， 0 ：普通房间，1:3D房间
