@@ -43,24 +43,24 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
     
-    public var entity: VRRoomEntity? {
+    public var roomInfo: VRRoomInfo? {
         didSet {
-            
+            if let entity = roomInfo?.room {
+                if headerView == nil {return}
+                headerView.entity = entity
+            }
         }
     }
-    
-    public var roomInfo: VRRoomInfo?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
+        requestRoomDetail()
         layoutUI()
         self.charBarEvents()
         self.requestRoomDetail()
@@ -87,7 +87,7 @@ extension VoiceRoomViewController {
     
     //加载IM
     private func loadIM() {
-        guard let roomId = self.roomInfo?.room?.room_id  else { return }
+        guard let roomId = self.roomInfo?.room?.chat_room_id  else { return }
         VoiceRoomIMManager.shared?.joinedChatRoom(roomId: roomId, completion: { room, error in
             if error == nil {
                 
@@ -99,10 +99,18 @@ extension VoiceRoomViewController {
     
     //加入房间获取房间详情
     private func requestRoomDetail() {
-        guard let roomId = self.roomInfo?.room?.room_id  else { return }
-        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: roomId), params: [:], classType: VRRoomInfo.self) { info, error in
-            if info != nil,error == nil {
-                
+        guard let user = VoiceRoomUserInfo.shared.user else {return}
+        guard let owner = self.roomInfo?.room?.owner else {return}
+        //如果不是房主。需要主动获取房间详情
+        guard let room_id = self.roomInfo?.room?.room_id else {return}
+        if user.uid != owner.uid {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
+                if error == nil {
+                    guard let info = room else { return }
+                    self?.roomInfo = info
+                } else {
+                    self?.view.makeToast("\(error?.localizedDescription ?? "")")
+                }
             }
         }
     }
@@ -116,19 +124,28 @@ extension VoiceRoomViewController {
         self.view.addSubview(bgImgView)
         
         headerView = AgoraChatRoomHeaderView()
-        headerView.entity = roomInfo?.room ?? VRRoomEntity()
         headerView.completeBlock = {[weak self] action in
             self?.didHeaderAction(with: action)
+        }
+        headerView.rankBlock = {[weak self] in
+            //展示土豪榜
         }
         self.view.addSubview(headerView)
         
         self.sRtcView = AgoraChatRoom3DRtcView()
         self.view.addSubview(self.sRtcView)
-        self.sRtcView.isHidden = (roomInfo?.room?.type ?? 0) == 0
         
         self.rtcView = AgoraChatRoomNormalRtcView()
         self.view.addSubview(self.rtcView)
         self.rtcView.isHidden = (roomInfo?.room?.type ?? 0) != 0
+        self.rtcView = AgoraChatRoomNormalRtcView()
+        self.view.addSubview(self.rtcView)
+        
+        if let entity = self.roomInfo?.room {
+            self.sRtcView.isHidden = entity.type == 0
+            self.rtcView.isHidden = entity.type == 1
+            headerView.entity = entity
+        }
         
         bgImgView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(self.view);
@@ -200,7 +217,8 @@ extension VoiceRoomViewController {
             guard let str = str else {return}
             
         }
-        noticeView.noticeStr = "Welcome to Agora Chat Room 2.0 I am therobot Agora Red. Can you see the robot assistant at the right coner? Click it and experience the new features"
+        let noticeStr = self.roomInfo?.room?.announcement ?? ""
+        noticeView.noticeStr = noticeStr
         let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
         self.presentViewController(vc)
     }

@@ -10,7 +10,7 @@ import ZSwiftBaseLib
 
 public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UICollectionViewDataSource {
     
-    private var images = ["app1","soul"]
+    private var images = ["yalla","soul"]
     
     var item: VRRoomMenuBarEntity? {
         willSet {

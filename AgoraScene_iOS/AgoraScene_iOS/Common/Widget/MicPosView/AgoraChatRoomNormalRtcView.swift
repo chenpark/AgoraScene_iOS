@@ -14,6 +14,12 @@ class AgoraChatRoomNormalRtcView: UIView {
     private let nIdentifier = "normal"
     private let aIdentifier = "alien"
     
+    var info: VRRoomInfo? {
+        didSet {
+            
+        }
+    }
+    
     override func draw(_ rect: CGRect) {
         // Drawing code
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -65,23 +71,28 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         if indexPath.item < 6 {
             let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
             cell.tag = indexPath.item + 200
+//            if let mic_infos = info?.mic_info {
+//                if let mic_info = mic_infos[indexPath.]
+//            } else {
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
+//            }
             cell.clickBlock = {[weak self] tag in
                 print("------\(tag)")
             }
-            switch indexPath.item {
-            case 0:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
-            case 1:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
-            case 2:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
-            case 3:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
-            case 4:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdmin
-            default:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
-            }
+//            switch indexPath.item {
+//            case 0:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
+//            case 1:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+//            case 2:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
+//            case 3:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
+//            case 4:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdmin
+//            default:
+//                cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
+//            }
             return cell
         } else {
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell

@@ -75,11 +75,11 @@ class VMManagerView: UIView {
         self.addSubview(bgView)
         
         addView.frame = CGRect(x: ScreenWidth / 2 - 11~, y: 61~, width: 22~, height: 22~)
-        addView.image = UIImage(named: "icons／solid／add(1)")
+        addView.image = UIImage(named: "icons／solid／add")
         self.addSubview(addView)
         
         iconView.frame = CGRect(x: ScreenWidth / 2 - 32~, y: 40~, width: 64~, height: 64~)
-        iconView.image = UIImage(named: "longkui")
+        iconView.image = UIImage(named: "avatar1")
         iconView.layer.cornerRadius = 32~
         iconView.layer.masksToBounds = true
         self.addSubview(iconView)
@@ -91,7 +91,7 @@ class VMManagerView: UIView {
         self.addSubview(nameLabel)
         
         roleBtn.frame = CGRect(x: ScreenWidth/2.0 - 50~, y: 135~, width: 100~, height: 20)
-        roleBtn.setImage(UIImage(named: "fangzhu"), for: .normal)
+        roleBtn.setImage(UIImage(named: "Landlord"), for: .normal)
         roleBtn.setTitle("host", for: .normal)
         roleBtn.setTitleColor(.black, for: .normal)
         roleBtn.font(UIFont.systemFont(ofSize: 11))
