@@ -43,7 +43,7 @@ public class VoiceRoomSwitchBar: UIView {
             self.addSubViews([self.leftItem,self.indicator,self.line])
             self.leftItem.frame = CGRect(x: 20, y: 0, width: ScreenWidth-40, height: 24)
             self.leftItem.setTitle(titles.first ?? "", for: .normal)
-            self.line.center = CGPoint(x: self.leftItem.center.x, y: self.line.center.y)
+            self.indicator.frame = CGRect(x: self.frame.width/2.0-12, y: self.leftItem.frame.maxY+5, width: 24, height: 3)
         } else {
             self.addSubViews([self.leftItem,self.rightItem,self.indicator,self.line])
             self.leftItem.setTitle(titles.first ?? "", for: .normal)

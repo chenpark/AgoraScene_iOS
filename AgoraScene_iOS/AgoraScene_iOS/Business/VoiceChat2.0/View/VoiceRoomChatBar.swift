@@ -34,6 +34,8 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     
     var handsState: VoiceRoomChatBarState = .unSelected
     
+    var micState = false
+    
     public var raiseKeyboard: (() -> ())?
     
     public var datas = ["mic","handuphard","eq","sendgift"]
@@ -87,6 +89,7 @@ extension VoiceRoomChatBar {
         self.creator = asCreator
         switch event {
         case .mic:
+            self.micState = state == .selected ? true:false
             switch state {
             case .unSelected:
                 self.datas[0] = "mic"
@@ -95,6 +98,7 @@ extension VoiceRoomChatBar {
             case .disable:
                 break
             }
+            self.toolBar.reloadItems(at: [IndexPath(row: 0, section: 0)])
         case .handsUp:
             self.handsState = state
             var idx = 0
@@ -112,6 +116,11 @@ extension VoiceRoomChatBar {
                     self.datas[idx] = "handup_dot"
                 case .disable:
                     self.datas[idx] = "handuphard-1"
+                }
+            } else {
+                switch state {
+                case .unSelected: self.datas[idx] = "handuphard"
+                default: self.datas[idx] = "handup_dot"
                 }
             }
             self.toolBar.reloadItems(at: [IndexPath(row: idx, section: 0)])
