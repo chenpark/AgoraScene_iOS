@@ -19,7 +19,7 @@ public enum VoiceRoomBusinessApi {
     case joinRoom(roomId:String)//String roomId
     case leaveRoom(roomId:String)//String roomId
     case kickUser(roomId:String)//String roomId
-    case fetchGiftContribute(roomId:String,cursor:String,pageSize:Int)//String roomId,String cursor
+    case fetchGiftContribute(roomId:String)//String roomId,String cursor
     case giftTo(roomId:String)//String roomId
     //MARK: - mic api
     case fetchApplyMembers(roomId:String,cursor:String,pageSize:Int)//String roomId,String cursor

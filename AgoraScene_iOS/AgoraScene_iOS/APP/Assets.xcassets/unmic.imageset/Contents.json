@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "icons／outlined／mic.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons／outlined／mic@2x.png",
+      "filename" : "mic@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons／outlined／mic@3x.png",
+      "filename" : "mic@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -7,11 +7,17 @@
 
 import UIKit
 import ZSwiftBaseLib
+import KakaJSON
 
 public class VoiceRoomGiftersViewController: UITableViewController {
+    
+    private var room_id = ""
+    
+    private var dataSource = VoiceRoomContributions()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchList()
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomGifterCell.self, forCellReuseIdentifier: "VoiceRoomGifterCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -19,17 +25,19 @@ public class VoiceRoomGiftersViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    @objc public convenience init(roomId: String) {
+        self.init()
+        self.room_id = roomId
+    }
 
     // MARK: - Table view data source
-
     public override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 10
+        self.dataSource.ranking_list?.count ?? 0
     }
 
     
@@ -38,6 +46,8 @@ public class VoiceRoomGiftersViewController: UITableViewController {
         if cell == nil {
             cell = VoiceRoomGifterCell(style: .default, reuseIdentifier: "VoiceRoomGifterCell")
         }
+        cell?.user = self.dataSource.ranking_list?[safe: indexPath.row]
+        cell?.index = indexPath.row
         // Configure the cell...
         cell?.selectionStyle = .none
         return cell ?? VoiceRoomGifterCell()
@@ -45,4 +55,29 @@ public class VoiceRoomGiftersViewController: UITableViewController {
     
 
 
+}
+
+extension VoiceRoomGiftersViewController {
+    private func fetchList() {
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchGiftContribute(roomId: self.room_id), params: [:], classType: VoiceRoomContributions.self) { contributions, error in
+            if error == nil,contributions != nil,contributions?.ranking_list?.count ?? 0 > 0 {
+                self.dataSource = contributions!
+                self.tableView.reloadData()
+            }
+        }
+    }
+}
+
+
+public class VoiceRoomContributions: NSObject,Convertible {
+    
+    var ranking_list: [VRUser]?
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
 }
