@@ -197,6 +197,8 @@ class AgoraChatRoomHeaderView: UIView {
         //土豪榜展示逻辑
         if let rankList = entity.ranking_list {
             
+            if rankList.count == 0 {return}
+            
             if let fImg = rankList[0].portrait {
                 self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)
             }
