@@ -32,10 +32,11 @@ import KakaJSON
         uri: String,
         params: Dictionary<String, Any>,
         callBack:@escaping ((T?,Error?) -> Void)) -> URLSessionTask? {
-            let headers = ["Authorization":self.userToken,"Content-Type":"application/json"]
+        print(params)
+
+        let headers = ["Authorization":self.userToken,"Content-Type":"application/json"]
         let task = VoiceRoomRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             DispatchQueue.main.async {
-                print("------\(uri)---\(data?.z.toDictionary())")
                 if error == nil,response?.statusCode ?? 0 == 200 {
                     callBack(model(from: data?.z.toDictionary() ?? [:], type: T.self) as? T,error)
                 } else {
