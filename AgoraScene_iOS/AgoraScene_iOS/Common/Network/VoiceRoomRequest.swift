@@ -34,7 +34,6 @@ public struct VoiceRoomRequestHTTPMethod: RawRepresentable, Equatable, Hashable 
     }
 }
 
-
 @objcMembers public class VoiceRoomRequest: NSObject, URLSessionDelegate {
     
     @objc public static var shared = VoiceRoomRequest()

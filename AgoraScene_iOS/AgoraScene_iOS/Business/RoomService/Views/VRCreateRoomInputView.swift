@@ -16,6 +16,8 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     
     var action: (()->())?
     
+    private let height = ((ScreenWidth-90-3*16)/4.0)*(53/60.0)
+    
     private let codeMessage = LanguageManager.localValue(key: "Enter 4 Digit Password.")
     
     private let nameMessage = LanguageManager.localValue(key: "Please set a name.")
@@ -51,7 +53,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var pinCode: VRVerifyCodeView = {
-        VRVerifyCodeView(frame: CGRect(x: 0, y: self.publicChoice.frame.maxY + 15, width: ScreenWidth, height: 53), codeNumbers: 4, space: 16, padding: 45)
+        VRVerifyCodeView(frame: CGRect(x: 0, y: self.publicChoice.frame.maxY + 15, width: ScreenWidth, height: self.height), codeNumbers: 4, space: 16, padding: 45)
     }()
     
     lazy var warnMessage: UILabel = {

@@ -9,6 +9,21 @@ import UIKit
 import ZSwiftBaseLib
 import KakaJSON
 
+
+public class VoiceRoomError: Error,Convertible {
+    
+    var code: String?
+    var message: String?
+    
+    required public init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
 @objc public class VoiceRoomBusinessRequest: NSObject {
     
     @UserDefault("VoiceRoomBusinessUserToken", defaultValue: "") public var userToken
@@ -40,7 +55,11 @@ import KakaJSON
                 if error == nil,response?.statusCode ?? 0 == 200 {
                     callBack(model(from: data?.z.toDictionary() ?? [:], type: T.self) as? T,error)
                 } else {
-                    callBack(nil,error)
+                    if error == nil {
+                        callBack(nil,model(from: data?.z.toDictionary() ?? [:], type: VoiceRoomError.self) as? Error)
+                    } else {
+                        callBack(nil,error)
+                    }
                 }
             }
         }
@@ -64,7 +83,11 @@ import KakaJSON
             if error == nil,response?.statusCode ?? 0 == 200 {
                 callBack(data?.z.toDictionary(),nil)
             } else {
-                callBack(nil,error)
+                if error == nil {
+                    callBack(nil,model(from: data?.z.toDictionary() ?? [:], type: VoiceRoomError.self) as? Error)
+                } else {
+                    callBack(nil,error)
+                }
             }
         }
         return task

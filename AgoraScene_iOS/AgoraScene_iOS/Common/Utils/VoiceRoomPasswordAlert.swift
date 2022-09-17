@@ -19,7 +19,7 @@ public class VoiceRoomPasswordAlert: UIView {
     }()
     
     lazy var pinCode: VRVerifyCodeView = {
-        VRVerifyCodeView(frame: CGRect(x: 0, y: self.title.frame.maxY + 32, width: self.frame.width, height: 48), codeNumbers: 4, space: 16, padding: 31.5).backgroundColor(.white)
+        VRVerifyCodeView(frame: CGRect(x: 0, y: self.title.frame.maxY + 32, width: self.frame.width, height: (self.frame.width-63-3*16)/4.0), codeNumbers: 4, space: 16, padding: 31.5).backgroundColor(.white)
     }()
     
     lazy var cancel: UIButton = {

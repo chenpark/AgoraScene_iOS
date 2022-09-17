@@ -55,6 +55,7 @@ public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollection
         self.indicatorImage = indicatorImage
         self.addSubview(self.menuList)
         self.menuList.addSubview(self.indicator)
+        self.refreshSelected(indexPath: IndexPath(row: 0, section: 0))
     }
     
     required init?(coder: NSCoder) {
