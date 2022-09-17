@@ -383,15 +383,19 @@ extension VoiceRoomViewController {
     }
     
     private func sendGift(gift: VoiceRoomGiftEntity) {
-        if let roomId = self.roomInfo?.room?.room_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_value,let count = gift.gift_count {
-            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: roomId, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_value":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? ""], completion: { message, error in
+        if let chatroom_id = self.roomInfo?.room?.chatroom_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_value,let count = gift.gift_count {
+            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_value":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? ""], completion: { message, error in
                 if error == nil,message != nil {
                     gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
                     gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? ""
                     self.giftList.gifts.append(gift)
-                    VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
-                        if let result = dic?["result"] as? Bool,error == nil,result {
-                            debugPrint("result:\(result)")
+                    if let roomId = self.roomInfo?.room?.room_id {
+                        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
+                            if let result = dic?["result"] as? Bool,error == nil,result {
+                                debugPrint("result:\(result)")
+                            } else {
+                                self.view.makeToast("Send failed!")
+                            }
                         }
                     }
                 } else {
