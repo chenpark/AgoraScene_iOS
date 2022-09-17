@@ -99,6 +99,8 @@ extension VRRoomsViewController {
                 }
                 vc.dismiss(animated: true)
             }
+        } else {
+            self.loginIMThenPush(room: room)
         }
         
     }

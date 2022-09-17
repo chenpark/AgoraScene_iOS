@@ -374,18 +374,20 @@ extension VoiceRoomViewController {
     }
     
     private func showGiftAlert() {
-        let gift = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 300), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let gift = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
         gift.sendClosure = { [weak self] in
             self?.sendGift(gift: $0)
         }
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 300)), custom: gift)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: gift)
         self.presentViewController(vc)
     }
     
     private func sendGift(gift: VoiceRoomGiftEntity) {
         if let roomId = self.roomInfo?.room?.room_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_value,let count = gift.gift_count {
-            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: roomId, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_value":value,"gift_count":count], completion: { message, error in
+            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: roomId, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_value":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? ""], completion: { message, error in
                 if error == nil,message != nil {
+                    gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
+                    gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? ""
                     self.giftList.gifts.append(gift)
                     VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                         if let result = dic?["result"] as? Bool,error == nil,result {
