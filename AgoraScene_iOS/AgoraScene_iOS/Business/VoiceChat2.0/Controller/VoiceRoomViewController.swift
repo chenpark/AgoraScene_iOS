@@ -184,7 +184,7 @@ extension VoiceRoomViewController {
         
         self.rtcView = AgoraChatRoomNormalRtcView()
         self.rtcView.clickBlock = {[weak self] (type, tag) in
-            
+            self?.didRtcAction(with: type, tag: tag)
         }
         self.view.addSubview(self.rtcView)
         
@@ -235,6 +235,7 @@ extension VoiceRoomViewController {
     private func didHeaderAction(with action: HEADER_ACTION) {
         if action == .back {
             self.notifySeverLeave()
+            self.rtckit.leaveChannel()
             navigationController?.popViewController(animated: true)
         } else if action == .notice {
             showNoticeView(with: .owner)
@@ -243,6 +244,12 @@ extension VoiceRoomViewController {
             self.showUsers()
         } else if action == .soundClick {
             showSoundView()
+        }
+    }
+    
+    private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
+        if type == .AgoraChatRoomBaseUserCellTypeAdd {
+            showUpStage(with: tag)
         }
     }
     
@@ -288,6 +295,27 @@ extension VoiceRoomViewController {
     
     private func showSoundView() {
         
+    }
+    
+    private func showUpStage(with tag: Int) {
+        let stageView = VMUpstageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        stageView.resBlock = {[weak self] flag in
+            self?.dismiss(animated: true)
+            if flag {
+                guard let roomId = self?.roomInfo?.room?.room_id else {return}
+                let index = tag - 200
+                let params: Dictionary<String, Any> = ["mic_index": index]
+                VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
+                    if error != nil {
+
+                    } else {
+                        
+                    }
+                }
+            }
+        }
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
+        self.presentViewController(vc)
     }
     
     private func showEQView(with role: ROLE_TYPE) {

@@ -553,7 +553,6 @@ public let kMPK_RTC_UID: UInt = 1
         rtcKit.leaveChannel(nil)
         rtcKit.delegate = nil
         AgoraRtcEngineKit.destroy()
-
         ASRTCKit._sharedInstance = nil //释放单例
     }
 }
