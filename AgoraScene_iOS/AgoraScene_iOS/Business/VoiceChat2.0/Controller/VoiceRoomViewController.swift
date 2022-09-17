@@ -17,7 +17,7 @@ public enum ROLE_TYPE {
 
 fileprivate let giftMap = [["gift_id":"gift1","gift_name":"sweet_heart","gift_value":"1","gift_count":"1","selected":true],["gift_id":"gift2","gift_name":"flower","gift_value":"2","gift_count":"1","selected":false],["gift_id":"gift3","gift_name":"crystal_box","gift_value":"10","gift_count":"1","selected":false],["gift_id":"gift4","gift_name":"super_agora","gift_value":"20","gift_count":"1","selected":false],["gift_id":"gift5","gift_name":"star","gift_value":"50","gift_count":"1","selected":false],["gift_id":"gift6","gift_name":"lollipop","gift_value":"100","gift_count":"1","selected":false],["gift_id":"gift7","gift_name":"diamond","gift_value":"500","gift_count":"1","selected":false],["gift_id":"gift8","gift_name":"crown","gift_value":"1000","gift_count":"1","selected":false],["gift_id":"gift9","gift_name":"rocket","gift_value":"1500","gift_count":"1","selected":false]]
 
-class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
+class VoiceRoomViewController: VRBaseViewController {
     
     private var headerView: AgoraChatRoomHeaderView!
     private var rtcView: AgoraChatRoomNormalRtcView!
@@ -102,7 +102,6 @@ class VoiceRoomViewController: VRBaseViewController,VoiceRoomIMDelegate {
 }
 
 extension VoiceRoomViewController {
-    
     //加载RTC
     private func loadKit() {
         
@@ -242,7 +241,7 @@ extension VoiceRoomViewController {
             showNoticeView(with: .owner)
         } else if action == .rank {
             //展示土豪榜
-            
+            self.showUsers()
         } else if action == .soundClick {
             showSoundView()
         }
@@ -427,23 +426,6 @@ extension VoiceRoomViewController {
         }
     }
     
-    //MARK: - VoiceRoomIMDelegate
-    func chatTokenDidExpire(code: AgoraChatErrorCode) {
-        if code == .tokenExpire {
-            self.reLogin()
-        }
-    }
-    
-    func chatTokenWillExpire(code: AgoraChatErrorCode) {
-        if code == .tokeWillExpire {
-            self.reLogin()
-        }
-    }
-    
-    func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
-        self.showMessage(message: message)
-    }
-    
     private func showMessage(message: AgoraChatMessage) {
         if let body = message.body as? AgoraChatTextMessageBody,let userName = message.ext?["userName"] as? String {
             self.convertShowText(userName: userName, content: body.text,joined: false)
@@ -462,6 +444,39 @@ extension VoiceRoomViewController {
         self.chatView.chatView.reloadData()
         let row = (self.chatView.messages?.count ?? 0) - 1
         self.chatView.chatView.scrollToRow(at: IndexPath(row: row, section: 0), at: .bottom, animated: true)
+    }
+    
+    private func refuse() {
+        if let roomId = self.roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .refuseInvite(roomId: roomId), params: [:]) { _, _ in
+            }
+        }
+    }
+    
+    private func agreeInvite() {
+        if let roomId = self.roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
+            }
+        }
+    }
+}
+//MARK: - VoiceRoomIMDelegate
+extension VoiceRoomViewController: VoiceRoomIMDelegate {
+    
+    func chatTokenDidExpire(code: AgoraChatErrorCode) {
+        if code == .tokenExpire {
+            self.reLogin()
+        }
+    }
+    
+    func chatTokenWillExpire(code: AgoraChatErrorCode) {
+        if code == .tokeWillExpire {
+            self.reLogin()
+        }
+    }
+    
+    func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
+        self.showMessage(message: message)
     }
     
     func receiveGift(roomId: String, meta: [String : String]?) {
@@ -531,23 +546,10 @@ extension VoiceRoomViewController {
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
         
     }
-    
-    private func refuse() {
-        if let roomId = self.roomInfo?.room?.room_id {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .refuseInvite(roomId: roomId), params: [:]) { _, _ in
-            }
-        }
-    }
-    
-    private func agreeInvite() {
-        if let roomId = self.roomInfo?.room?.room_id {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
-            }
-        }
-    }
 }
-
+//MARK: - ASManagerDelegate
 extension VoiceRoomViewController: ASManagerDelegate {
+    
     func didRtcLocalUserJoinedOfUid(uid: UInt) {
         
     }
