@@ -10,10 +10,16 @@ import UIKit
 class VMSliderTableViewCell: UITableViewCell {
 
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
-    private var iconView: UIImageView = UIImageView()
-    private var titleLabel: UILabel = UILabel()
+    public var iconView: UIImageView = UIImageView()
+    public var titleLabel: UILabel = UILabel()
     private var slider: UISlider = UISlider()
     private var countLabel: UILabel = UILabel()
+    public var isNoiseSet: Bool = false {
+        didSet {
+            iconView.isHidden = isNoiseSet
+            titleLabel.frame = CGRect(x: isNoiseSet ? 20~ : 50~, y: 17~, width: 200~, height: 20~)
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -44,6 +50,7 @@ class VMSliderTableViewCell: UITableViewCell {
         
         countLabel.frame = CGRect(x: screenWidth - 40~, y: 22~, width: 20~, height: 20~)
         countLabel.text = "50"
+        countLabel.font = UIFont.systemFont(ofSize: 13)
         countLabel.textColor = .lightGray
         self.contentView.addSubview(countLabel)
     }

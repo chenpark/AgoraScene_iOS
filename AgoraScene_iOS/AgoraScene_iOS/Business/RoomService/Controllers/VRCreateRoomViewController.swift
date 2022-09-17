@@ -52,7 +52,7 @@ extension VRCreateRoomViewController {
         if self.container.roomInput.name.isEmpty {
             self.view.makeToast("param error!")
         }
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.container.roomInput.name,"is_privacy":!self.container.roomInput.code.isEmpty,"password":self.container.roomInput.code,"type":self.container.idx,"allow_free_join_mic":false,"sound_effect":"Social Chat"], classType: VRRoomInfo.self) { info, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.container.roomInput.name,"is_privacy":!self.container.roomInput.code.isEmpty,"password":self.container.roomInput.code,"type":self.container.idx,"allow_free_join_mic":true,"sound_effect":"Social Chat"], classType: VRRoomInfo.self) { info, error in
             if error == nil,info != nil {
                 self.entryRoom(room: info)
             } else {

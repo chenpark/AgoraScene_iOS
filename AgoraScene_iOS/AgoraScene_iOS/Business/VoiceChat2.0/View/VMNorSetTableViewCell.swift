@@ -10,8 +10,8 @@ import UIKit
 class VMNorSetTableViewCell: UITableViewCell {
 
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
-    private var iconView: UIImageView = UIImageView()
-    private var titleLabel: UILabel = UILabel()
+    public var iconView: UIImageView = UIImageView()
+    public var titleLabel: UILabel = UILabel()
     private var indView: UIImageView = UIImageView()
     private var contentLabel: UILabel = UILabel()
     
