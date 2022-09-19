@@ -18,7 +18,7 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
     
     public override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        self.separatorStyle(.none).tableFooterView(UIView()).backgroundColor(.clear).delegate(self).dataSource(self).registerCell(VRSoundEffectsCell.self, forCellReuseIdentifier: "VRSoundEffectsCell")
+        self.separatorStyle(.none).tableFooterView(UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 240))).backgroundColor(.clear).delegate(self).dataSource(self).registerCell(VRSoundEffectsCell.self, forCellReuseIdentifier: "VRSoundEffectsCell")
         for item in self.datas {
             VRSoundEffectsList.heightMap[item.title] = item.detail.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: ScreenWidth - 80, height: 999)).height
         }
