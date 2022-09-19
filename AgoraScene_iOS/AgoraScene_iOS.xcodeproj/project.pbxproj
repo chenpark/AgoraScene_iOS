@@ -16,6 +16,7 @@
 		05688C2C28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */; };
 		05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */; };
 		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
+		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
 		05D8C3D628D068D100820391 /* VoiceRoomGiftersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */; };
 		05D8C3D728D068D100820391 /* VoiceRoomApplyUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */; };
@@ -154,6 +155,9 @@
 		05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesEntity.swift; sourceTree = "<group>"; };
 		05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRAvatarChooseViewController.swift; sourceTree = "<group>"; };
 		05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRRoomAvatarCell.swift; sourceTree = "<group>"; };
+		05688C3928D86F1300B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		05688C3D28D86F2400B39C22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		05688C3F28D86F2800B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesViewController.swift; sourceTree = "<group>"; };
 		05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomGiftersViewController.swift; sourceTree = "<group>"; };
 		05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomApplyUsersViewController.swift; sourceTree = "<group>"; };
@@ -464,6 +468,7 @@
 				E39B688728C5948C0083D0F9 /* AppDelegate.swift */,
 				E39B689028C5948D0083D0F9 /* Assets.xcassets */,
 				E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */,
+				05688C3E28D86F2400B39C22 /* Localizable.strings */,
 			);
 			path = APP;
 			sourceTree = "<group>";
@@ -720,6 +725,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = E39B687B28C5948C0083D0F9;
 			productRefGroup = E39B688528C5948C0083D0F9 /* Products */;
@@ -737,6 +743,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */,
+				05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */,
 				05688C2828D857B000B39C22 /* rocket.svga in Resources */,
 				05D8C3E228D0697900820391 /* RobotoNembersVF.ttf in Resources */,
 				E39B68C328C5A4D30083D0F9 /* arrow.svga in Resources */,
@@ -915,10 +922,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		05688C3E28D86F2400B39C22 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05688C3D28D86F2400B39C22 /* en */,
+				05688C3F28D86F2800B39C22 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E39B689328C5948D0083D0F9 /* Base */,
+				05688C3928D86F1300B39C22 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -930,6 +947,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -990,6 +1008,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
