@@ -12,13 +12,11 @@
 		054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */; };
 		054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */; };
 		054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */; };
-
-		05688C2128D845EB00B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C2328D845EB00B39C22 /* Localizable.strings */; };
 		05688C2828D857B000B39C22 /* rocket.svga in Resources */ = {isa = PBXBuildFile; fileRef = 05688C2728D857B000B39C22 /* rocket.svga */; };
-		05B7129F28D7009800EB9101 /* VRRoomAvatarAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B7129E28D7009800EB9101 /* VRRoomAvatarAlert.swift */; };
-		05B712A128D702B300EB9101 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B712A028D702B300EB9101 /* VRRoomAvatarCell.swift */; };
-		05B712A328D70FD000EB9101 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B712A228D70FD000EB9101 /* VRAvatarChooseViewController.swift */; };
-    
+		05688C2C28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */; };
+		05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */; };
+		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
+		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
 		05D8C3D628D068D100820391 /* VoiceRoomGiftersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */; };
 		05D8C3D728D068D100820391 /* VoiceRoomApplyUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */; };
@@ -156,15 +154,13 @@
 		054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRAllRoomsViewController.swift; sourceTree = "<group>"; };
 		054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRNormalRoomsViewController.swift; sourceTree = "<group>"; };
 		054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRSpatialSoundViewController.swift; sourceTree = "<group>"; };
-
-		05688C1E28D845D100B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		05688C2228D845EB00B39C22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		05688C2428D845EE00B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		05688C2728D857B000B39C22 /* rocket.svga */ = {isa = PBXFileReference; lastKnownFileType = file; path = rocket.svga; sourceTree = "<group>"; };
-		05B7129E28D7009800EB9101 /* VRRoomAvatarAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRRoomAvatarAlert.swift; sourceTree = "<group>"; };
-		05B712A028D702B300EB9101 /* VRRoomAvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRRoomAvatarCell.swift; sourceTree = "<group>"; };
-		05B712A228D70FD000EB9101 /* VRAvatarChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRAvatarChooseViewController.swift; sourceTree = "<group>"; };
-
+		05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesEntity.swift; sourceTree = "<group>"; };
+		05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRAvatarChooseViewController.swift; sourceTree = "<group>"; };
+		05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRRoomAvatarCell.swift; sourceTree = "<group>"; };
+		05688C3928D86F1300B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		05688C3D28D86F2400B39C22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		05688C3F28D86F2800B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesViewController.swift; sourceTree = "<group>"; };
 		05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomGiftersViewController.swift; sourceTree = "<group>"; };
 		05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomApplyUsersViewController.swift; sourceTree = "<group>"; };
@@ -348,6 +344,7 @@
 		05D8C40928D06DD400820391 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */,
 				05D8C40A28D06DED00820391 /* HorizontalCardCell.swift */,
 				05D8C40D28D06DED00820391 /* VRCreateRoomCardCell.swift */,
 				05D8C40C28D06DED00820391 /* VRRoomListCell.swift */,
@@ -478,6 +475,7 @@
 				E39B688728C5948C0083D0F9 /* AppDelegate.swift */,
 				E39B689028C5948D0083D0F9 /* Assets.xcassets */,
 				E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */,
+				05688C3E28D86F2400B39C22 /* Localizable.strings */,
 			);
 			path = APP;
 			sourceTree = "<group>";
@@ -734,6 +732,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = E39B687B28C5948C0083D0F9;
 			productRefGroup = E39B688528C5948C0083D0F9 /* Products */;
@@ -751,6 +750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */,
+				05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */,
 				05688C2828D857B000B39C22 /* rocket.svga in Resources */,
 				05D8C3E228D0697900820391 /* RobotoNembersVF.ttf in Resources */,
 				E39B68C328C5A4D30083D0F9 /* arrow.svga in Resources */,
@@ -855,6 +855,7 @@
 				E36BE10C28C5ECD500270D52 /* CrossDissolveAnimation.swift in Sources */,
 				E36BE10B28C5ECD500270D52 /* CrossZoomAnimation.swift in Sources */,
 				05D8C3E628D0699100820391 /* VoiceRoomBusinessApi.swift in Sources */,
+				05688C2C28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift in Sources */,
 				E36BE11028C5ECD500270D52 /* PresentationSegue.swift in Sources */,
 				05D8C47528D0734700820391 /* VoiceRoomIMManager.swift in Sources */,
 				05D8C44A28D06E4E00820391 /* VoiceRoomEmojiListView.swift in Sources */,
@@ -863,6 +864,7 @@
 				05D8C40F28D06DED00820391 /* HorizontalCardCell.swift in Sources */,
 				E36BE10A28C5ECD500270D52 /* FlipHorizontalAnimation.swift in Sources */,
 				05D8C40528D06CE800820391 /* VoiceRoomAudienceCell.swift in Sources */,
+				05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */,
 				05D8C40428D06CE800820391 /* VoiceRoomGiftCell.swift in Sources */,
 				E36BE18828C8390000270D52 /* VMUserListView.swift in Sources */,
 				05D8C42728D06DFB00820391 /* VRSoundTypeCard.swift in Sources */,
@@ -879,6 +881,7 @@
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
 				E346371F28D84DA700026F85 /* VRAvatarChooseViewController.swift in Sources */,
 				05D8C42528D06DFB00820391 /* VRRoomCreateView.swift in Sources */,
+				05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */,
 				E346372128D84E2900026F85 /* VRRoomAvatarCell.swift in Sources */,
 				E39B68B828C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift in Sources */,
 				E36BE18628C7305400270D52 /* VMNoticeView.swift in Sources */,
@@ -929,10 +932,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		05688C3E28D86F2400B39C22 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05688C3D28D86F2400B39C22 /* en */,
+				05688C3F28D86F2800B39C22 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E39B689328C5948D0083D0F9 /* Base */,
+				05688C3928D86F1300B39C22 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -944,6 +957,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1004,6 +1018,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1063,7 +1078,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KR58Y29Q42;
+				DEVELOPMENT_TEAM = 3Y5B6D2XFS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

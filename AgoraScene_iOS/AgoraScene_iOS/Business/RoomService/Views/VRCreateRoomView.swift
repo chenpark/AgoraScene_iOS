@@ -10,7 +10,7 @@ import ZSwiftBaseLib
 
 public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDataSource {
     
-    private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial audio chat Mode Room"),"detail":"Spatial audio chat room mode\nCo-Watch / Team Chat / Gaming Buddy Cha","image":"sa_mode"]]
+    private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":LanguageManager.localValue(key: "Multi-audio chat scenario where anyone can unmute their mic and speak")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial audio chat room mode"),"detail":LanguageManager.localValue(key: "Spatial audio chat room mode")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"sa_mode"]]
 //    ["title":"Karaoke","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"karaoke"]
     
     var velocity = CGPoint.zero
