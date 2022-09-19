@@ -20,7 +20,7 @@ public class VRRoomCreateView: UIImageView {
         super.init(frame: frame)
         self.addSubview(self.createRoom)
         self.isUserInteractionEnabled = true
-        self.createRoom.set(image: UIImage("add"), title: "Create Room", titlePosition: .right, additionalSpacing: 7, state: .normal)
+        self.createRoom.set(image: UIImage("add"), title: LanguageManager.localValue(key: "Create Room"), titlePosition: .right, additionalSpacing: 7, state: .normal)
         self.createRoom.setGradient([UIColor(0x0B8AF2),UIColor(0x2753FF)], [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)])
     }
     

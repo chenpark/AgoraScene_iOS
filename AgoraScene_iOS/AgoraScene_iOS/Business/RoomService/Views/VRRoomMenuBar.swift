@@ -12,9 +12,9 @@ public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollection
     
     var selectClosure: ((IndexPath) -> ())?
     
-    static let menusMap = [["title":"All","detail":"(1)","selected":true],["title":"Chat Room","detail":"(1)","selected":false],["title":"Spatial Audio Mode Room","detail":"(1)","selected":false]]
+    static let menusMap = [["title":LanguageManager.localValue(key: "All"),"detail":"(1)","selected":true],["title":LanguageManager.localValue(key: "Chat Room"),"detail":"(1)","selected":false],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":"(1)","selected":false]]
     
-    static let menusMap1 = [["title":"Chat Room","detail":"","selected":false],["title":"Spatial Audio Mode Room","detail":"","selected":false]]
+    static let menusMap1 = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":"","selected":false],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":"","selected":false]]
 
     private var indicatorImage = UIImage()
     

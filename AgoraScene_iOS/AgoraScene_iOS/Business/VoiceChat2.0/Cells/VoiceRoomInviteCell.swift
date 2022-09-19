@@ -19,7 +19,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
     }
 
     lazy var avatar: UIImageView = {
-        UIImageView(frame: CGRect(x: 15, y: 12, width: 50, height: 50)).contentMode(.scaleAspectFit).cornerRadius(25).backgroundColor(.orange)
+        UIImageView(frame: CGRect(x: 15, y: 12, width: 50, height: 50)).contentMode(.scaleAspectFit).cornerRadius(25).backgroundColor(.cyan)
     }()
     
     lazy var userName: UILabel = {

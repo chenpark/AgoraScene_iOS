@@ -19,7 +19,7 @@
 "Random"="随机";
 "Room Encryption"="房间加密";
 "Public"="公开";
-"Next"="全部";
+"Next"="下一步";
 "Enter 4 Digit Password"="请输入4位数密码";
 "Enter Room Password"="房间密码";
 "Sound Selection"="最佳音效";
@@ -90,3 +90,8 @@
 "You were removed from stage"="您已被请下麦位";
 "Gift Sent Failed"="打赏失败";
 "You have been kicked out of the room"="您已被踢出房间";
+"Spatial audio chat Mode Room" = "空间音频模式";
+"Disclaimer for demo" = "免责声明";
+"Entry" = "进入";
+"Change Profile Picture" = "更换头像";
+"Set Room Name" = "设置房间名称";

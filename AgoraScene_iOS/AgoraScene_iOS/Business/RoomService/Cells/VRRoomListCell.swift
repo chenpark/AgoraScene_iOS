@@ -31,7 +31,7 @@ public final class VRRoomListCell: UITableViewCell {
     }()
     
     lazy var entryRoom: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.background.frame.width - 72, y: self.background.frame.height - 40, width: 56, height: 24)).font(UIFont.systemFont(ofSize: 12, weight: .semibold)).backgroundColor(.clear).title("Entry", .normal)
+        UIButton(type: .custom).frame(CGRect(x: self.background.frame.width - 72, y: self.background.frame.height - 40, width: 56, height: 24)).font(UIFont.systemFont(ofSize: 12, weight: .semibold)).backgroundColor(.clear).title(LanguageManager.localValue(key: "Entry"), .normal)
     }()
     
     lazy var entryBlur: UIView = {

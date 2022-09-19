@@ -96,7 +96,7 @@ extension VRCreateRoomInputView {
     private func setupAttributes() {
         self.warnMessage.alpha = 0
         self.pinCode.alpha = 0
-        self.randomName.set(image: UIImage("random"), title: "Random", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        self.randomName.set(image: UIImage("random"), title: LanguageManager.localValue(key: "Random"), titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.stateImage(button: self.publicChoice)
         self.stateImage(button: self.privateChoice)
         self.publicChoice.titleEdgeInsets = UIEdgeInsets(top: self.publicChoice.titleEdgeInsets.top, left: 10, bottom: self.publicChoice.titleEdgeInsets.bottom, right: self.publicChoice.titleEdgeInsets.right)

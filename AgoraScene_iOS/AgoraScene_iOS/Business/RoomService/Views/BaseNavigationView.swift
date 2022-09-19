@@ -15,7 +15,7 @@ public class BaseNavigationView: UIView {
     }()
     
     lazy var title: UILabel = {
-        UILabel(frame: CGRect(x: self.back.frame.maxX + 10, y: ZStatusBarHeight+10, width: ScreenWidth - 140, height: 20)).font(UIFont.systemFont(ofSize: 16, weight: .semibold)).backgroundColor(.clear).textAlignment(.center)
+        UILabel(frame: CGRect(x: self.back.frame.maxX + 10, y: ZStatusBarHeight+10, width: ScreenWidth - 120, height: 20)).font(UIFont.systemFont(ofSize: 16, weight: .semibold)).backgroundColor(.clear).textAlignment(.center)
     }()
 
     public override init(frame: CGRect) {
