@@ -20,7 +20,10 @@ class VMEQSettingView: UIView {
     private let pIdentifier = "sup"
     private let sIdentifier = "set"
     private let soIdentifier = "sound"
+    private let tIdentifier = "tv"
     var backBlock: (() -> Void)?
+    
+    private let settingName: [String] = ["Spatial Audio", "Attenuation factor", "Air absorb", "Voice blur"]
     
     var settingType: AUDIO_SETTING_TYPE = .Spatial {
         didSet {
@@ -31,6 +34,7 @@ class VMEQSettingView: UIView {
             }else if settingType == .effect {
                 titleLabel.text = "Effect Setting"
             }
+            tableView.reloadData()
         }
     }
     
@@ -71,6 +75,7 @@ class VMEQSettingView: UIView {
         tableView.registerCell(VMANISSUPTableViewCell.self, forCellReuseIdentifier: pIdentifier)
         tableView.registerCell(VMANISSetTableViewCell.self, forCellReuseIdentifier: sIdentifier)
         tableView.registerCell(VMSoundSelTableViewCell.self, forCellReuseIdentifier: soIdentifier)
+        tableView.registerCell(UITableViewCell.self, forCellReuseIdentifier: tIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         self.addSubview(tableView)
@@ -94,7 +99,7 @@ class VMEQSettingView: UIView {
 
 extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return settingType == .Spatial ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -119,8 +124,17 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if settingType == .effect {
             return section == 0 ? 1 : 2
-        } else {
+        } else if settingType == .Noise {
             return 4
+        } else {
+            switch section {
+            case 0:
+                return 3
+            case 1:
+                return 1
+            default:
+                return 14
+            }
         }
     }
     
@@ -134,12 +148,12 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Current Sound Selection"
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
             } else {
-                titleLabel.text = "Agora Blue Bot"
+                titleLabel.text = settingType == .Noise ? "Agora Blue Bot" : "AINS Setting"
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
             }
             headerView.addSubview(titleLabel)
             return headerView
-        } else {
+        } else if section == 1  {
             let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
             headerView.backgroundColor = settingType == .effect ? .white : UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
             let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
@@ -149,8 +163,17 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Other Sound Selection"
             } else {
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
-                titleLabel.text = "Agora Red Bot"
+                titleLabel.text = settingType == .Noise ? "Agora Red Bot" : "To know agora ains"
             }
+            headerView.addSubview(titleLabel)
+            return headerView
+        } else {
+            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
+            headerView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
+            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
+            titleLabel.font = UIFont.systemFont(ofSize: 13)
+            titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
+            titleLabel.text = "Agora AINS supports the following sounds, click to have bot play the sound:"
             headerView.addSubview(titleLabel)
             return headerView
         }
@@ -172,12 +195,28 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             return cell
-        } else {
+        } else if settingType == .Noise {
             if indexPath.row == 1 {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
+                cell.isNoiseSet = true
+                cell.titleLabel.text = settingName[indexPath.row]
                 return cell
             } else {
                 let cell: VMSwitchTableViewCell = tableView.dequeueReusableCell(withIdentifier: swIdentifier) as! VMSwitchTableViewCell
+                cell.isNoiseSet = true
+                cell.titleLabel.text = settingName[indexPath.row]
+                return cell
+            }
+        } else {
+            if indexPath.section == 0 {
+                let cell: VMANISSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: sIdentifier)! as! VMANISSetTableViewCell
+                return cell
+            } else if indexPath.section == 1 {
+                let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: tIdentifier)!
+                cell.textLabel?.text = "AINS：AI Noise Suppression"
+                return cell
+            } else {
+                let cell: VMANISSUPTableViewCell = tableView.dequeueReusableCell(withIdentifier: pIdentifier)! as! VMANISSUPTableViewCell
                 return cell
             }
         }
