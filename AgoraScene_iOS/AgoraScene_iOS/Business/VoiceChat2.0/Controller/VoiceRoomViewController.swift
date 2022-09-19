@@ -222,10 +222,10 @@ extension VoiceRoomViewController {
     }
     
     private func uploadStatus( status: Bool) {
-        let roomid: String = roomInfo?.room?.room_id ?? ""
+        guard let roomId = self.roomInfo?.room?.room_id  else { return }
         let pwd: String = roomInfo?.room?.roomPassword ?? ""
         let params: Dictionary<String, Any> = ["password": pwd]
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomid), params: params) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: params) { dic, error in
             if error != nil {
                 
             } else {
@@ -382,7 +382,18 @@ extension VoiceRoomViewController {
                 self.chatBar.micState = !self.chatBar.micState
                 self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
             case .handsUp:
-                self.showUsers()
+                if self.isOwner {
+                    if self.chatBar.handsState == .selected {
+                        self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: true)
+                    }
+                    self.applyMembersAlert()
+                } else {
+                    if self.chatBar.handsState == .unSelected {
+                        self.userApplyAlert()
+                    } else if self.chatBar.handsState == .disable {
+                        self.userCancelApplyAlert()
+                    }
+                }
             case .gift:
                 self.showGiftAlert()
             case .eq:
@@ -394,8 +405,69 @@ extension VoiceRoomViewController {
     
     private func showUsers() {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: roomId)],titles: ["Contribution List"]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Contribution List")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: tmp)
+        self.presentViewController(vc)
+    }
+    
+    private func userApplyAlert() {
+        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
+        apply.actionEvents = { [weak self] in
+            if $0 == 31 {
+                self?.requestSpeak(index: nil)
+            }
+            vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
+    }
+    
+    private func requestSpeak(index: Int?) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: index != nil ? ["mic_index":index ?? 2]:[:]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("Apply success!")
+                } else {
+                    self.view.makeToast("Apply failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    private func cancelRequestSpeak(index: Int?) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelApply(roomId: roomId), params: [:]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("Apply success!")
+                } else {
+                    self.view.makeToast("Apply failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    private func userCancelApplyAlert() {
+        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "",cancel: "Cancel Request",confirm: "").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
+        apply.actionEvents = { [weak self] in
+            if $0 == 30 {
+                self?.cancelRequestSpeak(index: nil)
+            }
+            vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
+    }
+    
+    private func applyMembersAlert() {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        let userView = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: roomId),VoiceRoomInviteUsersController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: userView)
         self.presentViewController(vc)
     }
     
