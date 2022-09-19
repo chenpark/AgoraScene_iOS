@@ -10,9 +10,17 @@ import UIKit
 class VMSwitchTableViewCell: UITableViewCell {
     
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
-    private var iconView: UIImageView = UIImageView()
-    private var titleLabel: UILabel = UILabel()
+    public var iconView: UIImageView = UIImageView()
+    public var titleLabel: UILabel = UILabel()
     private var swith: UISwitch = UISwitch()
+    
+    public var isNoiseSet: Bool = false {
+        didSet {
+            iconView.isHidden = isNoiseSet
+            titleLabel.frame = CGRect(x: isNoiseSet ? 20~ : 50~, y: 17~, width: 200~, height: 20~)
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
