@@ -9,6 +9,21 @@ import UIKit
 import ZSwiftBaseLib
 import KakaJSON
 
+
+public class VoiceRoomError: Error,Convertible {
+    
+    var code: String?
+    var message: String?
+    
+    required public init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
 @objc public class VoiceRoomBusinessRequest: NSObject {
     
     @UserDefault("VoiceRoomBusinessUserToken", defaultValue: "") public var userToken
@@ -40,7 +55,11 @@ import KakaJSON
                 if error == nil,response?.statusCode ?? 0 == 200 {
                     callBack(model(from: data?.z.toDictionary() ?? [:], type: T.self) as? T,error)
                 } else {
-                    callBack(nil,error)
+                    if error == nil {
+                        callBack(nil,model(from: data?.z.toDictionary() ?? [:], type: VoiceRoomError.self) as? Error)
+                    } else {
+                        callBack(nil,error)
+                    }
                 }
             }
         }
@@ -59,12 +78,16 @@ import KakaJSON
         uri: String,
         params: Dictionary<String, Any>,
         callBack:@escaping ((Dictionary<String,Any>?,Error?) -> Void)) -> URLSessionTask? {
-        let headers = ["Authorization:"+self.userToken:"Content-Type:application/json"]
+            let headers = ["Authorization":self.userToken,"Content-Type":"application/json"]
         let task = VoiceRoomRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
             if error == nil,response?.statusCode ?? 0 == 200 {
                 callBack(data?.z.toDictionary(),nil)
             } else {
-                callBack(nil,error)
+                if error == nil {
+                    callBack(nil,model(from: data?.z.toDictionary() ?? [:], type: VoiceRoomError.self) as? Error)
+                } else {
+                    callBack(nil,error)
+                }
             }
         }
         return task
@@ -332,60 +355,60 @@ public extension VoiceRoomBusinessRequest {
             uri += "/\(roomId)"
         case let .fetchRoomMembers(roomId, cursor, pageSize):
             if cursor.isEmpty {
-                uri += roomId + "/members/list?limit=\(pageSize)"
+                uri += "/\(roomId)" + "/members/list?limit=\(pageSize)"
             } else {
-                uri += roomId + "/members/list?limit=\(pageSize)&cursor=\(cursor)"
+                uri += "/\(roomId)" + "/members/list?limit=\(pageSize)&cursor=\(cursor)"
             }
         case let .joinRoom(roomId):
-            uri += roomId + "/members/join"
+            uri += "/\(roomId)" + "/members/join"
         case let .leaveRoom(roomId):
-            uri += roomId + "/members/leave"
+            uri += "/\(roomId)" + "/members/leave"
         case let .kickUser(roomId):
-            uri += roomId + "/members/kick"
+            uri += "/\(roomId)" + "/members/kick"
         case let .fetchGiftContribute(roomId):
             uri += "/\(roomId)/gift/list"
         case let .giftTo(roomId):
-            uri += roomId + "/gift/add"
+            uri += "/\(roomId)/gift/add"
         case let .fetchApplyMembers(roomId, cursor, pageSize):
             if cursor.isEmpty {
-                uri += roomId + "/mic/apply?limit=\(pageSize)"
+                uri += "/\(roomId)" + "/mic/apply?limit=\(pageSize)"
             } else {
-                uri += roomId + "/mic/apply?limit=\(pageSize)&cursor=\(cursor)"
+                uri += "/\(roomId)" + "/mic/apply?limit=\(pageSize)&cursor=\(cursor)"
             }
         case let .submitApply(roomId):
-            uri += roomId + "/mic/apply"
+            uri += "/\(roomId)" + "/mic/apply"
         case let .cancelApply(roomId):
-            uri += roomId + "/mic/apply"
+            uri += "/\(roomId)" + "/mic/apply"
         case let .agreeApply(roomId):
-            uri += roomId + "/mic/apply/agree"
+            uri += "/\(roomId)" + "/mic/apply/agree"
         case let .refuseApply(roomId):
-            uri += roomId + "/mic/apply/refuse"
+            uri += "/\(roomId)" + "/mic/apply/refuse"
         case let .fetchMicsInfo(roomId):
             uri += roomId + "/mic"
         case let .closeMic(roomId):
-            uri += roomId + "/mic/close"
+            uri += "/\(roomId)" + "/mic/close"
         case let .cancelCloseMic(roomId):
-            uri += roomId + "/mic/close"
+            uri += "/\(roomId)" + "/mic/close"
         case let .leaveMic(roomId):
-            uri += roomId + "/mic/leave"
+            uri += "/\(roomId)" + "/mic/leave"
         case let .muteMic(roomId):
-            uri += roomId + "/mic/mute"
+            uri += "/\(roomId)" + "/mic/mute"
         case let .unmuteMic(roomId):
-            uri += roomId + "/mic/mute"
+            uri += "/\(roomId)" + "/mic/mute"
         case let .exchangeMic(roomId):
-            uri += roomId + "/mic/exchange"
+            uri += "/\(roomId)" + "/mic/exchange"
         case let .kickMic(roomId):
-            uri += roomId + "/mic/kick"
+            uri += "/\(roomId)" + "/mic/kick"
         case let .lockMic(roomId):
-            uri += roomId + "/mic/lock"
+            uri += "/\(roomId)" + "/mic/lock"
         case let .unlockMic(roomId):
-            uri += roomId + "/mic/lock"
+            uri += "/\(roomId)" + "/mic/lock"
         case let .inviteUserToMic(roomId):
-            uri += roomId + "/mic/invite"
+            uri += "/\(roomId)" + "/mic/invite"
         case let .agreeInvite(roomId):
-            uri += roomId + "/mic/invite/agree"
+            uri += "/\(roomId)" + "/mic/invite/agree"
         case let .refuseInvite(roomId):
-            uri += roomId + "/mic/invite/refuse"
+            uri += "/\(roomId)" + "/mic/invite/refuse"
         }
         return uri
     }

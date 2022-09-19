@@ -10,12 +10,14 @@ import ZSwiftBaseLib
 
 public final class VRUserInfoView: UIView,UITextFieldDelegate {
     
+    var editFinished: ((String)->())?
+    
     lazy var avatar: UIImageView = {
-        UIImageView(frame: CGRect(x: 20, y: self.frame.height/2.0-30, width: 60, height: 60)).image(UIImage("avatar")!).contentMode(.scaleAspectFit)
+        UIImageView(frame: CGRect(x: 20, y: self.frame.height/2.0-30, width: 60, height: 60)).image(UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")!).contentMode(.scaleAspectFit)
     }()
     
     lazy var userName: UITextField = {
-        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(.darkText).text("UserName").clearButtonMode(.whileEditing).backgroundColor(.clear).isEnabled(false).delegate(self)
+        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(.darkText).text(VoiceRoomUserInfo.shared.user?.name ?? "").clearButtonMode(.whileEditing).backgroundColor(.clear).isEnabled(false).delegate(self)
     }()
     
     lazy var editName: UIButton = {
@@ -25,7 +27,7 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
     }()
     
     lazy var userId: UILabel = {
-        UILabel(frame: CGRect(x: self.userName.frame.minX, y: self.userName.frame.maxY + 10, width: self.frame.width - self.userName.frame.minX - 15, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.darkGray).text("ID:89757")
+        UILabel(frame: CGRect(x: self.userName.frame.minX, y: self.userName.frame.maxY + 10, width: self.frame.width - self.userName.frame.minX - 15, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.darkGray).text("ID:\(VoiceRoomUserInfo.shared.user?.uid ?? "")")
     }()
 
     public override init(frame: CGRect) {
@@ -66,6 +68,9 @@ extension VRUserInfoView {
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
         self.userName.text = textField.text
+        if self.editFinished != nil,let userName = textField.text {
+            self.editFinished!(userName)
+        }
     }
     
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

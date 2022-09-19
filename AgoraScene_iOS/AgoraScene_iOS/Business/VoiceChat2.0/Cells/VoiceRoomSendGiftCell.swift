@@ -51,7 +51,7 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     }
     
     private func refresh(item: VoiceRoomGiftEntity) {
-        self.icon.image = item.avatar
+        self.icon.image = UIImage(named: item.gift_id ?? "")
         self.name.text = item.gift_name
         self.displayValue.set(image: UIImage("dollagora"), title: item.gift_value ?? "100", titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.cover.isHidden = !item.selected

@@ -28,7 +28,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
     }()
     
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: self.header.frame.maxY, width: ScreenWidth-30, height: (110/84.0)*(ScreenWidth-30)/4.0), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomSendGiftCell.self, forCellReuseIdentifier: "VoiceRoomSendGiftCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false)
+        UICollectionView(frame: CGRect(x: 15, y: self.header.frame.maxY, width: ScreenWidth-30, height: (110/84.0)*((ScreenWidth-30)/4.0)), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomSendGiftCell.self, forCellReuseIdentifier: "VoiceRoomSendGiftCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false)
     }()
     
     lazy var pageControl: UIPageControl = {

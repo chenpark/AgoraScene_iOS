@@ -89,7 +89,7 @@ extension VRRoomsViewController {
     
     private func entryRoom(room: VRRoomEntity) {
         if room.is_private ?? false {
-            let alert = VoiceRoomPasswordAlert(frame: CGRect(x: 37.5, y: 168, width: ScreenWidth-75, height: (ScreenWidth-75)*(240/300.0))).cornerRadius(16).backgroundColor(.white)
+            let alert = VoiceRoomPasswordAlert(frame: CGRect(x: 37.5, y: 168, width: ScreenWidth-75, height: (ScreenWidth-63-3*16)/4.0+177)).cornerRadius(16).backgroundColor(.white)
             let vc = VoiceRoomAlertViewController(compent: self.component(), custom: alert)
             self.presentViewController(vc)
             alert.actionEvents = {
@@ -99,13 +99,15 @@ extension VRRoomsViewController {
                 }
                 vc.dismiss(animated: true)
             }
+        } else {
+            self.loginIMThenPush(room: room)
         }
         
     }
     
     private func component() -> PresentedViewComponent {
         var component = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: ScreenHeight))
-        component.destination = .topBaseline
+        component.destination = .center
         component.canPanDismiss = false
         return component
     }

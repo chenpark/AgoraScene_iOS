@@ -13,8 +13,9 @@ import UIKit
     var gift_name: String? = ""
     var userName: String? = ""
     var gift_value: String? = ""
+    var portrait: String? = ""
     var avatar: UIImage? {
-        UIImage(self.gift_id ?? "")
+        UIImage(named: self.portrait ?? "")
     }
     var gift_count: String? = "0"
     var selected = false
