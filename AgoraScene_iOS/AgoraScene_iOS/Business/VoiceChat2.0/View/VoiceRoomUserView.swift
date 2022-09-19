@@ -38,6 +38,9 @@ public class VoiceRoomUserView: UIView {
         self.container.scrollClosure = { [weak self] in
             self?.switchBar.moveTo(direction: $0 > 0 ? .right:.left)
         }
+        self.switchBar.selectAction = { [weak self] in
+            self?.container.index = $0-11
+        }
     }
     
     required init?(coder: NSCoder) {

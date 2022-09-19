@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import ProgressHUD
 
 public final class VRCreateRoomViewController: VRBaseViewController {
     
@@ -28,7 +29,7 @@ public final class VRCreateRoomViewController: VRBaseViewController {
             guard let `self` = self else { return }
             print("idx:\(self.container.idx)")
             if self.container.idx <= 0 {
-                self.settingSound()
+                self.entryRoom()
             } else {
                 self.goLive()
             }
@@ -54,20 +55,22 @@ extension VRCreateRoomViewController {
         }
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.container.roomInput.name,"is_private":!self.container.roomInput.code.isEmpty,"password":self.container.roomInput.code,"type":self.container.idx,"allow_free_join_mic":false,"sound_effect":"Social Chat"], classType: VRRoomInfo.self) { info, error in
             if error == nil,info != nil {
-                self.entryRoom(room: info)
+                let vc = VoiceRoomViewController()
+                vc.roomInfo = info
+                self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
     }
     
-    private func entryRoom(room: VRRoomInfo?) {
+    private func entryRoom() {
         print(VoiceRoomUserInfo.shared.user?.chat_uid ?? "")
+        ProgressHUD.show("Login IM",interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
+            ProgressHUD.dismiss()
             if error == nil {
-                let vc = VoiceRoomViewController()
-                vc.roomInfo = room
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.goLive()
             } else {
                 self.view.makeToast("\(error?.errorDescription ?? "")")
             }

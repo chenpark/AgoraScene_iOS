@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import ProgressHUD
 
 public class VRAllRoomsViewController: UIViewController {
     
@@ -24,18 +25,23 @@ public class VRAllRoomsViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
         self.view.addSubViews([self.empty,self.roomList])
         // Do any additional setup after loading the view.
         self.roomListEvent()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
+    }
 }
 
 extension VRAllRoomsViewController {
     
     private func fetchRooms(cursor: String) {
+        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size,type: nil), params: [:], classType: VRRoomsEntity.self) { rooms, error in
+            ProgressHUD.dismiss()
             if error == nil {
                 guard let total = rooms?.total else { return }
                 if total > 0 {

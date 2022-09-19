@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import ZSwiftBaseLib
 
 public class VoiceRoomApplyCell: UITableViewCell {
+    
+    var agreeClosure: ((VRUser?) -> ())?
+    
+    var user: VRUser? {
+        didSet {
+            DispatchQueue.main.async { self.refresh(item: self.user) }
+        }
+    }
 
     lazy var avatar: UIImageView = {
         UIImageView(frame: CGRect(x: 15, y: 12, width: 50, height: 50)).contentMode(.scaleAspectFit).cornerRadius(25).backgroundColor(.orange)
@@ -18,12 +27,15 @@ public class VoiceRoomApplyCell: UITableViewCell {
     }()
     
     lazy var operation: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.contentView.frame.width-91, y: self.avatar.center.y-15, width: 76, height: 30)).title("test", .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.white, .normal).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).cornerRadius(15)
+        UIButton(type: .custom).frame(CGRect(x: self.contentView.frame.width-91, y: self.avatar.center.y-15, width: 76, height: 30)).title("Accept", .normal).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.white, .normal).addTargetFor(self, action: #selector(apply), for: .touchUpInside)
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubViews([self.avatar,self.userName,self.operation])
+        self.operation.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
+        self.operation.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.operation.layer.shadowRadius = 8
     }
     
     required init?(coder: NSCoder) {
@@ -36,5 +48,21 @@ public class VoiceRoomApplyCell: UITableViewCell {
         self.operation.frame = CGRect(x: self.contentView.frame.width-91, y: self.avatar.center.y-15, width: 76, height: 30)
     }
 
-
+    func refresh(item: VRUser?) {
+        self.userName.text = item?.name
+        self.avatar.image = UIImage(named: item?.portrait ?? "")
+        self.operation.setTitle(item?.invited == true ? "Accepted":"Accept", for: .normal)
+        self.operation.setBackgroundImage(UIImage(named: item?.invited == true ? "":"blue_btn_bg"), for: .normal)
+        var color = UIColor.white
+        if item?.invited == true {
+            color = UIColor(0x979CBB)
+        }
+        self.operation.setTitleColor(color, for: .normal)
+    }
+    
+    @objc func apply() {
+        if self.agreeClosure != nil {
+            self.agreeClosure!(self.user)
+        }
+    }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import ProgressHUD
 
 let bottomSafeHeight = safeAreaExist ? 33:0
 let page_size = 15
@@ -113,13 +114,17 @@ extension VRRoomsViewController {
     }
     
     private func loginIMThenPush(room: VRRoomEntity) {
+        ProgressHUD.show("Login IM",interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
+            ProgressHUD.dismiss()
             if error == nil {
                 let vc = VoiceRoomViewController()
                 let info = VRRoomInfo()
                 info.room = room
                 vc.roomInfo = info
                 self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                self.view.makeToast("Login IM failed,please retry or install again!")
             }
         })
     }
