@@ -95,6 +95,7 @@ class VoiceRoomViewController: VRBaseViewController {
     }
     
     deinit {
+        leaveRoom()
         VoiceRoomIMManager.shared?.delegate = nil
         VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
     }
@@ -221,9 +222,10 @@ extension VoiceRoomViewController {
     }
     
     private func uploadStatus( status: Bool) {
+        let roomid: String = roomInfo?.room?.room_id ?? ""
         let pwd: String = roomInfo?.room?.roomPassword ?? ""
         let params: Dictionary<String, Any> = ["password": pwd]
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: pwd), params: params) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomid), params: params) { dic, error in
             if error != nil {
                 
             } else {
@@ -236,6 +238,7 @@ extension VoiceRoomViewController {
         if action == .back {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
+            giveupStage()
             navigationController?.popViewController(animated: true)
         } else if action == .notice {
             showNoticeView(with: .owner)
@@ -306,16 +309,39 @@ extension VoiceRoomViewController {
                 let index = tag - 200
                 let params: Dictionary<String, Any> = ["mic_index": index]
                 VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
-                    if error != nil {
-
+                    if map != nil {
+                        //如果返回的结果为true 表示上麦成功
+                        if let result = map?["result"] as? Bool,error == nil,result {
+                            debugPrint("--- showUpStage :result:\(result)")
+                            self?.requestRoomDetail()
+                        } else {
+                            self?.view.makeToast("Apply failed!")
+                        }
                     } else {
-                        
+                       
                     }
                 }
             }
         }
         let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
         self.presentViewController(vc)
+    }
+    
+    private func giveupStage() {
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) {[weak self] map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    debugPrint("--- giveupStage :result:\(result)")
+                    self?.requestRoomDetail()
+                } else {
+                    self?.view.makeToast("leaveRoom failed!")
+                }
+            } else {
+               
+            }
+        }
     }
     
     private func showEQView(with role: ROLE_TYPE) {
@@ -429,6 +455,13 @@ extension VoiceRoomViewController {
             } else {
                 self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
+        }
+    }
+    
+    private func leaveRoom() {
+        guard let room_id = roomInfo?.room?.room_id else {return}
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
+            print(map?["result"] as? Bool ?? false)
         }
     }
     
