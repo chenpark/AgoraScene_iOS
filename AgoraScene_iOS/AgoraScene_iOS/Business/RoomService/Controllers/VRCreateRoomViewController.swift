@@ -24,12 +24,12 @@ public final class VRCreateRoomViewController: VRBaseViewController {
         // Do any additional setup after loading the view.
         self.view.addSubViews([self.background,self.container])
         self.view.bringSubviewToFront(self.navigation)
-        self.navigation.title.text = "Create a room"
+        self.navigation.title.text = LanguageManager.localValue(key: "Create Room")
         self.container.createAction = { [weak self] in
             guard let `self` = self else { return }
             print("idx:\(self.container.idx)")
             if self.container.idx <= 0 {
-                self.entryRoom()
+                self.settingSound()
             } else {
                 self.goLive()
             }

@@ -66,7 +66,6 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .clear
         self.isUserInteractionEnabled = true
         self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.create])
         self.setupAttributes()
@@ -96,7 +95,7 @@ extension VRCreateRoomInputView {
     private func setupAttributes() {
         self.warnMessage.alpha = 0
         self.pinCode.alpha = 0
-        self.randomName.set(image: UIImage("random"), title: "Random", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        self.randomName.set(image: UIImage("random"), title: LanguageManager.localValue(key: "Random"), titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.stateImage(button: self.publicChoice)
         self.stateImage(button: self.privateChoice)
         self.publicChoice.titleEdgeInsets = UIEdgeInsets(top: self.publicChoice.titleEdgeInsets.top, left: 10, bottom: self.publicChoice.titleEdgeInsets.bottom, right: self.publicChoice.titleEdgeInsets.right)

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import ZSwiftBaseLib
 import AgoraChat
+import SVGAPlayer
 
 public enum ROLE_TYPE {
     case owner
@@ -17,7 +18,7 @@ public enum ROLE_TYPE {
 
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":"sweet_heart","gift_value":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":"flower","gift_value":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":"crystal_box","gift_value":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":"super_agora","gift_value":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":"star","gift_value":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":"lollipop","gift_value":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":"diamond","gift_value":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":"crown","gift_value":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":"rocket","gift_value":"1500","gift_count":"1","selected":false]]
 
-class VoiceRoomViewController: VRBaseViewController {
+class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     
     private var headerView: AgoraChatRoomHeaderView!
     private var rtcView: AgoraChatRoomNormalRtcView!
@@ -487,6 +488,9 @@ extension VoiceRoomViewController {
                     gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
                     gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? ""
                     self.giftList.gifts.append(gift)
+                    if id == "VoiceRoomGift9" {
+                        self.rocketAnimation()
+                    }
                     if let roomId = self.roomInfo?.room?.room_id {
                         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                             if let result = dic?["result"] as? Bool,error == nil,result {
@@ -500,6 +504,32 @@ extension VoiceRoomViewController {
                     self.view.makeToast("Send failed \(error?.errorDescription ?? "")")
                 }
             })
+        }
+    }
+    
+    func rocketAnimation() {
+        let player = SVGAPlayer(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
+        player.loops = 1
+        player.clearsAfterStop = true
+        player.contentMode = .scaleAspectFill
+        player.delegate = self
+        player.tag(199)
+        self.view.addSubview(player)
+        let parser = SVGAParser()
+        parser.parse(withNamed: "rocket", in: .main) { entitiy in
+            player.videoItem = entitiy
+            player.startAnimation()
+        } failureBlock: { error in
+            player.removeFromSuperview()
+        }
+    }
+    
+    func svgaPlayerDidFinishedAnimation(_ player: SVGAPlayer!) {
+        let animation = self.view.viewWithTag(199)
+        UIView.animate(withDuration: 0.3) {
+            animation?.alpha = 0
+        } completion: { finished in
+            if finished { animation?.removeFromSuperview() }
         }
     }
     
@@ -598,6 +628,9 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             self.giftList.gifts.append(entity)
         } catch {
             assert(false, "\(error.localizedDescription)")
+        }
+        if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
+            self.rocketAnimation()
         }
     }
     /// 只有owner会收到此回调
