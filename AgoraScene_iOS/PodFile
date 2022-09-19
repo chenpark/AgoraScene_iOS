@@ -11,4 +11,5 @@ target 'AgoraScene_iOS' do
   pod 'KakaJSON'
   pod 'Agora_Chat_iOS'
   pod 'AgoraAudio_Special_iOS', '4.0.1.test1'
+  pod 'ProgressHUD'
 end

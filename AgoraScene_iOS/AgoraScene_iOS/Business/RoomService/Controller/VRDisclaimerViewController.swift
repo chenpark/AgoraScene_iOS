@@ -25,7 +25,7 @@ public class VRDisclaimerViewController: VRBaseViewController {
     }()
     
     lazy var textView: UITextView = {
-        UITextView(frame: CGRect(x: 24, y: ZNavgationHeight+20, width: ScreenWidth-48, height: ScreenHeight - ZNavgationHeight - 20 - CGFloat(ZBottombarHeight))).attributedText(self.attributeText).isEditable(false)
+        UITextView(frame: CGRect(x: 24, y: ZNavgationHeight+20, width: ScreenWidth-48, height: ScreenHeight - ZNavgationHeight - 20 - CGFloat(ZBottombarHeight))).attributedText(self.attributeText).isEditable(false).backgroundColor(.clear)
     }()
     
 

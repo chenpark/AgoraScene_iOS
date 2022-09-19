@@ -37,6 +37,11 @@ public class VoiceRoomApplyAlert: UIView {
         self.init(frame: frame)
         self.addSubViews([self.header,self.content,self.cancel,self.confirm])
         self.content.text(LanguageManager.localValue(key: content))
+        if content.isEmpty,text.isEmpty {
+            self.content.isHidden = true
+            self.cancel.frame = CGRect(x: 28, y: self.header.frame.maxY + 9, width: ScreenWidth-56, height: 40)
+            self.confirm.isHidden = true
+        }
         self.cancel.setTitle(LanguageManager.localValue(key: tips), for: .normal)
         self.confirm.setTitle(LanguageManager.localValue(key: text), for: .normal)
     }

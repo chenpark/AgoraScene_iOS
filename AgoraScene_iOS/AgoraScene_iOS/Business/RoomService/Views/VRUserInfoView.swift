@@ -12,8 +12,10 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
     
     var editFinished: ((String)->())?
     
+    var changeClosure: (()->())?
+    
     lazy var avatar: UIImageView = {
-        UIImageView(frame: CGRect(x: 20, y: self.frame.height/2.0-30, width: 60, height: 60)).image(UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")!).contentMode(.scaleAspectFit)
+        UIImageView(frame: CGRect(x: 20, y: self.frame.height/2.0-30, width: 60, height: 60)).image(UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")!).contentMode(.scaleAspectFit).isUserInteractionEnabled(true)
     }()
     
     lazy var userName: UITextField = {
@@ -43,11 +45,16 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
         self.layer.addSublayer(gradient)
         self.addSubViews([self.avatar,self.userName,self.editName,self.userId])
         self.userName.returnKeyType = .done
+        self.avatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(changeAvatar)))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+}
+
+extension VRUserInfoView {
     
     @objc func editAction() {
         self.userName.isEnabled = !self.userName.isEnabled;
@@ -57,9 +64,12 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
             self.userName.resignFirstResponder()
         }
     }
-}
-
-extension VRUserInfoView {
+    
+    @objc func changeAvatar() {
+        if self.changeClosure != nil {
+            self.changeClosure!()
+        }
+    }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.userName.text = textField.text
