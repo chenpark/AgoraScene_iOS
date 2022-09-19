@@ -38,7 +38,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
     }()
     
     lazy var roomInput: VRCreateRoomInputView = {
-        VRCreateRoomInputView(frame: CGRect(x: 0, y: self.audioEffectCards.frame.maxY + 15, width: ScreenWidth, height: self.frame.height - CGFloat(ZBottombarHeight) - self.audioEffectCards.frame.maxY - 30))
+        VRCreateRoomInputView(frame: CGRect(x: 0, y: self.audioEffectCards.frame.maxY + 15, width: ScreenWidth, height: self.frame.height - self.audioEffectCards.frame.maxY - 30))
     }()
     
     public override init(frame: CGRect) {

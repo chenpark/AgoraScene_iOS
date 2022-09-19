@@ -21,6 +21,7 @@ public class BaseNavigationView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.back,self.title])
+        self.title.center = CGPoint(x: self.center.x, y: self.title.center.y)
     }
     
     required init?(coder: NSCoder) {

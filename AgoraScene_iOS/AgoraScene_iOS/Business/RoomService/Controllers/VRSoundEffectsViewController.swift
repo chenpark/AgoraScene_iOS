@@ -25,22 +25,22 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         VRSoundEffectsList(frame: CGRect(x: 0, y: ZNavgationHeight, width: ScreenWidth, height: ScreenHeight - CGFloat(ZBottombarHeight) - CGFloat(ZTabbarHeight)), style: .plain)
     }()
     
-    let done = UIImageView {
-        UIImageView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight) - CGFloat(ZTabbarHeight) - 50, width: ScreenWidth, height: 72)).image(UIImage("blur")!)
-    }
+    lazy var done: UIImageView = {
+        UIImageView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight)  - 70, width: ScreenWidth, height: 92)).image(UIImage("blur")!)
+    }()
     
     lazy var toLive: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: self.done.frame.minY - 10, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(goLive), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 30, y: 15, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(goLive), for: .touchUpInside)
     }()
     
 
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.view.addSubViews([self.background,self.effects,self.done,self.toLive])
-//        self.done.addSubview(self.toLive)
+        self.view.addSubViews([self.background,self.effects,self.done])
+        self.done.addSubview(self.toLive)
         self.view.bringSubviewToFront(self.navigation)
-        self.navigation.title.text = "Sound Selection"
+        self.navigation.title.text = LanguageManager.localValue(key: "Sound Selection")
     }
     
     @objc func goLive() {

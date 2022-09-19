@@ -66,7 +66,6 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .clear
         self.isUserInteractionEnabled = true
         self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.create])
         self.setupAttributes()
