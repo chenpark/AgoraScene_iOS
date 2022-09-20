@@ -26,14 +26,13 @@ public class VRSoundEffectsViewController: VRBaseViewController {
     }()
     
     lazy var done: UIImageView = {
-        UIImageView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight)  - 70, width: ScreenWidth, height: 92)).image(UIImage("blur")!)
+        UIImageView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight)  - 70, width: ScreenWidth, height: 92)).image(UIImage("blur")!).isUserInteractionEnabled(true)
     }()
     
     lazy var toLive: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: 15, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(goLive), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 30, y: 15, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(VRSoundEffectsViewController.goLive), for: .touchUpInside)
     }()
     
-
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -47,8 +46,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         if self.name.isEmpty || self.effects.type.isEmpty {
             self.view.makeToast("param error!")
         }
-
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.name,"is_private":!self.code.isEmpty,"password":self.code,"type":self.type,"sound_effect":self.effects.type,"allow_free_join_mic":false], classType: VRRoomInfo.self) { info, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.name,"is_private":!self.code.isEmpty,"password":self.code,"type":self.type,"sound_effect":self.effects.type,"allow_free_join_mic":true], classType: VRRoomInfo.self) { info, error in
             if error == nil,info != nil {
                 let vc = VoiceRoomViewController()
                 vc.roomInfo = info
