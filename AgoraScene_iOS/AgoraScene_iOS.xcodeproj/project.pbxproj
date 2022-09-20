@@ -73,6 +73,9 @@
 		05D8C45728D06EA000820391 /* VoiceRoomEmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C45228D06EA000820391 /* VoiceRoomEmojiManager.swift */; };
 		05D8C47528D0734700820391 /* VoiceRoomIMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C47428D0734700820391 /* VoiceRoomIMManager.swift */; };
 		1C3786A7F669C170D4FFA5CE /* Pods_AgoraScene_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7FDA5B4BD12E652325A52AB /* Pods_AgoraScene_iOS.framework */; };
+		E346371F28D84DA700026F85 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346371E28D84DA700026F85 /* VRAvatarChooseViewController.swift */; };
+		E346372128D84E2900026F85 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372028D84E2900026F85 /* VRRoomAvatarCell.swift */; };
+		E346372328D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */; };
 		E36BE0E228C5E74500270D52 /* AgoraSceneConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */; };
 		E36BE0FE28C5ECD500270D52 /* UIButtonLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */; };
 		E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */; };
@@ -215,6 +218,9 @@
 		05D8C47428D0734700820391 /* VoiceRoomIMManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VoiceRoomIMManager.swift; path = AgoraScene_iOS/Compoment/VoiceRoomIMKit/VoiceRoomIMManager.swift; sourceTree = SOURCE_ROOT; };
 		1EB37DBD2D4136E6E32EC97B /* Pods-AgoraScene_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraScene_iOS.debug.xcconfig"; path = "Target Support Files/Pods-AgoraScene_iOS/Pods-AgoraScene_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		AC63D49D288722B3FA14A117 /* Pods-AgoraScene_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraScene_iOS.release.xcconfig"; path = "Target Support Files/Pods-AgoraScene_iOS/Pods-AgoraScene_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		E346371E28D84DA700026F85 /* VRAvatarChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRAvatarChooseViewController.swift; sourceTree = "<group>"; };
+		E346372028D84E2900026F85 /* VRRoomAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VRRoomAvatarCell.swift; path = AgoraScene_iOS/Business/RoomService/Cell/VRRoomAvatarCell.swift; sourceTree = SOURCE_ROOT; };
+		E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesEntity.swift; sourceTree = "<group>"; };
 		E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraSceneConfig.swift; sourceTree = "<group>"; };
 		E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonLayoutExtension.swift; sourceTree = "<group>"; };
 		E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBundleExtension.swift; sourceTree = "<group>"; };
@@ -300,7 +306,7 @@
 		05D8C40728D06DA800820391 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */,
+				E346371E28D84DA700026F85 /* VRAvatarChooseViewController.swift */,
 				05D8C43028D06E0F00820391 /* VRBaseViewController.swift */,
 				05D8C42E28D06E0F00820391 /* VRCreateRoomViewController.swift */,
 				05D8C42F28D06E0F00820391 /* VRRoomsViewController.swift */,
@@ -317,6 +323,7 @@
 		05D8C40828D06DCC00820391 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E346372028D84E2900026F85 /* VRRoomAvatarCell.swift */,
 				05D8C41F28D06DFB00820391 /* BaseNavigationView.swift */,
 				05D8C41428D06DFA00820391 /* HorizontalCardsView.swift */,
 				05D8C41728D06DFB00820391 /* HorizontalCardView.swift */,
@@ -509,7 +516,7 @@
 		E39B689F28C59BDF0083D0F9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */,
+				E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */,
 				E36BE11228C5EE7E00270D52 /* VoiceRoomChatModel.swift */,
 				E36BE11328C5EE7E00270D52 /* VoiceRoomGiftEntity.swift */,
 			);
@@ -872,8 +879,10 @@
 				053F14B328D5B65600350D7A /* VoiceRoomDisclaimerView.swift in Sources */,
 				05D8C42628D06DFB00820391 /* VRSoundEffectsList.swift in Sources */,
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
+				E346371F28D84DA700026F85 /* VRAvatarChooseViewController.swift in Sources */,
 				05D8C42528D06DFB00820391 /* VRRoomCreateView.swift in Sources */,
 				05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */,
+				E346372128D84E2900026F85 /* VRRoomAvatarCell.swift in Sources */,
 				E39B68B828C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift in Sources */,
 				E36BE18628C7305400270D52 /* VMNoticeView.swift in Sources */,
 				05D8C44928D06E4E00820391 /* PopTip+Transitions.swift in Sources */,
@@ -883,6 +892,7 @@
 				05D8C45328D06EA000820391 /* VRVerifyCodeNumberView.swift in Sources */,
 				05D8C41228D06DED00820391 /* VRCreateRoomCardCell.swift in Sources */,
 				05D8C42A28D06DFB00820391 /* VRRoomListView.swift in Sources */,
+				E346372328D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift in Sources */,
 				E36BE10E28C5ECD500270D52 /* PresentationEnums.swift in Sources */,
 				05D8C40128D06CE800820391 /* VoiceRoomChatCell.swift in Sources */,
 				E36BE19828C8781B00270D52 /* VMANISSUPTableViewCell.swift in Sources */,
