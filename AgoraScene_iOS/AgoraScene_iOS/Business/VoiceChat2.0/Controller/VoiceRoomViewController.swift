@@ -240,7 +240,11 @@ extension VoiceRoomViewController {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
             giveupStage()
-            navigationController?.popViewController(animated: true)
+            if self.isOwner {
+                self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         } else if action == .notice {
             showNoticeView(with: .owner)
         } else if action == .rank {
@@ -455,7 +459,7 @@ extension VoiceRoomViewController {
     
     private func userApplyAlert() {
         let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: apply)
         apply.actionEvents = { [weak self] in
             if $0 == 31 {
                 self?.requestSpeak(index: nil)
@@ -496,8 +500,8 @@ extension VoiceRoomViewController {
     }
     
     private func userCancelApplyAlert() {
-        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "",cancel: "Cancel Request",confirm: "").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
+        let apply = VoiceRoomCancelAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (155/375.0)*ScreenWidth)).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (155/375.0)*ScreenWidth)), custom: apply)
         apply.actionEvents = { [weak self] in
             if $0 == 30 {
                 self?.cancelRequestSpeak(index: nil)
