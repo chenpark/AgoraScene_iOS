@@ -16,7 +16,7 @@ class LauchViewController: UIViewController {
     }()
     
     lazy var reLogin: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: ScreenWidth/2.0 - 95, y: 10, width: 190, height: 50)).cornerRadius(25).addTargetFor(self, action: #selector(login), for: .touchUpInside).font(.systemFont(ofSize: 16, weight: .semibold)).title("RetryLogin", .normal).textColor(.white, .normal).setGradient([UIColor(0x0B8AF2),UIColor(0x2753FF)], [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)])
+        UIButton(type: .custom).frame(CGRect(x: ScreenWidth/2.0 - 95, y: ScreenHeight - CGFloat(ZTabbarHeight), width: 190, height: 50)).cornerRadius(25).addTargetFor(self, action: #selector(login), for: .touchUpInside).font(.systemFont(ofSize: 16, weight: .semibold)).title("RetryLogin", .normal).textColor(.white, .normal).setGradient([UIColor(0x0B8AF2),UIColor(0x2753FF)], [CGPoint(x: 0.5, y: 0),CGPoint(x: 0.5, y: 1)])
     }()
     
     override func viewDidLoad() {
