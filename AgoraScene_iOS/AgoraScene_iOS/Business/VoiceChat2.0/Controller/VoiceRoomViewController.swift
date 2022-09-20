@@ -350,13 +350,17 @@ extension VoiceRoomViewController {
             if flag {
                 guard let roomId = self?.roomInfo?.room?.room_id else {return}
                 let index = tag - 200
+                guard let mic: VRRoomMic = self?.roomInfo?.mic_info![index] else {return}
                 let params: Dictionary<String, Any> = ["mic_index": index]
                 VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
                     if map != nil {
                         //如果返回的结果为true 表示上麦成功
                         if let result = map?["result"] as? Bool,error == nil,result {
                             debugPrint("--- showUpStage :result:\(result)")
-                            self?.requestRoomDetail()
+                            var mic_info = mic
+                            mic_info.status = 0
+                            self?.roomInfo?.mic_info![index] = mic_info
+                            self?.rtcView.micInfos = self?.roomInfo?.mic_info
                         } else {
                             self?.view.makeToast("Apply failed!")
                         }
