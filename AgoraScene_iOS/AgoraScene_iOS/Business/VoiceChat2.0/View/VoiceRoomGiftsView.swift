@@ -44,7 +44,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
     }()
     
     lazy var contribution: UILabel = {
-        UILabel(frame: CGRect(x: 20, y: self.giftList.frame.maxY+50, width: ScreenWidth/2.0 - 40, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(0x6C7192)).text("Contribution Total：999")
+        UILabel(frame: CGRect(x: 20, y: self.giftList.frame.maxY+50, width: ScreenWidth/2.0 - 40, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(0x6C7192)).text("\(VoiceRoomUserInfo.shared.user?.amount ?? 0)")
     }()
     
     lazy var lineLayer: UIView = {
