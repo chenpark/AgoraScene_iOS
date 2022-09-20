@@ -15,7 +15,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
     private var roomId: String?
     
     lazy var empty: VREmptyView = {
-        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: self.view.frame.height - 10 - CGFloat(ZBottombarHeight) - 80), title: "No Chat Room yet", image: nil)
+        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: self.view.frame.height), title: "No Chat Room yet", image: nil).backgroundColor(.white)
     }()
     
     public convenience init(roomId:String) {
