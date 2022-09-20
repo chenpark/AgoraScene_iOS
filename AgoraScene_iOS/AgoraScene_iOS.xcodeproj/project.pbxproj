@@ -13,8 +13,6 @@
 		054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */; };
 		054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */; };
 		05688C2828D857B000B39C22 /* rocket.svga in Resources */ = {isa = PBXBuildFile; fileRef = 05688C2728D857B000B39C22 /* rocket.svga */; };
-		05688C2C28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */; };
-		05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */; };
 		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
 		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
@@ -370,6 +368,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E346372428D8709E00026F85 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */,
+				05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		E36BE0E328C5EA7300270D52 /* AgoraRtcKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +453,7 @@
 				E39B688528C5948C0083D0F9 /* Products */,
 				F1F6608744F40532362EDBC4 /* Pods */,
 				188EEA5554A9EDC0394899AA /* Frameworks */,
+				E346372428D8709E00026F85 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -855,7 +863,6 @@
 				E36BE10C28C5ECD500270D52 /* CrossDissolveAnimation.swift in Sources */,
 				E36BE10B28C5ECD500270D52 /* CrossZoomAnimation.swift in Sources */,
 				05D8C3E628D0699100820391 /* VoiceRoomBusinessApi.swift in Sources */,
-				05688C2C28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift in Sources */,
 				E36BE11028C5ECD500270D52 /* PresentationSegue.swift in Sources */,
 				05D8C47528D0734700820391 /* VoiceRoomIMManager.swift in Sources */,
 				05D8C44A28D06E4E00820391 /* VoiceRoomEmojiListView.swift in Sources */,
@@ -881,7 +888,6 @@
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
 				E346371F28D84DA700026F85 /* VRAvatarChooseViewController.swift in Sources */,
 				05D8C42528D06DFB00820391 /* VRRoomCreateView.swift in Sources */,
-				05688C2E28D86C5C00B39C22 /* VRAvatarChooseViewController.swift in Sources */,
 				E346372128D84E2900026F85 /* VRRoomAvatarCell.swift in Sources */,
 				E39B68B828C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift in Sources */,
 				E36BE18628C7305400270D52 /* VMNoticeView.swift in Sources */,
@@ -1078,7 +1084,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3Y5B6D2XFS;
+				DEVELOPMENT_TEAM = KR58Y29Q42;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

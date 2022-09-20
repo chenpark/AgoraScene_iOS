@@ -254,6 +254,10 @@ extension VoiceRoomViewController {
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
             showUpStage(with: tag)
+        } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
+            activeAlien(true)
+        } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
+            activeAlien(false)
         }
     }
     
@@ -298,6 +302,11 @@ extension VoiceRoomViewController {
     }
     
     private func showSoundView() {
+        
+    }
+    
+    private func activeAlien(_ flag: Bool) {
+        if isOwner == false {return}
         
     }
     

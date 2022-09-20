@@ -45,6 +45,8 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -66,6 +68,12 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         blueAlienView.iconImgUrl = "blue"
         blueAlienView.nameStr = "Agora Blue"
         blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
+        blueAlienView.activeVBlock = {[weak self] type in
+            guard let activeVBlock = self?.activeVBlock else {
+                return
+            }
+            activeVBlock(type)
+        }
         self.contentView.addSubview(blueAlienView)
         
         blueCoverView.backgroundColor = .black
@@ -76,6 +84,12 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
 
         redAlienView.iconImgUrl = "red"
         redAlienView.nameStr = "Agora Red"
+        redAlienView.activeVBlock = {[weak self] type in
+            guard let activeVBlock = self?.activeVBlock else {
+                return
+            }
+            activeVBlock(type)
+        }
         redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
         self.contentView.addSubview(redAlienView)
 
