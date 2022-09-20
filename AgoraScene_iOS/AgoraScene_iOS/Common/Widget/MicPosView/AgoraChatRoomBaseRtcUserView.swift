@@ -230,7 +230,6 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             return
         }
         let type: AgoraChatRoomBaseUserCellType = cellType == .AgoraChatRoomBaseUserCellTypeAlienActive ? .AgoraChatRoomBaseUserCellTypeAlienNonActive : .AgoraChatRoomBaseUserCellTypeAlienActive
-        cellType = type
         activeVBlock(type)
     }
 }

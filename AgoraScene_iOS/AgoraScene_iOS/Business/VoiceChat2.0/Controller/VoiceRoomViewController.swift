@@ -255,7 +255,7 @@ extension VoiceRoomViewController {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
             showUpStage(with: tag)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
-            activeAlien(true)
+            showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             activeAlien(false)
         }
@@ -305,9 +305,42 @@ extension VoiceRoomViewController {
         
     }
     
+    private func showActiveAlienView(_ active: Bool) {
+        let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~))
+        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth - 40~, height: 220~))
+        compent.destination = .center
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: confirmView)
+        confirmView.resBlock = {[weak self] (flag) in
+            self?.dismiss(animated: true)
+            //修改群公告
+            if flag == false {return}
+            self?.activeAlien(active)
+        }
+        self.presentViewController(vc)
+    }
+    
     private func activeAlien(_ flag: Bool) {
         if isOwner == false {return}
-        
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        guard let mic: VRRoomMic = roomInfo?.mic_info![6] else {return}
+        let params: Dictionary<String, Bool> = ["use_robot":flag]
+        VoiceRoomBusinessRequest.shared.sendPUTRequest(api: .modifyRoomInfo(roomId: roomId), params: params) { map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    if result == true {
+                        print("激活机器人成功")
+                        var mic_info = mic
+                        mic_info.status = 5
+                        self.roomInfo?.mic_info![6] = mic_info
+                    }
+                } else {
+                    print("激活机器人失败")
+                }
+            } else {
+               
+            }
+        }
     }
     
     private func showUpStage(with tag: Int) {
