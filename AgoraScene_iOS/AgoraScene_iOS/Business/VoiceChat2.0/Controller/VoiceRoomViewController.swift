@@ -16,7 +16,7 @@ public enum ROLE_TYPE {
     case audience
 }
 
-fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":"sweet_heart","gift_value":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":"flower","gift_value":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":"crystal_box","gift_value":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":"super_agora","gift_value":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":"star","gift_value":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":"lollipop","gift_value":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":"diamond","gift_value":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":"crown","gift_value":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":"rocket","gift_value":"1500","gift_count":"1","selected":false]]
+fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_value":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_value":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_value":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_value":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_value":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_value":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_value":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_value":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_value":"1500","gift_count":"1","selected":false]]
 
 class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     
@@ -488,6 +488,10 @@ extension VoiceRoomViewController {
                     gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
                     gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? ""
                     self.giftList.gifts.append(gift)
+                    if let c = Int(count),let v = Int(value),var amount = VoiceRoomUserInfo.shared.user?.amount {
+                        amount += c*v
+                        VoiceRoomUserInfo.shared.user?.amount = amount
+                    }
                     if id == "VoiceRoomGift9" {
                         self.rocketAnimation()
                     }
