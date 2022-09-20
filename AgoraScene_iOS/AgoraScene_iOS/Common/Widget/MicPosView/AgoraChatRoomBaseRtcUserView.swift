@@ -84,6 +84,8 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
     
+    public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
+    
     public var iconWidth: CGFloat = 60~ {
         didSet {
             self.iconView.layer.cornerRadius = (iconWidth / 2.0)~
@@ -163,6 +165,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         activeButton.setTitle("active", for: .normal)
         activeButton.setTitleColor(.white, for: .normal)
         activeButton.titleLabel?.font = UIFont.systemFont(ofSize: 9)~
+        activeButton.addTargetFor(self, action: #selector(active), for: .touchUpInside)
         self.addSubview(activeButton)
         self.activeButton.isHidden = true
         
@@ -220,5 +223,13 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             return
         }
         clickBlock()
+    }
+    
+    @objc private func active() {
+        guard let activeVBlock = activeVBlock else {
+            return
+        }
+        let type: AgoraChatRoomBaseUserCellType = cellType == .AgoraChatRoomBaseUserCellTypeAlienActive ? .AgoraChatRoomBaseUserCellTypeAlienNonActive : .AgoraChatRoomBaseUserCellTypeAlienActive
+        activeVBlock(type)
     }
 }

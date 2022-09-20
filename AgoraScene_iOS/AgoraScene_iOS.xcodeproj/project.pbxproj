@@ -12,7 +12,6 @@
 		054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */; };
 		054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */; };
 		054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */; };
-		05615B3328D9AB8400F2A3E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05615B3128D9A85100F2A3E5 /* InfoPlist.strings */; };
 		05688C2828D857B000B39C22 /* rocket.svga in Resources */ = {isa = PBXBuildFile; fileRef = 05688C2728D857B000B39C22 /* rocket.svga */; };
 		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
 		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
@@ -75,6 +74,7 @@
 		E346371F28D84DA700026F85 /* VRAvatarChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346371E28D84DA700026F85 /* VRAvatarChooseViewController.swift */; };
 		E346372128D84E2900026F85 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372028D84E2900026F85 /* VRRoomAvatarCell.swift */; };
 		E346372328D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */; };
+		E346372728D9AE8500026F85 /* VMConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372628D9AE8500026F85 /* VMConfirmView.swift */; };
 		E36BE0E228C5E74500270D52 /* AgoraSceneConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */; };
 		E36BE0FE28C5ECD500270D52 /* UIButtonLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */; };
 		E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */; };
@@ -223,6 +223,7 @@
 		E346371E28D84DA700026F85 /* VRAvatarChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VRAvatarChooseViewController.swift; sourceTree = "<group>"; };
 		E346372028D84E2900026F85 /* VRRoomAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VRRoomAvatarCell.swift; path = AgoraScene_iOS/Business/RoomService/Cell/VRRoomAvatarCell.swift; sourceTree = SOURCE_ROOT; };
 		E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesEntity.swift; sourceTree = "<group>"; };
+		E346372628D9AE8500026F85 /* VMConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMConfirmView.swift; sourceTree = "<group>"; };
 		E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraSceneConfig.swift; sourceTree = "<group>"; };
 		E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonLayoutExtension.swift; sourceTree = "<group>"; };
 		E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBundleExtension.swift; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 		E39B688728C5948C0083D0F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E39B689028C5948D0083D0F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E39B689328C5948D0083D0F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E39B689528C5948D0083D0F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E39B68AE28C5A41E0083D0F9 /* AgoraChatRoomBaseAlienCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraChatRoomBaseAlienCollectionViewCell.swift; sourceTree = "<group>"; };
 		E39B68AF28C5A41E0083D0F9 /* AgoraMicVolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraMicVolView.swift; sourceTree = "<group>"; };
 		E39B68B028C5A41E0083D0F9 /* AgoraChatRoomBaseUserCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraChatRoomBaseUserCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -297,15 +299,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		05615B2428D95DF800F2A3E5 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */,
-				05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		05D8C3E728D06B4500820391 /* Third party library */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +371,15 @@
 				E7FDA5B4BD12E652325A52AB /* Pods_AgoraScene_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E346372428D8709E00026F85 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				05688C2B28D86C3400B39C22 /* VoiceRoomAudiencesEntity.swift */,
+				05688C2D28D86C5C00B39C22 /* VRAvatarChooseViewController.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		E36BE0E328C5EA7300270D52 /* AgoraRtcKit */ = {
@@ -456,7 +458,7 @@
 				E39B688528C5948C0083D0F9 /* Products */,
 				F1F6608744F40532362EDBC4 /* Pods */,
 				188EEA5554A9EDC0394899AA /* Frameworks */,
-				05615B2428D95DF800F2A3E5 /* Recovered References */,
+				E346372428D8709E00026F85 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -475,6 +477,7 @@
 				E39B689C28C59BDF0083D0F9 /* Business */,
 				E39B68A528C59BDF0083D0F9 /* Compoment */,
 				E39B68A628C59BDF0083D0F9 /* Common */,
+				E39B689528C5948D0083D0F9 /* Info.plist */,
 			);
 			path = AgoraScene_iOS;
 			sourceTree = "<group>";
@@ -486,8 +489,6 @@
 				E39B689028C5948D0083D0F9 /* Assets.xcassets */,
 				E39B689228C5948D0083D0F9 /* LaunchScreen.storyboard */,
 				05688C3E28D86F2400B39C22 /* Localizable.strings */,
-				05615B2B28D9A7AA00F2A3E5 /* Info.plist */,
-				05615B3128D9A85100F2A3E5 /* InfoPlist.strings */,
 			);
 			path = APP;
 			sourceTree = "<group>";
@@ -574,6 +575,7 @@
 				E36BE1A028CAE4A300270D52 /* VMSoundSelTableViewCell.swift */,
 				E36BE19C28C9C47900270D52 /* VMPresentView.swift */,
 				E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */,
+				E346372628D9AE8500026F85 /* VMConfirmView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -761,7 +763,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05615B3328D9AB8400F2A3E5 /* InfoPlist.strings in Resources */,
 				E39B689428C5948D0083D0F9 /* LaunchScreen.storyboard in Resources */,
 				05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */,
 				05688C2828D857B000B39C22 /* rocket.svga in Resources */,
@@ -848,6 +849,7 @@
 				05D8C43428D06E0F00820391 /* VRRoomsViewController.swift in Sources */,
 				E36BE10828C5ECD500270D52 /* UIViewController+Presentation.swift in Sources */,
 				E39B68BB28C5A41E0083D0F9 /* AgoraChatRoomBaseRtcUserView.swift in Sources */,
+				E346372728D9AE8500026F85 /* VMConfirmView.swift in Sources */,
 				05D8C41328D06DED00820391 /* VRSoundEffectsCell.swift in Sources */,
 				E36BE18C28C8426000270D52 /* VMManagerView.swift in Sources */,
 				E36BE11528C5EE7E00270D52 /* VoiceRoomGiftEntity.swift in Sources */,
@@ -943,15 +945,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		05615B3128D9A85100F2A3E5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				05615B3028D9A85100F2A3E5 /* en */,
-				05615B3228D9A85300F2A3E5 /* zh-Hans */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		05688C3E28D86F2400B39C22 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1098,20 +1091,26 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
+
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+
 				INFOPLIST_PREPROCESS = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.agora.www.AgoraScene-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1136,13 +1135,15 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_PREPROCESS = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.agora.www.AgoraScene-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
