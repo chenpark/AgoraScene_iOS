@@ -234,12 +234,14 @@ extension VoiceRoomViewController {
             }
         }
     }
-    
+
     private func didHeaderAction(with action: HEADER_ACTION) {
         if action == .back {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
-            giveupStage()
+
+            //giveupStage()
+            cancelRequestSpeak(index: nil)
             if self.isOwner {
                 if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
                 }).first {
@@ -260,7 +262,6 @@ extension VoiceRoomViewController {
     
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
-//            showUpStage(with: tag)
             userApplyAlert(tag - 200)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
@@ -397,6 +398,11 @@ extension VoiceRoomViewController {
 
             }
         }
+    }
+    
+    private func getApplyList() {
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        
     }
     
     private func showEQView(with role: ROLE_TYPE) {
