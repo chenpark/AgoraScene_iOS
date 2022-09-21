@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import ProgressHUD
 
 public class VoiceRoomApplyUsersViewController: UITableViewController {
     
@@ -15,7 +16,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
     private var roomId: String?
     
     lazy var empty: VREmptyView = {
-        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: self.view.frame.height), title: "No Chat Room yet", image: nil).backgroundColor(.white)
+        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 360), title: "No Chat Room yet", image: nil).backgroundColor(.white)
     }()
     
     public convenience init(roomId:String) {
@@ -28,11 +29,6 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         self.fetchUsers()
         self.view.insertSubview(self.empty, belowSubview: self.tableView)
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomApplyCell.self, forCellReuseIdentifier: "VoiceRoomApplyCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false).backgroundColor(.clear)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -69,7 +65,9 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
 extension VoiceRoomApplyUsersViewController {
     
     private func fetchUsers() {
+        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchApplyMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomAudiencesEntity.self) { model, error in
+            ProgressHUD.dismiss()
             if model != nil,error == nil {
                 if self.apply == nil {
                     self.apply = model
@@ -86,7 +84,9 @@ extension VoiceRoomApplyUsersViewController {
     }
     
     private func agreeUserApply(user: VRUser?) {
+        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .agreeApply(roomId: self.roomId ?? ""), params: ["uid":user?.uid ?? ""]) { dic, error in
+            ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("Agree success!")

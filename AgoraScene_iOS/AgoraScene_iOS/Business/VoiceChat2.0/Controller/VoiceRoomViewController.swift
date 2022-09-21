@@ -227,10 +227,10 @@ extension VoiceRoomViewController {
         let pwd: String = roomInfo?.room?.roomPassword ?? ""
         let params: Dictionary<String, Any> = ["password": pwd]
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: params) { dic, error in
-            if error != nil {
-                
+            if let result = dic?["result"] as? Bool,error == nil,result {
+                self.view.makeToast("Joined successful!")
             } else {
-                
+                self.didHeaderAction(with: .back)
             }
         }
     }
@@ -240,7 +240,18 @@ extension VoiceRoomViewController {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
             giveupStage()
+<<<<<<< HEAD
+            if self.isOwner {
+                if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
+                }).first {
+                    self.navigationController?.popToViewController(vc, animated: true)
+                }
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+=======
             navigationController?.popViewController(animated: true)
+>>>>>>> 8fe0bb86a5f7724ac74d7f32d8ca3728e3d8e715
         } else if action == .notice {
             showNoticeView(with: .owner)
         } else if action == .rank {
@@ -545,6 +556,7 @@ extension VoiceRoomViewController {
                     if let roomId = self.roomInfo?.room?.room_id {
                         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                             if let result = dic?["result"] as? Bool,error == nil,result {
+                                self.view.makeToast("Send successful!")
                                 debugPrint("result:\(result)")
                             } else {
                                 self.view.makeToast("Send failed!")
