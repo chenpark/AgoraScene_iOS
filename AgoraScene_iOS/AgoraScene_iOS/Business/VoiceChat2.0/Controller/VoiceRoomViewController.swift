@@ -234,12 +234,13 @@ extension VoiceRoomViewController {
             }
         }
     }
-    
+
     private func didHeaderAction(with action: HEADER_ACTION) {
         if action == .back {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
-            giveupStage()
+            //giveupStage()
+            cancelRequestSpeak(index: nil)
             if self.isOwner {
                 if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
                 }).first {
