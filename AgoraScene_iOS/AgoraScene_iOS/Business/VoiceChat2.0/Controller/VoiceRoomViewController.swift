@@ -241,7 +241,10 @@ extension VoiceRoomViewController {
             self.rtckit.leaveChannel()
             giveupStage()
             if self.isOwner {
-                self.navigationController?.popToRootViewController(animated: true)
+                if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
+                }).first {
+                    self.navigationController?.popToViewController(vc, animated: true)
+                }
             } else {
                 self.navigationController?.popViewController(animated: true)
             }
