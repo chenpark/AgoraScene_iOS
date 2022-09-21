@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import ProgressHUD
 
 public class VoiceRoomInviteUsersController: UITableViewController {
     
@@ -15,7 +16,7 @@ public class VoiceRoomInviteUsersController: UITableViewController {
     private var roomId: String?
     
     lazy var empty: VREmptyView = {
-        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: self.view.frame.height), title: "No Chat Room yet", image: nil)
+        VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 360), title: "No Chat Room yet", image: nil).backgroundColor(.white)
     }()
     
     public convenience init(roomId:String) {
@@ -64,7 +65,9 @@ public class VoiceRoomInviteUsersController: UITableViewController {
 extension VoiceRoomInviteUsersController {
     
     private func fetchUsers() {
+        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomAudiencesEntity.self) { model, error in
+            ProgressHUD.dismiss()
             if model != nil,error == nil {
                 if self.apply == nil {
                     self.apply = model
@@ -81,7 +84,9 @@ extension VoiceRoomInviteUsersController {
     }
     
     private func inviteUser(user: VRUser?) {
+        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .inviteUserToMic(roomId: self.roomId ?? ""), params: ["uid":user?.uid ?? ""]) { dic, error in
+            ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("Invited success!")

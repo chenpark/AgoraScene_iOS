@@ -31,6 +31,10 @@ public final class LanguageManager: NSObject {
     
     var bundle:Bundle = Bundle.voiceRoomBundle
     
+    var currentLocal: Locale {
+        Locale.current
+    }
+    
     private func localValue(_ key: String) -> String{
         self.bundle.localizedString(forKey: key, value: nil, table: "Localizable")
     }
