@@ -227,10 +227,10 @@ extension VoiceRoomViewController {
         let pwd: String = roomInfo?.room?.roomPassword ?? ""
         let params: Dictionary<String, Any> = ["password": pwd]
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: params) { dic, error in
-            if error != nil {
-                
+            if let result = dic?["result"] as? Bool,error == nil,result {
+                self.view.makeToast("Joined successful!")
             } else {
-                
+                self.didHeaderAction(with: .back)
             }
         }
     }
@@ -544,6 +544,7 @@ extension VoiceRoomViewController {
                     if let roomId = self.roomInfo?.room?.room_id {
                         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                             if let result = dic?["result"] as? Bool,error == nil,result {
+                                self.view.makeToast("Send successful!")
                                 debugPrint("result:\(result)")
                             } else {
                                 self.view.makeToast("Send failed!")

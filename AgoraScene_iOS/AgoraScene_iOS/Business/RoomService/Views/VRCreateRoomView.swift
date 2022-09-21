@@ -44,6 +44,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubViews([self.menuBar,self.audioEffectCards,self.roomInput])
+        self.roomInput.randomName.addTarget(self, action: #selector(randomRoomName), for: .touchUpInside)
         self.menuBar.selectClosure = { [weak self] in
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
@@ -65,6 +66,14 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
 }
 
 extension VRCreateRoomView {
+    
+    @objc private func randomRoomName() {
+        var namePrefix = LanguageManager.localValue(key: "Chat Room")
+        if self.idx == 1 {
+            namePrefix = LanguageManager.localValue(key: "Spatial Audio Mode Room")
+        }
+        self.roomInput.roomNameField.text = namePrefix+"\(String(describing: (1...100).randomElement()))"
+    }
     
     private func create() {
         if self.createAction != nil {
