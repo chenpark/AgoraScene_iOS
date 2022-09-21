@@ -24,8 +24,10 @@ class AgoraChatRoomNormalRtcView: UIView {
     
     override func draw(_ rect: CGRect) {
         // Drawing code
-        SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
-        layoutUI()
+        if collectionView == nil {
+            SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
+            layoutUI()
+        }
     }
 
     private func layoutUI() {

@@ -80,6 +80,7 @@ public class VoiceRoomError: Error,Convertible {
         callBack:@escaping ((Dictionary<String,Any>?,Error?) -> Void)) -> URLSessionTask? {
         let headers = ["Authorization":self.userToken,"Content-Type":"application/json"]
         let task = VoiceRoomRequest.shared.constructRequest(method: method, uri: uri, params: params, headers: headers) { data, response, error in
+            print("statusCode: \(response?.statusCode)")
             if error == nil,response?.statusCode ?? 0 == 200 {
                 callBack(data?.z.toDictionary(),nil)
             } else {

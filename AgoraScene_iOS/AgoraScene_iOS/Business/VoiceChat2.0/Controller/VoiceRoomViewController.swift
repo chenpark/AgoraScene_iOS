@@ -253,7 +253,6 @@ extension VoiceRoomViewController {
     
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
-//            showUpStage(with: tag)
             userApplyAlert(tag - 200)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
@@ -390,6 +389,11 @@ extension VoiceRoomViewController {
 
             }
         }
+    }
+    
+    private func getApplyList() {
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        
     }
     
     private func showEQView(with role: ROLE_TYPE) {
