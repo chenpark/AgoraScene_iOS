@@ -240,7 +240,6 @@ extension VoiceRoomViewController {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
             giveupStage()
-<<<<<<< HEAD
             if self.isOwner {
                 if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
                 }).first {
@@ -249,9 +248,6 @@ extension VoiceRoomViewController {
             } else {
                 self.navigationController?.popViewController(animated: true)
             }
-=======
-            navigationController?.popViewController(animated: true)
->>>>>>> 8fe0bb86a5f7724ac74d7f32d8ca3728e3d8e715
         } else if action == .notice {
             showNoticeView(with: .owner)
         } else if action == .rank {
