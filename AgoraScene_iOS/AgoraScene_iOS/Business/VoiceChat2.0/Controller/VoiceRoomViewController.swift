@@ -239,6 +239,7 @@ extension VoiceRoomViewController {
         if action == .back {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
+
             //giveupStage()
             cancelRequestSpeak(index: nil)
             if self.isOwner {
