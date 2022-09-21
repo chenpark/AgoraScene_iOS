@@ -77,7 +77,7 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
-        
+        VoiceRoomIMManager.shared?.addChatRoomListener()
         //获取房间详情
         requestRoomDetail()
         
@@ -279,6 +279,7 @@ extension VoiceRoomViewController {
                 debugPrint("result:\(result)")
             }
         }
+        VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -428,7 +429,7 @@ extension VoiceRoomViewController {
         }
         self.inputBar.sendClosure = { [weak self] in
             guard let `self` = self else { return }
-            guard let roomId = self.roomInfo?.room?.room_id  else { return }
+            guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
             guard let userName = VoiceRoomUserInfo.shared.user?.name  else { return }
             VoiceRoomIMManager.shared?.sendMessage(roomId: roomId, text: $0,ext: ["userName":userName]) { message, error in
                 self.inputBar.endEditing(true)

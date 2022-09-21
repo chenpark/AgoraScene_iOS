@@ -79,9 +79,13 @@ fileprivate let once = VoiceRoomIMManager()
         AgoraChatClient.shared().roomManager?.add(self, delegateQueue: .main)
     }
     
-    deinit {
+    @objc public func removeListener() {
         AgoraChatClient.shared().roomManager?.remove(self)
         AgoraChatClient.shared().chatManager?.remove(self)
+    }
+    
+    deinit {
+        self.removeListener()
     }
 }
 
@@ -168,8 +172,7 @@ public extension VoiceRoomIMManager {
         default:
             break
         }
-        AgoraChatClient.shared().roomManager?.remove(self)
-        AgoraChatClient.shared().chatManager?.remove(self)
+        self.removeListener()
         AgoraChatClient.shared().logout(false)
     }
     
@@ -188,6 +191,7 @@ public extension VoiceRoomIMManager {
     //MARK: - Send
     @objc func sendMessage(roomId: String,text: String, ext: [AnyHashable : Any]?,completion: @escaping (AgoraChatMessage?,AgoraChatError?) -> (Void)) {
         let message = AgoraChatMessage(conversationID: roomId, body: AgoraChatTextMessageBody(text: text), ext: ext)
+        message.chatType = .chatRoom
         AgoraChatClient.shared().chatManager?.send(message, progress: nil, completion: completion)
     }
     
@@ -216,6 +220,7 @@ public extension VoiceRoomIMManager {
                 completion!(error)
             }
         })
+        self.removeListener()
         AgoraChatClient.shared().logout(false)
     }
 }
