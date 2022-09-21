@@ -73,7 +73,7 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.delegate = self
@@ -87,7 +87,7 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
         layoutUI()
         //处理底部事件
         self.charBarEvents()
-       
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -114,7 +114,7 @@ extension VoiceRoomViewController {
         
         var rtcJoinSuccess: Bool = false
         var IMJoinSuccess: Bool = false
-
+        
         let VMGroup = DispatchGroup()
         let VMQueue = DispatchQueue(label: "com.agora.vm.www")
         
@@ -240,11 +240,7 @@ extension VoiceRoomViewController {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
             giveupStage()
-            if self.isOwner {
-                self.navigationController?.popToRootViewController(animated: true)
-            } else {
-                self.navigationController?.popViewController(animated: true)
-            }
+            navigationController?.popViewController(animated: true)
         } else if action == .notice {
             showNoticeView(with: .owner)
         } else if action == .rank {
@@ -257,11 +253,12 @@ extension VoiceRoomViewController {
     
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
-            showUpStage(with: tag)
+//            showUpStage(with: tag)
+            userApplyAlert(tag - 200)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
-            activeAlien(false)
+            showActiveAlienView(false)
         }
     }
     
@@ -342,37 +339,41 @@ extension VoiceRoomViewController {
                     print("激活机器人失败")
                 }
             } else {
-               
+                
             }
         }
     }
     
-    private func showUpStage(with tag: Int) {
-        let stageView = VMUpstageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
-        stageView.resBlock = {[weak self] flag in
-            self?.dismiss(animated: true)
-            if flag {
-                guard let roomId = self?.roomInfo?.room?.room_id else {return}
-                let index = tag - 200
-                let params: Dictionary<String, Any> = ["mic_index": index]
-                VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
-                    if map != nil {
-                        //如果返回的结果为true 表示上麦成功
-                        if let result = map?["result"] as? Bool,error == nil,result {
-                            debugPrint("--- showUpStage :result:\(result)")
-                            self?.requestRoomDetail()
-                        } else {
-                            self?.view.makeToast("Apply failed!")
-                        }
-                    } else {
-                       
-                    }
-                }
-            }
-        }
-        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
-        self.presentViewController(vc)
-    }
+//    private func showUpStage(with tag: Int) {
+//        let stageView = VMUpstageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+//        stageView.resBlock = {[weak self] flag in
+//            self?.dismiss(animated: true)
+//            if flag {
+//                guard let roomId = self?.roomInfo?.room?.room_id else {return}
+//                let index = tag - 200
+//                guard let mic: VRRoomMic = self?.roomInfo?.mic_info![index] else {return}
+//                let params: Dictionary<String, Any> = ["mic_index": index]
+//                VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
+//                    if map != nil {
+//                        //如果返回的结果为true 表示上麦成功
+//                        if let result = map?["result"] as? Bool,error == nil,result {
+//                            debugPrint("--- showUpStage :result:\(result)")
+//                            var mic_info = mic
+//                            mic_info.status = 0
+//                            self?.roomInfo?.mic_info![index] = mic_info
+//                            self?.rtcView.micInfos = self?.roomInfo?.mic_info
+//                        } else {
+//                            self?.view.makeToast("Apply failed!")
+//                        }
+//                    } else {
+//
+//                    }
+//                }
+//            }
+//        }
+//        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
+//        self.presentViewController(vc)
+//    }
     
     private func giveupStage() {
         guard let roomId = roomInfo?.room?.room_id else {return}
@@ -386,7 +387,7 @@ extension VoiceRoomViewController {
                     self?.view.makeToast("leaveRoom failed!")
                 }
             } else {
-               
+
             }
         }
     }
@@ -436,7 +437,7 @@ extension VoiceRoomViewController {
                     self.applyMembersAlert()
                 } else {
                     if self.chatBar.handsState == .unSelected {
-                        self.userApplyAlert()
+                        self.userApplyAlert(nil)
                     } else if self.chatBar.handsState == .disable {
                         self.userCancelApplyAlert()
                     }
@@ -457,12 +458,12 @@ extension VoiceRoomViewController {
         self.presentViewController(vc)
     }
     
-    private func userApplyAlert() {
+    private func userApplyAlert(_ index: Int?) {
         let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: apply)
         apply.actionEvents = { [weak self] in
             if $0 == 31 {
-                self?.requestSpeak(index: nil)
+                self?.requestSpeak(index: index)
             }
             vc.dismiss(animated: true)
         }
@@ -500,8 +501,8 @@ extension VoiceRoomViewController {
     }
     
     private func userCancelApplyAlert() {
-        let apply = VoiceRoomCancelAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (155/375.0)*ScreenWidth)).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (155/375.0)*ScreenWidth)), custom: apply)
+        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "",cancel: "Cancel Request",confirm: "").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
         apply.actionEvents = { [weak self] in
             if $0 == 30 {
                 self?.cancelRequestSpeak(index: nil)
@@ -706,7 +707,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     /// 只有owner会收到此回调
     func refuseInvite(roomId: String, meta: [String : String]?) {
-//        self.view.makeToast("")
+        //        self.view.makeToast("")
     }
     
     func userJoinedRoom(roomId: String, username: String) {
