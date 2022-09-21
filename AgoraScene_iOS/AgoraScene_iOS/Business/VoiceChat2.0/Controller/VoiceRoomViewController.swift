@@ -131,10 +131,12 @@ extension VoiceRoomViewController {
                 if error == nil {
                     IMJoinSuccess = true
                     VMGroup.leave()
+                    self?.view.makeToast("join IM success!")
                 } else {
                     self?.view.makeToast("\(error?.errorDescription ?? "")")
                     IMJoinSuccess = false
                     VMGroup.leave()
+                    self?.view.makeToast("join IM failed!")
                 }
             })
             
@@ -342,6 +344,7 @@ extension VoiceRoomViewController {
                         var mic_info = mic
                         mic_info.status = 5
                         self.roomInfo?.mic_info![6] = mic_info
+                        self.rtcView.micInfos = self.roomInfo?.mic_info
                     }
                 } else {
                     print("激活机器人失败")
@@ -674,7 +677,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             self.reLogin()
         }
     }
-    
+
     func chatTokenWillExpire(code: AgoraChatErrorCode) {
         if code == .tokeWillExpire {
             self.reLogin()
