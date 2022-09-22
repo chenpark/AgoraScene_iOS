@@ -120,10 +120,9 @@ extension VRRoomsViewController {
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
-                let vc = VoiceRoomViewController()
                 let info = VRRoomInfo()
                 info.room = room
-                vc.roomInfo = info
+                let vc = VoiceRoomViewController(info: info)
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 self.view.makeToast("Login IM failed,please retry or install again!")

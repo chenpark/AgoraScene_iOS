@@ -39,6 +39,9 @@ import KakaJSON
     public var ranking_list: [VRUser]? // 土豪榜
     public var member_list: [VRUser]? // 用户榜
     public var rtc_uid: Int? = 0
+    public var use_robot: Bool? = false
+    public var robot_volume: UInt?
+    public var sound_effect: String?
     
     required public override init() {
         
