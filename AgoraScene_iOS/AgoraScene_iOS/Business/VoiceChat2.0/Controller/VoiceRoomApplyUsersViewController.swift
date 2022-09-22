@@ -30,7 +30,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomApplyCell.self, forCellReuseIdentifier: "VoiceRoomApplyCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false).backgroundColor(.clear)
         self.tableView.refreshControl = UIRefreshControl()
         self.tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
-        self.tableView.refreshControl?.addTarget(self, action: #selector(fetchUsers), for: .valueChanged)
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         self.refresh()
     }
 

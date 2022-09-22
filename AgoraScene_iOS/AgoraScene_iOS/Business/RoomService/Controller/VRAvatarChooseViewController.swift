@@ -28,7 +28,7 @@ public class VRAvatarChooseViewController: UICollectionViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (ScreenWidth-20)/4.0, height: (ScreenWidth-20)/4.0)
         layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 10
         super.init(collectionViewLayout: layout)
     }
     
