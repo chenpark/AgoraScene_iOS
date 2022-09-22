@@ -42,6 +42,7 @@ import KakaJSON
     public var use_robot: Bool? = false
     public var robot_volume: UInt?
     public var sound_effect: String?
+
     
     required public override init() {
         
