@@ -10,6 +10,7 @@ import SnapKit
 import ZSwiftBaseLib
 import AgoraChat
 import SVGAPlayer
+import KakaJSON
 
 public enum ROLE_TYPE {
     case owner
@@ -605,14 +606,7 @@ extension VoiceRoomViewController {
     private func gifts() -> [VoiceRoomGiftEntity] {
         var gifts = [VoiceRoomGiftEntity]()
         for dic in giftMap {
-            var data = Data()
-            do {
-                data = try JSONSerialization.data(withJSONObject: dic, options: [])
-                let entity = try JSONDecoder().decode(VoiceRoomGiftEntity.self, from: data)
-                gifts.append(entity)
-            } catch {
-                assert(false, "\(error.localizedDescription)")
-            }
+            gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
         }
         return gifts
     }
@@ -691,13 +685,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveGift(roomId: String, meta: [String : String]?) {
         guard let dic = meta else { return }
-        do {
-            let data = try JSONSerialization.data(withJSONObject: dic, options: [])
-            let entity = try JSONDecoder().decode(VoiceRoomGiftEntity.self, from: data)
-            self.giftList.gifts.append(entity)
-        } catch {
-            assert(false, "\(error.localizedDescription)")
-        }
+        self.giftList.gifts.append(model(from: meta ?? [:], VoiceRoomGiftEntity.self))
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
