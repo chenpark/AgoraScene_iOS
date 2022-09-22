@@ -38,6 +38,7 @@ import KakaJSON
     public var announcement: String? // Notice
     public var ranking_list: [VRUser]? // 土豪榜
     public var member_list: [VRUser]? // 用户榜
+    public var rtc_uid: Int? = 0
     
     required public override init() {
         

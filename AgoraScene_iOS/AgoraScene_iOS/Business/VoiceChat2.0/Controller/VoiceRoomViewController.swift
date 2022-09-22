@@ -108,7 +108,7 @@ extension VoiceRoomViewController {
     //加载RTC
     private func loadKit() {
         
-        guard let channel_id = self.roomInfo?.room?.channel_id else {return}
+        guard let rtc_uid = self.roomInfo?.room?.rtc_uid else {return}
         guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
         rtckit.setClientRole(role: isOwner ? .owner : .audience)
         rtckit.delegate = self
@@ -121,7 +121,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: channel_id, rtcUid: 0, scene: .live) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(rtc_uid)", rtcUid: 0, scene: .live) == 0
             VMGroup.leave()
         }
         
