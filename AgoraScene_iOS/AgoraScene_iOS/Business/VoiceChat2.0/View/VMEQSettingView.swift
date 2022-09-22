@@ -24,6 +24,8 @@ class VMEQSettingView: UIView {
     var backBlock: (() -> Void)?
     
     private let settingName: [String] = ["Spatial Audio", "Attenuation factor", "Air absorb", "Voice blur"]
+    private let soundType: [String] = ["TV Sound", "Kitchen Sound", "Street Sound", "Mashine Sound", "Office Sound", "Home Sound", "Construction Sound","Alert Sound/Music","Applause","Wind Sound","Mic Pop Filter","Audio Feedback","Microphone Finger Rub Sound","Screen Tap Sound"]
+    private let soundDetail: [String] = ["Ex. Bird, car, subway sounds", "Ex. Fan, air conditioner, vacuum cleaner, printer sounds", "Ex. Keyboard tapping, mouse clicking sounds", "Ex. Door closing, chair squeaking, baby crying sounds", "Ex. Knocking sound"]
     
     var settingType: AUDIO_SETTING_TYPE = .Spatial {
         didSet {
@@ -99,7 +101,7 @@ class VMEQSettingView: UIView {
 
 extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return settingType == .Spatial ? 3 : 2
+        return settingType == .Noise ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -111,7 +113,11 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 return 190~
             }
         case .Noise:
-            return 54
+            if indexPath.row > 1 && indexPath.row < 7 {
+                return 74
+            } else {
+                return 54
+            }
         case .Spatial:
             return 54
         }
@@ -124,12 +130,12 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if settingType == .effect {
             return section == 0 ? 1 : 2
-        } else if settingType == .Noise {
+        } else if settingType == .Spatial {
             return 4
         } else {
             switch section {
             case 0:
-                return 3
+                return 1
             case 1:
                 return 1
             default:
@@ -148,7 +154,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Current Sound Selection"
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
             } else {
-                titleLabel.text = settingType == .Noise ? "Agora Blue Bot" : "AINS Setting"
+                titleLabel.text = settingType == .Spatial ? "Agora Blue Bot" : "AINS Setting"
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
             }
             headerView.addSubview(titleLabel)
@@ -163,7 +169,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Other Sound Selection"
             } else {
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
-                titleLabel.text = settingType == .Noise ? "Agora Red Bot" : "To know agora ains"
+                titleLabel.text = settingType == .Spatial ? "Agora Red Bot" : "To know agora ains"
             }
             headerView.addSubview(titleLabel)
             return headerView
@@ -195,7 +201,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             return cell
-        } else if settingType == .Noise {
+        } else if settingType == .Spatial {
             if indexPath.row == 1 {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
                 cell.isNoiseSet = true
@@ -217,6 +223,13 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else {
                 let cell: VMANISSUPTableViewCell = tableView.dequeueReusableCell(withIdentifier: pIdentifier)! as! VMANISSUPTableViewCell
+                if indexPath.row > 1 && indexPath.row < 7 {
+                    cell.detailLabel.text = soundDetail[indexPath.row - 2]
+                    cell.cellType = .detail
+                } else {
+                    cell.cellType = .normal
+                }
+                cell.titleLabel.text = soundType[indexPath.row]
                 return cell
             }
         }

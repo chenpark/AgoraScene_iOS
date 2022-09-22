@@ -388,22 +388,22 @@ extension VoiceRoomViewController {
 //        self.presentViewController(vc)
 //    }
     
-    private func giveupStage() {
-        guard let roomId = roomInfo?.room?.room_id else {return}
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) {[weak self] map, error in
-            if map != nil {
-                //如果返回的结果为true 表示上麦成功
-                if let result = map?["result"] as? Bool,error == nil,result {
-                    debugPrint("--- giveupStage :result:\(result)")
-                    self?.requestRoomDetail()
-                } else {
-                    self?.view.makeToast("leaveRoom failed!")
-                }
-            } else {
-
-            }
-        }
-    }
+//    private func leaveRoom() {
+//        guard let roomId = roomInfo?.room?.room_id else {return}
+//        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) {[weak self] map, error in
+//            if map != nil {
+//                //如果返回的结果为true 表示上麦成功
+//                if let result = map?["result"] as? Bool,error == nil,result {
+//                    debugPrint("--- giveupStage :result:\(result)")
+//                    self?.requestRoomDetail()
+//                } else {
+//                    self?.view.makeToast("leaveRoom failed!")
+//                }
+//            } else {
+//
+//            }
+//        }
+//    }
     
     private func getApplyList() {
         guard let roomId = roomInfo?.room?.room_id else {return}
@@ -412,6 +412,8 @@ extension VoiceRoomViewController {
     
     private func showEQView(with role: ROLE_TYPE) {
         preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
+        preView.isPrivate = false
+        preView.isAudience = false
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false

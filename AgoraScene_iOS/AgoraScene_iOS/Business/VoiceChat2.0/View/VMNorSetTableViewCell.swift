@@ -13,7 +13,7 @@ class VMNorSetTableViewCell: UITableViewCell {
     public var iconView: UIImageView = UIImageView()
     public var titleLabel: UILabel = UILabel()
     private var indView: UIImageView = UIImageView()
-    private var contentLabel: UILabel = UILabel()
+    public var contentLabel: UILabel = UILabel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,13 +40,13 @@ class VMNorSetTableViewCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         
         contentLabel.frame = CGRect(x: screenWidth - 150~, y: 17~, width: 100~, height: 30~)
-        contentLabel.text = "KTVVVVV"
+        contentLabel.text = "Middle"
         contentLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
         contentLabel.textAlignment = .right
         self.contentView.addSubview(contentLabel)
         
         indView.frame = CGRect(x: screenWidth - 40~, y: 22~, width: 20~, height: 20~)
-        indView.image = UIImage(named: "arrow_right_bold")
+        indView.image = UIImage(named: "arrow_right 1")
         self.contentView.addSubview(indView)
         
         self.selectionStyle = .none

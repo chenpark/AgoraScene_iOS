@@ -14,8 +14,8 @@ public enum SUP_CELL_TYPE {
 class VMANISSUPTableViewCell: UITableViewCell {
 
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
-    private var titleLabel: UILabel = UILabel()
-    private var detailLabel: UILabel = UILabel()
+    public var titleLabel: UILabel = UILabel()
+    public var detailLabel: UILabel = UILabel()
     private var noneBtn: UIButton = UIButton()
     private var anisBtn: UIButton = UIButton()
     private var selBtn: UIButton!
@@ -47,9 +47,11 @@ class VMANISSUPTableViewCell: UITableViewCell {
         titleLabel.font = UIFont.systemFont(ofSize: 13)
         self.contentView.addSubview(titleLabel)
         
-        detailLabel.frame = CGRect(x: 20~, y: 30~, width: 200~, height: 15~)
+        detailLabel.frame = CGRect(x: 20~, y: 30~, width: 150~, height: 30~)
         detailLabel.text = "Ex bird, car,subway sounds"
         detailLabel.font = UIFont.systemFont(ofSize: 11)
+        detailLabel.numberOfLines = 0
+        detailLabel.lineBreakMode = .byCharWrapping
         detailLabel.textColor = UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1)
         self.contentView.addSubview(detailLabel)
         detailLabel.isHidden = true

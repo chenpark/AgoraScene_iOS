@@ -14,11 +14,19 @@ public enum AUDIO_SETTING_TYPE {
     case Spatial
 }
 
+public enum AINS_LEVEL {
+    case high
+    case mid
+    case low
+}
+
 class VMAudioSettingView: UIView {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     private var lineImgView: UIImageView = UIImageView()
     private var titleLabel: UILabel = UILabel()
     private var tableView: UITableView = UITableView()
+    public var isAudience: Bool = false
+    public var isPrivate: Bool = false
     
     private let swIdentifier = "switch"
     private let slIdentifier = "slider"
@@ -26,6 +34,8 @@ class VMAudioSettingView: UIView {
     
     private var settingName: [String] = ["Agora Blue && Agora Red","Robot volume","Best Agora Sound","AINS","Spatial Audio"]
     private var settingImage: [String] = ["icons／set／jiqi", "icons／set／jiqi(1)", "icons／set／jiqi(2)", "icons／set／jiqi(3)", "icons／set／jiqi(4)"]
+    private var soundTitle: [String] = []
+    private var ainsTitle: [String] = []
     
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
     
@@ -59,6 +69,7 @@ class VMAudioSettingView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         self.addSubview(tableView)
+        tableView.tableFooterView = UIView()
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
@@ -87,7 +98,7 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 2
         } else {
-            return 3
+            return isPrivate ? 3 : 2
         }
     }
     
@@ -123,11 +134,15 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 let cell: VMSwitchTableViewCell = tableView.dequeueReusableCell(withIdentifier: swIdentifier) as! VMSwitchTableViewCell
                 cell.iconView.image = UIImage(named: settingImage[0])
                 cell.titleLabel.text = settingName[0]
+                cell.alpha = isAudience ? 0.5 : 1
+                cell.isUserInteractionEnabled = !isAudience
                 return cell
             } else if indexPath.row == 1 {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
                 cell.iconView.image = UIImage(named: settingImage[1])
                 cell.titleLabel.text = settingName[1]
+                cell.alpha = isAudience ? 0.5 : 1
+                cell.isUserInteractionEnabled = !isAudience
                 return cell
             }
         } else if indexPath.section == 1 {
