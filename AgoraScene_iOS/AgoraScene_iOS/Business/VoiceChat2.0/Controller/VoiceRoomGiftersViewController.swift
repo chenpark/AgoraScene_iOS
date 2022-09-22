@@ -17,8 +17,11 @@ public class VoiceRoomGiftersViewController: UITableViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchList()
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomGifterCell.self, forCellReuseIdentifier: "VoiceRoomGifterCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false)
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.refresh()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -58,8 +61,14 @@ public class VoiceRoomGiftersViewController: UITableViewController {
 }
 
 extension VoiceRoomGiftersViewController {
-    private func fetchList() {
+    
+    @objc func refresh() {
+        self.fetchList()
+    }
+    
+    @objc private func fetchList() {
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchGiftContribute(roomId: self.room_id), params: [:], classType: VoiceRoomContributions.self) { contributions, error in
+            self.tableView.refreshControl?.endRefreshing()
             if error == nil,contributions != nil,contributions?.ranking_list?.count ?? 0 > 0 {
                 self.dataSource = contributions!
                 self.tableView.reloadData()

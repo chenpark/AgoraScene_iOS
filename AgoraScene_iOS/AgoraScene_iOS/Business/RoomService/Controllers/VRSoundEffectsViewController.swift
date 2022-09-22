@@ -30,7 +30,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
     }()
     
     lazy var toLive: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: 15, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(VRSoundEffectsViewController.goLive), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 30, y: 15, width: ScreenWidth - 60, height: 50)).title("Go Live", .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)]).cornerRadius(25).addTargetFor(self, action: #selector(VRSoundEffectsViewController.entryRoom), for: .touchUpInside)
     }()
     
     public override func viewDidLoad() {
@@ -57,7 +57,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         }
     }
     
-    private func entryRoom() {
+    @objc private func entryRoom() {
         ProgressHUD.show("Login IM",interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
