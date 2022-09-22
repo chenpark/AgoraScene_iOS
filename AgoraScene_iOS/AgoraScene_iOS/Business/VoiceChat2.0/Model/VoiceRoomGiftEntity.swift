@@ -13,7 +13,7 @@ import KakaJSON
     var gift_id: String? = ""
     var gift_name: String? = ""
     var userName: String? = ""
-    var gift_value: String? = ""
+    var gift_price: String? = ""
     var portrait: String? = ""
     var avatar: UIImage? {
         UIImage(named: self.portrait ?? "")
