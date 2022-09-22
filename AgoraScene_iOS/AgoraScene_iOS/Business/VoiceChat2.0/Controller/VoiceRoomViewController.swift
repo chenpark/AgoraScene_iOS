@@ -415,10 +415,14 @@ extension VoiceRoomViewController {
         
     }
     
-    private func showEQView(with role: ROLE_TYPE) {
+    private func showEQView() {
         preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
-        preView.isPrivate = false
-        preView.isAudience = false
+        if let type = roomInfo?.room?.type {
+            preView.isPrivate = type == 1
+        } else {
+            preView.isPrivate = false
+        }
+        preView.isAudience = roomInfo?.room?.use_robot ?? false
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false
@@ -472,7 +476,7 @@ extension VoiceRoomViewController {
             case .gift:
                 self.showGiftAlert()
             case .eq:
-                self.showEQView(with: .audience)
+                self.showEQView()
             default: break
             }
         }
