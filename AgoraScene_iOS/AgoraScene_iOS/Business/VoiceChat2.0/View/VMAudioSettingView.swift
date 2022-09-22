@@ -37,6 +37,8 @@ class VMAudioSettingView: UIView {
     private var soundTitle: [String] = []
     private var ainsTitle: [String] = []
     
+    public var roomInfo: VRRoomInfo?
+    
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
     
     override func draw(_ rect: CGRect) {

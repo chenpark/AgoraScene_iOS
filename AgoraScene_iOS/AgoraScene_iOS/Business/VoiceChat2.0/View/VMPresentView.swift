@@ -12,8 +12,7 @@ class VMPresentView: UIView {
     private var scrollView: UIScrollView = UIScrollView()
     private var audioSetView: VMAudioSettingView = VMAudioSettingView()
     private var eqView: VMEQSettingView = VMEQSettingView()
-    public var isPrivate: Bool = false
-    public var isAudience: Bool = false
+    public var roomInfo: VRRoomInfo?
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = .white
@@ -28,8 +27,12 @@ class VMPresentView: UIView {
         
         audioSetView.backgroundColor = .white
         audioSetView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: self.bounds.size.height)
-        audioSetView.isPrivate = isPrivate
-        audioSetView.isAudience = isAudience
+        if let type = roomInfo?.room?.type {
+            audioSetView.isPrivate = type == 1
+        } else {
+            audioSetView.isPrivate = false
+        }
+        audioSetView.isAudience = roomInfo?.room?.use_robot ?? false
         audioSetView.resBlock = {[weak self] type in
             self?.scrollView.isScrollEnabled = true
             self?.eqView.settingType = type
