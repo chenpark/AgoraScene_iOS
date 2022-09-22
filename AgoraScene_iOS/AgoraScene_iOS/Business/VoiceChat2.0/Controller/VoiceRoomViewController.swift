@@ -70,6 +70,11 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
         }
     }
     
+    convenience init(info: VRRoomInfo) {
+        self.init()
+        self.roomInfo = info
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
