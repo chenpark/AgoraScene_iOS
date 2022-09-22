@@ -435,46 +435,53 @@ extension VoiceRoomViewController {
             self?.inputBar.inputField.becomeFirstResponder()
         }
         self.inputBar.sendClosure = { [weak self] in
-            guard let `self` = self else { return }
-            guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
-            guard let userName = VoiceRoomUserInfo.shared.user?.name  else { return }
-            VoiceRoomIMManager.shared?.sendMessage(roomId: roomId, text: $0,ext: ["userName":userName]) { message, error in
-                self.inputBar.endEditing(true)
-                self.inputBar.inputField.text = ""
-                if error == nil,message != nil {
-                    self.showMessage(message: message!)
-                } else {
-                    self.view.makeToast("\(error?.errorDescription ?? "")")
-                }
-            }
+            self?.sendTextMessage(text: $0)
         }
         self.chatBar.events = { [weak self] in
             guard let `self` = self else { return }
             switch $0 {
-            case .mic:
-                self.chatBar.micState = !self.chatBar.micState
-                self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
-                self.chatBar.micState == false ? self.openMic():self.closeMic()
-            case .handsUp:
-                if self.isOwner {
-                    if self.chatBar.handsState == .selected {
-                        self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: true)
-                    }
-                    self.applyMembersAlert()
-                } else {
-                    if self.chatBar.handsState == .unSelected {
-                        self.userApplyAlert(nil)
-                    } else if self.chatBar.handsState == .disable {
-                        self.userCancelApplyAlert()
-                    }
-                }
-            case .gift:
-                self.showGiftAlert()
-            case .eq:
-                self.showEQView()
+            case .eq: self.showEQView()
+            case .mic: self.changeMicState()
+            case .gift: self.showGiftAlert()
+            case .handsUp: self.changeHandsUpState()
             default: break
             }
         }
+    }
+    
+    private func sendTextMessage(text: String) {
+        guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
+        guard let userName = VoiceRoomUserInfo.shared.user?.name  else { return }
+        VoiceRoomIMManager.shared?.sendMessage(roomId: roomId, text: text,ext: ["userName":userName]) { message, error in
+            self.inputBar.endEditing(true)
+            self.inputBar.inputField.text = ""
+            if error == nil,message != nil {
+                self.showMessage(message: message!)
+            } else {
+                self.view.makeToast("\(error?.errorDescription ?? "")")
+            }
+        }
+    }
+    
+    private func changeHandsUpState() {
+        if self.isOwner {
+            if self.chatBar.handsState == .selected {
+                self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: true)
+            }
+            self.applyMembersAlert()
+        } else {
+            if self.chatBar.handsState == .unSelected {
+                self.userApplyAlert(nil)
+            } else if self.chatBar.handsState == .disable {
+                self.userCancelApplyAlert()
+            }
+        }
+    }
+    
+    private func changeMicState() {
+        self.chatBar.micState = !self.chatBar.micState
+        self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
+        self.chatBar.micState == false ? self.openMic():self.closeMic()
     }
     
     private func showUsers() {
@@ -570,20 +577,24 @@ extension VoiceRoomViewController {
                     if id == "VoiceRoomGift9" {
                         self.rocketAnimation()
                     }
-                    if let roomId = self.roomInfo?.room?.room_id {
-                        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
-                            if let result = dic?["result"] as? Bool,error == nil,result {
-                                self.view.makeToast("Send successful!")
-                                debugPrint("result:\(result)")
-                            } else {
-                                self.view.makeToast("Send failed!")
-                            }
-                        }
-                    }
+                    self.notifyServerGiftInfo(id: id, count: count, uid: uid)
                 } else {
                     self.view.makeToast("Send failed \(error?.errorDescription ?? "")")
                 }
             })
+        }
+    }
+    
+    private func notifyServerGiftInfo(id: String,count: String,uid: String) {
+        if let roomId = self.roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
+                if let result = dic?["result"] as? Bool,error == nil,result {
+                    self.view.makeToast("Send successful!")
+                    debugPrint("result:\(result)")
+                } else {
+                    self.view.makeToast("Send failed!")
+                }
+            }
         }
     }
     
@@ -730,7 +741,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             self.rocketAnimation()
         }
     }
-    /// 只有owner会收到此回调
+    
     func receiveApplySite(roomId: String, meta: [String : String]?) {
         let user = model(from: meta ?? [:], VRUser.self)
         if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
@@ -738,7 +749,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         }
         self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: self.isOwner)
     }
-    /// 只有观众会收到此回调
+    
     func receiveInviteSite(roomId: String, meta: [String : String]?) {
         guard let map = meta?["user"] else { return }
         let user = model(from: map, VRUser.self)
