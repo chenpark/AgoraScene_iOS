@@ -493,6 +493,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: index != nil ? ["mic_index":index ?? 2]:[:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
+                    self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
                     self.view.makeToast("Apply success!")
                 } else {
                     self.view.makeToast("Apply failed!")
@@ -508,9 +509,10 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelApply(roomId: roomId), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("Apply success!")
+                    self.view.makeToast("Cancel Apply success!")
+                    self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
                 } else {
-                    self.view.makeToast("Apply failed!")
+                    self.view.makeToast("Cancel Apply failed!")
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
@@ -519,8 +521,8 @@ extension VoiceRoomViewController {
     }
     
     private func userCancelApplyAlert() {
-        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "",cancel: "Cancel Request",confirm: "").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: apply)
+        let apply = VoiceRoomCancelAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth)).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: apply)
         apply.actionEvents = { [weak self] in
             if $0 == 30 {
                 self?.cancelRequestSpeak(index: nil)
