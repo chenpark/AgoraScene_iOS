@@ -7,18 +7,27 @@
 
 import Foundation
 import UIKit
+import KakaJSON
 
-@objcMembers open class VoiceRoomGiftEntity: NSObject,Codable {
+@objc open class VoiceRoomGiftEntity: NSObject,Convertible {
     var gift_id: String? = ""
     var gift_name: String? = ""
     var userName: String? = ""
-    var gift_value: String? = ""
+    var gift_price: String? = ""
     var portrait: String? = ""
     var avatar: UIImage? {
         UIImage(named: self.portrait ?? "")
     }
     var gift_count: String? = "0"
     var selected = false
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
 }
 
 open class VoiceRoomGiftCount {

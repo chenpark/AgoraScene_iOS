@@ -28,12 +28,12 @@ public class VRNormalRoomsViewController: UIViewController {
         self.view.addSubViews([self.empty,self.roomList])
         // Do any additional setup after loading the view.
         self.roomListEvent()
+        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
     }
     
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
     }
 
 }

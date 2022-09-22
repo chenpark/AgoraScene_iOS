@@ -35,7 +35,7 @@ extension LauchViewController {
     
     @objc func login() {
         ProgressHUD.show()
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":"avatar1","name":"1238"],classType:VRUser.self) { [weak self] user, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":"avatar3","name":"1234567"],classType:VRUser.self) { [weak self] user, error in
             ProgressHUD.dismiss()
             if error == nil {
                 VoiceRoomUserInfo.shared.user = user

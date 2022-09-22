@@ -38,7 +38,7 @@ public struct VoiceRoomRequestHTTPMethod: RawRepresentable, Equatable, Hashable 
     
     @objc public static var shared = VoiceRoomRequest()
     
-    var host: String =  "https://a1-test-voiceroom.easemob.com"
+    var host: String =  "http://a1-test-voiceroom.easemob.com"
         
     private lazy var config: URLSessionConfiguration = {
         //MARK: - session config
@@ -64,7 +64,7 @@ public struct VoiceRoomRequestHTTPMethod: RawRepresentable, Equatable, Hashable 
         guard let url = URL(string: self.host+uri) else { return nil }
         //MARK: - request
         var urlRequest = URLRequest(url: url)
-        if !params.isEmpty {
+        if method == .put || method == .post {
             do {
                 urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
             } catch {
