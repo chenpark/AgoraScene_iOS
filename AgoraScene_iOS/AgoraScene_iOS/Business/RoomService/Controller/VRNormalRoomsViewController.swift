@@ -28,7 +28,8 @@ public class VRNormalRoomsViewController: UIViewController {
         self.view.addSubViews([self.empty,self.roomList])
         // Do any additional setup after loading the view.
         self.roomListEvent()
-        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
+        self.refresh()
+        self.roomList.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
 
@@ -40,10 +41,16 @@ public class VRNormalRoomsViewController: UIViewController {
 
 extension VRNormalRoomsViewController {
     
-    private func fetchRooms(cursor: String) {
+    @objc func refresh() {
+        self.roomList.rooms = nil
+        self.fetchRooms(cursor: "")
+    }
+    
+    @objc private func fetchRooms(cursor: String) {
         ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size,type: 0), params: [:], classType: VRRoomsEntity.self) { rooms, error in
             ProgressHUD.dismiss()
+            self.roomList.refreshControl?.endRefreshing()
             if error == nil {
                 guard let total = rooms?.total else { return }
                 if total > 0 {

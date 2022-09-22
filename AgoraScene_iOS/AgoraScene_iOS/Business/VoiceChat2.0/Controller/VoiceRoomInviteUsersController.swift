@@ -28,7 +28,10 @@ public class VoiceRoomInviteUsersController: UITableViewController {
         super.viewDidLoad()
         self.view.insertSubview(self.empty, belowSubview: self.tableView)
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomInviteCell.self, forCellReuseIdentifier: "VoiceRoomInviteCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false).backgroundColor(.clear)
-        self.fetchUsers()
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
+        self.tableView.refreshControl?.addTarget(self, action: #selector(fetchUsers), for: .valueChanged)
+        self.refresh()
     }
 
     // MARK: - Table view data source
@@ -64,10 +67,16 @@ public class VoiceRoomInviteUsersController: UITableViewController {
 
 extension VoiceRoomInviteUsersController {
     
-    private func fetchUsers() {
+    @objc func refresh() {
+        self.apply = nil
+        self.fetchUsers()
+    }
+    
+    @objc private func fetchUsers() {
         ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomAudiencesEntity.self) { model, error in
             ProgressHUD.dismiss()
+            self.tableView.refreshControl?.endRefreshing()
             if model != nil,error == nil {
                 if self.apply == nil {
                     self.apply = model

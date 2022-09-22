@@ -28,7 +28,8 @@ public class VRSpatialSoundViewController: UIViewController {
         self.view.addSubViews([self.empty,self.roomList])
         // Do any additional setup after loading the view.
         self.roomListEvent()
-        self.fetchRooms(cursor: self.roomList.rooms?.cursor ?? "")
+        self.refresh()
+        self.roomList.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -39,11 +40,17 @@ public class VRSpatialSoundViewController: UIViewController {
 
 extension VRSpatialSoundViewController {
     
-    private func fetchRooms(cursor: String) {
+    @objc func refresh() {
+        self.roomList.rooms = nil
+        self.fetchRooms(cursor: "")
+    }
+    
+    @objc private func fetchRooms(cursor: String) {
         ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size,type: 1), params: [:], classType: VRRoomsEntity.self) { rooms, error in
+            self.roomList.refreshControl?.endRefreshing()
+            ProgressHUD.dismiss()
             if error == nil {
-                ProgressHUD.dismiss()
                 guard let total = rooms?.total else { return }
                 if total > 0 {
                     self.fillDataSource(rooms: rooms)
