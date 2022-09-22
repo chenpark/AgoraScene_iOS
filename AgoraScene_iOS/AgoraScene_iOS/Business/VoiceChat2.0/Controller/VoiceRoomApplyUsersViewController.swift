@@ -11,7 +11,7 @@ import ProgressHUD
 
 public class VoiceRoomApplyUsersViewController: UITableViewController {
     
-    private var apply: VoiceRoomAudiencesEntity?
+    private var apply: VoiceRoomApplyEntity?
     
     private var roomId: String?
     
@@ -37,7 +37,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
     // MARK: - Table view data source
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.apply?.members?.count ?? 0
+        self.apply?.apply_list?.count ?? 0
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,7 +47,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         }
         // Configure the cell...
         cell?.selectionStyle = .none
-        cell?.user = self.apply?.members?[safe: indexPath.row]
+        cell?.user = self.apply?.apply_list?[safe: indexPath.row]
         cell?.agreeClosure = { [weak self] in
             self?.agreeUserApply(user: $0)
             self?.apply?.members?[safe: indexPath.row]?.invited = true
@@ -57,7 +57,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
     }
 
     public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if self.apply?.cursor != nil,(self.apply?.members?.count ?? 0) - 2 == indexPath.row, (self.apply?.total ?? 0) >= (self.apply?.members?.count ?? 0) {
+        if self.apply?.cursor != nil,(self.apply?.apply_list?.count ?? 0) - 2 == indexPath.row, (self.apply?.total ?? 0) >= (self.apply?.apply_list?.count ?? 0) {
             self.fetchUsers()
         }
     }
@@ -74,7 +74,7 @@ extension VoiceRoomApplyUsersViewController {
     
     @objc private func fetchUsers() {
         ProgressHUD.show()
-        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchApplyMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomAudiencesEntity.self) { model, error in
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchApplyMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomApplyEntity.self) { model, error in
             ProgressHUD.dismiss()
             self.tableView.refreshControl?.endRefreshing()
             if model != nil,error == nil {
@@ -82,19 +82,19 @@ extension VoiceRoomApplyUsersViewController {
                     self.apply = model
                 } else {
                     self.apply?.cursor = model?.cursor
-                    self.apply?.members?.append(contentsOf: model?.members ?? [])
+                    self.apply?.apply_list?.append(contentsOf: model?.apply_list ?? [])
                 }
                 self.tableView.reloadData()
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
             }
-            self.empty.isHidden = (self.apply?.members?.count ?? 0 != 0)
+            self.empty.isHidden = (self.apply?.apply_list?.count ?? 0 != 0)
         }
     }
     
-    private func agreeUserApply(user: VRUser?) {
+    private func agreeUserApply(user: VoiceRoomApply?) {
         ProgressHUD.show()
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .agreeApply(roomId: self.roomId ?? ""), params: ["uid":user?.uid ?? ""]) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .agreeApply(roomId: self.roomId ?? ""), params: ["uid":user?.member?.uid ?? ""]) { dic, error in
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
