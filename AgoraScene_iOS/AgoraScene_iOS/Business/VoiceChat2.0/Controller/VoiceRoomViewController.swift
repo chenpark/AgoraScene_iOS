@@ -450,6 +450,7 @@ extension VoiceRoomViewController {
             case .mic:
                 self.chatBar.micState = !self.chatBar.micState
                 self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
+                self.chatBar.micState == false ? self.openMic():self.closeMic()
             case .handsUp:
                 if self.isOwner {
                     if self.chatBar.handsState == .selected {
@@ -631,6 +632,20 @@ extension VoiceRoomViewController {
     private func leaveRoom() {
         guard let room_id = roomInfo?.room?.room_id else {return}
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
+            print(map?["result"] as? Bool ?? false)
+        }
+    }
+    
+    private func closeMic() {
+        guard let room_id = roomInfo?.room?.room_id else {return}
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: room_id), params: [:]) { map, err in
+            print(map?["result"] as? Bool ?? false)
+        }
+    }
+    
+    private func openMic() {
+        guard let room_id = roomInfo?.room?.room_id else {return}
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: room_id), params: [:]) { map, err in
             print(map?["result"] as? Bool ?? false)
         }
     }
