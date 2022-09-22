@@ -685,7 +685,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveGift(roomId: String, meta: [String : String]?) {
         guard let dic = meta else { return }
-        self.giftList.gifts.append(model(from: meta ?? [:], VoiceRoomGiftEntity.self))
+        self.giftList.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
@@ -712,7 +712,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     /// 只有owner会收到此回调
     func refuseInvite(roomId: String, meta: [String : String]?) {
-        //        self.view.makeToast("")
+        self.view.makeToast("User refuse invite")
     }
     
     func userJoinedRoom(roomId: String, username: String) {
