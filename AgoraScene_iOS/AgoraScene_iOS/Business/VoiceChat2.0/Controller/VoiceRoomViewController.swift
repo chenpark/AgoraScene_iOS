@@ -688,6 +688,22 @@ extension VoiceRoomViewController {
             }
         }
     }
+    
+    private func showInviteMicAlert() {
+        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16).backgroundColor(.white)
+        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 200))
+        compent.destination = .center
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: alert)
+        alert.actionEvents = { [weak self] in
+            if $0 == 30 {
+                self?.refuse()
+            } else {
+                self?.agreeInvite()
+            }
+            vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
+    }
 }
 //MARK: - VoiceRoomIMDelegate
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
@@ -717,27 +733,28 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     /// 只有owner会收到此回调
     func receiveApplySite(roomId: String, meta: [String : String]?) {
-        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
+        let user = model(from: meta ?? [:], VRUser.self)
+        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
+            return
+        }
+        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: self.isOwner)
     }
     /// 只有观众会收到此回调
     func receiveInviteSite(roomId: String, meta: [String : String]?) {
-        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 65), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16)
-        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 65))
-        compent.destination = .center
-        let vc = VoiceRoomAlertViewController(compent: compent, custom: alert)
-        alert.actionEvents = { [weak self] in
-            if $0 == 30 {
-                self?.refuse()
-            } else {
-                self?.agreeInvite()
-            }
-            vc.dismiss(animated: true)
+        guard let map = meta?["user"] else { return }
+        let user = model(from: map, VRUser.self)
+        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user?.uid ?? "" {
+            return
         }
-        self.presentViewController(vc)
+        self.showInviteMicAlert()
     }
-    /// 只有owner会收到此回调
+    
     func refuseInvite(roomId: String, meta: [String : String]?) {
-        self.view.makeToast("User refuse invite")
+        let user = model(from: meta ?? [:], VRUser.self)
+        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
+            return
+        }
+        self.view.makeToast("User \(user.name ?? "") refuse invite")
     }
     
     func userJoinedRoom(roomId: String, username: String) {
