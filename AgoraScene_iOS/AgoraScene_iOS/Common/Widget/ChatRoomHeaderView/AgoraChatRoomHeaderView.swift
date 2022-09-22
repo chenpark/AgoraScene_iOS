@@ -49,7 +49,7 @@ class AgoraChatRoomHeaderView: UIView {
             self.giftBtn.setTitle(" \(entity.gift_amount ?? 0)", for: .normal)
         }
     }
-
+    
     override func draw(_ rect: CGRect) {
         // Drawing code
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -60,7 +60,7 @@ class AgoraChatRoomHeaderView: UIView {
         self.backBtn.setBackgroundImage(UIImage(named: "icon／outline／left"), for: .normal)
         self.backBtn.addTarget(self, action: #selector(back), for: .touchUpInside)
         self.addSubview(self.backBtn)
- 
+        
         self.iconImgView.layer.cornerRadius = 16~;
         self.iconImgView.layer.masksToBounds = true;
         guard let user = entity.owner else {return}
@@ -113,7 +113,7 @@ class AgoraChatRoomHeaderView: UIView {
         
         let soundSetView = UIView()
         self.configView.addSubview(soundSetView)
-
+        
         self.soundSetLabel.text = "SNS Chat Sound"
         self.soundSetLabel.textColor = .white
         self.soundSetLabel.font = UIFont.systemFont(ofSize: 10)~
@@ -122,7 +122,7 @@ class AgoraChatRoomHeaderView: UIView {
         let soundImgView = UIImageView()
         soundImgView.image = UIImage(named: "icons／outlined／arrow_right")
         self.configView.addSubview(soundImgView)
-
+        
         self.giftBtn.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         self.giftBtn.layer.cornerRadius = 13~
         self.giftBtn.setImage(UIImage(named: "icons／Stock／gift"), for: .normal)
@@ -130,7 +130,7 @@ class AgoraChatRoomHeaderView: UIView {
         self.giftBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         self.giftBtn.isUserInteractionEnabled = false
         self.addSubview(self.giftBtn)
-
+        
         self.lookBtn.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         self.lookBtn.layer.cornerRadius = 13~
         self.lookBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)~
@@ -167,7 +167,7 @@ class AgoraChatRoomHeaderView: UIView {
             make.top.equalTo(isHairScreen ? 54~ : 54~ - 25);
             make.width.height.equalTo(30~);
         }
- 
+        
         self.iconImgView.snp.makeConstraints { make in
             make.left.equalTo(self.backBtn.snp.right).offset(5~);
             make.centerY.equalTo(self.backBtn);
@@ -201,19 +201,6 @@ class AgoraChatRoomHeaderView: UIView {
             
             if let fImg = rankList[0].portrait {
                 self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)
-            }
-            
-            if let sImg = rankList[1].portrait {
-                print(sImg)
-                self.rankSBtn.setImage(UIImage(named: sImg), for: .normal)
-            }
-            
-            if let tImg = rankList[2].portrait {
-                print(tImg)
-                self.rankTBtn.setImage(UIImage(named: tImg), for: .normal)
-            }
-            
-            if rankList.count == 1 {
                 self.rankFBtn.isHidden = false
                 self.rankSBtn.isHidden = true
                 self.rankTBtn.isHidden = true
@@ -222,7 +209,11 @@ class AgoraChatRoomHeaderView: UIView {
                     make.width.height.equalTo(26~)
                     make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
                 }
-            } else if rankList.count == 2 {
+            }
+            
+            if rankList.count < 2 {return}
+            if let sImg = rankList[1].portrait {
+                self.rankSBtn.setImage(UIImage(named: sImg), for: .normal)
                 self.rankFBtn.isHidden = false
                 self.rankSBtn.isHidden = false
                 self.rankTBtn.isHidden = true
@@ -236,7 +227,11 @@ class AgoraChatRoomHeaderView: UIView {
                     make.width.height.equalTo(26~)
                     make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
                 }
-            } else if rankList.count >= 3 {
+            }
+            
+            if rankList.count < 3 {return}
+            if let tImg = rankList[2].portrait {
+                print(tImg)
                 self.rankFBtn.isHidden = false
                 self.rankSBtn.isHidden = false
                 self.rankTBtn.isHidden = false
@@ -330,7 +325,7 @@ class AgoraChatRoomHeaderView: UIView {
             make.right.equalTo(arrowImgView.snp.left).offset(-5~);
             make.centerY.equalTo(self.noticeView);
         }
-
+        
     }
     
     @objc private func back() {
