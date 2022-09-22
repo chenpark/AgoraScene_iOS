@@ -34,7 +34,7 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     }()
     
     private lazy var chatBar: VoiceRoomChatBar = {
-        VoiceRoomChatBar(frame: CGRect(x: 0, y: ScreenHeight-CGFloat(ZBottombarHeight)-50, width: ScreenWidth, height: 50),style:.normal)
+        VoiceRoomChatBar(frame: CGRect(x: 0, y: ScreenHeight-CGFloat(ZBottombarHeight)-50, width: ScreenWidth, height: 50),style:self.roomInfo?.room?.type ?? 0 == 1 ? .spatialAudio:.normal)
     }()
     
     private lazy var inputBar: VoiceRoomInputBar = {
@@ -436,6 +436,7 @@ extension VoiceRoomViewController {
             guard let userName = VoiceRoomUserInfo.shared.user?.name  else { return }
             VoiceRoomIMManager.shared?.sendMessage(roomId: roomId, text: $0,ext: ["userName":userName]) { message, error in
                 self.inputBar.endEditing(true)
+                self.inputBar.inputField.text = ""
                 if error == nil,message != nil {
                     self.showMessage(message: message!)
                 } else {
