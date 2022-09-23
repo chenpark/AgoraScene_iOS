@@ -50,7 +50,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         cell?.user = self.apply?.apply_list?[safe: indexPath.row]
         cell?.agreeClosure = { [weak self] in
             self?.agreeUserApply(user: $0)
-            self?.apply?.members?[safe: indexPath.row]?.invited = true
+            self?.apply?.apply_list?[safe: indexPath.row]?.member?.invited = true
             self?.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         return cell ?? VoiceRoomApplyCell()
@@ -98,6 +98,7 @@ extension VoiceRoomApplyUsersViewController {
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
+                    self.fetchUsers()
                     self.view.makeToast("Agree success!")
                 } else {
                     self.view.makeToast("Agree failed!")
