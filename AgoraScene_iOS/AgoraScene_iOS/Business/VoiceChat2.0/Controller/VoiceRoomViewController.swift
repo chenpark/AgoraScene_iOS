@@ -225,8 +225,13 @@ extension VoiceRoomViewController {
             make.left.right.equalTo(self.view);
             make.height.equalTo(240~);
         }
-        self.view.addSubViews([self.chatView,self.giftList,self.chatBar,self.inputBar])
-        self.inputBar.isHidden = true
+        if self.roomInfo?.room?.type ?? 0 == 1 {
+            self.view.addSubViews([self.chatBar])
+            self.inputBar.isHidden = true
+        } else {
+            self.view.addSubViews([self.chatView,self.giftList,self.chatBar,self.inputBar])
+            self.inputBar.isHidden = true
+        }
         
     }
     
