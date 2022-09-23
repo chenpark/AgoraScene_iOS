@@ -115,6 +115,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
             self.gift_count = $0
         }
         self.current = self.gifts.first
+        self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
     }
     
     required init?(coder: NSCoder) {
@@ -142,6 +143,7 @@ extension VoiceRoomGiftsView {
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
             self.disableView.isHidden = true
+            self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
         }
     }
     
