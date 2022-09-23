@@ -19,13 +19,13 @@ public enum ROLE_TYPE {
 
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_price":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_price":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_price":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_price":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_price":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_price":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_price":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_price":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_price":"1500","gift_count":"1","selected":false]]
 
-class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
+class VoiceRoomViewController: VRBaseViewController {
     
     private var headerView: AgoraChatRoomHeaderView!
     private var rtcView: AgoraChatRoomNormalRtcView!
     private var sRtcView: AgoraChatRoom3DRtcView!
     
-    lazy var giftList: VoiceRoomGiftView  = {
+    private lazy var giftList: VoiceRoomGiftView  = {
         VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear)
     }()
     
@@ -39,6 +39,30 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     
     private lazy var inputBar: VoiceRoomInputBar = {
         VoiceRoomInputBar(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 60)).backgroundColor(.white)
+    }()
+    
+    private lazy var giftsAlert: VoiceRoomGiftsView = {
+        VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+    }()
+    
+    private lazy var contributeList: VoiceRoomUserView = {
+        VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Contribution List")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+    }()
+    
+    private lazy var usersAlert: VoiceRoomUserView = {
+        VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: roomId),VoiceRoomInviteUsersController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+    }()
+    
+    private lazy var cancelAlert: VoiceRoomCancelAlert = {
+        VoiceRoomCancelAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth)).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+    }()
+    
+    private lazy var applyAlert: VoiceRoomApplyAlert = {
+        VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+    }()
+    
+    private lazy var inviteMicAlert: VoiceRoomApplyAlert = {
+        VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16).backgroundColor(.white)
     }()
     
     private var preView: VMPresentView!
@@ -496,15 +520,13 @@ extension VoiceRoomViewController {
     
     private func showUsers() {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Contribution List")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: tmp)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: self.contributeList)
         self.presentViewController(vc)
     }
     
     private func userApplyAlert(_ index: Int?) {
-        let apply = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: apply)
-        apply.actionEvents = { [weak self] in
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: self.applyAlert)
+        self.applyList.actionEvents = { [weak self] in
             if $0 == 31 {
                 self?.requestSpeak(index: index)
             }
@@ -546,9 +568,8 @@ extension VoiceRoomViewController {
     }
     
     private func userCancelApplyAlert() {
-        let apply = VoiceRoomCancelAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth)).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: apply)
-        apply.actionEvents = { [weak self] in
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: self.cancelAlert)
+        self.cancelAlert.actionEvents = { [weak self] in
             if $0 == 30 {
                 self?.cancelRequestSpeak(index: nil)
             }
@@ -559,17 +580,16 @@ extension VoiceRoomViewController {
     
     private func applyMembersAlert() {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        let userView = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: roomId),VoiceRoomInviteUsersController(roomId: roomId)],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: userView)
+        let userView =
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: self.usersAlert)
         self.presentViewController(vc)
     }
     
     private func showGiftAlert() {
-        let gift = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        gift.sendClosure = { [weak self] in
+        self.giftsAlert.sendClosure = { [weak self] in
             self?.sendGift(gift: $0)
         }
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: gift)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: self.giftsAlert)
         self.presentViewController(vc)
     }
     
@@ -583,6 +603,7 @@ extension VoiceRoomViewController {
                     if let c = Int(count),let v = Int(value),var amount = VoiceRoomUserInfo.shared.user?.amount {
                         amount += c*v
                         VoiceRoomUserInfo.shared.user?.amount = amount
+                        self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
                     }
                     if id == "VoiceRoomGift9" {
                         self.rocketAnimation()
@@ -622,15 +643,6 @@ extension VoiceRoomViewController {
             player.startAnimation()
         } failureBlock: { error in
             player.removeFromSuperview()
-        }
-    }
-    
-    func svgaPlayerDidFinishedAnimation(_ player: SVGAPlayer!) {
-        let animation = self.view.viewWithTag(199)
-        UIView.animate(withDuration: 0.3) {
-            animation?.alpha = 0
-        } completion: { finished in
-            if finished { animation?.removeFromSuperview() }
         }
     }
     
@@ -710,11 +722,10 @@ extension VoiceRoomViewController {
     }
     
     private func showInviteMicAlert() {
-        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16).backgroundColor(.white)
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 200))
         compent.destination = .center
-        let vc = VoiceRoomAlertViewController(compent: compent, custom: alert)
-        alert.actionEvents = { [weak self] in
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: self.inviteMicAlert)
+        self.inviteMicAlert.actionEvents = { [weak self] in
             if $0 == 30 {
                 self?.refuse()
             } else {
@@ -725,6 +736,18 @@ extension VoiceRoomViewController {
         self.presentViewController(vc)
     }
 }
+//MARK: - SVGAPlayerDelegate
+extension VoiceRoomViewController:  {
+    func svgaPlayerDidFinishedAnimation(_ player: SVGAPlayer!) {
+        let animation = self.view.viewWithTag(199)
+        UIView.animate(withDuration: 0.3) {
+            animation?.alpha = 0
+        } completion: { finished in
+            if finished { animation?.removeFromSuperview() }
+        }
+    }
+}
+
 //MARK: - VoiceRoomIMDelegate
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
