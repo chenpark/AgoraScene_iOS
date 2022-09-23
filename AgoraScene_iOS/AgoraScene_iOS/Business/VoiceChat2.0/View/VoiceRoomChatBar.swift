@@ -63,8 +63,10 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     public convenience init(frame: CGRect,style: VoiceRoomChatBarStyle) {
         self.init(frame: frame)
         if style == .normal {
+            self.chatRaiser.isHidden = false
             self.datas = ["mic","handuphard","eq","sendgift"]
         } else {
+            self.chatRaiser.isHidden = true
             self.datas = ["mic","handuphard","eq"]
         }
         self.addSubViews([self.chatRaiser,self.toolBar])
