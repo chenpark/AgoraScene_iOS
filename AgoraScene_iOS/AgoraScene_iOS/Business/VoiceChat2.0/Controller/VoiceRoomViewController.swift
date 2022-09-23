@@ -713,6 +713,7 @@ extension VoiceRoomViewController {
     private func agreeInvite() {
         if let roomId = self.roomInfo?.room?.room_id {
             VoiceRoomBusinessRequest.shared.sendGETRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
+                
             }
         }
     }
@@ -822,7 +823,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
-        
+        self.view.makeToast("roomId:\(roomId),attributeMap:\(attributeMap)")
     }
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
