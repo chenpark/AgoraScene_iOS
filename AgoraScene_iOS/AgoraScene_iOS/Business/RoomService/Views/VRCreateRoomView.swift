@@ -73,6 +73,7 @@ extension VRCreateRoomView {
             namePrefix = LanguageManager.localValue(key: "Spatial Audio Mode Room")
         }
         self.roomInput.roomNameField.text = namePrefix+"\((1...100).randomElement() ?? 1)"
+        self.roomInput.name = self.roomInput.roomNameField.text ?? ""
     }
     
     private func create() {
