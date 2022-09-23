@@ -143,6 +143,7 @@ extension VoiceRoomGiftsView {
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
             self.disableView.isHidden = true
+            self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
         }
     }
     
