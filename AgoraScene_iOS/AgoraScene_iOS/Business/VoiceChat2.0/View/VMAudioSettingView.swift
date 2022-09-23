@@ -39,7 +39,8 @@ class VMAudioSettingView: UIView {
     }
     
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
-    
+    var useRobotBlock: ((Bool) -> Void)?
+    var volBlock: ((Float) -> Void)?
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = .white
@@ -138,6 +139,10 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 cell.alpha = isAudience ? 0.5 : 1
                 cell.isUserInteractionEnabled = !isAudience
                 cell.swith.isOn = roomInfo?.room?.use_robot ?? false
+                cell.useRobotBlock = {[weak self] flag in
+                    guard let useRobotBlock = self?.useRobotBlock else {return}
+                    useRobotBlock(flag)
+                }
                 return cell
             } else if indexPath.row == 1 {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
@@ -145,6 +150,10 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 cell.titleLabel.text = settingName[1]
                 cell.alpha = isAudience ? 0.5 : 1
                 cell.isUserInteractionEnabled = !isAudience
+                cell.volBlock = {[weak self] vol in
+                    guard let volBlock = self?.volBlock else {return}
+                    volBlock(vol)
+                }
                 if let volume = roomInfo?.room?.robot_volume {
                     cell.slider.value = Float(volume) / 100.0
                     cell.countLabel.text = "\(volume)"

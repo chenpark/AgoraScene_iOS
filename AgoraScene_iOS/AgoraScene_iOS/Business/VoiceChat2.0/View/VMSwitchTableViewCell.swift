@@ -13,7 +13,7 @@ class VMSwitchTableViewCell: UITableViewCell {
     public var iconView: UIImageView = UIImageView()
     public var titleLabel: UILabel = UILabel()
     public var swith: UISwitch = UISwitch()
-    
+    var useRobotBlock: ((Bool) -> Void)?
     public var isNoiseSet: Bool = false {
         didSet {
             iconView.isHidden = isNoiseSet
@@ -47,5 +47,10 @@ class VMSwitchTableViewCell: UITableViewCell {
         
         swith.frame = CGRect(x: screenWidth - 65~, y: 13~, width: 45~, height: 28~)
         self.contentView.addSubview(swith)
+        swith.addTarget(self, action: #selector(useRobot), for: .valueChanged)
+    }
+    
+    @objc private func useRobot(switch: UISwitch) {
+        print(swith.isOn)
     }
 }

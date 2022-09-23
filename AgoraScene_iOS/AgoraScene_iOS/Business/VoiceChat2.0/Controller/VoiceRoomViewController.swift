@@ -369,36 +369,30 @@ extension VoiceRoomViewController {
         }
     }
     
-//    private func showUpStage(with tag: Int) {
-//        let stageView = VMUpstageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
-//        stageView.resBlock = {[weak self] flag in
-//            self?.dismiss(animated: true)
-//            if flag {
-//                guard let roomId = self?.roomInfo?.room?.room_id else {return}
-//                let index = tag - 200
-//                guard let mic: VRRoomMic = self?.roomInfo?.mic_info![index] else {return}
-//                let params: Dictionary<String, Any> = ["mic_index": index]
-//                VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
-//                    if map != nil {
-//                        //如果返回的结果为true 表示上麦成功
-//                        if let result = map?["result"] as? Bool,error == nil,result {
-//                            debugPrint("--- showUpStage :result:\(result)")
-//                            var mic_info = mic
-//                            mic_info.status = 0
-//                            self?.roomInfo?.mic_info![index] = mic_info
-//                            self?.rtcView.micInfos = self?.roomInfo?.mic_info
-//                        } else {
-//                            self?.view.makeToast("Apply failed!")
-//                        }
-//                    } else {
-//
-//                    }
-//                }
-//            }
-//        }
-//        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
-//        self.presentViewController(vc)
-//    }
+    private func updateVolume(_ Vol: Float) {
+        if isOwner == false {return}
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        guard let mic: VRRoomMic = roomInfo?.mic_info![6] else {return}
+        let params: Dictionary<String, Int> = ["robot_volume":Int(Vol * 100)]
+        VoiceRoomBusinessRequest.shared.sendPUTRequest(api: .modifyRoomInfo(roomId: roomId), params: params) { map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    if result == true {
+                        print("调节机器人音量成功")
+                        var mic_info = mic
+                        mic_info.status = 5
+                        self.roomInfo?.mic_info![6] = mic_info
+                        self.rtcView.micInfos = self.roomInfo?.mic_info
+                    }
+                } else {
+                    print("调节机器人音量失败")
+                }
+            } else {
+                
+            }
+        }
+    }
     
 //    private func leaveRoom() {
 //        guard let roomId = roomInfo?.room?.room_id else {return}
@@ -429,6 +423,12 @@ extension VoiceRoomViewController {
         preView.ains_state = ains_state
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
+        }
+        preView.useRobotBlock = {[weak self] flag in
+            self?.activeAlien(flag)
+        }
+        preView.volBlock = {[weak self] vol in
+            self?.updateVolume(vol)
         }
         self.view.addSubview(preView)
         self.isShowPreSentView = true

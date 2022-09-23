@@ -16,6 +16,8 @@ class VMPresentView: UIView {
     public var isAudience: Bool = false
     var selBlock: ((AINS_STATE)->Void)?
     var ains_state: AINS_STATE = .mid
+    var useRobotBlock: ((Bool) -> Void)?
+    var volBlock: ((Float) -> Void)?
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -39,6 +41,14 @@ class VMPresentView: UIView {
             self?.eqView.settingType = type
             self?.eqView.ains_state = self!.ains_state
             self?.scrollView.setContentOffset(CGPoint(x: (self?.screenSize.width)!, y: 0), animated: true)
+        }
+        audioSetView.useRobotBlock = {[weak self] flag in
+            guard let useRobotBlock = self?.useRobotBlock else {return}
+            useRobotBlock(flag)
+        }
+        audioSetView.volBlock = {[weak self] vol in
+            guard let volBlock = self?.volBlock else {return}
+            volBlock(vol)
         }
         scrollView.addSubview(audioSetView)
         

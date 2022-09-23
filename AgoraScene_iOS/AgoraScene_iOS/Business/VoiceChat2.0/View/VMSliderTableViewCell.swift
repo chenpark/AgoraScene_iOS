@@ -14,6 +14,7 @@ class VMSliderTableViewCell: UITableViewCell {
     public var titleLabel: UILabel = UILabel()
     public var slider: UISlider = UISlider()
     public var countLabel: UILabel = UILabel()
+    var volBlock: ((Float) -> Void)?
     public var isNoiseSet: Bool = false {
         didSet {
             iconView.isHidden = isNoiseSet
@@ -45,6 +46,7 @@ class VMSliderTableViewCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         
         slider.frame = CGRect(x: screenWidth - 180~, y: 17~, width: 120~, height: 30~)
+        slider.addTarget(self, action: #selector(touchEnd), for: .touchUpInside)
         self.contentView.addSubview(slider)
         
         countLabel.frame = CGRect(x: screenWidth - 40~, y: 22~, width: 20~, height: 20~)
@@ -52,5 +54,9 @@ class VMSliderTableViewCell: UITableViewCell {
         countLabel.font = UIFont.systemFont(ofSize: 13)
         countLabel.textColor = .lightGray
         self.contentView.addSubview(countLabel)
+    }
+    
+    @objc private func touchEnd(slider: UISlider) {
+        
     }
 }
