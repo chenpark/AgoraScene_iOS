@@ -17,6 +17,12 @@ public enum ROLE_TYPE {
     case audience
 }
 
+public enum AINS_STATE {
+    case high
+    case mid
+    case off
+}
+
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_price":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_price":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_price":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_price":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_price":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_price":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_price":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_price":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_price":"1500","gift_count":"1","selected":false]]
 
 class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
@@ -46,6 +52,7 @@ class VoiceRoomViewController: VRBaseViewController, SVGAPlayerDelegate {
     private var isShowPreSentView: Bool = false
     private var rtckit: ASRTCKit = ASRTCKit.getSharedInstance()
     private var isOwner: Bool = false
+    private var ains_state: AINS_STATE = .mid
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -417,7 +424,12 @@ extension VoiceRoomViewController {
     
     private func showEQView() {
         preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
+        preView.isAudience = !isOwner
         preView.roomInfo = roomInfo
+        preView.ains_state = ains_state
+        preView.selBlock = {[weak self] state in
+            self?.ains_state = state
+        }
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false

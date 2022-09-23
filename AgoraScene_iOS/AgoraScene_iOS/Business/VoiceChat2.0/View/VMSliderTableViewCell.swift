@@ -12,8 +12,8 @@ class VMSliderTableViewCell: UITableViewCell {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     public var iconView: UIImageView = UIImageView()
     public var titleLabel: UILabel = UILabel()
-    private var slider: UISlider = UISlider()
-    private var countLabel: UILabel = UILabel()
+    public var slider: UISlider = UISlider()
+    public var countLabel: UILabel = UILabel()
     public var isNoiseSet: Bool = false {
         didSet {
             iconView.isHidden = isNoiseSet
@@ -45,7 +45,6 @@ class VMSliderTableViewCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         
         slider.frame = CGRect(x: screenWidth - 180~, y: 17~, width: 120~, height: 30~)
-        slider.value = 0.5
         self.contentView.addSubview(slider)
         
         countLabel.frame = CGRect(x: screenWidth - 40~, y: 22~, width: 20~, height: 20~)

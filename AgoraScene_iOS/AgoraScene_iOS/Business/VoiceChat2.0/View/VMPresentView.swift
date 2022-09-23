@@ -13,6 +13,10 @@ class VMPresentView: UIView {
     private var audioSetView: VMAudioSettingView = VMAudioSettingView()
     private var eqView: VMEQSettingView = VMEQSettingView()
     public var roomInfo: VRRoomInfo?
+    public var isAudience: Bool = false
+    var selBlock: ((AINS_STATE)->Void)?
+    var ains_state: AINS_STATE = .mid
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = .white
@@ -27,15 +31,13 @@ class VMPresentView: UIView {
         
         audioSetView.backgroundColor = .white
         audioSetView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: self.bounds.size.height)
-        if let type = roomInfo?.room?.type {
-            audioSetView.isPrivate = type == 1
-        } else {
-            audioSetView.isPrivate = false
-        }
-        audioSetView.isAudience = roomInfo?.room?.use_robot ?? false
+        audioSetView.roomInfo = roomInfo
+        audioSetView.isAudience = isAudience
+        audioSetView.ains_state = ains_state
         audioSetView.resBlock = {[weak self] type in
             self?.scrollView.isScrollEnabled = true
             self?.eqView.settingType = type
+            self?.eqView.ains_state = self!.ains_state
             self?.scrollView.setContentOffset(CGPoint(x: (self?.screenSize.width)!, y: 0), animated: true)
         }
         scrollView.addSubview(audioSetView)
@@ -48,6 +50,14 @@ class VMPresentView: UIView {
         eqView.backBlock = {[weak self] in
             self?.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             self?.scrollView.isScrollEnabled = false
+        }
+        eqView.selBlock = {[weak self] state in
+            guard let selBlock = self?.selBlock else {
+                return
+            }
+            self?.ains_state = state
+            self?.audioSetView.ains_state = state
+            selBlock(state)
         }
         scrollView.addSubview(eqView)
     }

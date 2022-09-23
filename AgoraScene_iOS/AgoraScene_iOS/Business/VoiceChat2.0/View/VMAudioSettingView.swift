@@ -14,12 +14,6 @@ public enum AUDIO_SETTING_TYPE {
     case Spatial
 }
 
-public enum AINS_LEVEL {
-    case high
-    case mid
-    case low
-}
-
 class VMAudioSettingView: UIView {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     private var lineImgView: UIImageView = UIImageView()
@@ -38,6 +32,11 @@ class VMAudioSettingView: UIView {
     private var ainsTitle: [String] = []
     
     public var roomInfo: VRRoomInfo?
+    public var ains_state: AINS_STATE = .mid {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
     
@@ -138,6 +137,7 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 cell.titleLabel.text = settingName[0]
                 cell.alpha = isAudience ? 0.5 : 1
                 cell.isUserInteractionEnabled = !isAudience
+                cell.swith.isOn = roomInfo?.room?.use_robot ?? false
                 return cell
             } else if indexPath.row == 1 {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
@@ -145,12 +145,28 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 cell.titleLabel.text = settingName[1]
                 cell.alpha = isAudience ? 0.5 : 1
                 cell.isUserInteractionEnabled = !isAudience
+                if let volume = roomInfo?.room?.robot_volume {
+                    cell.slider.value = Float(volume) / 100.0
+                    cell.countLabel.text = "\(volume)"
+                }
                 return cell
             }
         } else if indexPath.section == 1 {
             let cell: VMNorSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: nIdentifier) as! VMNorSetTableViewCell
             cell.iconView.image = UIImage(named: settingImage[2 + indexPath.row])
             cell.titleLabel.text = settingName[2 + indexPath.row]
+            if indexPath.row == 0 {
+                cell.contentLabel.text = roomInfo?.room?.sound_effect ?? ""
+            } else if indexPath.row == 1 {
+                switch ains_state {
+                case .high:
+                    cell.contentLabel.text = "high"
+                case .mid:
+                    cell.contentLabel.text = "middle"
+                case .off:
+                    cell.contentLabel.text = "off"
+                }
+            }
             return  cell
         }
         

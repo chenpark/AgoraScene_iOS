@@ -12,7 +12,7 @@ class VMSwitchTableViewCell: UITableViewCell {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     public var iconView: UIImageView = UIImageView()
     public var titleLabel: UILabel = UILabel()
-    private var swith: UISwitch = UISwitch()
+    public var swith: UISwitch = UISwitch()
     
     public var isNoiseSet: Bool = false {
         didSet {
