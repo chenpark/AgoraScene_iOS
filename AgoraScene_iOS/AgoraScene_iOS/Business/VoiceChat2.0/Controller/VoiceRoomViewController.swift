@@ -762,6 +762,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
         self.showMessage(message: message)
+        
     }
     
     func receiveGift(roomId: String, meta: [String : String]?) {

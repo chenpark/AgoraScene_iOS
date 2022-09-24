@@ -9,7 +9,10 @@ import UIKit
 import ZSwiftBaseLib
 
 public final class VRUserProfileViewController: VRBaseViewController {
-
+    
+    @UserDefault("VoiceRoomUserName", defaultValue: "") var userName
+    
+    @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
         
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage("roomList")!)
@@ -66,6 +69,7 @@ extension VRUserProfileViewController {
     private func changeUserName(userName: String) {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? "avatar1","name":userName],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
+                self?.userName = userName
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.userName.text = user?.name ?? ""
@@ -78,6 +82,7 @@ extension VRUserProfileViewController {
     private func changeUserAvatar(avatar: String) {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":avatar,"name":VoiceRoomUserInfo.shared.user?.name ?? "1238"],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
+                self?.userAvatar = avatar
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")

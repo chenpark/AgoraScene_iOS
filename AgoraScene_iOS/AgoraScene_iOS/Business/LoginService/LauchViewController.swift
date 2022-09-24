@@ -15,7 +15,7 @@ final class LauchViewController: UIViewController {
     
     @UserDefault("VoiceRoomUserName", defaultValue: "") var userName
     
-    @UserDefault("VoiceRoomUserName", defaultValue: "") var userAvatar
+    @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
     
     var name: String {
         var firstName = ["李","王","张","刘","陈","杨","赵","黄","周","吴","徐","孙","胡","朱","高","林","何","郭","马","罗"]
@@ -63,6 +63,7 @@ extension LauchViewController {
             avatar = self.avatars.randomElement() ?? avatar
             self.userName = userRandomName
             self.userAvatar = avatar
+            self.first = true
         } else {
             userRandomName = self.userName
             avatar = self.userAvatar
