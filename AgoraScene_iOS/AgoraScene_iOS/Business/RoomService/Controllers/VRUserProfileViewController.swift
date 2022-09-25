@@ -10,6 +10,8 @@ import ZSwiftBaseLib
 
 public final class VRUserProfileViewController: VRBaseViewController {
     
+    var avatarChange: (() -> ())?
+    
     @UserDefault("VoiceRoomUserName", defaultValue: "") var userName
     
     @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
@@ -56,6 +58,7 @@ extension VRUserProfileViewController {
     }
     
     private func showAlert() {
+        self.endEdit()
         let avatar = VRAvatarChooseViewController(collectionViewLayout: UICollectionViewLayout())
         let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 535),controllers: [avatar],titles: [LanguageManager.localValue(key: "Change Profile Picture")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 535)), custom: tmp)
@@ -70,6 +73,7 @@ extension VRUserProfileViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? "avatar1","name":userName],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
                 self?.userName = userName
+                self?.endEdit()
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.userName.text = user?.name ?? ""
@@ -77,6 +81,15 @@ extension VRUserProfileViewController {
                 self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
+    }
+    
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEdit()
+    }
+    
+    private func endEdit() {
+        self.view.endEditing(true)
+        self.userInfo.endEditing(true)
     }
     
     private func changeUserAvatar(avatar: String) {

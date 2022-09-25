@@ -56,9 +56,7 @@ public final class VRRoomsViewController: VRBaseViewController {
         self.navigation.title.text = "Agora Chat Room"
         self.navigation.addSubview(self.avatar)
         self.avatar.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
-        if let header = self.avatar.viewWithTag(112) as? UIImageView {
-            header.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
-        }
+        
         self.viewsAction()
         self.childViewControllersEvent()
     }
@@ -71,7 +69,17 @@ extension VRRoomsViewController {
     public override var backImageName: String { "" }
     
     @objc func editProfile() {
-        self.navigationController?.pushViewController(VRUserProfileViewController.init(), animated: true)
+        let vc = VRUserProfileViewController()
+        vc.avatarChange = { [weak self] in
+            self?.refreshAvatar()
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func refreshAvatar() {
+        if let header = self.avatar.viewWithTag(112) as? UIImageView {
+            header.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
+        }
     }
     
     private func viewsAction() {
@@ -115,8 +123,6 @@ extension VRRoomsViewController {
     
     private func loginIMThenPush(room: VRRoomEntity) {
         ProgressHUD.show("Login IM",interaction: false)
-        print(VoiceRoomUserInfo.shared.user?.chat_uid ?? "")
-        print(VoiceRoomUserInfo.shared.user?.im_token ?? "")
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
