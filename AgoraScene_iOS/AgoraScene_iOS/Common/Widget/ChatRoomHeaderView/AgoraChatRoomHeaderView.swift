@@ -114,7 +114,7 @@ class AgoraChatRoomHeaderView: UIView {
         let soundSetView = UIView()
         self.configView.addSubview(soundSetView)
         
-        self.soundSetLabel.text = "SNS Chat Sound"
+        self.soundSetLabel.text = entity.sound_effect ?? "Social Chat"
         self.soundSetLabel.textColor = .white
         self.soundSetLabel.font = UIFont.systemFont(ofSize: 10)~
         self.configView.addSubview(self.soundSetLabel)
@@ -194,69 +194,6 @@ class AgoraChatRoomHeaderView: UIView {
             make.width.height.equalTo(26~);
         }
         
-        //土豪榜展示逻辑
-        if let rankList = entity.ranking_list {
-            
-            if rankList.count == 0 {return}
-            
-            if let fImg = rankList[0].portrait {
-                self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)
-                self.rankFBtn.isHidden = false
-                self.rankSBtn.isHidden = true
-                self.rankTBtn.isHidden = true
-                self.rankFBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
-                }
-            }
-            
-            if rankList.count < 2 {return}
-            if let sImg = rankList[1].portrait {
-                self.rankSBtn.setImage(UIImage(named: sImg), for: .normal)
-                self.rankFBtn.isHidden = false
-                self.rankSBtn.isHidden = false
-                self.rankTBtn.isHidden = true
-                self.rankFBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
-                }
-                self.rankSBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
-                }
-            }
-            
-            if rankList.count < 3 {return}
-            if let tImg = rankList[2].portrait {
-                print(tImg)
-                self.rankFBtn.isHidden = false
-                self.rankSBtn.isHidden = false
-                self.rankTBtn.isHidden = false
-                self.rankFBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-76)
-                }
-                self.rankSBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
-                }
-                self.rankTBtn.snp.makeConstraints { make in
-                    make.centerY.equalTo(self.backBtn)
-                    make.width.height.equalTo(26~)
-                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
-                }
-            }
-        } else {
-            self.rankFBtn.isHidden = true
-            self.rankSBtn.isHidden = true
-            self.rankTBtn.isHidden = true
-        }
-        
         self.configView.snp.makeConstraints { make in
             make.right.equalTo(self.snp.right).offset(19~);
             make.width.equalTo(150~);
@@ -326,6 +263,69 @@ class AgoraChatRoomHeaderView: UIView {
             make.centerY.equalTo(self.noticeView);
         }
         
+        //土豪榜展示逻辑
+        if let rankList = entity.ranking_list {
+            
+            if rankList.count == 0 {return}
+            
+            if let fImg = rankList[0].portrait {
+                self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = true
+                self.rankTBtn.isHidden = true
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            }
+            
+            if rankList.count < 2 {return}
+            if let sImg = rankList[1].portrait {
+                self.rankSBtn.setImage(UIImage(named: sImg), for: .normal)
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = false
+                self.rankTBtn.isHidden = true
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
+                }
+                self.rankSBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            }
+            
+            if rankList.count < 3 {return}
+            if let tImg = rankList[2].portrait {
+                print(tImg)
+                self.rankFBtn.isHidden = false
+                self.rankSBtn.isHidden = false
+                self.rankTBtn.isHidden = false
+                self.rankFBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-76)
+                }
+                self.rankSBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-46)
+                }
+                self.rankTBtn.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.backBtn)
+                    make.width.height.equalTo(26~)
+                    make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
+                }
+            }
+        } else {
+            self.rankFBtn.isHidden = true
+            self.rankSBtn.isHidden = true
+            self.rankTBtn.isHidden = true
+        }
+
     }
     
     @objc private func back() {

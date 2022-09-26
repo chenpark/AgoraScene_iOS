@@ -94,10 +94,6 @@ class VoiceRoomViewController: VRBaseViewController {
                     }
                 }
             }
-            
-            guard let user = VoiceRoomUserInfo.shared.user else {return}
-            guard let owner = self.roomInfo?.room?.owner else {return}
-            isOwner = user.uid == owner.uid
         }
     }
     
@@ -113,6 +109,11 @@ class VoiceRoomViewController: VRBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let user = VoiceRoomUserInfo.shared.user else {return}
+        guard let owner = self.roomInfo?.room?.owner else {return}
+        isOwner = user.uid == owner.uid
+        
         VoiceRoomIMManager.shared?.delegate = self
         VoiceRoomIMManager.shared?.addChatRoomListener()
         //获取房间详情
@@ -194,14 +195,12 @@ extension VoiceRoomViewController {
         
         //如果不是房主。需要主动获取房间详情
         guard let room_id = self.roomInfo?.room?.room_id else {return}
-        if !isOwner {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
-                if error == nil {
-                    guard let info = room else { return }
-                    self?.roomInfo = info
-                } else {
-                    self?.view.makeToast("\(error?.localizedDescription ?? "")")
-                }
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
+            if error == nil {
+                guard let info = room else { return }
+                self?.roomInfo = info
+            } else {
+                self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
     }
@@ -357,6 +356,7 @@ extension VoiceRoomViewController {
     private func showNoticeView(with role: ROLE_TYPE) {
         let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
         noticeView.roleType = role
+        noticeView.noticeStr = roomInfo?.room?.announcement ?? ""
         noticeView.resBlock = {[weak self] (flag, str) in
             self?.dismiss(animated: true)
             guard let str = str else {return}
@@ -410,9 +410,25 @@ extension VoiceRoomViewController {
             }
         }
     }
-    
+   // announcement
     private func updateNotice(with str: String) {
-        
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        let params: Dictionary<String, String> = ["announcement":str]
+        VoiceRoomBusinessRequest.shared.sendPUTRequest(api: .modifyRoomInfo(roomId: roomId), params: params) { map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    if result == true {
+                        print("修改群公告成功")
+                        self.roomInfo?.room?.announcement = str
+                    }
+                } else {
+                    print("修改群公告失败")
+                }
+            } else {
+                
+            }
+        }
     }
     
     private func updateVolume(_ Vol: Float) {
@@ -857,7 +873,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
         self.view.makeToast("roomId:\(roomId),attributeMap:\(attributeMap)")
-        guard let dic = getMic(with: attributeMap) else {return}
+        guard let dic = getMicStatus(with: attributeMap) else {return}
         var index: Int = dic["index"] ?? 0
         let status: Int = dic["status"] ?? 0
         if index > 6 {index = 6}
@@ -872,7 +888,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         
     }
     
-    private func getMic(with map: [String : String]?) -> Dictionary<String, Int>? {
+    private func getMicStatus(with map: [String : String]?) -> Dictionary<String, Int>? {
         guard let mic_info = map else {return nil}
         var first: Dictionary<String, Int>? = Dictionary()
         for mic in mic_info {

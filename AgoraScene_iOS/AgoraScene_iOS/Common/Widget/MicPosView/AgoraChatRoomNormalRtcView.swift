@@ -18,6 +18,9 @@ class AgoraChatRoomNormalRtcView: UIView {
     
     var micInfos: [VRRoomMic]? {
         didSet {
+            guard let _ = collectionView else {
+                return
+            }
             collectionView.reloadData()
         }
     }
