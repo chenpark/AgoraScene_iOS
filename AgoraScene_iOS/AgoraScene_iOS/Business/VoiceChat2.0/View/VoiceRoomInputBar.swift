@@ -20,8 +20,12 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         UIButton(type: .custom).frame(CGRect(x: 0, y: 6.5, width: 25, height: 23)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
     }()
     
+    lazy var inputContainer: UIView = {
+        UIView(frame: CGRect(x: 15, y: 12, width: ScreenWidth-110, height: 36)).cornerRadius(18).layerProperties(UIColor(0xE4E3ED), 1).backgroundColor(.white)
+    }()
+    
     public lazy var inputField: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 15, y: 12, width: ScreenWidth-110, height: 36)).cornerRadius(18).layerProperties(UIColor(0xE4E3ED), 1).delegate(self).font(.systemFont(ofSize: 16, weight: .regular))
+        PlaceHolderTextView(frame: CGRect(x: 20, y: 12, width: ScreenWidth-146, height: 36)).delegate(self).font(.systemFont(ofSize: 16, weight: .regular)).backgroundColor(.clear)
     }()
     
     lazy var send: UIButton = {
@@ -34,15 +38,17 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         super.init(frame: frame)
         self.rightView.setImage(UIImage("keyboard_emoji"), for: .normal)
         self.rightView.setImage(UIImage("Union"), for: .selected)
-        self.addSubViews([self.inputField,self.send])
+        self.addSubViews([self.inputContainer,self.inputField,self.send])
         self.inputField.placeHolder = "Aa"
+        self.inputField.textContainer.maximumNumberOfLines = 1
+        self.inputField.returnKeyType = .send
         var orgContainerInset = self.inputField.textContainerInset
         orgContainerInset.left = 6
         self.inputField.textContainerInset = orgContainerInset
-        
-        let view = UIView(frame: CGRect(x: self.inputField.frame.width - self.inputField.frame.height , y: 0, width: self.inputField.frame.height, height: self.inputField.frame.height))
+        self.inputField.returnKeyType = .send
+        let view = UIView(frame: CGRect(x: self.inputContainer.frame.width-self.inputField.frame.height , y: 0, width: self.inputField.frame.height, height: self.inputField.frame.height)).backgroundColor(.white)
         view.addSubview(self.rightView)
-        self.inputField.addSubview(view)
+        self.inputContainer.addSubview(view)
         self.setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIApplication.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIApplication.keyboardWillHideNotification, object: nil)
@@ -84,6 +90,9 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
+        if !self.inputField.isFirstResponder {
+            return
+        }
         let frame = notification.keyboardEndFrame
         let duration = notification.keyboardAnimationDuration
         self.keyboardHeight = frame!.height

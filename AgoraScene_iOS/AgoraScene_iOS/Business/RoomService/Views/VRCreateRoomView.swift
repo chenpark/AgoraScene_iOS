@@ -104,4 +104,7 @@ extension VRCreateRoomView {
         return VRSoundTypeCard(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight),title: title,note: detail,background: image).cornerRadius(25)
     }
    
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.roomInput.endEditing(true)
+    }
 }

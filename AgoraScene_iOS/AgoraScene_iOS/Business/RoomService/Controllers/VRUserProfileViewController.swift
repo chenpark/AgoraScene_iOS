@@ -9,7 +9,12 @@ import UIKit
 import ZSwiftBaseLib
 
 public final class VRUserProfileViewController: VRBaseViewController {
-
+    
+    var avatarChange: (() -> ())?
+    
+    @UserDefault("VoiceRoomUserName", defaultValue: "") var userName
+    
+    @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
         
     lazy var background: UIImageView = {
         UIImageView(frame: self.view.frame).image(UIImage("roomList")!)
@@ -53,6 +58,7 @@ extension VRUserProfileViewController {
     }
     
     private func showAlert() {
+        self.endEdit()
         let avatar = VRAvatarChooseViewController(collectionViewLayout: UICollectionViewLayout())
         let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 535),controllers: [avatar],titles: [LanguageManager.localValue(key: "Change Profile Picture")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 535)), custom: tmp)
@@ -66,6 +72,8 @@ extension VRUserProfileViewController {
     private func changeUserName(userName: String) {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? "avatar1","name":userName],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
+                self?.userName = userName
+                self?.endEdit()
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.userName.text = user?.name ?? ""
@@ -75,9 +83,19 @@ extension VRUserProfileViewController {
         }
     }
     
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEdit()
+    }
+    
+    private func endEdit() {
+        self.view.endEditing(true)
+        self.userInfo.endEditing(true)
+    }
+    
     private func changeUserAvatar(avatar: String) {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":avatar,"name":VoiceRoomUserInfo.shared.user?.name ?? "1238"],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
+                self?.userAvatar = avatar
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
