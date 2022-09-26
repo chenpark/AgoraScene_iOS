@@ -306,11 +306,18 @@ extension VoiceRoomViewController {
     
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
-            userApplyAlert(tag - 200)
+            //这里需要区分观众与房主
+            if isOwner {
+               showApplyAlert(tag - 200)
+            } else {
+                userApplyAlert(tag - 200)
+            }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             showActiveAlienView(false)
+        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser {
+            
         }
     }
     
@@ -347,7 +354,7 @@ extension VoiceRoomViewController {
             self?.dismiss(animated: true)
             guard let str = str else {return}
             //修改群公告
-            
+            self?.updateNotice(with: str)
         }
         let noticeStr = self.roomInfo?.room?.announcement ?? ""
         noticeView.noticeStr = noticeStr
@@ -366,7 +373,6 @@ extension VoiceRoomViewController {
         let vc = VoiceRoomAlertViewController(compent: compent, custom: confirmView)
         confirmView.resBlock = {[weak self] (flag) in
             self?.dismiss(animated: true)
-            //修改群公告
             if flag == false {return}
             self?.activeAlien(active)
         }
@@ -396,6 +402,10 @@ extension VoiceRoomViewController {
                 
             }
         }
+    }
+    
+    private func updateNotice(with str: String) {
+        
     }
     
     private func updateVolume(_ Vol: Float) {
@@ -527,6 +537,14 @@ extension VoiceRoomViewController {
     
     private func showUsers() {
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: self.contributeList)
+        self.presentViewController(vc)
+    }
+    
+    private func showApplyAlert(_ index: Int) {
+        let manageView = VMManagerView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264~))
+        guard let mic_info = roomInfo?.mic_info?[index] else {return}
+        manageView.micInfo = mic_info
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 264~)), custom: manageView)
         self.presentViewController(vc)
     }
     
@@ -831,11 +849,48 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
         self.view.makeToast("roomId:\(roomId),attributeMap:\(attributeMap)")
+        guard let dic = getMic(with: attributeMap) else {return}
+        var index: Int = dic["index"] ?? 0
+        let status: Int = dic["status"] ?? 0
+        if index > 6 {index = 6}
+        guard let mic: VRRoomMic = roomInfo?.mic_info![index] else {return}
+        var mic_info = mic
+        mic_info.status = status
+        self.roomInfo?.mic_info![index] = mic_info
+        self.rtcView.micInfos = self.roomInfo?.mic_info
     }
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
         
     }
+    
+    private func getMic(with map: [String : String]?) -> Dictionary<String, Int>? {
+        guard let mic_info = map else {return nil}
+        var first: Dictionary<String, Int>? = Dictionary()
+        for mic in mic_info {
+            let key: String = mic.key
+            let value = getDictionaryFromJSONString(jsonString: mic.value)
+            first!.updateValue(value["status"] as! Int, forKey: "status")
+            if key.contains("mic_") {
+                if key.components(separatedBy: "mic_").count > 1 {
+                    let mic_index = key.components(separatedBy: "mic_")[1]
+                    first!.updateValue(Int(mic_index)!, forKey: "index")
+                    return first
+                }
+            }
+        }
+        return nil
+    }
+    
+   private func getDictionaryFromJSONString(jsonString:String) ->Dictionary<String, Any>{
+        let jsonData:Data = jsonString.data(using: .utf8)!
+        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+        if dict != nil {
+            return dict as! Dictionary
+        }
+        return Dictionary()
+    }
+
 }
 //MARK: - ASManagerDelegate
 extension VoiceRoomViewController: ASManagerDelegate {
