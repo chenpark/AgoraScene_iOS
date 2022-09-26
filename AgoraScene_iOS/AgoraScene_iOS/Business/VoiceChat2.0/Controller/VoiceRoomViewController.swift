@@ -260,6 +260,9 @@ extension VoiceRoomViewController {
             self.view.addSubViews([self.chatBar])
             self.inputBar.isHidden = true
         } else {
+            let pan = UIPanGestureRecognizer(target: self, action: #selector(resignKeyboard))
+            pan.minimumNumberOfTouches = 1
+            self.rtcView.addGestureRecognizer(pan)
             self.view.addSubViews([self.chatView,self.giftList,self.chatBar,self.inputBar])
             self.inputBar.isHidden = true
         }
@@ -277,6 +280,10 @@ extension VoiceRoomViewController {
                 self.didHeaderAction(with: .back)
             }
         }
+    }
+    
+    @objc private func resignKeyboard() {
+        self.inputBar.hiddenInputBar()
     }
 
     private func didHeaderAction(with action: HEADER_ACTION) {
@@ -332,7 +339,7 @@ extension VoiceRoomViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.inputBar.endEditing(true)
+        self.inputBar.hiddenInputBar()
         if self.isShowPreSentView {
             UIView.animate(withDuration: 0.5, animations: {
                 self.preView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~)
@@ -787,6 +794,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
         self.showMessage(message: message)
+        
     }
     
     func receiveGift(roomId: String, meta: [String : String]?) {
