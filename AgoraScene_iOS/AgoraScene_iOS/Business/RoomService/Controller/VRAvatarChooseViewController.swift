@@ -18,16 +18,16 @@ public class VRAvatarChooseViewController: UICollectionViewController {
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (self.view.frame.width-20)/4.0, height: (self.view.frame.width-20)/4.0)
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.itemSize = CGSize(width: (self.view.frame.width-30-20)/4.0, height: (self.view.frame.width-30-20)/4.0)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
         return layout
     }()
     
     public override init(collectionViewLayout layout: UICollectionViewLayout) {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (ScreenWidth-20)/4.0, height: (ScreenWidth-20)/4.0)
-        layout.minimumLineSpacing = 0
+        layout.itemSize = CGSize(width: (ScreenWidth-30-20)/4.0, height: (ScreenWidth-30-20)/4.0)
+        layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
         super.init(collectionViewLayout: layout)
     }

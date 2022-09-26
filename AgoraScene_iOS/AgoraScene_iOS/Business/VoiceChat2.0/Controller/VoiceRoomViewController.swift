@@ -25,6 +25,8 @@ class VoiceRoomViewController: VRBaseViewController {
     private var rtcView: AgoraChatRoomNormalRtcView!
     private var sRtcView: AgoraChatRoom3DRtcView!
     
+    @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
+    
     private lazy var giftList: VoiceRoomGiftView  = {
         VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear)
     }()
@@ -599,10 +601,10 @@ extension VoiceRoomViewController {
     
     private func sendGift(gift: VoiceRoomGiftEntity) {
         if let chatroom_id = self.roomInfo?.room?.chatroom_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_price,let count = gift.gift_count {
-            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_price":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? ""], completion: { message, error in
+            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_price":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar], completion: { message, error in
                 if error == nil,message != nil {
                     gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
-                    gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? ""
+                    gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar
                     self.giftList.gifts.append(gift)
                     if let c = Int(count),let v = Int(value),var amount = VoiceRoomUserInfo.shared.user?.amount {
                         amount += c*v
@@ -658,7 +660,7 @@ extension VoiceRoomViewController {
     }
     
     func reLogin() {
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? "","name":VoiceRoomUserInfo.shared.user?.name ?? ""],classType:VRUser.self) { [weak self] user, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar,"name":VoiceRoomUserInfo.shared.user?.name ?? ""],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""

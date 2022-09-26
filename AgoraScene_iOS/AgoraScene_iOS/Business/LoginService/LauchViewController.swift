@@ -22,7 +22,7 @@ final class LauchViewController: UIViewController {
         var lastName = ["小明","小虎","小芳","小红","小雨","小雪","小鹏","小双","小彤","小晗","阿花","阿杰","阿鹏","阿飞","阿青","阿永","阿超","阿伟","阿信","阿华"]
         if NSLocale.preferredLanguages.first!.hasPrefix("en") {
             firstName = ["James","Robert","John","Michael","David","William","Richard","Joseph","Thomas","Charles","Mary","Patricia","Jennifer","Linda","Elizabeth","Barbara","Susan","Jessica","Sarah","Karen"]
-            lastName = ["Smith","Johnson","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzalez","Wilson","Anderson","Taylor","Moore","Jackson","Martin","Lee","Perez"]
+            lastName = [" Smith"," Johnson"," Brown"," Jones"," Garcia"," Miller"," Davis"," Rodriguez"," Martinez"," Hernandez"," Lopez"," Gonzalez"," Wilson"," Anderson"," Taylor"," Moore"," Jackson"," Martin"," Lee"," Perez"]
         }
         return (firstName.randomElement() ?? "") + (lastName.randomElement() ?? "")
     }

@@ -97,15 +97,11 @@ extension VRSoundEffectsCell {
         return cell ?? UICollectionViewCell()
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
-    }
-    
     private func refresh(item: VRRoomMenuBarEntity) {
         self.effectName.text = item.title
         self.effectDesc.text = item.detail
         self.chooseSymbol.isHidden = !item.selected
-        self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.frame.height - 15)
+        self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.contentView.frame.height - 15)
         self.effectName.frame = CGRect(x: 20, y: 15, width: self.background.frame.width-40, height: 22)
         self.effectDesc.frame = CGRect(x: 20, y: self.effectName.frame.maxY+4, width: self.effectName.frame.width, height: VRSoundEffectsList.heightMap[item.title] ?? 60)
         self.line.frame = CGRect(x: 20, y: self.effectDesc.frame.maxY+6, width: self.effectDesc.frame.width, height: 1)
@@ -136,3 +132,4 @@ public class VRIconCell: UICollectionViewCell {
     }
     
 }
+

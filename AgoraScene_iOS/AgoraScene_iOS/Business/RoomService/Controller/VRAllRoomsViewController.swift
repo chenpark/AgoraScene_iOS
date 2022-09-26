@@ -45,7 +45,7 @@ extension VRAllRoomsViewController {
     }
     
     private func fetchRooms(cursor: String) {
-        ProgressHUD.show()
+        if !cursor.isEmpty { ProgressHUD.show() }
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size,type: nil), params: [:], classType: VRRoomsEntity.self) { rooms, error in
             ProgressHUD.dismiss()
             self.roomList.refreshControl?.endRefreshing()
