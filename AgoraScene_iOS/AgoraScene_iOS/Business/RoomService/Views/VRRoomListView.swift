@@ -18,7 +18,7 @@ public final class VRRoomListView: UITableView,UITableViewDelegate,UITableViewDa
 
     public override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        self.delegate(self).dataSource(self).tableFooterView(UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 75))).separatorStyle(.none).backgroundColor(.clear).registerCell(VRRoomListCell.self, forCellReuseIdentifier: "VRRoomListCell")
+        self.delegate(self).dataSource(self).tableFooterView(UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (150/335.0)*(ScreenWidth-40)+20))).separatorStyle(.none).backgroundColor(.clear).registerCell(VRRoomListCell.self, forCellReuseIdentifier: "VRRoomListCell")
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
     }

@@ -13,6 +13,8 @@ let bottomSafeHeight = safeAreaExist ? 33:0
 let page_size = 15
 
 public final class VRRoomsViewController: VRBaseViewController {
+        
+    @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
     
     var index: Int = 0 {
         didSet {
@@ -44,7 +46,7 @@ public final class VRRoomsViewController: VRBaseViewController {
     
     let avatar = UIButton {
         UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 70, y: ZNavgationHeight - 40, width: 50, height: 30)).backgroundColor(.clear).tag(111)
-        UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30)).image(UIImage("avatar")!).contentMode(.scaleAspectFit).tag(112)
+        UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30)).contentMode(.scaleAspectFit).tag(112)
         UIImageView(frame: CGRect(x: 38, y: 9, width: 12, height: 12)).image(UIImage("arrow_right")!).contentMode(.scaleAspectFit)
     }
 
@@ -56,7 +58,7 @@ public final class VRRoomsViewController: VRBaseViewController {
         self.navigation.title.text = "Agora Chat Room"
         self.navigation.addSubview(self.avatar)
         self.avatar.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
-        
+        self.refreshAvatar()
         self.viewsAction()
         self.childViewControllersEvent()
     }
@@ -78,7 +80,7 @@ extension VRRoomsViewController {
     
     func refreshAvatar() {
         if let header = self.avatar.viewWithTag(112) as? UIImageView {
-            header.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
+            header.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar)
         }
     }
     
@@ -104,7 +106,7 @@ extension VRRoomsViewController {
             alert.actionEvents = {
                 if $0 == 31 {
                     room.roomPassword = alert.code
-                    self.loginIMThenPush(room: room)
+                    self.validatePassword(room: room, password: alert.code)
                 }
                 vc.dismiss(animated: true)
             }
@@ -119,6 +121,16 @@ extension VRRoomsViewController {
         component.destination = .center
         component.canPanDismiss = false
         return component
+    }
+    
+    private func validatePassword(room: VRRoomEntity,password: String) {
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .validatePassWord(roomId: room.room_id ?? ""), params: ["password":password]) { dic, error in
+            if error == nil,let result = dic?["result"] as? Bool,result {
+                self.loginIMThenPush(room: room)
+            } else {
+                self.view.makeToast("Password wrong!")
+            }
+        }
     }
     
     private func loginIMThenPush(room: VRRoomEntity) {

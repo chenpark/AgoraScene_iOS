@@ -16,6 +16,7 @@ public enum VoiceRoomBusinessApi {
     case deleteRoom(roomId:String)//String roomId
     case modifyRoomInfo(roomId :String)//String roomId
     case fetchRoomMembers(roomId:String,cursor:String,pageSize:Int)//String roomId,String cursor
+    case validatePassWord(roomId: String)///{roomId}/validPassword
     case joinRoom(roomId:String)//String roomId
     case leaveRoom(roomId:String)//String roomId
     case kickUser(roomId:String)//String roomId

@@ -730,7 +730,7 @@ public enum ToastPosition {
         case .center:
             return CGPoint(x: superview.bounds.size.width / 2.0, y: superview.bounds.size.height / 2.0)
         case .bottom:
-            return CGPoint(x: superview.bounds.size.width / 2.0, y: (superview.bounds.size.height - (toast.frame.size.height / 2.0)) - bottomPadding)
+            return CGPoint(x: superview.bounds.size.width / 2.0, y: superview.bounds.size.height - toast.frame.size.height - bottomPadding)
         }
     }
 }

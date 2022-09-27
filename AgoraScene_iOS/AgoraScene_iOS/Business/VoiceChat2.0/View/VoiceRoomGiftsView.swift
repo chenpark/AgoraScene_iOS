@@ -179,6 +179,10 @@ extension VoiceRoomGiftsView {
                 self.chooseQuantity.isEnabled = true
             }
         }
-        self.giftList.reloadData()
+        for (idx,cell) in collectionView.visibleCells.enumerated() {
+            if let destination = cell as? VoiceRoomSendGiftCell {
+                destination.gift = self.gifts[safe: idx]
+            }
+        }
     }
 }

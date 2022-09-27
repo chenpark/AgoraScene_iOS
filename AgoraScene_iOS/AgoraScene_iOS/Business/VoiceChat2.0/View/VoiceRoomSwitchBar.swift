@@ -27,7 +27,7 @@ public class VoiceRoomSwitchBar: UIView {
     }()
     
     lazy var indicator: UIView = {
-        UIView(frame: CGRect(x: self.leftItem.center.x-12, y: self.leftItem.frame.maxY+5, width: 24, height: 3)).backgroundColor(UIColor(0x156EF3))
+        UIView(frame: CGRect(x: self.leftItem.center.x-12, y: self.leftItem.frame.maxY+5, width: 24, height: 3)).backgroundColor(UIColor(0x156EF3)).cornerRadius(1.5)
     }()
     
     let line = UIView().backgroundColor(UIColor(0xF2F2F2))

@@ -20,6 +20,10 @@ import ZSwiftBaseLib
         self.joined == false ? (self.fullText?.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: chatViewWidth - 50, height: 9990.0)).height ?? 0)+35:40
     }()
     
+    lazy var width: CGFloat? = {
+        (self.fullText?.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: chatViewWidth - 50, height: 20)).width ?? 0)+30
+    }()
+    
     lazy var attributeContent: NSAttributedString? = {
         self.renderAttributeText()
     }()
