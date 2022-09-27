@@ -70,7 +70,7 @@ public class VoiceRoomGiftCell: UITableViewCell {
     private func refresh(item: VoiceRoomGiftEntity) {
         self.avatar.image = item.avatar
         self.userName.text = item.userName
-        self.giftName.text = item.gift_name
+        self.giftName.text = "Sent "+(item.gift_name ?? "")
         self.giftIcon.image = UIImage("\(item.gift_id!)")
         self.giftNumbers.text = "X \(item.gift_count!)"
     }
