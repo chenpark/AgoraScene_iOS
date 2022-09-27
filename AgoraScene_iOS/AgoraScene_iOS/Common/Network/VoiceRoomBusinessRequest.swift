@@ -397,16 +397,16 @@ public extension VoiceRoomBusinessRequest {
             uri += "/\(roomId)" + "/mic/leave"
         case let .muteMic(roomId):
             uri += "/\(roomId)" + "/mic/mute"
-        case let .unmuteMic(roomId):
-            uri += "/\(roomId)" + "/mic/mute"
+        case let .unmuteMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/mute?mic_index=\(index)"
         case let .exchangeMic(roomId):
             uri += "/\(roomId)" + "/mic/exchange"
         case let .kickMic(roomId):
             uri += "/\(roomId)" + "/mic/kick"
         case let .lockMic(roomId):
             uri += "/\(roomId)" + "/mic/lock"
-        case let .unlockMic(roomId):
-            uri += "/\(roomId)" + "/mic/lock"
+        case let .unlockMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/lock?mic_index=\(index)"
         case let .inviteUserToMic(roomId):
             uri += "/\(roomId)" + "/mic/invite"
         case let .agreeInvite(roomId):

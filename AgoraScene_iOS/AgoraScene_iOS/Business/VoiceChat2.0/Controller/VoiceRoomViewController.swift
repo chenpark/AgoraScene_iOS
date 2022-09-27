@@ -597,9 +597,10 @@ extension VoiceRoomViewController {
         guard let mic_info = roomInfo?.mic_info?[index] else {return}
         manageView.micInfo = mic_info
         manageView.resBlock = {[weak self] (state, flag) in
+            self?.dismiss(animated: true)
             if state == .invite {
                 if flag {
-                    self?.changeHandsUpState()
+                    self?.applyMembersAlert()
                 } else {
                     self?.kickoff(with: index)
                 }
@@ -694,7 +695,7 @@ extension VoiceRoomViewController {
     //取消禁言指定麦位
     private func unMute(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("unmute success!")
@@ -748,12 +749,12 @@ extension VoiceRoomViewController {
     //取消锁麦
     private func unLock(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unlockMic(roomId: roomId), params: [:]) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unlockMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("lock success!")
+                    self.view.makeToast("unLock success!")
                 } else {
-                    self.view.makeToast("lock failed!")
+                    self.view.makeToast("unLock failed!")
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
@@ -1002,7 +1003,7 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
-        
+        roomInfo?.room?.robot_volume = UInt(volume)
     }
     
     

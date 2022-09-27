@@ -201,8 +201,8 @@ class VMManagerView: UIView {
         }
 
         //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
-        let index = micInfo.mic_index
-        switch index {
+        let m_type = micInfo.status
+        switch m_type {
         case -1:
             if sender.tag == 300 {
                 state = .invite
