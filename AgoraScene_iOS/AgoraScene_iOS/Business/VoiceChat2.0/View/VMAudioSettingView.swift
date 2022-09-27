@@ -40,7 +40,7 @@ class VMAudioSettingView: UIView {
     
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
     var useRobotBlock: ((Bool) -> Void)?
-    var volBlock: ((Float) -> Void)?
+    var volBlock: ((Int) -> Void)?
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = .white

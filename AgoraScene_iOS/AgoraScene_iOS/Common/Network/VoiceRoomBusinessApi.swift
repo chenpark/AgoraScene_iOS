@@ -29,7 +29,7 @@ public enum VoiceRoomBusinessApi {
     case refuseApply(roomId:String)//String roomId
     case fetchMicsInfo(roomId:String)//String roomId
     case closeMic(roomId:String)//String roomId
-    case cancelCloseMic(roomId:String)//String roomId
+    case cancelCloseMic(roomId:String, index: Int)//String roomId
     case leaveMic(roomId:String)//String roomId
     case muteMic(roomId:String)//String roomId
     case unmuteMic(roomId:String)//String roomId

@@ -82,7 +82,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
             if let mic_info = micInfos?[indexPath.item] {
-                cell.user = mic_info.user
+                cell.user = mic_info.member
                 switch mic_info.status {
                 case -1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd

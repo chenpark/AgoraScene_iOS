@@ -389,8 +389,8 @@ public extension VoiceRoomBusinessRequest {
             uri += roomId + "/mic"
         case let .closeMic(roomId):
             uri += "/\(roomId)" + "/mic/close"
-        case let .cancelCloseMic(roomId):
-            uri += "/\(roomId)" + "/mic/close"
+        case let .cancelCloseMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/close?mic_index=\(index)"
         case let .leaveMic(roomId):
             uri += "/\(roomId)" + "/mic/leave"
         case let .muteMic(roomId):

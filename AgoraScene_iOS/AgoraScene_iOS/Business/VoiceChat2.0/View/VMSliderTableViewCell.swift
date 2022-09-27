@@ -14,7 +14,7 @@ class VMSliderTableViewCell: UITableViewCell {
     public var titleLabel: UILabel = UILabel()
     public var slider: UISlider = UISlider()
     public var countLabel: UILabel = UILabel()
-    var volBlock: ((Float) -> Void)?
+    var volBlock: ((Int) -> Void)?
     public var isNoiseSet: Bool = false {
         didSet {
             iconView.isHidden = isNoiseSet
@@ -57,6 +57,10 @@ class VMSliderTableViewCell: UITableViewCell {
     }
     
     @objc private func touchEnd(slider: UISlider) {
-        
+        guard let volBlock = volBlock else {
+            return
+        }
+        volBlock(Int(slider.value * 100))
+        countLabel.text = "\(Int(slider.value * 100))"
     }
 }

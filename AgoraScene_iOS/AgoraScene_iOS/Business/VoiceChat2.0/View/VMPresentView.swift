@@ -17,7 +17,7 @@ class VMPresentView: UIView {
     var selBlock: ((AINS_STATE)->Void)?
     var ains_state: AINS_STATE = .mid
     var useRobotBlock: ((Bool) -> Void)?
-    var volBlock: ((Float) -> Void)?
+    var volBlock: ((Int) -> Void)?
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)

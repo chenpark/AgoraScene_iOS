@@ -52,5 +52,9 @@ class VMSwitchTableViewCell: UITableViewCell {
     
     @objc private func useRobot(switch: UISwitch) {
         print(swith.isOn)
+        guard let useRobotBlock = useRobotBlock else {
+            return
+        }
+        useRobotBlock(swith.isOn)
     }
 }

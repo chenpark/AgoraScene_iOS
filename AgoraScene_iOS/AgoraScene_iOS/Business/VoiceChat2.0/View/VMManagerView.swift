@@ -36,9 +36,9 @@ class VMManagerView: UIView {
         didSet {
             //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
             let m_type = micInfo?.status
-            var username: String = "\(String(describing: micInfo?.index))"
+            var username: String = "\(micInfo?.mic_index ?? 0)"
             var iconStr: String = "avatar1"
-            if let user = micInfo?.user {
+            if let user = micInfo?.member {
                 username = user.name ?? "\(String(describing: micInfo?.index))"
                 iconStr = user.portrait ?? "avatar1"
             }
@@ -46,6 +46,7 @@ class VMManagerView: UIView {
                 iconView.isHidden = true
                 roleBtn.isHidden = true
                 micView.isHidden = true
+                nameLabel.text = username
             } else if m_type == 3 {
                 iconView.isHidden = true
                 roleBtn.isHidden = true
@@ -54,6 +55,7 @@ class VMManagerView: UIView {
                 lockBtn.setTitle("unLock", for: .normal)
                 inviteBtn.setTitleColor(.lightGray, for: .normal)
                 inviteBtn.isUserInteractionEnabled = false
+                nameLabel.text = username
             } else if m_type == 4 {
                 iconView.isHidden = true
                 roleBtn.isHidden = true
@@ -64,12 +66,14 @@ class VMManagerView: UIView {
                 muteBtn.setTitle("unMute", for: .normal)
                 inviteBtn.setTitleColor(.lightGray, for: .normal)
                 inviteBtn.isUserInteractionEnabled = false
+                nameLabel.text = username
             } else if m_type == 1 {
                 iconView.isHidden = true
                 roleBtn.isHidden = true
                 micView.isHidden = false
                 micView.setState(.forbidden)
                 muteBtn.setTitle("unMute", for: .normal)
+                nameLabel.text = username
             } else if m_type == 0 {
                 iconView.isHidden = false
                 iconView.image = UIImage(named: iconStr)
@@ -90,7 +94,7 @@ class VMManagerView: UIView {
         }
     }
     
-    var resBlock: ((ADMIN_ACTION) -> Void)?
+    var resBlock: ((ADMIN_ACTION, Bool) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -192,8 +196,12 @@ class VMManagerView: UIView {
         guard let micInfo = micInfo else {
             return
         }
+        guard let resBlock = resBlock else {
+            return
+        }
+
         //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
-        let index = micInfo.index
+        let index = micInfo.mic_index
         switch index {
         case -1:
             if sender.tag == 300 {
@@ -201,10 +209,10 @@ class VMManagerView: UIView {
                 flag = true
             } else if sender.tag == 301 {
                 state = .mute
-                flag = false
+                flag = true
             } else if sender.tag == 302 {
                 state = .lock
-                flag = false
+                flag = true
             }
         case 0:
             if sender.tag == 300 {
@@ -212,10 +220,10 @@ class VMManagerView: UIView {
                 flag = false
             } else if sender.tag == 301 {
                 state = .mute
-                flag = false
+                flag = true
             } else if sender.tag == 302 {
                 state = .lock
-                flag = false
+                flag = true
             }
         case 2:
             if sender.tag == 300 {
@@ -223,10 +231,10 @@ class VMManagerView: UIView {
                 flag = false
             } else if sender.tag == 301 {
                 state = .mute
-                flag = true
+                flag = false
             } else if sender.tag == 302 {
                 state = .lock
-                flag = false
+                flag = true
             }
         case 3:
             if sender.tag == 300 {
@@ -234,7 +242,7 @@ class VMManagerView: UIView {
                 flag = true
             } else if sender.tag == 301 {
                 state = .mute
-                flag = false
+                flag = true
             } else if sender.tag == 302 {
                 state = .lock
                 flag = false
@@ -244,10 +252,10 @@ class VMManagerView: UIView {
     
             } else if sender.tag == 301 {
                 state = .mute
-                flag = true
+                flag = false
             } else if sender.tag == 302 {
                 state = .lock
-                flag = true
+                flag = false
             }
         case 1:
             if sender.tag == 300 {
@@ -263,6 +271,8 @@ class VMManagerView: UIView {
         default:
             break
         }
+        
+        resBlock(state, flag)
     }
 
 }

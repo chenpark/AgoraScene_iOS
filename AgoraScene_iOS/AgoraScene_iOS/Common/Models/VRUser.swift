@@ -18,6 +18,7 @@ import KakaJSON
     public var im_token: String?
     public var invited = false
     public var amount: Int?
+    public var rtc_uid: String?
     
     required public override init() {
         
