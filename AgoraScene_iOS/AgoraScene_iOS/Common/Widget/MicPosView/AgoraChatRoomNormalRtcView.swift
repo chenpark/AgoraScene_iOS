@@ -91,7 +91,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 case 1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
                 case 2:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeForbidden
                 case 3:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
                 case 4:
@@ -99,6 +99,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 default:
                     break
                 }
+                
             } else {
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
             }

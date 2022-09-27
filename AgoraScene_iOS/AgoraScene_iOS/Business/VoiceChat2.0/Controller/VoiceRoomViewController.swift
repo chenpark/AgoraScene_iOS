@@ -355,6 +355,14 @@ extension VoiceRoomViewController {
             } else {
                //用户下麦或者mute自己
             }
+        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
+            if tag - 200 == local_index {
+                showMuteView(with: tag - 200)
+            } else {
+                if isOwner {
+                    showApplyAlert(tag - 200)
+                }
+            }
         }
     }
     
@@ -717,7 +725,7 @@ extension VoiceRoomViewController {
             "uid":mic.member?.uid ?? 0,
             "mic_index": index
         ]
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .kickUser(roomId: roomId), params: dic) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .kickMic(roomId: roomId), params: dic) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("kickoff success!")
@@ -765,15 +773,16 @@ extension VoiceRoomViewController {
     //下麦
     private func leaveMic(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId), params: [:]) { dic, error in
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
+            self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("leaveMic success!")
-                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    var mic_info = mic
-                    mic_info.status = -1
-                    self.roomInfo?.mic_info![index] = mic_info
-                    self.rtcView.micInfos = self.roomInfo?.mic_info
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = -1
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
                 } else {
                     self.view.makeToast("leaveMic failed!")
                 }
@@ -791,11 +800,11 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("mute local success!")
-                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    var mic_info = mic
-                    mic_info.status = 1
-                    self.roomInfo?.mic_info![index] = mic_info
-                    self.rtcView.micInfos = self.roomInfo?.mic_info
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = 1
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
                 } else {
                     self.view.makeToast("unmute local failed!")
                 }
@@ -813,11 +822,11 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("unmuteLocal success!")
-                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    var mic_info = mic
-                    mic_info.status = 0
-                    self.roomInfo?.mic_info![index] = mic_info
-                    self.rtcView.micInfos = self.roomInfo?.mic_info
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = 0
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
                 } else {
                     self.view.makeToast("unmuteLocal failed!")
                 }
@@ -1098,6 +1107,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         }
         self.roomInfo?.mic_info![index] = mic_info
         self.rtcView.micInfos = self.roomInfo?.mic_info
+        requestRoomDetail()
     }
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {

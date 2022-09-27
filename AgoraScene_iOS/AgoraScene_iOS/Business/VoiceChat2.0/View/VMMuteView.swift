@@ -40,7 +40,7 @@ class VMMuteView: UIView {
             }
 
             leaveBtn.isHidden = isOwner
-            muteBtn.frame = isOwner ? CGRect(x: 0, y: 170~, width: self.bounds.size.width, height: 40~) : CGRect(x: 0, y: 170~, width: self.bounds.size.width / 2.0, height: 40~)
+            muteBtn.frame = isOwner ? CGRect(x: 0, y: 170~, width: self.bounds.size.width, height: 40~) : CGRect(x: self.bounds.size.width / 2.0, y: 170~, width: self.bounds.size.width / 2.0, height: 40~)
             if m_type == 0 {
                 iconView.isHidden = false
                 iconView.image = UIImage(named: iconStr)
@@ -122,7 +122,7 @@ class VMMuteView: UIView {
         self.addSubview(micView)
         micView.isHidden = true
         
-        leaveBtn.frame = CGRect(x: ScreenWidth / 2.0 , y: 170~, width: ScreenWidth / 2.0, height: 40~)
+        leaveBtn.frame = CGRect(x: 0, y: 170~, width: ScreenWidth / 2.0, height: 40~)
         leaveBtn.setTitleColor(.blue, for: .normal)
         leaveBtn.setTitle("leave", for: .normal)
         leaveBtn.font(UIFont.systemFont(ofSize: 14))
