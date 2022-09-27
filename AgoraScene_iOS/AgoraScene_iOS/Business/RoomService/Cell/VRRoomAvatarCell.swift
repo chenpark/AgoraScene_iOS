@@ -48,10 +48,12 @@ public class VRRoomAvatarCell: UICollectionViewCell {
             var rect = CGRect(x: 10, y: 10, width: self.frame.width-20, height: self.frame.height-20)
             self.symbol.isHidden = !item.selected
             if item.selected {
-                rect = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-                self.avatar.layerProperties(UIColor(0x009FFF), 3)
+                rect = CGRect(x: 5, y: 5, width: self.frame.width-10, height: self.frame.height-10)
+                self.avatar.layerProperties(UIColor(0x009FFF), 4)
+                self.avatar.alpha = 1
             } else {
-                self.avatar.layerProperties(.white, 3)
+                self.avatar.layerProperties(.white, 4)
+                self.avatar.alpha = 0.5
             }
             self.avatar.cornerRadius(rect.width/2.0)
             self.avatar.frame = rect

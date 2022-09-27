@@ -39,6 +39,9 @@ public class VoiceRoomApplyAlert: UIView {
         self.content.text(LanguageManager.localValue(key: content))
         self.cancel.setTitle(LanguageManager.localValue(key: tips), for: .normal)
         self.confirm.setTitle(LanguageManager.localValue(key: text), for: .normal)
+        self.confirm.layer.shadowRadius = 8
+        self.confirm.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.confirm.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
     }
     
     required init?(coder: NSCoder) {

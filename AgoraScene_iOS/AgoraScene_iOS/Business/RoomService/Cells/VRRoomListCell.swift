@@ -10,6 +10,8 @@ import ZSwiftBaseLib
 
 public final class VRRoomListCell: UITableViewCell {
     
+    var entity = VRRoomEntity()
+    
     lazy var background: UIImageView = {
         UIImageView(frame: CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.frame.height - 15)).image(UIImage("normal_room") ?? UIImage()).backgroundColor(.clear)
     }()
@@ -77,10 +79,11 @@ public final class VRRoomListCell: UITableViewCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.frame.height - 15)
+        let height = self.entity.name?.z.sizeWithText(font: .systemFont(ofSize: 15, weight: .medium), size: CGSize(width: self.background.frame.width/2.0-20, height: 999)).height ?? 0
+        self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.contentView.frame.height - 15)
         self.accessSymbol.frame = CGRect(x: 0, y: 0, width: 68, height: 24)
-        self.roomName.frame = CGRect(x: self.background.frame.width/2.0 - 10, y: 28, width: self.background.frame.width/2.0 - 20, height: 40)
-        self.ownerName.frame = CGRect(x: self.roomName.frame.minX, y: self.roomName.frame.maxY+15, width: self.background.frame.width/2.0 - 20, height: 16)
+        self.roomName.frame = CGRect(x: self.background.frame.width/2.0 - 10, y: 28, width: self.background.frame.width/2.0 - 20, height: height > 18 ? 36:18)
+        self.ownerName.frame = CGRect(x: self.roomName.frame.minX, y: self.roomName.frame.maxY+9, width: self.background.frame.width/2.0 - 20, height: 16)
         self.seenCount.frame = CGRect(x: self.roomName.frame.minX, y: self.background.frame.height-36, width: 55, height: 16)
         self.entryRoom.frame = CGRect(x: self.background.frame.width - 72, y: self.background.frame.height - 40, width: 56, height: 24)
         self.entryBlur.frame = self.entryRoom.frame

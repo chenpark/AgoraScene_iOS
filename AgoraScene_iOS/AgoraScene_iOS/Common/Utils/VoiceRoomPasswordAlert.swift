@@ -37,6 +37,7 @@ public class VoiceRoomPasswordAlert: UIView {
         self.pinCode.inputFinish = { [weak self] in
             self?.code = $0
         }
+        self.pinCode.textFiled.becomeFirstResponder()
     }
     
     required init?(coder: NSCoder) {

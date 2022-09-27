@@ -10,8 +10,10 @@ import ZSwiftBaseLib
 
 public class VRSoundTypeCard: HorizontalCardView {
     
+    private var content = ""
+    
     lazy var imageView: UIImageView = {
-        UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+        UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)).contentMode(.scaleAspectFill)
     }()
     
     lazy var noteLabel: UILabel = {
@@ -25,13 +27,22 @@ public class VRSoundTypeCard: HorizontalCardView {
     convenience init(frame: CGRect,title: String,note: String,background: UIImage) {
         self.init(frame: frame)
         self.backgroundColor = .orange
+        self.content = note
         self.addSubViews([self.imageView,self.noteLabel,self.titleLabel])
         self.imageView.image = background
         let height = note.z.sizeWithText(font: .systemFont(ofSize: 12, weight: .regular), size: CGSize(width: self.frame.width-42, height: 9999)).height
-        self.noteLabel.frame = CGRect(x: 16, y: self.frame.height - height - 32, width: self.frame.width - 42, height: height)
-        self.titleLabel.frame = CGRect(x: 16, y: self.frame.height - height - 12 - 20 - 22, width: self.frame.width - 42, height: 22)
+        self.noteLabel.frame = CGRect(x: 16, y: self.frame.height - height - 12, width: self.frame.width - 32, height: height+5)
+        self.titleLabel.frame = CGRect(x: 16, y: self.frame.height - height - 12  - 22, width: self.frame.width - 40, height: 22)
         self.noteLabel.text = note
         self.titleLabel.text = title
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        let height = self.content.z.sizeWithText(font: .systemFont(ofSize: 12, weight: .regular), size: CGSize(width: self.frame.width-40, height: 9999)).height
+        self.noteLabel.frame = CGRect(x: 16, y: self.frame.height - height - 12, width: self.frame.width - 32, height: height+5)
+        self.titleLabel.frame = CGRect(x: 16, y: self.frame.height - height - 12  - 22, width: self.frame.width - 40, height: 22)
+        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
     }
 
     public override init(frame: CGRect) {

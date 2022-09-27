@@ -95,10 +95,14 @@ extension VRUserProfileViewController {
     private func changeUserAvatar(avatar: String) {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":avatar,"name":VoiceRoomUserInfo.shared.user?.name ?? "1238"],classType:VRUser.self) { [weak self] user, error in
             if error == nil {
-                self?.userAvatar = avatar
+                guard let `self` = self else { return }
+                self.userAvatar = avatar
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
-                self?.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? "")
+                self.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar)
+                if self.avatarChange != nil {
+                    self.avatarChange!()
+                }
             } else {
                 self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }

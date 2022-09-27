@@ -61,7 +61,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var create: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(0x219BFF),UIColor(0x345DFF)], [CGPoint(x: 0.25, y: 0.5),CGPoint(x: 0.75, y: 0.5)])
+        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0.25),CGPoint(x: 0, y: 0.75)])
     }()
 
     public override init(frame: CGRect) {
@@ -77,6 +77,10 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
             self?.code = $0
             self?.recover()
         }
+        self.create.layer.shadowColor = UIColor(red: 0, green: 0.546, blue: 0.979, alpha: 0.2).cgColor
+        self.create.layer.shadowOpacity = 1
+        self.create.layer.shadowRadius = 8
+        self.create.layer.shadowOffset = CGSize(width: 0, height: 4)
     }
     
     private func stateImage(button: UIButton) {
