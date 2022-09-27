@@ -19,7 +19,7 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     }
     
     lazy var cover: UIView = {
-        UIView(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)).cornerRadius(12).layerProperties(UIColor(0xD2BDFF), 1).setGradient([UIColor(0xE7C3FF),UIColor(0xFDFBFF)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).backgroundColor(.clear)
+        UIView(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)).cornerRadius(12).layerProperties(UIColor(0xD2BDFF), 1).setGradient([UIColor(red: 0.05, green: 0, blue: 0.76, alpha: 0.24),UIColor(red: 0.71, green: 0.37, blue: 1, alpha: 0.64)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).backgroundColor(.clear)
     }()
     
     lazy var icon: UIImageView = {
@@ -31,7 +31,7 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     }()
     
     lazy var displayValue: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(0x6C7192), .normal)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(red: 0.425, green: 0.445, blue: 0.573, alpha: 1), .normal)
     }()
     
     public override init(frame: CGRect) {

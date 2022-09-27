@@ -9,6 +9,8 @@ import UIKit
 import ZSwiftBaseLib
 
 public class VRVerifyCodeView: UIView {
+    
+    var beginEdit: (() -> ())?
 
     /// 输入值改变
     var textValueChange: ((_ text: String) -> Void)?
@@ -193,4 +195,11 @@ public extension VRVerifyCodeView {
             inputFinish?(inputStr)
         }
     }
+     
+     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+         if self.beginEdit != nil {
+             self.beginEdit!()
+         }
+         return true
+     }
 }

@@ -41,7 +41,7 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     public var datas = ["mic","handuphard","eq","sendgift"]
     
     lazy var chatRaiser: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (111/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.white, .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (111/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
     }()
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -105,7 +105,7 @@ extension VoiceRoomChatBar {
             self.handsState = state
             var idx = 0
             for (index,element) in self.datas.enumerated() {
-                if element == "handuphard" {
+                if element == "handuphard" || element == "handup_dot" || element == "handuphard-1" {
                     idx = index
                     break
                 }

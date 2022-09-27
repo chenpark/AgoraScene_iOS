@@ -19,14 +19,17 @@ public class VoiceRoomGiftersViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.tableFooterView(UIView()).registerCell(VoiceRoomGifterCell.self, forCellReuseIdentifier: "VoiceRoomGifterCell").rowHeight(73).backgroundColor(.white).separatorInset(edge: UIEdgeInsets(top: 72, left: 15, bottom: 0, right: 15)).separatorColor(UIColor(0xF2F2F2)).showsVerticalScrollIndicator(false)
         self.tableView.refreshControl = UIRefreshControl()
-        self.tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
         self.tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        self.refresh()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.refresh()
     }
     
     @objc public convenience init(roomId: String) {

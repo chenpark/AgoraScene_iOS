@@ -19,7 +19,7 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
     }()
     
     lazy var userName: UITextField = {
-        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(.darkText).text(VoiceRoomUserInfo.shared.user?.name ?? "").clearButtonMode(.whileEditing).backgroundColor(.clear).isEnabled(false).delegate(self)
+        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(UIColor(0x000001)).text(VoiceRoomUserInfo.shared.user?.name ?? "").clearButtonMode(.whileEditing).backgroundColor(.clear).isEnabled(false).delegate(self)
     }()
     
     lazy var editName: UIButton = {
@@ -29,7 +29,7 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
     }()
     
     lazy var userId: UILabel = {
-        UILabel(frame: CGRect(x: self.userName.frame.minX, y: self.userName.frame.maxY + 10, width: self.frame.width - self.userName.frame.minX - 15, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(.darkGray).text("ID:\(VoiceRoomUserInfo.shared.user?.uid ?? "")")
+        UILabel(frame: CGRect(x: self.userName.frame.minX, y: self.userName.frame.maxY + 10, width: self.frame.width - self.userName.frame.minX - 15, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(0x4d5055)).text("ID:\(VoiceRoomUserInfo.shared.user?.uid ?? "")")
     }()
 
     public override init(frame: CGRect) {
@@ -81,6 +81,13 @@ extension VRUserInfoView {
         if self.editFinished != nil,let userName = textField.text {
             self.editFinished!(userName)
         }
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text as? NSString,text.length > 16 {
+            textField.text = text.substring(to: 16)
+        }
+        return true
     }
     
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
