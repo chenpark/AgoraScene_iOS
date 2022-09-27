@@ -718,7 +718,7 @@ extension VoiceRoomViewController {
     
     private func agreeInvite() {
         if let roomId = self.roomInfo?.room?.room_id {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
+            VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
                 
             }
         }

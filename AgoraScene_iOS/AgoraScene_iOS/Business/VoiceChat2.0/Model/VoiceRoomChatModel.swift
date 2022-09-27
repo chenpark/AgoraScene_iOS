@@ -34,7 +34,7 @@ extension VoiceRoomChatEntity {
     func renderAttributeText() -> NSAttributedString {
         if self.joined! == false {
             var text = NSMutableAttributedString {
-                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .regular))
+                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .semibold))
                 AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
             }
             let string = text.string as NSString
@@ -50,7 +50,7 @@ extension VoiceRoomChatEntity {
             attachment.image = UIImage("shaking_hand")
             attachment.bounds = CGRect(x: 0, y: -4.5, width: 18, height: 18)
             let attributeText = NSMutableAttributedString {
-                AttributedText(self.userName!).foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .regular))
+                AttributedText(self.userName!).foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .black))
                 Space()
                 AttributedText("Joined").foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
                 Space()

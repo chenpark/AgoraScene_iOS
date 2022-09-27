@@ -17,7 +17,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     public var changeEmojiClosure: ((Bool)->())?
         
     lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: 6.5, width: 25, height: 23)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: 4.5, width: 26, height: 26)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
     }()
     
     lazy var inputContainer: UIView = {
@@ -36,13 +36,16 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.inputField.placeHolderColor = UIColor(0xB6B8C9)
         self.rightView.setImage(UIImage("keyboard_emoji"), for: .normal)
         self.rightView.setImage(UIImage("Union"), for: .selected)
         self.addSubViews([self.inputContainer,self.inputField,self.send])
+        self.inputField.tintColor = UIColor(0x009FFF)
         self.inputField.placeHolder = "Aa"
         self.inputField.textContainer.maximumNumberOfLines = 1
         self.inputField.returnKeyType = .send
         var orgContainerInset = self.inputField.textContainerInset
+        
         orgContainerInset.left = 6
         self.inputField.textContainerInset = orgContainerInset
         self.inputField.returnKeyType = .send
@@ -64,7 +67,8 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     
     @objc func sendMessage() {
         self.hiddenInputBar()
-        if self.sendClosure != nil {
+        self.rightView.isSelected = false
+        if self.sendClosure != nil,!self.inputField.attributedText.toString().isEmpty {
             self.sendClosure!(self.inputField.attributedText.toString())
         }
     }

@@ -17,7 +17,7 @@ public final class VoiceRoomDisclaimerView: UIView,UITextFieldDelegate {
     }()
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.frame.height/2.0-10, width: self.frame.width - self.avatar.frame.maxX - 60, height: 20)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(.darkText).text(LanguageManager.localValue(key: "Disclaimer for demo"))
+        UILabel(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.frame.height/2.0-10, width: self.frame.width - self.avatar.frame.maxX - 60, height: 20)).font(.systemFont(ofSize: 18, weight: .regular)).textColor(UIColor(0x040925)).text(LanguageManager.localValue(key: "Disclaimer for demo"))
     }()
     
     lazy var indicator: UIButton = {

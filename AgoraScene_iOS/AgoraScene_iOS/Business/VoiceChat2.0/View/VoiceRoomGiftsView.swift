@@ -113,9 +113,10 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
             guard let `self` = self else { return }
             self.chooseQuantity.isSelected = false
             self.gift_count = $0
+            self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":\(Int(self.gift_count)!*Int(self.current?.gift_price ?? "1")!)"
         }
         self.current = self.gifts.first
-        self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
+        self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":"+"1"
     }
     
     required init?(coder: NSCoder) {
@@ -172,11 +173,13 @@ extension VoiceRoomGiftsView {
             if Int(value)! >= 100 {
                 self.gift_count = "1"
                 self.chooseQuantity.setTitle(self.gift_count, for: .normal)
+                self.chooseQuantity.setTitleColor(.lightGray, for: .normal)
                 gift?.gift_count = "1"
                 self.chooseQuantity.isEnabled = false
             } else {
                 gift?.gift_count = self.gift_count
                 self.chooseQuantity.isEnabled = true
+                self.chooseQuantity.setTitleColor(.darkText, for: .normal)
             }
         }
         for (idx,cell) in collectionView.visibleCells.enumerated() {

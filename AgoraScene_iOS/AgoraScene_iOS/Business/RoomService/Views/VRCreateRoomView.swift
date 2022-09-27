@@ -10,7 +10,7 @@ import ZSwiftBaseLib
 
 public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDataSource {
     
-    private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":LanguageManager.localValue(key: "Multi-audio chat scenario where anyone can unmute their mic and speak")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial audio chat room mode"),"detail":LanguageManager.localValue(key: "Spatial audio chat room mode")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"sa_mode"]]
+    private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":LanguageManager.localValue(key: "Multi-audio chat scenario where anyone can unmute their mic and speak")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":LanguageManager.localValue(key: "Power natural conversations that make people feel like they're 'in the room' together"),"image":"sa_mode"]]
 //    ["title":"Karaoke","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"karaoke"]
     
     var velocity = CGPoint.zero
@@ -72,7 +72,7 @@ extension VRCreateRoomView {
         if self.idx == 1 {
             namePrefix = LanguageManager.localValue(key: "Spatial Audio Mode Room")
         }
-        self.roomInput.roomNameField.text = namePrefix+"\((1...100).randomElement() ?? 1)"
+        self.roomInput.roomNameField.text = namePrefix+" \((1...100).randomElement() ?? 1)"
         self.roomInput.name = self.roomInput.roomNameField.text ?? ""
     }
     
