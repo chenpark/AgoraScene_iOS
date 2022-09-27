@@ -14,6 +14,21 @@ class VMANISSetTableViewCell: UITableViewCell {
     private var midBtn: UIButton = UIButton()
     private var offBtn: UIButton = UIButton()
     private var selBtn: UIButton!
+    public var ains_state: AINS_STATE = .mid {
+        didSet {
+            switch ains_state {
+            case .high:
+                setBtnStateWith(highBtn)
+            case .mid:
+                setBtnStateWith(midBtn)
+            case .off:
+                setBtnStateWith(offBtn)
+            }
+        }
+    }
+    
+    var selBlock: ((AINS_STATE)->Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,6 +36,7 @@ class VMANISSetTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         layoutUI()
     }
     
@@ -57,7 +73,7 @@ class VMANISSetTableViewCell: UITableViewCell {
         midBtn.tag = 101
         midBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(midBtn)
-        selBtn = midBtn
+        self.selBtn = midBtn
         
         highBtn.frame = CGRect(x: screenWidth - 220~, y: 12~, width: 50~, height: 30~)
         highBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
@@ -73,16 +89,34 @@ class VMANISSetTableViewCell: UITableViewCell {
     }
     
     @objc private func click(sender: UIButton) {
-        sender.backgroundColor = .white
-        sender.layer.borderColor = UIColor.blue.cgColor
-        sender.setTitleColor(.blue, for: .normal)
-        sender.layer.borderWidth = 1
+        setBtnStateWith(sender)
+        
+        guard let selBlock = selBlock else {
+            return
+        }
+        var state: AINS_STATE = .mid
+        if selBtn == highBtn {
+            state = .high
+        } else if selBtn == midBtn {
+            state = .mid
+        } else {
+            state = .off
+        }
+        selBlock(state)
+    }
+    
+    private func setBtnStateWith(_ btn: UIButton) {
+        if selBtn == btn {return}
+        btn.backgroundColor = .white
+        btn.layer.borderColor = UIColor.blue.cgColor
+        btn.setTitleColor(.blue, for: .normal)
+        btn.layer.borderWidth = 1
         
         selBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
         selBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         selBtn.layer.borderColor = UIColor.clear.cgColor
         selBtn.layer.borderWidth = 0
-        selBtn = sender
+        selBtn = btn
     }
 
 }

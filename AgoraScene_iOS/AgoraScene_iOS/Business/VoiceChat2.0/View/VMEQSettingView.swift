@@ -22,6 +22,12 @@ class VMEQSettingView: UIView {
     private let soIdentifier = "sound"
     private let tIdentifier = "tv"
     var backBlock: (() -> Void)?
+    var ains_state: AINS_STATE = .off {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    var selBlock: ((AINS_STATE)->Void)?
     
     private let settingName: [String] = ["Spatial Audio", "Attenuation factor", "Air absorb", "Voice blur"]
     private let soundType: [String] = ["TV Sound", "Kitchen Sound", "Street Sound", "Mashine Sound", "Office Sound", "Home Sound", "Construction Sound","Alert Sound/Music","Applause","Wind Sound","Mic Pop Filter","Audio Feedback","Microphone Finger Rub Sound","Screen Tap Sound"]
@@ -215,7 +221,14 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             if indexPath.section == 0 {
-                let cell: VMANISSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: sIdentifier)! as! VMANISSetTableViewCell
+                let cell: VMANISSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: sIdentifier) as! VMANISSetTableViewCell
+                cell.ains_state = ains_state
+                cell.selBlock = {[weak self] state in
+                    //self?.ains_state = state
+                    guard let block = self?.selBlock else {return}
+                    block(state)
+                }
+                cell.selectionStyle = .none
                 return cell
             } else if indexPath.section == 1 {
                 let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: tIdentifier)!

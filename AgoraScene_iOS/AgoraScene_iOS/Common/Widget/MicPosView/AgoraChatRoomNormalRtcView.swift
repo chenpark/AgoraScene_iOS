@@ -18,6 +18,9 @@ class AgoraChatRoomNormalRtcView: UIView {
     
     var micInfos: [VRRoomMic]? {
         didSet {
+            guard let _ = collectionView else {
+                return
+            }
             collectionView.reloadData()
         }
     }
@@ -79,7 +82,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
             if let mic_info = micInfos?[indexPath.item] {
-                cell.user = mic_info.user
+                cell.user = mic_info.member
                 switch mic_info.status {
                 case -1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
@@ -88,7 +91,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 case 1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
                 case 2:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+                    cell.cellType = .AgoraChatRoomBaseUserCellTypeForbidden
                 case 3:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
                 case 4:
@@ -96,6 +99,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 default:
                     break
                 }
+                
             } else {
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
             }

@@ -10,7 +10,8 @@ import ZSwiftBaseLib
 
 public enum ADMIN_ACTION {
     case invite
-    case kickoff
+    case mute
+    case lock
 }
 
 class VMManagerView: UIView {
@@ -28,24 +29,72 @@ class VMManagerView: UIView {
     private var muteBtn: UIButton = UIButton()
     private var lockBtn: UIButton = UIButton()
     private var kfBtn: UIButton = UIButton()
+    private var micView: AgoraMicVolView = AgoraMicVolView()
+    public var isOwner: Bool = false
     
-    public var action: ADMIN_ACTION = .invite {
+    public var micInfo: VRRoomMic? {
         didSet {
-            if action == .invite {
-                kfBtn.isHidden = true
-                inviteBtn.isHidden = false
-                lockBtn.setTitle("Lock", for: .normal)
+            //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
+            let m_type = micInfo?.status
+            var username: String = "\(micInfo?.mic_index ?? 0)"
+            var iconStr: String = "avatar1"
+            if let user = micInfo?.member {
+                username = user.name ?? "\(String(describing: micInfo?.index))"
+                iconStr = user.portrait ?? "avatar1"
+            }
+            if m_type == -1 {
                 iconView.isHidden = true
                 roleBtn.isHidden = true
-            } else {
-                kfBtn.isHidden = false
-                inviteBtn.isHidden = true
-                lockBtn.setTitle("Upstage", for: .normal)
+                micView.isHidden = true
+                nameLabel.text = username
+            } else if m_type == 3 {
+                iconView.isHidden = true
+                roleBtn.isHidden = true
+                micView.isHidden = true
+                addView.image = UIImage(named: "icons／solid／lock")
+                lockBtn.setTitle("unLock", for: .normal)
+                inviteBtn.setTitleColor(.lightGray, for: .normal)
+                inviteBtn.isUserInteractionEnabled = false
+                nameLabel.text = username
+            } else if m_type == 4 {
+                iconView.isHidden = true
+                roleBtn.isHidden = true
+                micView.isHidden = false
+                micView.setState(.forbidden)
+                addView.image = UIImage(named: "icons／solid／lock")
+                lockBtn.setTitle("unLock", for: .normal)
+                muteBtn.setTitle("unMute", for: .normal)
+                inviteBtn.setTitleColor(.lightGray, for: .normal)
+                inviteBtn.isUserInteractionEnabled = false
+                nameLabel.text = username
+            } else if m_type == 1 {
+                iconView.isHidden = true
+                roleBtn.isHidden = true
+                micView.isHidden = false
+                micView.setState(.forbidden)
+                muteBtn.setTitle("unMute", for: .normal)
+                nameLabel.text = username
+            } else if m_type == 0 {
                 iconView.isHidden = false
-                roleBtn.isHidden = false
+                iconView.image = UIImage(named: iconStr)
+                nameLabel.text = username
+                micView.setState(.on)
+                micView.setVolume(100)
+                micView.isHidden = false
+                inviteBtn.setTitle("kickoff stage", for: .normal)
+            } else if m_type == 2 {
+                iconView.isHidden = false
+                iconView.image = UIImage(named: iconStr)
+                nameLabel.text = username
+                micView.setState(.forbidden)
+                micView.isHidden = false
+                inviteBtn.setTitle("kickoff stage", for: .normal)
+                muteBtn.setTitle("unMute", for: .normal)
             }
         }
     }
+    
+    var resBlock: ((ADMIN_ACTION, Bool) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,38 +152,33 @@ class VMManagerView: UIView {
         self.addSubview(lineView)
 
         inviteBtn.frame = CGRect(x: 20, y: 170~, width: ScreenWidth / 3.0 - 40, height: 40~)
-        inviteBtn.setTitleColor(.white, for: .normal)
+        inviteBtn.setTitleColor(.blue, for: .normal)
         inviteBtn.setTitle("invite", for: .normal)
         inviteBtn.font(UIFont.systemFont(ofSize: 14))
+        inviteBtn.tag = 300
+        inviteBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(inviteBtn)
-        // gradient
-        let gl: CAGradientLayer = CAGradientLayer()
-        gl.startPoint = CGPoint(x: 0.18, y: 0)
-        gl.endPoint = CGPoint(x: 0.66, y: 1)
-        gl.colors = [UIColor(red: 33/255.0, green: 155/255.0, blue: 1, alpha: 1).cgColor, UIColor(red: 52/255.0, green: 93/255.0, blue: 1, alpha: 1).cgColor]
-        gl.locations = [0, 1.0]
-        inviteBtn.layer.cornerRadius = 20~;
-        inviteBtn.layer.masksToBounds = true;
-        gl.frame = inviteBtn.bounds;
-        inviteBtn.layer.addSublayer(gl)
         
-        kfBtn.frame = CGRect(x: 20, y: 170~, width: ScreenWidth / 3.0 - 40, height: 40~)
-        kfBtn.setTitleColor(.blue, for: .normal)
-        kfBtn.setTitle("Kick Off Stage", for: .normal)
-        kfBtn.font(UIFont.systemFont(ofSize: 14))
-        self.addSubview(kfBtn)
-        kfBtn.isHidden = true
+        micView.frame = CGRect(x: self.bounds.size.width / 2.0 + 10~, y: 85~, width: 20~, height: 20~)
+        micView.setState(.on)
+        micView.setVolume(100)
+        self.addSubview(micView)
+        micView.isHidden = true
         
         muteBtn.frame = CGRect(x: ScreenWidth / 3.0 + 20, y: 170~, width: ScreenWidth / 3.0 - 40, height: 40~)
         muteBtn.setTitleColor(.blue, for: .normal)
         muteBtn.setTitle("Mute", for: .normal)
         muteBtn.font(UIFont.systemFont(ofSize: 14))
+        muteBtn.tag = 301
+        muteBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(muteBtn)
         
         lockBtn.frame = CGRect(x: ScreenWidth / 3.0 * 2 + 20, y: 170~, width: ScreenWidth / 3.0 - 40, height: 40~)
         lockBtn.setTitleColor(.blue, for: .normal)
         lockBtn.setTitle("Lock", for: .normal)
         lockBtn.font(UIFont.systemFont(ofSize: 14))
+        lockBtn.tag = 302
+        lockBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(lockBtn)
         
         sepView.frame = CGRect(x: ScreenWidth / 3.0, y: 180~, width: 1, height: 20~)
@@ -144,6 +188,91 @@ class VMManagerView: UIView {
         sep2View.frame = CGRect(x: ScreenWidth / 3.0 * 2, y: 180~, width: 1, height: 20~)
         sep2View.backgroundColor = .separator
         self.addSubview(sep2View)
+    }
+    
+    @objc private func click(sender: UIButton) {
+        var state: ADMIN_ACTION = .invite
+        var flag: Bool = false
+        guard let micInfo = micInfo else {
+            return
+        }
+        guard let resBlock = resBlock else {
+            return
+        }
+
+        //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
+        let m_type = micInfo.status
+        switch m_type {
+        case -1:
+            if sender.tag == 300 {
+                state = .invite
+                flag = true
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = true
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = true
+            }
+        case 0:
+            if sender.tag == 300 {
+                state = .invite
+                flag = false
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = true
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = true
+            }
+        case 2:
+            if sender.tag == 300 {
+                state = .invite
+                flag = false
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = false
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = true
+            }
+        case 3:
+            if sender.tag == 300 {
+                state = .invite
+                flag = true
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = true
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = false
+            }
+        case 4:
+            if sender.tag == 300 {
+    
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = false
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = false
+            }
+        case 1:
+            if sender.tag == 300 {
+                state = .invite
+                flag = true
+            } else if sender.tag == 301 {
+                state = .mute
+                flag = false
+            } else if sender.tag == 302 {
+                state = .lock
+                flag = false
+            }
+        default:
+            break
+        }
+        
+        resBlock(state, flag)
     }
 
 }

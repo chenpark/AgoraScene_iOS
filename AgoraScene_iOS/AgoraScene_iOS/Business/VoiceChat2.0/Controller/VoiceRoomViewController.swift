@@ -17,6 +17,12 @@ public enum ROLE_TYPE {
     case audience
 }
 
+public enum AINS_STATE {
+    case high
+    case mid
+    case off
+}
+
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_price":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_price":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_price":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_price":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_price":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_price":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_price":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_price":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_price":"1500","gift_count":"1","selected":false]]
 
 class VoiceRoomViewController: VRBaseViewController {
@@ -72,6 +78,8 @@ class VoiceRoomViewController: VRBaseViewController {
     private var isShowPreSentView: Bool = false
     private var rtckit: ASRTCKit = ASRTCKit.getSharedInstance()
     private var isOwner: Bool = false
+    private var ains_state: AINS_STATE = .mid
+    private var local_index: Int? = nil
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -89,10 +97,6 @@ class VoiceRoomViewController: VRBaseViewController {
                     }
                 }
             }
-            
-            guard let user = VoiceRoomUserInfo.shared.user else {return}
-            guard let owner = self.roomInfo?.room?.owner else {return}
-            isOwner = user.uid == owner.uid
         }
     }
     
@@ -108,6 +112,12 @@ class VoiceRoomViewController: VRBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let user = VoiceRoomUserInfo.shared.user else {return}
+        guard let owner = self.roomInfo?.room?.owner else {return}
+        isOwner = user.uid == owner.uid
+        local_index = isOwner ? 0 : nil
+        
         VoiceRoomIMManager.shared?.delegate = self
         VoiceRoomIMManager.shared?.addChatRoomListener()
         //获取房间详情
@@ -189,14 +199,12 @@ extension VoiceRoomViewController {
         
         //如果不是房主。需要主动获取房间详情
         guard let room_id = self.roomInfo?.room?.room_id else {return}
-        if !isOwner {
-            VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
-                if error == nil {
-                    guard let info = room else { return }
-                    self?.roomInfo = info
-                } else {
-                    self?.view.makeToast("\(error?.localizedDescription ?? "")")
-                }
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomInfo(roomId: room_id), params: [:], classType: VRRoomInfo.self) {[weak self] room, error in
+            if error == nil {
+                guard let info = room else { return }
+                self?.roomInfo = info
+            } else {
+                self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
     }
@@ -297,7 +305,7 @@ extension VoiceRoomViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         } else if action == .notice {
-            showNoticeView(with: .owner)
+            showNoticeView(with: self.isOwner ? .owner : .audience)
         } else if action == .rank {
             //展示土豪榜
             self.showUsers()
@@ -308,11 +316,53 @@ extension VoiceRoomViewController {
     
     private func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
         if type == .AgoraChatRoomBaseUserCellTypeAdd {
-            userApplyAlert(tag - 200)
+            //这里需要区分观众与房主
+            if isOwner {
+               showApplyAlert(tag - 200)
+            } else {
+                userApplyAlert(tag - 200)
+            }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             showActiveAlienView(false)
+        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser {
+               //用户下麦或者mute自己
+            if tag - 200 == local_index {
+                showMuteView(with: tag - 200)
+            } else {
+                if isOwner {
+                    showApplyAlert(tag - 200)
+                }
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeLock {
+            if isOwner {
+               showApplyAlert(tag - 200)
+            } else {
+               //用户下麦或者mute自己
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
+            if tag - 200 == local_index {
+                showMuteView(with: tag - 200)
+            } else {
+                if isOwner {
+                    showApplyAlert(tag - 200)
+                }
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
+            if isOwner {
+               showApplyAlert(tag - 200)
+            } else {
+               //用户下麦或者mute自己
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
+            if tag - 200 == local_index {
+                showMuteView(with: tag - 200)
+            } else {
+                if isOwner {
+                    showApplyAlert(tag - 200)
+                }
+            }
         }
     }
     
@@ -345,11 +395,12 @@ extension VoiceRoomViewController {
     private func showNoticeView(with role: ROLE_TYPE) {
         let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
         noticeView.roleType = role
+        noticeView.noticeStr = roomInfo?.room?.announcement ?? ""
         noticeView.resBlock = {[weak self] (flag, str) in
             self?.dismiss(animated: true)
             guard let str = str else {return}
             //修改群公告
-            
+            self?.updateNotice(with: str)
         }
         let noticeStr = self.roomInfo?.room?.announcement ?? ""
         noticeView.noticeStr = noticeStr
@@ -368,7 +419,6 @@ extension VoiceRoomViewController {
         let vc = VoiceRoomAlertViewController(compent: compent, custom: confirmView)
         confirmView.resBlock = {[weak self] (flag) in
             self?.dismiss(animated: true)
-            //修改群公告
             if flag == false {return}
             self?.activeAlien(active)
         }
@@ -387,7 +437,8 @@ extension VoiceRoomViewController {
                     if result == true {
                         print("激活机器人成功")
                         var mic_info = mic
-                        mic_info.status = 5
+                        mic_info.status = flag == true ? 5 : -2
+                        self.roomInfo?.room?.use_robot = flag
                         self.roomInfo?.mic_info![6] = mic_info
                         self.rtcView.micInfos = self.roomInfo?.mic_info
                     }
@@ -399,37 +450,50 @@ extension VoiceRoomViewController {
             }
         }
     }
+   // announcement
+    private func updateNotice(with str: String) {
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        let params: Dictionary<String, String> = ["announcement":str]
+        VoiceRoomBusinessRequest.shared.sendPUTRequest(api: .modifyRoomInfo(roomId: roomId), params: params) { map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    if result == true {
+                        print("修改群公告成功")
+                        self.roomInfo?.room?.announcement = str
+                    }
+                } else {
+                    print("修改群公告失败")
+                }
+            } else {
+                
+            }
+        }
+    }
     
-//    private func showUpStage(with tag: Int) {
-//        let stageView = VMUpstageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
-//        stageView.resBlock = {[weak self] flag in
-//            self?.dismiss(animated: true)
-//            if flag {
-//                guard let roomId = self?.roomInfo?.room?.room_id else {return}
-//                let index = tag - 200
-//                guard let mic: VRRoomMic = self?.roomInfo?.mic_info![index] else {return}
-//                let params: Dictionary<String, Any> = ["mic_index": index]
-//                VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: params) { map, error in
-//                    if map != nil {
-//                        //如果返回的结果为true 表示上麦成功
-//                        if let result = map?["result"] as? Bool,error == nil,result {
-//                            debugPrint("--- showUpStage :result:\(result)")
-//                            var mic_info = mic
-//                            mic_info.status = 0
-//                            self?.roomInfo?.mic_info![index] = mic_info
-//                            self?.rtcView.micInfos = self?.roomInfo?.mic_info
-//                        } else {
-//                            self?.view.makeToast("Apply failed!")
-//                        }
-//                    } else {
-//
-//                    }
-//                }
-//            }
-//        }
-//        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: stageView)
-//        self.presentViewController(vc)
-//    }
+    private func updateVolume(_ Vol: Int) {
+        if isOwner == false {return}
+        guard let roomId = roomInfo?.room?.room_id else {return}
+        let params: Dictionary<String, Int> = ["robot_volume": Vol]
+        VoiceRoomBusinessRequest.shared.sendPUTRequest(api: .modifyRoomInfo(roomId: roomId), params: params) { map, error in
+            if map != nil {
+                //如果返回的结果为true 表示上麦成功
+                if let result = map?["result"] as? Bool,error == nil,result {
+                    if result == true {
+                        print("调节机器人音量成功")
+                        guard let room = self.roomInfo?.room else {return}
+                        var newRoom = room
+                        newRoom.robot_volume = UInt(Vol)
+                        self.roomInfo?.room = newRoom
+                    }
+                } else {
+                    print("调节机器人音量失败")
+                }
+            } else {
+                
+            }
+        }
+    }
     
 //    private func leaveRoom() {
 //        guard let roomId = roomInfo?.room?.room_id else {return}
@@ -455,12 +519,18 @@ extension VoiceRoomViewController {
     
     private func showEQView() {
         preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
-        if let type = roomInfo?.room?.type {
-            preView.isPrivate = type == 1
-        } else {
-            preView.isPrivate = false
+        preView.isAudience = !isOwner
+        preView.roomInfo = roomInfo
+        preView.ains_state = ains_state
+        preView.selBlock = {[weak self] state in
+            self?.ains_state = state
         }
-        preView.isAudience = roomInfo?.room?.use_robot ?? false
+        preView.useRobotBlock = {[weak self] flag in
+            self?.activeAlien(flag)
+        }
+        preView.volBlock = {[weak self] vol in
+            self?.updateVolume(vol)
+        }
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false
@@ -521,11 +591,42 @@ extension VoiceRoomViewController {
     private func changeMicState() {
         self.chatBar.micState = !self.chatBar.micState
         self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
-        self.chatBar.micState == false ? self.openMic():self.closeMic()
+        //需要根据麦位特殊处理
+        self.chatBar.micState == false ? self.muteLocal(with: 0):self.unmuteLocal(with: 0)
     }
     
     private func showUsers() {
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: self.contributeList)
+        self.presentViewController(vc)
+    }
+    
+    private func showApplyAlert(_ index: Int) {
+        let manageView = VMManagerView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264~))
+        guard let mic_info = roomInfo?.mic_info?[index] else {return}
+        manageView.micInfo = mic_info
+        manageView.resBlock = {[weak self] (state, flag) in
+            self?.dismiss(animated: true)
+            if state == .invite {
+                if flag {
+                    self?.applyMembersAlert()
+                } else {
+                    self?.kickoff(with: index)
+                }
+            } else if state == .mute {
+                if flag {
+                    self?.mute(with: index)
+                } else {
+                    self?.unMute(with: index)
+                }
+            } else {
+                if flag {
+                    self?.lock(with: index)
+                } else {
+                    self?.unLock(with: index)
+                }
+            }
+        }
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 264~)), custom: manageView)
         self.presentViewController(vc)
     }
     
@@ -580,6 +681,176 @@ extension VoiceRoomViewController {
             }
             vc.dismiss(animated: true)
         }
+        self.presentViewController(vc)
+    }
+    
+    //禁言指定麦位
+    private func mute(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .muteMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("mute success!")
+                } else {
+                    self.view.makeToast("mute failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //取消禁言指定麦位
+    private func unMute(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId, index: index), params: [:]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("unmute success!")
+                    self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
+                } else {
+                    self.view.makeToast("unmute failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //踢用户下麦
+    private func kickoff(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+        let dic: Dictionary<String, Any> = [
+            "uid":mic.member?.uid ?? 0,
+            "mic_index": index
+        ]
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .kickMic(roomId: roomId), params: dic) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("kickoff success!")
+                } else {
+                    self.view.makeToast("kickoff failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //锁麦
+    private func lock(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .lockMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("lock success!")
+                } else {
+                    self.view.makeToast("lock failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //取消锁麦
+    private func unLock(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unlockMic(roomId: roomId, index: index), params: [:]) { dic, error in
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("unLock success!")
+                } else {
+                    self.view.makeToast("unLock failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //下麦
+    private func leaveMic(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
+            self.dismiss(animated: true)
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("leaveMic success!")
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = -1
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                } else {
+                    self.view.makeToast("leaveMic failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    //mute自己
+    private func muteLocal(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
+            self.dismiss(animated: true)
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("mute local success!")
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = 1
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                } else {
+                    self.view.makeToast("unmute local failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+
+    //unmute自己
+    private func unmuteLocal(with index: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
+            self.dismiss(animated: true)
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("unmuteLocal success!")
+//                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
+//                    var mic_info = mic
+//                    mic_info.status = 0
+//                    self.roomInfo?.mic_info![index] = mic_info
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                } else {
+                    self.view.makeToast("unmuteLocal failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
+    private func showMuteView(with index: Int) {
+        let muteView = VMMuteView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264~))
+        guard let mic_info = roomInfo?.mic_info?[index] else {return}
+        muteView.isOwner = isOwner
+        muteView.micInfo = mic_info
+        muteView.resBlock = {[weak self] (state) in
+            if state == .leave {
+                self?.leaveMic(with: index)
+            } else if state == .mute {
+                self?.muteLocal(with: index)
+            } else {
+                self?.unmuteLocal(with: index)
+            }
+        }
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 264~)), custom: muteView)
         self.presentViewController(vc)
     }
     
@@ -675,20 +946,6 @@ extension VoiceRoomViewController {
         }
     }
     
-    private func closeMic() {
-        guard let room_id = roomInfo?.room?.room_id else {return}
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: room_id), params: [:]) { map, err in
-            print(map?["result"] as? Bool ?? false)
-        }
-    }
-    
-    private func openMic() {
-        guard let room_id = roomInfo?.room?.room_id else {return}
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: room_id), params: [:]) { map, err in
-            print(map?["result"] as? Bool ?? false)
-        }
-    }
-    
     private func showMessage(message: AgoraChatMessage) {
         if let body = message.body as? AgoraChatTextMessageBody,let userName = message.ext?["userName"] as? String {
             self.convertShowText(userName: userName, content: body.text,joined: false)
@@ -755,7 +1012,7 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
-        
+        roomInfo?.room?.robot_volume = UInt(volume)
     }
     
     
@@ -815,6 +1072,8 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func announcementChanged(roomId: String, content: String) {
         self.view.makeToast("Voice room announcement changed!")
+        guard let _ = roomInfo?.room else {return}
+        roomInfo?.room!.announcement = content
     }
     
     func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason) {
@@ -836,11 +1095,61 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
         self.view.makeToast("roomId:\(roomId),attributeMap:\(attributeMap)")
+        guard let dic = getMicStatus(with: attributeMap) else {return}
+        var index: Int = dic["index"] ?? 0
+        let status: Int = dic["status"] ?? 0
+        if index > 6 {index = 6}
+        guard let mic: VRRoomMic = roomInfo?.mic_info![index] else {return}
+        var mic_info = mic
+        mic_info.status = status
+        if status == 5 || status == -2 {
+            self.roomInfo?.room?.use_robot = status == 5
+        }
+        self.roomInfo?.mic_info![index] = mic_info
+        self.rtcView.micInfos = self.roomInfo?.mic_info
+        requestRoomDetail()
     }
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
         
     }
+    
+    private func getMicStatus(with map: [String : String]?) -> Dictionary<String, Int>? {
+        guard let mic_info = map else {return nil}
+        var first: Dictionary<String, Int>? = Dictionary()
+        for mic in mic_info {
+            let key: String = mic.key
+            let value = getDictionaryFromJSONString(jsonString: mic.value)
+            
+            first!.updateValue(value["status"] as! Int, forKey: "status")
+            if key.contains("mic_") {
+                if key.components(separatedBy: "mic_").count > 1 {
+                    let mic_index = key.components(separatedBy: "mic_")[1]
+                    first!.updateValue(Int(mic_index)!, forKey: "index")
+                    
+                    let uid = VoiceRoomUserInfo.shared.user?.uid
+                    if value.keys.contains("uid") {
+                        if uid == value["uid"] as? String ?? "" {
+                            local_index = Int(mic_index)
+                        }
+                    }
+                    
+                    return first
+                }
+            }
+        }
+        return nil
+    }
+    
+   private func getDictionaryFromJSONString(jsonString:String) ->Dictionary<String, Any>{
+        let jsonData:Data = jsonString.data(using: .utf8)!
+        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+        if dict != nil {
+            return dict as! Dictionary
+        }
+        return Dictionary()
+    }
+
 }
 //MARK: - ASManagerDelegate
 extension VoiceRoomViewController: ASManagerDelegate {

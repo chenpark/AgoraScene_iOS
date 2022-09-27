@@ -11,6 +11,7 @@ import SnapKit
 public enum AgoraChatRoomBaseUserCellType {
    case AgoraChatRoomBaseUserCellTypeAdd
    case AgoraChatRoomBaseUserCellTypeMute
+   case AgoraChatRoomBaseUserCellTypeForbidden
    case AgoraChatRoomBaseUserCellTypeLock
    case AgoraChatRoomBaseUserCellTypeNormalUser
    case AgoraChatRoomBaseUserCellTypeMuteAndLock
@@ -36,7 +37,11 @@ class AgoraChatRoomBaseRtcUserView: UIView {
                 self.micView.isHidden = true
                 self.bgIconView.image = UIImage(named: "icons／solid／add")
             case .AgoraChatRoomBaseUserCellTypeMute:
-                self.iconView.isHidden = true
+                self.iconView.isHidden = false
+                self.micView.isHidden = false
+                self.micView.setState(.forbidden)
+            case .AgoraChatRoomBaseUserCellTypeForbidden:
+                self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
                 self.bgIconView.image = UIImage(named: "icons／solid／add")

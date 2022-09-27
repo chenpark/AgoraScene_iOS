@@ -55,11 +55,11 @@ import KakaJSON
 
 @objc open class VRRoomMic:NSObject, Convertible {
     
-    var index: Int = 0
+    var mic_index: Int = 0
     
     var status: Int = 0//0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
     
-    var user: VRUser?
+    var member: VRUser?
     
     required public override init() {
         

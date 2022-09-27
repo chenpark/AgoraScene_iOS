@@ -391,22 +391,22 @@ public extension VoiceRoomBusinessRequest {
             uri += roomId + "/mic"
         case let .closeMic(roomId):
             uri += "/\(roomId)" + "/mic/close"
-        case let .cancelCloseMic(roomId):
-            uri += "/\(roomId)" + "/mic/close"
-        case let .leaveMic(roomId):
-            uri += "/\(roomId)" + "/mic/leave"
+        case let .cancelCloseMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/close?mic_index=\(index)"
+        case let .leaveMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/leave?mic_index=\(index)"
         case let .muteMic(roomId):
             uri += "/\(roomId)" + "/mic/mute"
-        case let .unmuteMic(roomId):
-            uri += "/\(roomId)" + "/mic/mute"
+        case let .unmuteMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/mute?mic_index=\(index)"
         case let .exchangeMic(roomId):
             uri += "/\(roomId)" + "/mic/exchange"
         case let .kickMic(roomId):
             uri += "/\(roomId)" + "/mic/kick"
         case let .lockMic(roomId):
             uri += "/\(roomId)" + "/mic/lock"
-        case let .unlockMic(roomId):
-            uri += "/\(roomId)" + "/mic/lock"
+        case let .unlockMic(roomId, index):
+            uri += "/\(roomId)" + "/mic/lock?mic_index=\(index)"
         case let .inviteUserToMic(roomId):
             uri += "/\(roomId)" + "/mic/invite"
         case let .agreeInvite(roomId):

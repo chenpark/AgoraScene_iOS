@@ -29,6 +29,11 @@ class AgoraChatRoom3DMoveUserView: UIView {
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
                 self.bgIconView.image = UIImage(named: "icons／solid／add")
+            case .AgoraChatRoomBaseUserCellTypeForbidden:
+                self.iconView.isHidden = true
+                self.micView.isHidden = false
+                self.micView.setState(.forbidden)
+                self.bgIconView.image = UIImage(named: "icons／solid／add")
             case .AgoraChatRoomBaseUserCellTypeLock:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
