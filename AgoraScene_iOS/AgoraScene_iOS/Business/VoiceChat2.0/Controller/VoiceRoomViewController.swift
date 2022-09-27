@@ -266,9 +266,9 @@ extension VoiceRoomViewController {
     
     private func uploadStatus( status: Bool) {
         guard let roomId = self.roomInfo?.room?.room_id  else { return }
-        let pwd: String = roomInfo?.room?.roomPassword ?? ""
-        let params: Dictionary<String, Any> = ["password": pwd]
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: params) { dic, error in
+//        let pwd: String = roomInfo?.room?.roomPassword ?? ""
+//        let params: Dictionary<String, Any> = ["password": pwd]
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
                 self.view.makeToast("Joined successful!")
             } else {
@@ -508,14 +508,11 @@ extension VoiceRoomViewController {
     
     private func changeHandsUpState() {
         if self.isOwner {
-            if self.chatBar.handsState == .selected {
-                self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: true)
-            }
             self.applyMembersAlert()
         } else {
             if self.chatBar.handsState == .unSelected {
                 self.userApplyAlert(nil)
-            } else if self.chatBar.handsState == .disable {
+            } else if self.chatBar.handsState == .selected {
                 self.userCancelApplyAlert()
             }
         }
@@ -548,7 +545,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .submitApply(roomId: roomId), params: index != nil ? ["mic_index":index ?? 2]:[:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+                    self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: false)
                     self.view.makeToast("Apply success!")
                 } else {
                     self.view.makeToast("Apply failed!")
@@ -756,6 +753,11 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
 
 //MARK: - VoiceRoomIMDelegate
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
+    
+    func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
+        
+    }
+    
     
     func chatTokenDidExpire(code: AgoraChatErrorCode) {
         if code == .tokenExpire {

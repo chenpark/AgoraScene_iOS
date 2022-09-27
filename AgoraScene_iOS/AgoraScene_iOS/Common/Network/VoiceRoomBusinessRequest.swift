@@ -362,7 +362,7 @@ public extension VoiceRoomBusinessRequest {
                 uri += "/\(roomId)" + "/members/list?limit=\(pageSize)&cursor=\(cursor)"
             }
         case let .validatePassWord(roomId):
-            uri += "/\(roomId)" + "/{roomId}/validPassword"
+            uri += "/\(roomId)" + "/validPassword"
         case let .joinRoom(roomId):
             uri += "/\(roomId)" + "/members/join"
         case let .leaveRoom(roomId):

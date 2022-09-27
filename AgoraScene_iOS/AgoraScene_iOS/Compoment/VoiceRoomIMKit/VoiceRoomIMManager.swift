@@ -13,6 +13,7 @@ public let VoiceRoomPraise = "chatroom_praise"//like 点赞
 public let VoiceRoomInviteSite = "chatroom_inviteSiteNotify"
 public let VoiceRoomApplySite = "chatroom_applySiteNotify"
 public let VoiceRoomDeclineApply = "chatroom_applyRefusedNotify"
+public let VoiceRoomUpdateRobotVolume = "chatroom_updateRobotVolume"
 
 @objc public protocol VoiceRoomIMDelegate: NSObjectProtocol {
     
@@ -36,6 +37,8 @@ public let VoiceRoomDeclineApply = "chatroom_applyRefusedNotify"
     func userJoinedRoom(roomId: String, username: String)
     
     func announcementChanged(roomId: String, content: String)
+    
+    func voiceRoomUpdateRobotVolume(roomId: String, volume: String)
     
     func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason)
     
@@ -133,6 +136,10 @@ public extension VoiceRoomIMManager {
                     case VoiceRoomDeclineApply:
                         if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.refuseInvite(roomId:meta:))) {
                             self.delegate?.refuseInvite(roomId: self.currentRoomId, meta: body.customExt)
+                        }
+                    case VoiceRoomUpdateRobotVolume:
+                        if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.voiceRoomUpdateRobotVolume(roomId:volume:))) {
+                            self.delegate?.voiceRoomUpdateRobotVolume(roomId: self.currentRoomId, volume: body.customExt["volume"] ?? "")
                         }
                     default:
                         break

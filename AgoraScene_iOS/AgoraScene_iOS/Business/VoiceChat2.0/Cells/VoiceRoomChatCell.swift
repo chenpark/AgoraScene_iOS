@@ -23,7 +23,7 @@ public class VoiceRoomChatCell: UITableViewCell {
     }()
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: 10, y: 9, width: self.container.frame.width-20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0)
+        UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width-20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0)
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,7 +41,7 @@ public class VoiceRoomChatCell: UITableViewCell {
     func refresh(chat: VoiceRoomChatEntity) {
         self.content.attributedText = chat.attributeContent
         self.container.frame = CGRect(x: 15, y: 6, width: chat.width!, height: chat.height!-6)
-        self.content.frame = CGRect(x: 10, y: 9, width: self.container.frame.width-20, height: self.container.frame.height - 18)
+        self.content.frame = CGRect(x: 10, y: 7, width: self.container.frame.width-20, height: self.container.frame.height - 16)
         self.container.image = (chat.joined == true ? UIImage("joined_msg_bg")!:UIImage("chatBg")!)
     }
     
