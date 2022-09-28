@@ -22,7 +22,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     
     private let nameMessage = LanguageManager.localValue(key: "Please set a name.")
     
-    private var offset = CGFloat(ScreenHeight < 812 ? 140:60)
+    private var offset = CGFloat(ScreenHeight < 812 ? 150:120)
     
     lazy var roomName: UILabel = {
         UILabel(frame: CGRect(x: 40, y: 0, width: 80, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).text(LanguageManager.localValue(key: "Room Name")).textColor(.darkText).backgroundColor(.clear)
@@ -41,7 +41,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var roomEncryption: UILabel = {
-        UILabel(frame: CGRect(x: self.roomName.frame.minX, y: self.roomBackground.frame.maxY+12, width: 150, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.darkText).text(LanguageManager.localValue(key: "Room Encryption")).backgroundColor(.clear)
+        UILabel(frame: CGRect(x: self.roomName.frame.minX, y: self.roomBackground.frame.maxY+12, width: 150, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).textColor(.darkText).text(LanguageManager.localValue(key: "Room Access")).backgroundColor(.clear)
     }()
     
     lazy var publicChoice: UIButton = {
@@ -72,6 +72,9 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
         self.pinCode.textValueChange = { [weak self] in
             self?.code = $0
             self?.hiddenWarning()
+        }
+        self.pinCode.beginEdit = { [weak self] in
+            self?.raise()
         }
         self.pinCode.inputFinish = { [weak self] in
             self?.code = $0
@@ -121,7 +124,6 @@ extension VRCreateRoomInputView {
             self.publicChoice.isSelected = false
             self.roomNameField.resignFirstResponder()
             self.pinCode.textFiled.becomeFirstResponder()
-            self.raise()
         }
         UIView.animate(withDuration: 0.3) {
             self.pinCode.alpha = self.publicChoice.isSelected ? 0:1

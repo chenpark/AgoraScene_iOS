@@ -13,11 +13,11 @@ public class VREmptyView: UIView {
     var emptyImage = UIImage("empty")
     
     lazy var image: UIImageView = {
-        UIImageView(frame: CGRect(x: 62, y: self.frame.height/2.0-70, width: ScreenWidth - 124, height: (140/240.0)*(ScreenWidth-124))).contentMode(.scaleAspectFit).image(self.emptyImage!)
+        UIImageView(frame: CGRect(x: 38, y: 60, width: self.frame.width - 76, height: (140/240.0)*(self.frame.width-76))).contentMode(.scaleAspectFit).image(self.emptyImage!)
     }()
     
     lazy var text: UILabel = {
-        UILabel(frame: CGRect(x: 20, y: self.image.frame.maxY+10, width: ScreenWidth - 40, height: 60)).textAlignment(.center).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x979CBB)).numberOfLines(0)
+        UILabel(frame: CGRect(x: 20, y: self.image.frame.maxY+10, width: self.frame.width - 40, height: 60)).textAlignment(.center).font(.systemFont(ofSize: 14, weight: .regular)).textColor(UIColor(0x979CBB)).numberOfLines(0)
     }()
 
     public override init(frame: CGRect) {

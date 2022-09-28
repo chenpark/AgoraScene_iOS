@@ -27,6 +27,7 @@ public class VoiceRoomPopView: UIView,UITableViewDelegate,UITableViewDataSource 
         let item = self.datas[indexPath.row]
         cell?.content.text = "\(item.number)"
         cell?.content.backgroundColor = (item.selected == true ? UIColor(0xF1DDFF):UIColor.white)
+        cell?.content.textColor = (item.selected == true ? UIColor(0x009FFF):.black)
         return cell!
     }
     

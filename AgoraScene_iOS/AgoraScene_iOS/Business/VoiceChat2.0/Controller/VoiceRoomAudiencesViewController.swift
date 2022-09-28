@@ -13,7 +13,7 @@ final public class VoiceRoomAudiencesViewController: UITableViewController {
     var datas: [VRUser]?
     
     lazy var empty: VREmptyView = {
-        VREmptyView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: self.view.frame.height - 10 - CGFloat(ZBottombarHeight) - 30), title: "No Chat Room yet", image: nil)
+        VREmptyView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: self.view.frame.height - 10 - CGFloat(ZBottombarHeight) - 30), title: "No audience yet", image: nil)
     }()
 
     public override func viewDidLoad() {

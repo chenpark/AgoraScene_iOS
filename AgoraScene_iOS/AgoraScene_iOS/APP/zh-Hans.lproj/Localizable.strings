@@ -17,7 +17,7 @@
 "Create a Room"="创建房间";
 "Room Name"="房间名称";
 "Random"="随机";
-"Room Encryption"="房间加密";
+"Room Access"="房间加密";
 "Public"="公开";
 "Next"="下一步";
 "Enter 4 Digit Password"="请输入4位数密码";
@@ -92,7 +92,7 @@
 "You have been kicked out of the room"="您已被踢出房间";
 "Spatial audio chat Mode Room" = "空间音频模式";
 "Disclaimer for demo" = "免责声明";
-"Entry" = "进入";
+"Enter" = "进入";
 "Change Profile Picture" = "更换头像";
 "Set Room Name" = "设置房间名称";
 "Gaming Buddy"="游戏陪玩";
@@ -106,3 +106,11 @@
 "Multi-audio chat scenario where anyone can unmute their mic and speak"="多人语音互动场景，观众可以自由上麦进行语音交流";
 "Spatial audio chat room mode"="空间音频模式";
 "Contribute Total:" = "总贡献";
+"Standard" = "标准";
+"Spatial Audio" = "空间音频";
+"Power natural conversations that make people feel like they're 'in the room' together" = "推动自然对话，让人们感觉他们在“房间里”在一起";
+"[Agora Chat Room Demo]" = "【声动语聊Demo】";
+"('this Product') is a test product provided by Agora. This Product is available for our current and potential customers only, and for them to test the functionality and quality of this Product. This Product is provided neither for commercial nor for public use. Agora enjoys the copyright and ownership of this product. You shall not modify, consolidate, compile, adjust, reverse engineer, sub-license, transfer, sell this Product or infringe the legitimate interests of Agora in any way.\n\n\n" = "（“本产品”）是由声⽹提供的⼀款测试产品，主要⽤于向声⽹客户展示内嵌声⽹SDK后可以实现的效果。本产品仅为测试效果之⽬的提供给现有或潜在客户使⽤，⽽⾮提供给⼤众使⽤的正式产品。声⽹享有本产品的著作权和所有权，任何⼈不得对本产品进⾏修改、合并、调整、逆向⼯程、再许可和/或出售该软件的副本以及做出其他损害声⽹合法权益的⾏为。\n\n\n";
+"If you’d like to test this Product, you’re welcome to download, install and use it. Agora hereby grants you a world-wide and royalty-free license to use this Product. This product is provided 'as is' without any express or implicit warranty, including but not limited to guarantees of suitability, suitability for specific purposes, and non-infringement. Whether it is due to any contract, infringement or other forms of conduct related to this Product or the use of this Product or otherwise, Agora shall not be liable for any claims, damages or liabilities arising out of or related to your use of this Product.\n\n\n" = "若您想试⽤本产品，欢迎您下载、安装并使⽤，声⽹特此授权您在全球范围内免费使⽤本产品的权利。本产品按“现状”提供，没有任何形式的明示或暗示担保，包括但不限于对适配性、特定⽬的的适⽤性和⾮侵权性的担保。⽆论是由于与本产品或本产品的使⽤或其他⽅式有关的任何合同、侵权或其他形式的⾏为，声⽹均不对任何索赔、损害或其他责任负责。\n\n\n";
+"It’s your freedom to choose to test this Product or not. But if you decide to do so, and if you download, install, or use this Product, it means that you confirm and agree that under no circumstances shall Agora be liable for any form of loss or injury caused to yourself or others when you use this Product for any reason, in any manner.\n\n\n" = "如果您下载、安装、使⽤本产品，即表明您确认并同意声⽹对因任何原因在试⽤本产品时可能对您⾃身或他⼈造成的任何形式的损失和伤害不承担任何责任。\n\n\n";
+"If you have any query, please feel free to contact" = "若您有任何疑问，请联系";
