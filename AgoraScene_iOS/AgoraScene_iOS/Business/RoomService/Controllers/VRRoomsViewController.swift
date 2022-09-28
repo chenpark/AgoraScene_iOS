@@ -70,6 +70,10 @@ extension VRRoomsViewController {
         
     public override var backImageName: String { "" }
     
+    public override func backAction() {
+        
+    }
+    
     @objc func editProfile() {
         let vc = VRUserProfileViewController()
         vc.avatarChange = { [weak self] in

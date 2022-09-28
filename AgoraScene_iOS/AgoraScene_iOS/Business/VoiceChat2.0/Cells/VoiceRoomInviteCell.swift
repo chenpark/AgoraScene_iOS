@@ -50,7 +50,9 @@ public class VoiceRoomInviteCell: UITableViewCell {
 
     func refresh(item: VRUser?) {
         self.userName.text = item?.name
-        item?.invited = (item?.mic_index ?? 0 > 1)
+        if item?.invited == false {
+            item?.invited = (item?.mic_index ?? 0 > 1)
+        }
         self.avatar.image = UIImage(named: item?.portrait ?? "")
         self.operation.setTitle(item?.invited == true ? "Invited":"Invite", for: .normal)
         self.operation.setBackgroundImage(UIImage(named: item?.invited == true ? "":"blue_btn_bg"), for: .normal)

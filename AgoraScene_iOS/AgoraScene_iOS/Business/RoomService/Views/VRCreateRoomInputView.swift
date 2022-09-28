@@ -61,13 +61,22 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var create: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0.25),CGPoint(x: 0, y: 0.75)])
+        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
+    }()
+    
+    lazy var createContainer: UIView = {
+        UIView(frame: CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).backgroundColor(.white)
     }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
-        self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.create])
+        self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.createContainer,self.create])
+        self.createContainer.layer.cornerRadius = 24
+        self.createContainer.layer.shadowRadius = 8
+        self.createContainer.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.createContainer.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
+        self.createContainer.layer.shadowOpacity = 1
         self.setupAttributes()
         self.pinCode.textValueChange = { [weak self] in
             self?.code = $0
@@ -119,7 +128,9 @@ extension VRCreateRoomInputView {
                 self.recover()
                 self.pinCode.textFiled.resignFirstResponder()
             }
+            self.warnMessage.isHidden = true
         } else {
+            self.warnMessage.isHidden = false
             self.privateChoice.isSelected = true
             self.publicChoice.isSelected = false
             self.roomNameField.resignFirstResponder()

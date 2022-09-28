@@ -38,17 +38,6 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        for i in 0...9 {
-            if i%2 == 0 {
-                self.messages?.append(self.getItem(dic: json1, join: false))
-            } else {
-                if i == 9 {
-                    self.messages?.append(self.getItem(dic: json2, join: true))
-                } else {
-                    self.messages?.append(self.getItem(dic: json2, join: false))
-                }
-            }
-        }
         self.addSubViews([self.chatView,self.likeView,self.emitter])
         self.likeView.setImage(UIImage("unlike"), for: .normal)
         self.chatView.bounces = false
@@ -60,6 +49,7 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
         item.content = dic["content"]
         item.joined = join
         item.attributeContent = item.attributeContent
+        item.width = item.width
         item.height = item.height
         return item
     }

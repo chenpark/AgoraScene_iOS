@@ -17,11 +17,11 @@ import ZSwiftBaseLib
         ((self.userName ?? "") + (self.content ?? ""))
     }
     lazy var height: CGFloat? = {
-        self.joined == false ? (self.fullText?.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: chatViewWidth - 50, height: 9990.0)).height ?? 0)+35:40
+        (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 999.0), options: .usesLineFragmentOrigin, context: nil).height ?? 0)+26
     }()
     
     lazy var width: CGFloat? = {
-        (self.fullText?.z.sizeWithText(font: .systemFont(ofSize: 13, weight: .regular), size: CGSize(width: chatViewWidth - 50, height: 20)).width ?? 0)+30
+        (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 13), options: .usesLineFragmentOrigin, context: nil).width ?? 0)
     }()
     
     lazy var attributeContent: NSAttributedString? = {
@@ -33,11 +33,21 @@ extension VoiceRoomChatEntity {
     
     func renderAttributeText() -> NSAttributedString {
         if self.joined! == false {
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage("fangzhu")
+            attachment.bounds = CGRect(x: 0, y: -4.5, width: 18, height: 18)
+            let host = NSMutableAttributedString(attachment: attachment)
+            host.append(NSAttributedString(string: " "))
             var text = NSMutableAttributedString {
-                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .semibold))
-                AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
+                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .semibold)).lineSpacing(5)
+                AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular)).lineSpacing(5)
             }
-            let string = text.string as NSString
+            var string = text.string as NSString
+            if (VoiceRoomUserInfo.shared.currentRoomOwner?.name ?? "") == self.userName! {
+                host.append(text)
+                text = host
+                string = host.string as NSString
+            }
             for symbol in VoiceRoomEmojiManager.shared.emojis {
                 if string.range(of: symbol).location != NSNotFound {
                     let ranges = ZSwiftLib<String>.rangesOfString(symbol, inString: text.string as NSString)
@@ -50,9 +60,9 @@ extension VoiceRoomChatEntity {
             attachment.image = UIImage("shaking_hand")
             attachment.bounds = CGRect(x: 0, y: -4.5, width: 18, height: 18)
             let attributeText = NSMutableAttributedString {
-                AttributedText(self.userName!).foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .black))
+                AttributedText(self.userName!).foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .black)).lineSpacing(5)
                 Space()
-                AttributedText("Joined").foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular))
+                AttributedText("Joined").foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular)).lineSpacing(5)
                 Space()
             }
             attributeText.append(NSMutableAttributedString(attachment: attachment))

@@ -57,6 +57,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         self.roomInput.action = { [weak self] in
             self?.create()
         }
+        self.randomRoomName()
     }
     
     required init?(coder: NSCoder) {
@@ -99,7 +100,7 @@ extension VRCreateRoomView {
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, viewForIndex index: Int) -> HorizontalCardView {
-        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight)).backgroundColor(.cyan).cornerRadius(25)
+        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight)).backgroundColor(.clear).cornerRadius(25)
         guard let title = self.datas[index]["title"],let detail = self.datas[index]["detail"],let image = UIImage(self.datas[index]["image"]!) else { return card }
         return VRSoundTypeCard(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight),title: title,note: detail,background: image).cornerRadius(25)
     }

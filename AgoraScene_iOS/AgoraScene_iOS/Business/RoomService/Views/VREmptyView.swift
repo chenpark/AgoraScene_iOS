@@ -13,7 +13,7 @@ public class VREmptyView: UIView {
     var emptyImage = UIImage("empty")
     
     lazy var image: UIImageView = {
-        UIImageView(frame: CGRect(x: 38, y: 60, width: self.frame.width - 76, height: (140/240.0)*(self.frame.width-76))).contentMode(.scaleAspectFit).image(self.emptyImage!)
+        UIImageView(frame: CGRect(x: 90, y: 60, width: self.frame.width - 180, height: (231/397.0)*(self.frame.width-180))).contentMode(.scaleAspectFit).image(self.emptyImage!)
     }()
     
     lazy var text: UILabel = {

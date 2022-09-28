@@ -46,11 +46,8 @@ extension VRSpatialSoundViewController {
     }
     
     @objc private func fetchRooms(cursor: String) {
-        if !cursor.isEmpty { ProgressHUD.show() }
-        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchRoomList(cursor: cursor, pageSize: page_size,type: 1), params: [:], classType: VRRoomsEntity.self) { rooms, error in
             self.roomList.refreshControl?.endRefreshing()
-            ProgressHUD.dismiss()
             if error == nil {
                 guard let total = rooms?.total else { return }
                 if total > 0 {

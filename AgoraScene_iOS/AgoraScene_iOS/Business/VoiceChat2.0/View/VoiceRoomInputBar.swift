@@ -17,7 +17,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     public var changeEmojiClosure: ((Bool)->())?
         
     lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: 4.5, width: 26, height: 26)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: 3.5, width: 27, height: 27)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
     }()
     
     lazy var inputContainer: UIView = {
@@ -32,16 +32,19 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 82, y: 12, width: 67, height: 36)).cornerRadius(18).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).title(LanguageManager.localValue(key: "Send"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .regular)).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
+    let line = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 1)).backgroundColor(.white)
+    
     var emoji: VoiceRoomEmojiListView?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.inputField.placeHolderColor = UIColor(0xB6B8C9)
-        self.rightView.setImage(UIImage("keyboard_emoji"), for: .normal)
-        self.rightView.setImage(UIImage("Union"), for: .selected)
-        self.addSubViews([self.inputContainer,self.inputField,self.send])
+        self.rightView.setImage(UIImage(named: "face"), for: .normal)
+        self.rightView.setImage(UIImage(named: "key"), for: .selected)
+        self.addSubViews([self.inputContainer,self.inputField,self.send,self.line])
         self.inputField.tintColor = UIColor(0x009FFF)
         self.inputField.placeHolder = "Aa"
+        self.inputField.placeHolderColor = UIColor(0xB6B8C9)
         self.inputField.textContainer.maximumNumberOfLines = 1
         self.inputField.returnKeyType = .send
         var orgContainerInset = self.inputField.textContainerInset
@@ -147,7 +150,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         let attribute = NSMutableAttributedString(attributedString: text!)
         let attachment = NSTextAttachment()
         attachment.image = VoiceRoomEmojiManager.shared.emojiMap[key]
-        attachment.bounds = CGRect(x: 0, y: -2.5, width: 18, height: 18)
+        attachment.bounds = CGRect(x: 0, y: -3.5, width: 18, height: 18)
         let imageText = NSMutableAttributedString(attachment: attachment)
         imageText.addAttributes([.accessibilityTextCustom : key], range: NSMakeRange(0, imageText.length))
         attribute.append(imageText)

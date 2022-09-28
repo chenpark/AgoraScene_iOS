@@ -1110,11 +1110,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1146,12 +1145,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "我需要你的麦克风";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

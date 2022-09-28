@@ -26,7 +26,11 @@ public class VoiceRoomApplyAlert: UIView {
     }()
     
     lazy var confirm: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: self.cancel.frame.maxX+22, y: self.content.frame.maxY + 35, width: (self.frame.width-78)/2.0, height: 40)).cornerRadius(20).backgroundColor(UIColor(0xEFF4FF)).textColor(.white, .normal).title(LanguageManager.localValue(key: "Confirm"), .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(0x0B8AF2),UIColor(0x2753FF)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).tag(31).addTargetFor(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: self.cancel.frame.maxX+22, y: self.content.frame.maxY + 35, width: (self.frame.width-78)/2.0, height: 40)).cornerRadius(20).textColor(.white, .normal).title(LanguageManager.localValue(key: "Confirm"), .normal).font(.systemFont(ofSize: 16, weight: .semibold)).setGradient([UIColor(red: 0.13, green: 0.61, blue: 1, alpha: 1),UIColor(red: 0.2, green: 0.37, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).tag(31).addTargetFor(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+    }()
+    
+    lazy var confirmContainer: UIView = {
+        UIView(frame: CGRect(x: self.cancel.frame.maxX+22, y: self.content.frame.maxY + 35, width: (self.frame.width-78)/2.0, height: 40)).backgroundColor(.white)
     }()
 
     public override init(frame: CGRect) {
@@ -35,13 +39,15 @@ public class VoiceRoomApplyAlert: UIView {
     
     public convenience init(frame: CGRect, content: String,cancel tips: String,confirm text: String) {
         self.init(frame: frame)
-        self.addSubViews([self.header,self.content,self.cancel,self.confirm])
+        self.addSubViews([self.header,self.content,self.cancel,self.confirmContainer,self.confirm])
         self.content.text(LanguageManager.localValue(key: content))
         self.cancel.setTitle(LanguageManager.localValue(key: tips), for: .normal)
         self.confirm.setTitle(LanguageManager.localValue(key: text), for: .normal)
-        self.confirm.layer.shadowRadius = 8
-        self.confirm.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.confirm.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
+        self.confirmContainer.layer.cornerRadius = 20
+        self.confirmContainer.layer.shadowRadius = 8
+        self.confirmContainer.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.confirmContainer.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
+        self.confirmContainer.layer.shadowOpacity = 0.8
     }
     
     required init?(coder: NSCoder) {

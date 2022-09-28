@@ -42,7 +42,7 @@ extension VRRoomListView {
         }
         cell?.setupViewsAttributes(room: self.rooms?.rooms?[safe: indexPath.row] ?? VRRoomEntity())
         cell?.selectionStyle = .none
-        return cell ?? UITableViewCell()
+        return cell ?? VRRoomListCell()
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
