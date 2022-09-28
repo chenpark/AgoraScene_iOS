@@ -26,6 +26,7 @@ class VMMuteView: UIView {
     private var lineView: UIView = UIView()
     private var muteBtn: UIButton = UIButton()
     private var leaveBtn: UIButton = UIButton()
+    private var sepView: UIView = UIView()
     private var micView: AgoraMicVolView = AgoraMicVolView()
     public var isOwner: Bool = false
     public var micInfo: VRRoomMic? {
@@ -40,6 +41,7 @@ class VMMuteView: UIView {
             }
 
             leaveBtn.isHidden = isOwner
+            sepView.isHidden = isOwner
             muteBtn.frame = isOwner ? CGRect(x: 0, y: 170~, width: self.bounds.size.width, height: 40~) : CGRect(x: self.bounds.size.width / 2.0, y: 170~, width: self.bounds.size.width / 2.0, height: 40~)
             if m_type == 0 {
                 iconView.isHidden = false
@@ -137,6 +139,10 @@ class VMMuteView: UIView {
         muteBtn.tag = 401
         muteBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(muteBtn)
+        
+        sepView.frame = CGRect(x: ScreenWidth / 2.0, y: 180~, width: 1, height: 20~)
+        sepView.backgroundColor = .separator
+        self.addSubview(sepView)
 
     }
     

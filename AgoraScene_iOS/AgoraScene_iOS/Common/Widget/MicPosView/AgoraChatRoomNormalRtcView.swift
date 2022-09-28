@@ -25,6 +25,12 @@ class AgoraChatRoomNormalRtcView: UIView {
         }
     }
     
+    var showAlienMicView: ALIEN_TYPE = .none {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     override func draw(_ rect: CGRect) {
         // Drawing code
         if collectionView == nil {
@@ -115,6 +121,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell
             if let mic_info = micInfos?[indexPath.item] {
                 cell.cellType = mic_info.status == 5 ? .AgoraChatRoomBaseUserCellTypeActived : .AgoraChatRoomBaseUserCellTypeNonActived
+                cell.showAlienMicView = self.showAlienMicView
             }
             cell.activeVBlock = {[weak self] type in
                 guard let block = self?.clickBlock else {return}

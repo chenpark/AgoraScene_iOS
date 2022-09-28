@@ -17,12 +17,6 @@ public enum ROLE_TYPE {
     case audience
 }
 
-public enum AINS_STATE {
-    case high
-    case mid
-    case off
-}
-
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_price":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_price":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_price":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_price":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_price":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_price":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_price":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_price":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_price":"1500","gift_count":"1","selected":false]]
 
 class VoiceRoomViewController: VRBaseViewController {
@@ -80,6 +74,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var isOwner: Bool = false
     private var ains_state: AINS_STATE = .mid
     private var local_index: Int? = nil
+    private var alienCanPlay: Bool = true
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -129,7 +124,7 @@ class VoiceRoomViewController: VRBaseViewController {
         layoutUI()
         //处理底部事件
         self.charBarEvents()
-        
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -149,7 +144,7 @@ extension VoiceRoomViewController {
     //加载RTC
     private func loadKit() {
         
-        guard let rtc_uid = self.roomInfo?.room?.rtc_uid else {return}
+        guard let channel_id = self.roomInfo?.room?.channel_id else {return}
         guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
         rtckit.setClientRole(role: isOwner ? .owner : .audience)
         rtckit.delegate = self
@@ -162,7 +157,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(rtc_uid)", rtcUid: 0, scene: .live) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: .live) == 0
             VMGroup.leave()
         }
         
@@ -320,9 +315,16 @@ extension VoiceRoomViewController {
             if isOwner {
                showApplyAlert(tag - 200)
             } else {
-                userApplyAlert(tag - 200)
+                if local_index != nil {
+                    changeMic(from: local_index!, to: tag - 200)
+                } else {
+                    userApplyAlert(tag - 200)
+                }
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
+            if alienCanPlay {
+                rtckit.playBaseAlienMusic()
+            }
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             showActiveAlienView(false)
@@ -413,6 +415,10 @@ extension VoiceRoomViewController {
     }
     
     private func showActiveAlienView(_ active: Bool) {
+        if !isOwner {
+            self.view.makeToast("只有房主才能操作agora机器人")
+            return
+        }
         let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~))
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth - 40~, height: 220~))
         compent.destination = .center
@@ -524,8 +530,17 @@ extension VoiceRoomViewController {
         preView.ains_state = ains_state
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
+            self?.rtckit.setAINS(with: state)
         }
         preView.useRobotBlock = {[weak self] flag in
+            if self?.alienCanPlay == true && flag == true {
+                self?.rtckit.playBaseAlienMusic()
+            }
+            
+            if self?.alienCanPlay == true && flag == false {
+                self?.rtckit.stopPlayBaseAlienMusic()
+            }
+
             self?.activeAlien(flag)
         }
         preView.volBlock = {[weak self] vol in
@@ -601,7 +616,8 @@ extension VoiceRoomViewController {
     }
     
     private func showApplyAlert(_ index: Int) {
-        let manageView = VMManagerView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264~))
+        let isHairScreen = SwiftyFitsize.isFullScreen
+        let manageView = VMManagerView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height:isHairScreen ? 264~ : 264~ - 34))
         guard let mic_info = roomInfo?.mic_info?[index] else {return}
         manageView.micInfo = mic_info
         manageView.resBlock = {[weak self] (state, flag) in
@@ -626,7 +642,7 @@ extension VoiceRoomViewController {
                 }
             }
         }
-        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 264~)), custom: manageView)
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: isHairScreen ? 264~ : 264~ - 34)), custom: manageView)
         self.presentViewController(vc)
     }
     
@@ -836,8 +852,30 @@ extension VoiceRoomViewController {
         }
     }
     
+    private func changeMic(from: Int, to: Int) {
+        guard let roomId = self.roomInfo?.room?.room_id else { return }
+        let params: Dictionary<String, Int> = [
+            "from": from,
+            "to": to
+        ]
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .exchangeMic(roomId: roomId), params: params) { dic, error in
+            self.dismiss(animated: true)
+            if error == nil,dic != nil,let result = dic?["result"] as? Bool {
+                if result {
+                    self.view.makeToast("changeMic success!")
+                    self.local_index = to
+                } else {
+                    self.view.makeToast("changeMic failed!")
+                }
+            } else {
+                self.view.makeToast("\(error?.localizedDescription ?? "")")
+            }
+        }
+    }
+    
     private func showMuteView(with index: Int) {
-        let muteView = VMMuteView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 264~))
+        let isHairScreen = SwiftyFitsize.isFullScreen
+        let muteView = VMMuteView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: isHairScreen ? 264~ : 264~ - 34))
         guard let mic_info = roomInfo?.mic_info?[index] else {return}
         muteView.isOwner = isOwner
         muteView.micInfo = mic_info
@@ -850,7 +888,7 @@ extension VoiceRoomViewController {
                 self?.unmuteLocal(with: index)
             }
         }
-        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 264~)), custom: muteView)
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: isHairScreen ? 264~ : 264~ - 34)), custom: muteView)
         self.presentViewController(vc)
     }
     
@@ -1164,5 +1202,13 @@ extension VoiceRoomViewController: ASManagerDelegate {
     
     func didRtcUserOfflineOfUid(uid: UInt) {
         
+    }
+    
+    func reportAlien(with type: ALIEN_TYPE) {
+        print("当前是：\(type.rawValue)在讲话")
+        self.rtcView.showAlienMicView = type
+        if type == .ended && self.alienCanPlay {
+            self.alienCanPlay = false
+        }
     }
 }

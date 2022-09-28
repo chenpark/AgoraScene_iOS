@@ -49,7 +49,7 @@ class VMSliderTableViewCell: UITableViewCell {
         slider.addTarget(self, action: #selector(touchEnd), for: .touchUpInside)
         self.contentView.addSubview(slider)
         
-        countLabel.frame = CGRect(x: screenWidth - 40~, y: 22~, width: 20~, height: 20~)
+        countLabel.frame = CGRect(x: screenWidth - 60~, y: 22~, width: 40~, height: 20~)
         countLabel.text = "50"
         countLabel.font = UIFont.systemFont(ofSize: 13)
         countLabel.textColor = .lightGray

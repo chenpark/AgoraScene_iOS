@@ -89,6 +89,18 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
     
+    public var showMicView: Bool = false {
+        didSet {
+            if showMicView {
+                micView.isHidden = false
+                micView.setState(.on)
+                micView.setVolume(100)
+            } else {
+                micView.isHidden = true
+            }
+        }
+    }
+    
     public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
     
     public var iconWidth: CGFloat = 60~ {
