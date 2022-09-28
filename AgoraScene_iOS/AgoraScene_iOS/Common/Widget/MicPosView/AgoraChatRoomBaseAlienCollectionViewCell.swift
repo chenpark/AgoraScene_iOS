@@ -13,6 +13,13 @@ public enum AgoraChatRoomBaseAlienCellType {
    case AgoraChatRoomBaseUserCellTypeNonActived
 }
 
+public enum ALIEN_SHOWMIC_TYPE {
+    case blue
+    case red
+    case blueAndRed
+    case none
+}
+
 
 class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
     
@@ -34,13 +41,36 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
                 redActiveButton.isHidden = false
                 blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
                 redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
-            } else {
+            } else if cellType == .AgoraChatRoomBaseUserCellTypeActived{
                 blueCoverView.isHidden = true
                 redCoverView.isHidden = true
                 blueActiveButton.isHidden = true
                 redActiveButton.isHidden = true
                 blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
                 redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
+            }
+            
+        }
+    }
+    
+    public var showAlienMicView: ALIEN_TYPE = .none {
+        didSet {
+            switch showAlienMicView {
+            case .blue:
+                blueAlienView.showMicView = true
+                redAlienView.showMicView = false
+            case .red:
+                blueAlienView.showMicView = false
+                redAlienView.showMicView = true
+            case .blueAndRed:
+                blueAlienView.showMicView = true
+                redAlienView.showMicView = true
+            case .none:
+                blueAlienView.showMicView = false
+                redAlienView.showMicView = false
+            default:
+                blueAlienView.showMicView = false
+                redAlienView.showMicView = false
             }
         }
     }
