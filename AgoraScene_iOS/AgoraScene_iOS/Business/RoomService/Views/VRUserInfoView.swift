@@ -73,6 +73,7 @@ extension VRUserInfoView {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.userName.text = textField.text
+        textField.resignFirstResponder()
         return true
     }
     
@@ -93,4 +94,6 @@ extension VRUserInfoView {
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         true
     }
+    
+    
 }

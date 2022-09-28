@@ -23,7 +23,7 @@ public class VRRoomAvatarCell: UICollectionViewCell {
     }()
     
     lazy var symbol: UIImageView = {
-        UIImageView(frame: CGRect(x: 10, y: 10, width: 24, height: 24)).contentMode(.scaleAspectFill).image(UIImage(named: "check 1")!)
+        UIImageView(frame: CGRect(x: 10, y: 10, width: 24, height: 24)).contentMode(.scaleAspectFill).image(UIImage(named: "check 2")!)
     }()
     
     public override init(frame: CGRect) {

@@ -9,10 +9,10 @@
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 18,
-          "left" : 18,
-          "right" : 18,
-          "top" : 18
+          "bottom" : 22,
+          "left" : 23,
+          "right" : 25,
+          "top" : 22
         },
         "center" : {
           "height" : 1,
@@ -28,10 +28,10 @@
       "idiom" : "universal",
       "resizing" : {
         "cap-insets" : {
-          "bottom" : 135,
-          "left" : 28,
-          "right" : 28,
-          "top" : 134
+          "bottom" : 38,
+          "left" : 34,
+          "right" : 33,
+          "top" : 39
         },
         "center" : {
           "height" : 1,

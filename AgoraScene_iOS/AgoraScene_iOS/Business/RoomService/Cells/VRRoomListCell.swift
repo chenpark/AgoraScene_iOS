@@ -21,7 +21,7 @@ public final class VRRoomListCell: UITableViewCell {
     }()
     
     lazy var roomName: UILabel = {
-        UILabel(frame:CGRect(x: self.background.frame.width/2.0 - 10, y: 28, width: self.background.frame.width/2.0 - 20, height: 40)).font(UIFont.systemFont(ofSize: 15, weight: .medium)).textColor(.white).text("SDOIAJSIDOIASDJOIJSOIJDSDSADADSAD").numberOfLines(0)
+        UILabel(frame:CGRect(x: self.background.frame.width/2.0 - 10, y: 28, width: self.background.frame.width/2.0 - 20, height: 40)).font(UIFont.systemFont(ofSize: 15, weight: .medium)).textColor(.white).text("SDOIAJSIDOIASDJOIJSOIJDSDSADADSAD").numberOfLines(2)
     }()
     
     lazy var ownerName: UIButton = {
@@ -60,6 +60,7 @@ public final class VRRoomListCell: UITableViewCell {
     }
     
     func setupViewsAttributes(room: VRRoomEntity) {
+        self.entity = room
         if let show = room.is_private,show == true {
             self.accessSymbol.set(image: UIImage("suo"), title:LanguageManager.localValue(key: "Private") , titlePosition: .right, additionalSpacing: 5, state: .normal)
             self.accessSymbol.setBackgroundImage(UIImage("securityType"), for: .normal)
@@ -75,12 +76,13 @@ public final class VRRoomListCell: UITableViewCell {
             image = UIImage("specific_room")
         }
         self.background.image = image
+        
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        let height = self.entity.name?.z.sizeWithText(font: .systemFont(ofSize: 15, weight: .medium), size: CGSize(width: self.background.frame.width/2.0-20, height: 999)).height ?? 0
         self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.contentView.frame.height - 15)
+        let height = self.entity.name?.z.sizeWithText(font: .systemFont(ofSize: 15, weight: .medium), size: CGSize(width: self.background.frame.width/2.0-20, height: 999)).height ?? 0
         self.accessSymbol.frame = CGRect(x: 0, y: 0, width: 68, height: 24)
         self.roomName.frame = CGRect(x: self.background.frame.width/2.0 - 10, y: 28, width: self.background.frame.width/2.0 - 20, height: height > 18 ? 36:18)
         self.ownerName.frame = CGRect(x: self.roomName.frame.minX, y: self.roomName.frame.maxY+9, width: self.background.frame.width/2.0 - 20, height: 16)

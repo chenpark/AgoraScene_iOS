@@ -19,7 +19,7 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     }
     
     lazy var cover: UIView = {
-        UIView(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)).cornerRadius(12).layerProperties(UIColor(0xD2BDFF), 1).setGradient([UIColor(red: 0.05, green: 0, blue: 0.76, alpha: 0.24),UIColor(red: 0.71, green: 0.37, blue: 1, alpha: 0.64)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).backgroundColor(.clear)
+        UIView(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)).cornerRadius(12).layerProperties(UIColor(0xD2BDFF), 1).setGradient([UIColor(red: 0.905, green: 0.765, blue: 1, alpha: 1),UIColor(red: 0.994, green: 0.985, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).backgroundColor(.clear)
     }()
     
     lazy var icon: UIImageView = {
@@ -31,7 +31,7 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     }()
     
     lazy var displayValue: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(red: 0.425, green: 0.445, blue: 0.573, alpha: 1), .normal)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(red: 0.425, green: 0.445, blue: 0.573, alpha: 0.5), .normal)
     }()
     
     public override init(frame: CGRect) {
@@ -43,18 +43,14 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        self.cover.frame = CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)
-        self.icon.frame = CGRect(x: self.contentView.frame.width/2.0-24, y: 16.5, width: 48, height: 48)
-        self.displayValue.frame = CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)
-    }
-    
-    private func refresh(item: VoiceRoomGiftEntity) {
+    func refresh(item: VoiceRoomGiftEntity) {
         self.icon.image = UIImage(named: item.gift_id ?? "")
         self.name.text = item.gift_name
         self.displayValue.set(image: UIImage("dollagora"), title: item.gift_price ?? "100", titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.cover.isHidden = !item.selected
+        self.cover.frame = CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height-5)
+        self.icon.frame = CGRect(x: self.contentView.frame.width/2.0-24, y: 16.5, width: 48, height: 48)
+        self.displayValue.frame = CGRect(x: 0, y: self.name.frame.maxY+1, width: self.contentView.frame.width, height: 15)
     }
     
 }
