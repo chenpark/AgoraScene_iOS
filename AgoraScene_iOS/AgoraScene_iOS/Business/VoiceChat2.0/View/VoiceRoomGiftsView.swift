@@ -183,6 +183,8 @@ extension VoiceRoomGiftsView {
                 self.chooseQuantity.setTitleColor(.darkText, for: .normal)
             }
         }
+        let total = Int(self.gift_count)!*Int(gift!.gift_price!)!
+        self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":"+"\(total)"
         self.giftList.reloadData()
     }
 }

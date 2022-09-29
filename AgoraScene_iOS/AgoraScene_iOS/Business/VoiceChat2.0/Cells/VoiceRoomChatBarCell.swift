@@ -22,6 +22,7 @@ public class VoiceRoomChatBarCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.contentView.backgroundColor = .clear
         self.contentView.addSubview(self.container)
         self.contentView.addSubview(self.redDot)
         self.contentView.addSubview(self.icon)

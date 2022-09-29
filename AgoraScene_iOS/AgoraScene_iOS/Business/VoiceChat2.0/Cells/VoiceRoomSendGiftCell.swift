@@ -36,6 +36,8 @@ public class VoiceRoomSendGiftCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.contentView.backgroundColor = .white
+        self.backgroundColor = .white
         self.contentView.addSubViews([self.cover,self.icon,self.name,self.displayValue])
     }
     

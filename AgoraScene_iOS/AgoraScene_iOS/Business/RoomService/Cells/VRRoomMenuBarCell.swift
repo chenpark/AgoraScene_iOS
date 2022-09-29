@@ -28,6 +28,7 @@ public class VRRoomMenuBarCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.contentView.backgroundColor = .clear
         self.contentView.addSubview(self.content)
     }
     

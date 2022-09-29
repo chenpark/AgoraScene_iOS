@@ -60,7 +60,7 @@ public class VRAvatarChooseViewController: UICollectionViewController {
     
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRRoomAvatarCell", for: indexPath) as? VRRoomAvatarCell
-        cell?.item = self.datas[safe: indexPath.row]
+        cell?.refresh(item: self.datas[safe: indexPath.row])
         return cell ?? VRRoomAvatarCell()
     }
     
