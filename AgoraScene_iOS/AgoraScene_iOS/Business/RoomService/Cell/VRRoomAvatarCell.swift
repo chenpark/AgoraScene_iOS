@@ -10,24 +10,18 @@ import ZSwiftBaseLib
 
 public class VRRoomAvatarCell: UICollectionViewCell {
     
-    var item: VRAvatar? {
-        didSet {
-            DispatchQueue.main.async {
-                self.refresh(item: self.item)
-            }
-        }
-    }
     
     lazy var avatar: UIImageView = {
         UIImageView(frame: CGRect(x: 10, y: 10, width: self.frame.width-20, height: self.frame.height-20)).contentMode(.scaleAspectFill)
     }()
     
     lazy var symbol: UIImageView = {
-        UIImageView(frame: CGRect(x: 10, y: 10, width: 24, height: 24)).contentMode(.scaleAspectFill).image(UIImage(named: "check 1")!)
+        UIImageView(frame: CGRect(x: 10, y: 10, width: 24, height: 24)).contentMode(.scaleAspectFill).image(UIImage(named: "check 2")!)
     }()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.contentView.backgroundColor = .white
         self.contentView.addSubViews([self.avatar,self.symbol])
     }
     
@@ -42,7 +36,7 @@ public class VRRoomAvatarCell: UICollectionViewCell {
 //        self.symbol.center = CGPoint(x: self.avatar.center.x+space, y: self.avatar.center.y+space)
 //    }
     
-    private func refresh(item: VRAvatar?) {
+   func refresh(item: VRAvatar?) {
         if let item = item {
             self.avatar.image = UIImage(named: item.portrait)
             var rect = CGRect(x: 10, y: 10, width: self.frame.width-20, height: self.frame.height-20)

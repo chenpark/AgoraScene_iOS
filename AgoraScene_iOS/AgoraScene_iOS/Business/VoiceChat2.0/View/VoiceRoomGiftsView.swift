@@ -111,6 +111,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
         }
         self.popview.countClosure = { [weak self] in
             guard let `self` = self else { return }
+            self.pop.hide()
             self.chooseQuantity.isSelected = false
             self.gift_count = $0
             self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":\(Int(self.gift_count)!*Int(self.current?.gift_price ?? "1")!)"
@@ -159,7 +160,7 @@ extension VoiceRoomGiftsView {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VoiceRoomSendGiftCell", for: indexPath) as? VoiceRoomSendGiftCell
-        cell?.gift = self.gifts[safe: indexPath.row]
+        cell?.refresh(item: self.gifts[safe: indexPath.row]!)
         return cell ?? VoiceRoomSendGiftCell()
     }
     
@@ -182,10 +183,8 @@ extension VoiceRoomGiftsView {
                 self.chooseQuantity.setTitleColor(.darkText, for: .normal)
             }
         }
-        for (idx,cell) in collectionView.visibleCells.enumerated() {
-            if let destination = cell as? VoiceRoomSendGiftCell {
-                destination.gift = self.gifts[safe: idx]
-            }
-        }
+        let total = Int(self.gift_count)!*Int(gift!.gift_price!)!
+        self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":"+"\(total)"
+        self.giftList.reloadData()
     }
 }

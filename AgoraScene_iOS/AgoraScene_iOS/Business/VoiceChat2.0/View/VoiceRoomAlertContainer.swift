@@ -21,7 +21,7 @@ public class VoiceRoomAlertContainer: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        self.addSubViews([self.indicator,self.cover])
+        self.addSubViews([self.cover,self.indicator])
     }
     
     required init?(coder: NSCoder) {

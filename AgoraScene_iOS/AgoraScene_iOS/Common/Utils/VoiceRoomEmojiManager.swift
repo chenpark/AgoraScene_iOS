@@ -29,7 +29,7 @@ fileprivate let manager = VoiceRoomEmojiManager()
                 let value = self.emojiMap[symbol]
                 let attachment = NSTextAttachment()
                 attachment.image = value
-                attachment.bounds = CGRect(x: 0, y: -2.5, width: 18, height: 18)
+                attachment.bounds = CGRect(x: 0, y: -4.5, width: 18, height: 18)
                 text.replaceCharacters(in: range, with: NSAttributedString(attachment: attachment))
             }
         }

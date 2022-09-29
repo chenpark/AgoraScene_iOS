@@ -76,9 +76,7 @@ extension VoiceRoomApplyUsersViewController {
     }
     
     @objc private func fetchUsers() {
-        ProgressHUD.show()
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchApplyMembers(roomId: self.roomId ?? "", cursor: self.apply?.cursor ?? "", pageSize: 15), params: [:], classType: VoiceRoomApplyEntity.self) { model, error in
-            ProgressHUD.dismiss()
             self.tableView.refreshControl?.endRefreshing()
             if model != nil,error == nil {
                 if self.apply == nil {

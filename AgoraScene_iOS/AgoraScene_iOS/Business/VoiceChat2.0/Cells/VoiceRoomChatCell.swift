@@ -13,7 +13,7 @@ public class VoiceRoomChatCell: UITableViewCell {
     var chat: VoiceRoomChatEntity? {
         willSet {
             if newValue != nil {
-                DispatchQueue.main.async { self.refresh(chat: newValue!) }
+//                DispatchQueue.main.async { self.refresh(chat: newValue!) }
             }
         }
     }
@@ -40,8 +40,8 @@ public class VoiceRoomChatCell: UITableViewCell {
     
     func refresh(chat: VoiceRoomChatEntity) {
         self.content.attributedText = chat.attributeContent
-        self.container.frame = CGRect(x: 15, y: 6, width: chat.width!, height: chat.height!-6)
-        self.content.frame = CGRect(x: 10, y: 7, width: self.container.frame.width-20, height: self.container.frame.height - 16)
+        self.container.frame = CGRect(x: 15, y: 6, width: chat.width!+30, height: chat.height!-6)
+        self.content.frame = CGRect(x: 12, y: 7, width: self.container.frame.width-24, height: self.container.frame.height - 16)
         self.container.image = (chat.joined == true ? UIImage("joined_msg_bg")!:UIImage("chatBg")!)
     }
     

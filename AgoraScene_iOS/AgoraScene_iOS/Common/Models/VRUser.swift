@@ -36,4 +36,6 @@ import KakaJSON
     
     public var user: VRUser?
     
+    public var currentRoomOwner: VRUser?
+    
 }

@@ -38,7 +38,10 @@ public final class VRUserProfileViewController: VRBaseViewController {
             self?.pushDisclaimer()
         }
         self.userInfo.editFinished = { [weak self] in
-            self?.changeUserName(userName: $0)
+            guard let `self` = self else { return }
+            if self.userName != $0 {
+                self.changeUserName(userName: $0)
+            }
         }
         self.userInfo.changeClosure = { [weak self] in
             self?.showAlert()
@@ -64,7 +67,6 @@ extension VRUserProfileViewController {
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 535)), custom: tmp)
         avatar.selectedClosure = { [weak self] in
             self?.changeUserAvatar(avatar: $0)
-            vc.dismiss(animated: true)
         }
         self.presentViewController(vc)
     }
@@ -77,6 +79,7 @@ extension VRUserProfileViewController {
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.userName.text = user?.name ?? ""
+                self?.view.makeToast("Change success!")
             } else {
                 self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
@@ -90,6 +93,7 @@ extension VRUserProfileViewController {
     private func endEdit() {
         self.view.endEditing(true)
         self.userInfo.endEditing(true)
+        self.userInfo.userName.isEnabled = false
     }
     
     private func changeUserAvatar(avatar: String) {
@@ -99,6 +103,7 @@ extension VRUserProfileViewController {
                 self.userAvatar = avatar
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
+                self.view.makeToast("Change success!")
                 self.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar)
                 if self.avatarChange != nil {
                     self.avatarChange!()

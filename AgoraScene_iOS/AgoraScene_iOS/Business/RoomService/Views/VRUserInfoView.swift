@@ -19,7 +19,7 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
     }()
     
     lazy var userName: UITextField = {
-        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(UIColor(0x000001)).text(VoiceRoomUserInfo.shared.user?.name ?? "").clearButtonMode(.whileEditing).backgroundColor(.clear).isEnabled(false).delegate(self)
+        UITextField(frame: CGRect(x: self.avatar.frame.maxX + 15, y: self.avatar.frame.minY+6, width: self.frame.width - self.avatar.frame.maxX - 60, height: 24)).font(.systemFont(ofSize: 18, weight: .semibold)).textColor(UIColor(0x000001)).text(VoiceRoomUserInfo.shared.user?.name ?? "").clearButtonMode(.whileEditing).backgroundColor(.clear).delegate(self)
     }()
     
     lazy var editName: UIButton = {
@@ -44,6 +44,8 @@ public final class VRUserInfoView: UIView,UITextFieldDelegate {
             .frame(self.bounds)
         self.layer.addSublayer(gradient)
         self.addSubViews([self.avatar,self.userName,self.editName,self.userId])
+        self.userName.isEnabled = false
+//        self.userName.edit
         self.userName.returnKeyType = .done
         self.avatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(changeAvatar)))
     }
@@ -73,6 +75,7 @@ extension VRUserInfoView {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.userName.text = textField.text
+        textField.resignFirstResponder()
         return true
     }
     
@@ -84,7 +87,7 @@ extension VRUserInfoView {
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = textField.text as? NSString,text.length > 16 {
+        if let text = textField.text as? NSString,text.length >= 16 {
             textField.text = text.substring(to: 16)
         }
         return true
@@ -93,4 +96,6 @@ extension VRUserInfoView {
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         true
     }
+    
+    
 }

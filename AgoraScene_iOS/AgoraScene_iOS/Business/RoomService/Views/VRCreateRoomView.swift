@@ -45,6 +45,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         super.init(frame: frame)
         self.addSubViews([self.menuBar,self.audioEffectCards,self.roomInput])
         self.roomInput.randomName.addTarget(self, action: #selector(randomRoomName), for: .touchUpInside)
+        self.roomInput.oldCenter = self.center
         self.menuBar.selectClosure = { [weak self] in
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
@@ -57,6 +58,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         self.roomInput.action = { [weak self] in
             self?.create()
         }
+        self.randomRoomName()
     }
     
     required init?(coder: NSCoder) {
@@ -88,6 +90,7 @@ extension VRCreateRoomView {
         self.menuBar.dataSource[safe: scrollIndex]?.selected = true
         self.menuBar.menuList.reloadData()
         self.menuBar.menuList.scrollToItem(at: IndexPath(row: scrollIndex, section: 0), at: .right, animated: true)
+        self.randomRoomName()
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, didSelectItemAtIndex index: Int) {
@@ -99,7 +102,7 @@ extension VRCreateRoomView {
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, viewForIndex index: Int) -> HorizontalCardView {
-        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight)).backgroundColor(.cyan).cornerRadius(25)
+        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight)).backgroundColor(.clear).cornerRadius(25)
         guard let title = self.datas[index]["title"],let detail = self.datas[index]["detail"],let image = UIImage(self.datas[index]["image"]!) else { return card }
         return VRSoundTypeCard(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight),title: title,note: detail,background: image).cornerRadius(25)
     }

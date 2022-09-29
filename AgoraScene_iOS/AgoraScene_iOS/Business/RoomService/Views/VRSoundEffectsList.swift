@@ -43,8 +43,8 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "VRSoundEffectsCell",for: indexPath) as? VRSoundEffectsCell
-        cell?.item = self.datas[safe: indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "VRSoundEffectsCell",for: indexPath) as? VRSoundEffectsCell
+        cell?.refresh(item: self.datas[safe: indexPath.row]!)
         cell?.selectionStyle = .none
         return cell ?? VRSoundEffectsCell()
     }
@@ -54,11 +54,7 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
         for item in self.datas { item.selected = false }
         self.datas[safe:indexPath.row]?.selected = true
         self.type = self.datas[safe:indexPath.row]?.title ?? ""
-        for (index,cell) in self.visibleCells.enumerated() {
-            if let effectCell = cell as? VRSoundEffectsCell {
-                effectCell.item = self.datas[safe: index]
-            }
-        }
+        self.reloadData()
     }
 
 }

@@ -12,16 +12,12 @@ public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UIColl
     
     private var images = ["yalla","soul"]
     
-    var item: VRRoomMenuBarEntity? {
-        willSet {
-            if newValue != nil {
-                DispatchQueue.main.async { self.refresh(item: newValue!) }
-            }
-        }
-    }
-    
     lazy var background: UIView = {
         UIView(frame: CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.frame.height - 15)).backgroundColor(.white).cornerRadius(20)
+    }()
+    
+    lazy var shaodw: UIView = {
+        UIView(frame: CGRect(x: 32, y: 17, width: ScreenWidth-64, height: self.frame.height - 15)).backgroundColor(.white)
     }()
     
     lazy var effectName: UILabel = {
@@ -60,7 +56,12 @@ public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UIColl
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
+        self.contentView.addSubview(self.shaodw)
         self.contentView.addSubview(self.background)
+        self.shaodw.layer.shadowRadius = 8
+        self.shaodw.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.shaodw.layer.shadowColor = UIColor(red: 0.04, green: 0.1, blue: 0.16, alpha: 0.12).cgColor
+        self.shaodw.layer.shadowOpacity = 1
         self.background.addSubViews([self.effectName,self.effectDesc,self.line,self.customUsage,self.iconList,self.chooseSymbol])
         self.iconList.isScrollEnabled = false
     }
@@ -97,11 +98,17 @@ extension VRSoundEffectsCell {
         return cell ?? UICollectionViewCell()
     }
     
-    private func refresh(item: VRRoomMenuBarEntity) {
+    func refresh(item: VRRoomMenuBarEntity) {
         self.effectName.text = item.title
         self.effectDesc.text = item.detail
         self.chooseSymbol.isHidden = !item.selected
-        self.background.frame = CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.contentView.frame.height - 15)
+        if item.selected {
+            self.background.layerProperties(UIColor(0x009FFF), 1)
+        } else {
+            self.background.layerProperties(.clear, 1)
+        }
+        self.background.frame = CGRect(x: 20, y: 15, width: self.contentView.frame.width-40, height: self.contentView.frame.height - 15)
+        self.shaodw.frame = CGRect(x: 35, y: 15, width: self.contentView.frame.width-70, height: self.frame.height - 16)
         self.effectName.frame = CGRect(x: 20, y: 15, width: self.background.frame.width-40, height: 22)
         self.effectDesc.frame = CGRect(x: 20, y: self.effectName.frame.maxY+4, width: self.effectName.frame.width, height: VRSoundEffectsList.heightMap[item.title] ?? 60)
         self.line.frame = CGRect(x: 20, y: self.effectDesc.frame.maxY+6, width: self.effectDesc.frame.width, height: 1)
@@ -109,6 +116,7 @@ extension VRSoundEffectsCell {
         self.iconList.frame = CGRect(x: 20, y: Int(self.customUsage.frame.maxY)+5, width: self.images.count*20+10*(self.images.count-1), height: 20)
         self.chooseSymbol.frame = CGRect(x: self.background.frame.width-32, y: self.background.frame.height-31, width: 32, height: 31)
     }
+    
 }
 
 public class VRIconCell: UICollectionViewCell {
@@ -126,10 +134,10 @@ public class VRIconCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-    }
+//    public override func layoutSubviews() {
+//        super.layoutSubviews()
+//        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+//    }
     
 }
 

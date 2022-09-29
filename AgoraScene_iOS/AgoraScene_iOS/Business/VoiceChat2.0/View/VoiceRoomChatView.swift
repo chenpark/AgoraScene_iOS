@@ -35,24 +35,26 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
     lazy var emitter: VoiceRoomPraiseEmitterView = {
         VoiceRoomPraiseEmitterView(frame: CGRect(x: ScreenWidth-80, y: -20, width: 80, height: self.frame.height-20))
     }()
+    
+    lazy var gradientLayer: CAGradientLayer = {
+        CAGradientLayer().startPoint(CGPoint(x: 0, y: 0)).endPoint(CGPoint(x: 0, y: 0.1)).colors([UIColor.clear.withAlphaComponent(0).cgColor,UIColor.clear.withAlphaComponent(1).cgColor]).locations([NSNumber(0),NSNumber(1)]).rasterizationScale(UIScreen.main.scale).frame(self.blurView.frame)
+    }()
+    
+    lazy var blurView: UIView = {
+        UIView(frame: CGRect(x: 0, y: 0, width: chatViewWidth, height: self.frame.height)).backgroundColor(.clear)
+    }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        for i in 0...9 {
-            if i%2 == 0 {
-                self.messages?.append(self.getItem(dic: json1, join: false))
-            } else {
-                if i == 9 {
-                    self.messages?.append(self.getItem(dic: json2, join: true))
-                } else {
-                    self.messages?.append(self.getItem(dic: json2, join: false))
-                }
-            }
-        }
-        self.addSubViews([self.chatView,self.likeView,self.emitter])
+        self.addSubViews([self.blurView,self.likeView,self.emitter])
+        self.blurView.layer.mask = self.gradientLayer
+        self.blurView.addSubview(self.chatView)
         self.likeView.setImage(UIImage("unlike"), for: .normal)
         self.chatView.bounces = false
+        self.chatView.allowsSelection = false
     }
+    
+    
     
     func getItem(dic: [String:String],join: Bool) -> VoiceRoomChatEntity {
         let item = VoiceRoomChatEntity()
@@ -60,13 +62,35 @@ public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource
         item.content = dic["content"]
         item.joined = join
         item.attributeContent = item.attributeContent
+        item.width = item.width
         item.height = item.height
         return item
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
+    }/// 渐变蒙层
+//    self.gradientLayer = [CAGradientLayer layer];
+//    self.gradientLayer.startPoint = CGPointMake(0, 0); //渐变色起始位置
+//    self.gradientLayer.endPoint = CGPointMake(0, 0.1); //渐变色终止位置
+//    self.gradientLayer.colors = @[(__bridge id)[UIColor.clearColor colorWithAlphaComponent:0].CGColor, (__bridge id)
+//     [UIColor.clearColor colorWithAlphaComponent:1.0].CGColor];
+//    self.gradientLayer.locations = @[@(0), @(1.0)]; // 对应colors的alpha值
+//    self.gradientLayer.rasterizationScale = UIScreen.mainScreen.scale;
+//
+//    ///  添加蒙层效果的图层
+//    self.tableViewBackgroundView = [[UIView alloc] init];
+//    self.tableViewBackgroundView.backgroundColor = UIColor.clearColor;
+//    [self addSubview:self.tableViewBackgroundView];
+//    self.tableViewBackgroundView.layer.mask = self.gradientLayer;
+//
+//    self.tableView = [[UITableView alloc] init];
+//    self.tableView.backgroundColor = UIColor.clearColor;
+//    self.tableView.scrollEnabled = NO;
+//    self.tableView.allowsSelection =  NO;
+//    [self.tableViewBackgroundView addSubview:self.tableView];
+
+
     
 }
 
@@ -90,7 +114,7 @@ extension VoiceRoomChatView {
         if cell == nil {
             cell = VoiceRoomChatCell(style: .default, reuseIdentifier: "VoiceRoomChatCell")
         }
-        cell?.chat = self.messages![safe: indexPath.row]
+        cell?.refresh(chat: self.messages![safe: indexPath.row]!)
         cell?.selectionStyle = .none
         return cell!
     }
