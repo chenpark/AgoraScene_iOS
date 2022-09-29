@@ -28,6 +28,8 @@ class VMEQSettingView: UIView {
         }
     }
     var selBlock: ((AINS_STATE)->Void)?
+    var soundBlock: ((Int)->Void)?
+    private var selTag: Int?
     
     private let settingName: [String] = ["Spatial Audio", "Attenuation factor", "Air absorb", "Voice blur"]
     private let soundType: [String] = ["TV Sound", "Kitchen Sound", "Street Sound", "Mashine Sound", "Office Sound", "Home Sound", "Construction Sound","Alert Sound/Music","Applause","Wind Sound","Mic Pop Filter","Audio Feedback","Microphone Finger Rub Sound","Screen Tap Sound"]
@@ -243,6 +245,23 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                     cell.cellType = .normal
                 }
                 cell.titleLabel.text = soundType[indexPath.row]
+                cell.cellTag = 1000 + indexPath.row * 10
+                if selTag == nil {
+                    cell.btn_state = .none
+                } else {
+                    let index = (selTag! - 1000) / 10
+                    let tag = (selTag! - 1000) % 10
+                    if index == indexPath.row {
+                        cell.btn_state = tag == 1 ? .off : .middle
+                    } else {
+                        cell.btn_state = .none
+                    }
+                }
+                cell.resBlock = {[weak self] index in
+                    self?.selTag = index
+                    self?.soundBlock!(index)
+                    self?.tableView.reloadData()
+                }
                 return cell
             }
         }

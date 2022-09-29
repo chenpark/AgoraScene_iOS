@@ -319,7 +319,7 @@ extension VoiceRoomViewController {
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             if alienCanPlay {
-                rtckit.playBaseAlienMusic()
+                rtckit.playMusic(with: .alien)
             }
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
@@ -527,20 +527,50 @@ extension VoiceRoomViewController {
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
             self?.rtckit.setAINS(with: state)
+            if self?.isOwner == false {return}
+            if let use_robot = self?.roomInfo?.room?.use_robot{
+                if use_robot == false {
+                    self?.view.makeToast("请房主先激活机器人")
+                    return
+                }
+                if state == .high {
+                    self?.rtckit.stopPlayMusic()
+                    self?.rtckit.playMusic(with: .ainsHigh)
+                } else if state == .mid {
+                    self?.rtckit.stopPlayMusic()
+                    self?.rtckit.playMusic(with: .ainsMid)
+                } else {
+                    self?.rtckit.stopPlayMusic()
+                    self?.rtckit.playMusic(with: .ainsOff)
+                }
+            }
         }
         preView.useRobotBlock = {[weak self] flag in
             if self?.alienCanPlay == true && flag == true {
-                self?.rtckit.playBaseAlienMusic()
+                self?.rtckit.playMusic(with: .alien)
             }
             
             if self?.alienCanPlay == true && flag == false {
-                self?.rtckit.stopPlayBaseAlienMusic()
+                self?.rtckit.stopPlayMusic()
             }
 
             self?.activeAlien(flag)
         }
         preView.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
+        }
+        preView.eqView.soundBlock = {[weak self] index in
+            if self?.isOwner == false {return}
+            if let use_robot = self?.roomInfo?.room?.use_robot{
+                if use_robot == false {
+                    self?.view.makeToast("请房主先激活机器人")
+                    return
+                }
+            }
+            let count = (index - 1000) / 10
+            let tag = (index - 1000) % 10
+            self?.rtckit.playSound(with: count, type: tag == 1 ? .ainsOff : .ainsHigh)
+            self?.rtcView.showAlienMicView = .blue
         }
         self.view.addSubview(preView)
         self.isShowPreSentView = true
@@ -1204,10 +1234,10 @@ extension VoiceRoomViewController: ASManagerDelegate {
         
     }
     
-    func reportAlien(with type: ALIEN_TYPE) {
+    func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) {
         print("当前是：\(type.rawValue)在讲话")
         self.rtcView.showAlienMicView = type
-        if type == .ended && self.alienCanPlay {
+        if type == .ended && self.alienCanPlay && musicType == .alien {
             self.alienCanPlay = false
         }
     }

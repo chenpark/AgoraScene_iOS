@@ -45,6 +45,17 @@ public enum AINS_STATE {
 }
 
 /**
+ *
+ */
+@objc public enum VMMUSIC_TYPE: Int, Codable {
+    case alien = 1
+    case ainsHigh = 2
+    case ainsMid = 3
+    case ainsOff = 4
+    case sound = 5
+}
+
+/**
  * 场景枚举
  * VoiceChat 语聊房2.0
  * KTV KTV场景
@@ -134,7 +145,7 @@ public enum AINS_STATE {
     /**
      * report alien type
      */
-    @objc optional func reportAlien(with type: ALIEN_TYPE) -> Void
+    @objc optional func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) -> Void
  }
 
 public let kMPK_RTC_UID: UInt = 1
@@ -154,6 +165,8 @@ public let kMPK_RTC_UID: UInt = 1
     private var streamId: Int = -1
 
     fileprivate var localRtcUid: UInt = 0
+    
+    private var musicType: VMMUSIC_TYPE?
 
     @objc public weak var delegate: ASManagerDelegate?
 
@@ -170,19 +183,64 @@ public let kMPK_RTC_UID: UInt = 1
     
     private var baseMusicCount: Int = 0 {
         didSet {
-            if baseMusicCount >= AgoraConfig.baseAlienMic.count {
+            guard let musicType = musicType else {
+                return
+            }
+            var count = 0
+            switch musicType {
+            case .alien:
+                count = AgoraConfig.baseAlienMic.count
+            case .ainsHigh:
+                count = AgoraConfig.HighAINSIntroduc.count
+            case .ainsMid:
+                count = AgoraConfig.MediumAINSIntroduc.count
+            case .ainsOff:
+                count = AgoraConfig.NoneAINSIntroduc.count
+            case .sound:
+                return
+            }
+            if baseMusicCount >= count {
                 rtcKit.stopAudioMixing()
-                delegate?.reportAlien?(with: .ended)
+                delegate?.reportAlien?(with: .ended, musicType: musicType)
             } else {
-                print("当前播放进度\(baseMusicCount)")
-                if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B-") {
-                    delegate?.reportAlien?(with: .blue)
-                } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-R-") {
-                    delegate?.reportAlien?(with: .red)
-                } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B&R-") {
-                    delegate?.reportAlien?(with: .blueAndRed)
+                if musicType == .alien {
+                    if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.CreateCommonRoom)\(AgoraConfig.baseAlienMic[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .ainsHigh {
+                    if AgoraConfig.HighAINSIntroduc[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.HighAINSIntroduc[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.HighAINSIntroduc[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    print("-----\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.HighAINSIntroduc[baseMusicCount])")
+                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.HighAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .ainsMid {
+                    if AgoraConfig.MediumAINSIntroduc[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.MediumAINSIntroduc[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.MediumAINSIntroduc[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.MediumAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .ainsOff {
+                    if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.NoneAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
                 }
-                rtcKit.startAudioMixing("\(AgoraConfig.CreateCommonRoom)\(AgoraConfig.baseAlienMic[baseMusicCount])", loopback: false, cycle: 1)
             }
         }
     }
@@ -351,12 +409,40 @@ public let kMPK_RTC_UID: UInt = 1
      *
      *
      */
-    public func playBaseAlienMusic() {
+    public func playMusic(with type: VMMUSIC_TYPE) {
+        musicType = type
         baseMusicCount = 0
     }
     
-    public func stopPlayBaseAlienMusic() {
-        baseMusicCount = AgoraConfig.baseAlienMic.count
+    public func stopPlayMusic() {
+        guard let musicType = musicType else {
+            return
+        }
+        if musicType == .alien {
+            baseMusicCount = AgoraConfig.baseAlienMic.count
+        } else if musicType == .ainsHigh {
+            baseMusicCount = AgoraConfig.HighAINSIntroduc.count
+        } else if musicType == .ainsMid {
+            baseMusicCount = AgoraConfig.MediumAINSIntroduc.count
+        } else if musicType == .ainsOff {
+            baseMusicCount = AgoraConfig.NoneAINSIntroduc.count
+        }
+    }
+    
+    public func playSound(with index: Int, type: VMMUSIC_TYPE) {
+        rtcKit.stopAudioMixing()
+        musicType = type
+        var path = ""
+        if type == .ainsHigh {
+            path = AgoraConfig.HighSound[index]
+        } else if type == .ainsOff {
+            path = AgoraConfig.NoneSound[index]
+        }
+        rtcKit.startAudioMixing(path, loopback: false, cycle: 1)
+    }
+    
+    public func stopPlaySound() {
+        rtcKit.stopAudioMixing()
     }
 
     /**
@@ -729,7 +815,22 @@ extension ASRTCKit: AgoraRtcMediaPlayerDelegate {
     
     public func rtcEngine(_ engine: AgoraRtcEngineKit, audioMixingStateChanged state: AgoraAudioMixingStateType, reasonCode: AgoraAudioMixingReasonCode) {
         if state == .stopped {
-            if baseMusicCount < AgoraConfig.baseAlienMic.count {
+            guard let musicType = self.musicType else {return}
+            var count = 0
+            switch musicType {
+            case .alien:
+                count = AgoraConfig.baseAlienMic.count
+            case .ainsHigh:
+                count = AgoraConfig.HighAINSIntroduc.count
+            case .ainsMid:
+                count = AgoraConfig.MediumAINSIntroduc.count
+            case .ainsOff:
+                count = AgoraConfig.NoneAINSIntroduc.count
+            case .sound:
+                delegate?.reportAlien?(with: .none, musicType: .sound)
+                return
+            }
+            if baseMusicCount < count {
                 baseMusicCount += 1
             }
         }

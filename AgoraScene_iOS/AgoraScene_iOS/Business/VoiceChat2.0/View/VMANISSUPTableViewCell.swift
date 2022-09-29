@@ -11,6 +11,12 @@ public enum SUP_CELL_TYPE {
     case detail
 }
 
+public enum CELL_BTN_TYPE {
+    case middle
+    case off
+    case none
+}
+
 class VMANISSUPTableViewCell: UITableViewCell {
 
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
@@ -19,6 +25,13 @@ class VMANISSUPTableViewCell: UITableViewCell {
     private var noneBtn: UIButton = UIButton()
     private var anisBtn: UIButton = UIButton()
     private var selBtn: UIButton!
+    
+    public var cellTag: Int = 1000 {
+        didSet {
+            noneBtn.tag = cellTag + 1
+            anisBtn.tag = cellTag
+        }
+    }
     
     public var cellType: SUP_CELL_TYPE = .normal {
         didSet {
@@ -31,6 +44,49 @@ class VMANISSUPTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    public var btn_state: CELL_BTN_TYPE = .none {
+        didSet {
+            if btn_state == .off {
+                noneBtn.backgroundColor = .white
+                noneBtn.layer.borderColor = UIColor.blue.cgColor
+                noneBtn.setTitleColor(.blue, for: .normal)
+                noneBtn.layer.borderWidth = 1
+                
+                anisBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+                anisBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
+                anisBtn.layer.borderColor = UIColor.clear.cgColor
+                anisBtn.layer.borderWidth = 0
+                
+                selBtn = noneBtn
+            } else if btn_state == .middle {
+                anisBtn.backgroundColor = .white
+                anisBtn.layer.borderColor = UIColor.blue.cgColor
+                anisBtn.setTitleColor(.blue, for: .normal)
+                anisBtn.layer.borderWidth = 1
+                
+                noneBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+                noneBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
+                noneBtn.layer.borderColor = UIColor.clear.cgColor
+                noneBtn.layer.borderWidth = 0
+                
+                selBtn = anisBtn
+            } else if btn_state == .none {
+                anisBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+                anisBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
+                anisBtn.layer.borderColor = UIColor.clear.cgColor
+                anisBtn.layer.borderWidth = 0
+                
+                noneBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+                noneBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
+                noneBtn.layer.borderColor = UIColor.clear.cgColor
+                noneBtn.layer.borderWidth = 0
+                selBtn = nil
+            }
+        }
+    }
+    
+    public var resBlock:((Int) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -63,36 +119,37 @@ class VMANISSUPTableViewCell: UITableViewCell {
         noneBtn.font(UIFont.systemFont(ofSize: 11))
         noneBtn.layer.cornerRadius = 3
         noneBtn.layer.masksToBounds = true
-        noneBtn.tag = 100
         noneBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(noneBtn)
         
         anisBtn.frame = CGRect(x: screenWidth - 160~, y: 12~, width: 80~, height: 30~)
-        anisBtn.backgroundColor = .white
+        anisBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
         anisBtn.setTitle("Middle", for: .normal)
-        anisBtn.setTitleColor(UIColor.blue, for: .normal)
+        anisBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         anisBtn.font(UIFont.systemFont(ofSize: 11))
-        anisBtn.backgroundColor = .white
         anisBtn.layer.cornerRadius = 3
         anisBtn.layer.masksToBounds = true
-        anisBtn.layer.borderColor = UIColor.blue.cgColor
-        anisBtn.layer.borderWidth = 1
-        anisBtn.tag = 101
         anisBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(anisBtn)
         
     }
     
     @objc private func click(sender: UIButton) {
+        if sender == selBtn {return}
+        
+        guard let resBlock = resBlock else {return}
+        resBlock(sender.tag)
+        
         sender.backgroundColor = .white
         sender.layer.borderColor = UIColor.blue.cgColor
         sender.setTitleColor(.blue, for: .normal)
         sender.layer.borderWidth = 1
-        
-        selBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
-        selBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
-        selBtn.layer.borderColor = UIColor.clear.cgColor
-        selBtn.layer.borderWidth = 0
+        if selBtn != nil {
+            selBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
+            selBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
+            selBtn.layer.borderColor = UIColor.clear.cgColor
+            selBtn.layer.borderWidth = 0
+        }
         selBtn = sender
     }
 
