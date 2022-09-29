@@ -249,8 +249,6 @@ extension VoiceRoomViewController {
     
     private func uploadStatus( status: Bool) {
         guard let roomId = self.roomInfo?.room?.room_id  else { return }
-//        let pwd: String = roomInfo?.room?.roomPassword ?? ""
-//        let params: Dictionary<String, Any> = ["password": pwd]
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
                 self.view.makeToast("Joined successful!")
