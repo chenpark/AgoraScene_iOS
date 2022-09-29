@@ -23,6 +23,28 @@ import AgoraRtcKit
 }
 
 /**
+ * AI降噪等级
+ *
+ */
+public enum AINS_STATE {
+    case high
+    case mid
+    case off
+}
+
+/**
+ * 机器人类型
+ *
+ */
+@objc public enum ALIEN_TYPE: Int, Codable {
+    case blue = 1
+    case red = 2
+    case blueAndRed = 3
+    case none = 4
+    case ended = 5
+}
+
+/**
  * 场景枚举
  * VoiceChat 语聊房2.0
  * KTV KTV场景
@@ -108,8 +130,12 @@ import AgoraRtcKit
      * @param elapsed 视频显示出来第一帧的时间
      */
    // @objc optional func didUserFirstVideoFrameWith(uid: UInt) -> Void
-
-}
+    
+    /**
+     * report alien type
+     */
+    @objc optional func reportAlien(with type: ALIEN_TYPE) -> Void
+ }
 
 public let kMPK_RTC_UID: UInt = 1
 @objc public class ASRTCKit: NSObject {
@@ -140,6 +166,25 @@ public let kMPK_RTC_UID: UInt = 1
             return _sharedInstance!
         }
         return instance
+    }
+    
+    private var baseMusicCount: Int = 0 {
+        didSet {
+            if baseMusicCount >= AgoraConfig.baseAlienMic.count {
+                rtcKit.stopAudioMixing()
+                delegate?.reportAlien?(with: .ended)
+            } else {
+                print("当前播放进度\(baseMusicCount)")
+                if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B-") {
+                    delegate?.reportAlien?(with: .blue)
+                } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-R-") {
+                    delegate?.reportAlien?(with: .red)
+                } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B&R-") {
+                    delegate?.reportAlien?(with: .blueAndRed)
+                }
+                rtcKit.startAudioMixing("\(AgoraConfig.CreateCommonRoom)\(AgoraConfig.baseAlienMic[baseMusicCount])", loopback: false, cycle: 1)
+            }
+        }
     }
 
     //init rtc
@@ -266,6 +311,7 @@ public let kMPK_RTC_UID: UInt = 1
         } else {
             rtcKit.setChannelProfile(.communication)
         }
+        setAINS(with: .mid)
         loadKit(with: channelName, rtcUid: rtcUid)
         let code: Int32 = rtcKit.joinChannel(byToken: nil, channelId: channelName, info: nil, uid: UInt(rtcUid ?? 0))
         return code
@@ -300,6 +346,18 @@ public let kMPK_RTC_UID: UInt = 1
     public func enableLocalAudio( enable: Bool) -> Int32 {
         return rtcKit.enableLocalAudio(enable)
     }
+    
+    /**
+     *
+     *
+     */
+    public func playBaseAlienMusic() {
+        baseMusicCount = 0
+    }
+    
+    public func stopPlayBaseAlienMusic() {
+        baseMusicCount = AgoraConfig.baseAlienMic.count
+    }
 
     /**
      * 开启/关闭 回声消除
@@ -309,6 +367,37 @@ public let kMPK_RTC_UID: UInt = 1
     @discardableResult
     public func enableAEC(with grade: AECGrade) -> Int32 {
         return rtcKit.setParameters("{\"rtc.audio.music_mode\": \(grade.rawValue)}")
+    }
+    
+    /**
+     * 开启/关闭 AI降噪
+     * @param
+     * @return 开启/关闭回声消除的结果
+     */
+    public func setAINS(with level: AINS_STATE) {
+        switch level {
+        case .high:
+            rtcKit.setParameters("{\"che.audio.anis_mode\":2}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":10}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":10}")
+            rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":0}")
+            rtcKit.setParameters("{\"che.audio.nsng.finallowermask\":8}")
+            rtcKit.setParameters("{\"che.audio.nsng.enhfactorstastical\":200}")
+        case .mid:
+            rtcKit.setParameters("{\"che.audio.anis_mode\":2}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":80}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":50}")
+            rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":5}")
+            rtcKit.setParameters("{\"che.audio.nsng.finallowermask\":30}")
+            rtcKit.setParameters("{\"che.audio.nsng.enhfactorstastical\":200}")
+        case .off:
+            rtcKit.setParameters("{\"che.audio.anis_mode\":0}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":80}")
+            rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":50}")
+            rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":5}")
+            rtcKit.setParameters("{\"che.audio.nsng.finallowermask\":30}")
+            rtcKit.setParameters("{\"che.audio.nsng.enhfactorstastical\":200}")
+        }
     }
 
     /**
@@ -637,6 +726,14 @@ extension ASRTCKit: AgoraRtcEngineDelegate {
 
 //MARK: - AgoraRtcMediaPlayerDelegate
 extension ASRTCKit: AgoraRtcMediaPlayerDelegate {
+    
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, audioMixingStateChanged state: AgoraAudioMixingStateType, reasonCode: AgoraAudioMixingReasonCode) {
+        if state == .stopped {
+            if baseMusicCount < AgoraConfig.baseAlienMic.count {
+                baseMusicCount += 1
+            }
+        }
+    }
 
     // mpk didChangedToPosition
     public func agoraRtcMediaPlayer(_ playerKit: AgoraRtcMediaPlayerProtocol, didChangedToPosition position: Int) {
