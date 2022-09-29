@@ -12,6 +12,7 @@ public class HorizontalCardCell: UICollectionViewCell {
     private (set) weak var embededView: UIView?
 
     func embedView(_ view: HorizontalCardView) {
+        self.contentView.backgroundColor = .clear
         self.contentView.subviews.forEach { $0.removeFromSuperview() }
         self.contentView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false

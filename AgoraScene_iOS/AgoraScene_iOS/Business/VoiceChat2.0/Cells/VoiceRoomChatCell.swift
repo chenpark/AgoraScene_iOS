@@ -13,7 +13,7 @@ public class VoiceRoomChatCell: UITableViewCell {
     var chat: VoiceRoomChatEntity? {
         willSet {
             if newValue != nil {
-                DispatchQueue.main.async { self.refresh(chat: newValue!) }
+//                DispatchQueue.main.async { self.refresh(chat: newValue!) }
             }
         }
     }

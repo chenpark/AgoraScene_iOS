@@ -45,6 +45,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         super.init(frame: frame)
         self.addSubViews([self.menuBar,self.audioEffectCards,self.roomInput])
         self.roomInput.randomName.addTarget(self, action: #selector(randomRoomName), for: .touchUpInside)
+        self.roomInput.oldCenter = self.center
         self.menuBar.selectClosure = { [weak self] in
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
@@ -89,6 +90,7 @@ extension VRCreateRoomView {
         self.menuBar.dataSource[safe: scrollIndex]?.selected = true
         self.menuBar.menuList.reloadData()
         self.menuBar.menuList.scrollToItem(at: IndexPath(row: scrollIndex, section: 0), at: .right, animated: true)
+        self.randomRoomName()
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, didSelectItemAtIndex index: Int) {

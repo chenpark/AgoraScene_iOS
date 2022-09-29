@@ -32,6 +32,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.backgroundColor = .white
         self.contentView.addSubViews([self.avatar,self.userName,self.operation])
         self.operation.layer.shadowColor = UIColor(red: 0, green: 0.55, blue: 0.98, alpha: 0.2).cgColor
         self.operation.layer.shadowOffset = CGSize(width: 0, height: 4)

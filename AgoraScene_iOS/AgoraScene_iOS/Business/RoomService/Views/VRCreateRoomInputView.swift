@@ -24,6 +24,8 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     
     private var offset = CGFloat(ScreenHeight < 812 ? 150:120)
     
+    var oldCenter: CGPoint = .zero
+    
     lazy var roomName: UILabel = {
         UILabel(frame: CGRect(x: 40, y: 0, width: 80, height: 20)).font(.systemFont(ofSize: 14, weight: .regular)).text(LanguageManager.localValue(key: "Room Name")).textColor(.darkText).backgroundColor(.clear)
     }()
@@ -125,8 +127,8 @@ extension VRCreateRoomInputView {
             self.privateChoice.isSelected = false
             self.publicChoice.isSelected = true
             if self.pinCode.textFiled.isFirstResponder {
-                self.recover()
                 self.pinCode.textFiled.resignFirstResponder()
+                self.recover()
             }
             self.warnMessage.isHidden = true
         } else {
@@ -135,6 +137,7 @@ extension VRCreateRoomInputView {
             self.publicChoice.isSelected = false
             self.roomNameField.resignFirstResponder()
             self.pinCode.textFiled.becomeFirstResponder()
+//            self.raise()
         }
         UIView.animate(withDuration: 0.3) {
             self.pinCode.alpha = self.publicChoice.isSelected ? 0:1
@@ -142,6 +145,7 @@ extension VRCreateRoomInputView {
     }
     
     private func recover() {
+        if self.superview!.center.y >= self.oldCenter.y { return }
         UIView.animate(withDuration: 0.3) {
             self.superview?.center = CGPoint(x: self.superview!.center.x, y: self.superview!.center.y+self.offset)
         }
@@ -201,18 +205,23 @@ extension VRCreateRoomInputView {
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField != self.roomNameField { return false }
         if (textField.text ?? "").isEmpty {
             self.showWarning(self.nameMessage)
         } else {
             self.hiddenWarning()
+            if let text = textField.text,text.count >= 32 {
+                textField.text = (text as NSString).substring(to: 32)
+            }
         }
         return true
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if self.pinCode.textFiled.isFirstResponder {
-            self.recover()
+//            self.recover()
         }
+        self.pinCode.endEditing(true)
         self.endEditing(true)
     }
 }

@@ -103,9 +103,9 @@ extension VRSoundEffectsCell {
         self.effectDesc.text = item.detail
         self.chooseSymbol.isHidden = !item.selected
         if item.selected {
-            self.background.layerProperties(UIColor(0x009FFF), 2)
+            self.background.layerProperties(UIColor(0x009FFF), 1)
         } else {
-            self.background.layerProperties(.clear, 2)
+            self.background.layerProperties(.clear, 1)
         }
         self.background.frame = CGRect(x: 20, y: 15, width: self.contentView.frame.width-40, height: self.contentView.frame.height - 15)
         self.shaodw.frame = CGRect(x: 35, y: 15, width: self.contentView.frame.width-70, height: self.frame.height - 16)
