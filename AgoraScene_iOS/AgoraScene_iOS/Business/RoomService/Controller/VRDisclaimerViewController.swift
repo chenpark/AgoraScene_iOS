@@ -17,7 +17,7 @@ public class VRDisclaimerViewController: VRBaseViewController,UITextViewDelegate
         AttributedText(LanguageManager.localValue(key: "It’s your freedom to choose to test this Product or not. But if you decide to do so, and if you download, install, or use this Product, it means that you confirm and agree that under no circumstances shall Agora be liable for any form of loss or injury caused to yourself or others when you use this Product for any reason, in any manner.\n\n\n")).font(.systemFont(ofSize: 16, weight: .regular)).lineSpacing(6).foregroundColor(Color(0x040925))
         AttributedText(LanguageManager.localValue(key: "If you have any query, please feel free to contact")).font(.systemFont(ofSize: 16, weight: .regular)).lineSpacing(6).foregroundColor(Color(0x040925))
         Link("support@agora.io", url: URL(string: "mailto:support@agora.io")!).foregroundColor(Color(0x1561f3)).lineSpacing(6).font(.systemFont(ofSize: 16, weight: .regular)).underline(.single,color: Color(0x1561f3))
-        AttributedText(".").font(.systemFont(ofSize: 16, weight: .regular)).foregroundColor(Color(0x040925))
+        AttributedText(".\n\n\n\n\n").font(.systemFont(ofSize: 16, weight: .regular)).foregroundColor(Color(0x040925))
     }
     
     lazy var background: UIImageView = {

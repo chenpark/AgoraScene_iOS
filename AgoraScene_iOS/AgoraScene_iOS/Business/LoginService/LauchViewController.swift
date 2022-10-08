@@ -82,8 +82,10 @@ extension LauchViewController {
     }
     
     func showFailed() {
-        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Login failed!Please retry.",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: alert)
+        let alert = VoiceRoomApplyAlert(frame: CGRect(x: 35, y: 0, width: ScreenWidth-70, height: (205/375.0)*ScreenWidth),content: "Login failed,Please retry.",cancel: "Cancel",confirm: "Confirm",position: .center).backgroundColor(.white).cornerRadius(20)
+        var component = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth))
+        component.destination = .center
+        let vc = VoiceRoomAlertViewController(compent: component, custom: alert)
         alert.actionEvents = { [weak self] in
             if $0 == 31 {
                 self?.login()

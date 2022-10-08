@@ -51,6 +51,7 @@ public class VoiceRoomEmojiCell: UICollectionViewCell {
         
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.contentView.backgroundColor =  .white
         self.contentView.addSubview(self.icon)
     }
     

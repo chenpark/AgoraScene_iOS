@@ -28,7 +28,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
     }()
     
     lazy var giftList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 15, y: self.header.frame.maxY, width: ScreenWidth-30, height: (110/84.0)*((ScreenWidth-30)/4.0)), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomSendGiftCell.self, forCellReuseIdentifier: "VoiceRoomSendGiftCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false)
+        UICollectionView(frame: CGRect(x: 15, y: self.header.frame.maxY, width: ScreenWidth-30, height: (110/84.0)*((ScreenWidth-30)/4.0)), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomSendGiftCell.self, forCellReuseIdentifier: "VoiceRoomSendGiftCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false).backgroundColor(.white)
     }()
     
     lazy var pageControl: UIPageControl = {
@@ -114,10 +114,10 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
             self.pop.hide()
             self.chooseQuantity.isSelected = false
             self.gift_count = $0
-            self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":\(Int(self.gift_count)!*Int(self.current?.gift_price ?? "1")!)"
+            self.contribution.text = LanguageManager.localValue(key: "Contribution Total")+":\(Int(self.gift_count)!*Int(self.current?.gift_price ?? "1")!)"
         }
         self.current = self.gifts.first
-        self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":"+"1"
+        self.contribution.text = LanguageManager.localValue(key: "Contribution Total")+":"+"1"
     }
     
     required init?(coder: NSCoder) {
@@ -145,7 +145,7 @@ extension VoiceRoomGiftsView {
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
             self.disableView.isHidden = true
-            self.contribution.text = LanguageManager.localValue(key: "Contribute Total:")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
+            self.contribution.text = LanguageManager.localValue(key: "Contribution Total: ")+"\(VoiceRoomUserInfo.shared.user?.amount ?? 0)"
         }
     }
     
@@ -184,7 +184,7 @@ extension VoiceRoomGiftsView {
             }
         }
         let total = Int(self.gift_count)!*Int(gift!.gift_price!)!
-        self.contribution.text = LanguageManager.localValue(key: "Contribute Total")+":"+"\(total)"
+        self.contribution.text = LanguageManager.localValue(key: "Contribution Total")+": "+"\(total)"
         self.giftList.reloadData()
     }
 }

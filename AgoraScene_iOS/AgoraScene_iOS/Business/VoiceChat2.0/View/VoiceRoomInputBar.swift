@@ -17,15 +17,15 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     public var changeEmojiClosure: ((Bool)->())?
         
     lazy var rightView: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 0, y: 3.5, width: 27, height: 27)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 0, y: 4.5, width: 27, height: 27)).addTargetFor(self, action: #selector(changeToEmoji), for: .touchUpInside)
     }()
     
     lazy var inputContainer: UIView = {
-        UIView(frame: CGRect(x: 15, y: 12, width: ScreenWidth-110, height: 36)).cornerRadius(18).layerProperties(UIColor(0xE4E3ED), 1).backgroundColor(.white)
+        UIView(frame: CGRect(x: 15, y: 13, width: ScreenWidth-110, height: 36)).cornerRadius(18).layerProperties(UIColor(0xE4E3ED), 1).backgroundColor(.white)
     }()
     
     public lazy var inputField: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 20, y: 12, width: ScreenWidth-146, height: 36)).delegate(self).font(.systemFont(ofSize: 16, weight: .regular)).backgroundColor(.clear)
+        PlaceHolderTextView(frame: CGRect(x: 20, y: 14, width: ScreenWidth-146, height: 34)).delegate(self).font(.systemFont(ofSize: 16, weight: .regular)).backgroundColor(.clear)
     }()
     
     lazy var send: UIButton = {

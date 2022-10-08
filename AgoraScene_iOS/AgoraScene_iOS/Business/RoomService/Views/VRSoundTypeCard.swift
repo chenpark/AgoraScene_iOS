@@ -13,7 +13,7 @@ public class VRSoundTypeCard: HorizontalCardView {
     private var content = ""
     
     lazy var imageView: UIImageView = {
-        UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)).contentMode(.scaleAspectFill)
+        UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)).contentMode(.scaleToFill)
     }()
     
     lazy var noteLabel: UILabel = {
