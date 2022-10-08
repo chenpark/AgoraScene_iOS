@@ -100,6 +100,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         if !self.inputField.isFirstResponder {
             return
         }
+        self.rightView.setImage(UIImage(named: "face"), for: .normal)
         let frame = notification.keyboardEndFrame
         let duration = notification.keyboardAnimationDuration
         self.keyboardHeight = frame!.height

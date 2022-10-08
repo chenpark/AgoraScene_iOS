@@ -65,7 +65,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
     }
     
     @objc func invite() {
-        if self.inviteClosure != nil,self.user?.mic_index ?? 0 < 1 {
+        if self.inviteClosure != nil,self.user?.mic_index ?? 0 < 1,self.user?.invited ?? false == false {
             self.inviteClosure!(self.user)
         }
     }
