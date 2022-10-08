@@ -226,7 +226,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 let cell: VMANISSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: sIdentifier) as! VMANISSetTableViewCell
                 cell.ains_state = ains_state
                 cell.selBlock = {[weak self] state in
-                    //self?.ains_state = state
+                    self?.ains_state = state
                     guard let block = self?.selBlock else {return}
                     block(state)
                 }

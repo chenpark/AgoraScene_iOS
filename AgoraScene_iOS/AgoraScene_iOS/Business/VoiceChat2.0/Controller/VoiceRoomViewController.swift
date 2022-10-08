@@ -334,9 +334,6 @@ extension VoiceRoomViewController {
                 }
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
-            if alienCanPlay {
-                rtckit.playMusic(with: .alien)
-            }
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             showActiveAlienView(false)
@@ -454,6 +451,11 @@ extension VoiceRoomViewController {
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
                         print("激活机器人成功")
+                        
+                        if self.alienCanPlay {
+                            self.rtckit.playMusic(with: .alien)
+                        }
+                        
                         var mic_info = mic
                         mic_info.status = flag == true ? 5 : -2
                         self.roomInfo?.room?.use_robot = flag
@@ -550,13 +552,10 @@ extension VoiceRoomViewController {
                     return
                 }
                 if state == .high {
-                    self?.rtckit.stopPlayMusic()
                     self?.rtckit.playMusic(with: .ainsHigh)
                 } else if state == .mid {
-                    self?.rtckit.stopPlayMusic()
                     self?.rtckit.playMusic(with: .ainsMid)
                 } else {
-                    self?.rtckit.stopPlayMusic()
                     self?.rtckit.playMusic(with: .ainsOff)
                 }
             }

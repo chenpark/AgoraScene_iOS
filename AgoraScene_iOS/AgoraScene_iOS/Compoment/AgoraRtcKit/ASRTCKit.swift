@@ -419,8 +419,13 @@ public let kMPK_RTC_UID: UInt = 1
      *
      */
     public func playMusic(with type: VMMUSIC_TYPE) {
-        musicType = type
-        baseMusicCount = 0
+        let code = rtcKit.stopAudioMixing()
+        if code == 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+                self.musicType = type
+                self.baseMusicCount = 0
+            }
+        }
     }
     
     public func stopPlayMusic() {
@@ -439,7 +444,7 @@ public let kMPK_RTC_UID: UInt = 1
     }
     
     public func playSound(with index: Int, type: VMMUSIC_TYPE) {
-        rtcKit.stopAudioMixing()
+        stopPlayMusic()
         musicType = type
         var path = ""
         if type == .ainsHigh {
