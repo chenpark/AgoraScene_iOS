@@ -59,6 +59,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var ains_state: AINS_STATE = .mid
     private var local_index: Int? = nil
     private var alienCanPlay: Bool = true
+    private var vmType: VMScene = .social
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -94,8 +95,10 @@ class VoiceRoomViewController: VRBaseViewController {
         
         guard let user = VoiceRoomUserInfo.shared.user else {return}
         guard let owner = self.roomInfo?.room?.owner else {return}
+        guard let type = self.roomInfo?.room?.sound_effect else {return}
         isOwner = user.uid == owner.uid
         local_index = isOwner ? 0 : nil
+        vmType = getSceneType(type)
         
         VoiceRoomIMManager.shared?.delegate = self
         VoiceRoomIMManager.shared?.addChatRoomListener()
@@ -142,7 +145,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: .live) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: self?.vmType ?? .social) == 0
             VMGroup.leave()
         }
         
@@ -173,6 +176,19 @@ extension VoiceRoomViewController {
             }
         }
         
+    }
+    
+    private func getSceneType(_ type: String) -> VMScene {
+        switch type {
+        case "Karaoke":
+            return .ktv
+        case "Gaming Buddy":
+            return .game
+        case "Professional podcaster":
+            return .anchor
+        default:
+            return .social
+        }
     }
     
     //加入房间获取房间详情
@@ -1108,6 +1124,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
+        requestRoomDetail()
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
@@ -1187,35 +1204,28 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         var first: Dictionary<String, Int>? = Dictionary()
         for mic in mic_info {
             let key: String = mic.key
-            let value = getDictionaryFromJSONString(jsonString: mic.value)
-            
-            first!.updateValue(value["status"] as! Int, forKey: "status")
+            let value = mic.value.z.jsonToDictionary()
+            if let status = value["status"] as? Int {
+               first?["status"] = status
+            }
+
             if key.contains("mic_") {
                 if key.components(separatedBy: "mic_").count > 1 {
-                    let mic_index = key.components(separatedBy: "mic_")[1]
-                    first!.updateValue(Int(mic_index)!, forKey: "index")
-                    
-                    let uid = VoiceRoomUserInfo.shared.user?.uid
-                    if value.keys.contains("uid") {
-                        if uid == value["uid"] as? String ?? "" {
-                            local_index = Int(mic_index)
-                        }
+                    let index = key.components(separatedBy: "mic_")[1]
+                    if let mic_index = Int(index) {
+                       first?["index"] = mic_index
+                       let uid = VoiceRoomUserInfo.shared.user?.uid
+                       if value.keys.contains("uid") {
+                          if uid == value["uid"] as? String ?? "" {
+                            local_index = mic_index
+                          }
+                       }
                     }
-                    
                     return first
                 }
             }
         }
         return nil
-    }
-    
-   private func getDictionaryFromJSONString(jsonString:String) ->Dictionary<String, Any>{
-        let jsonData:Data = jsonString.data(using: .utf8)!
-        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
-        if dict != nil {
-            return dict as! Dictionary
-        }
-        return Dictionary()
     }
 
 }

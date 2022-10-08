@@ -79,8 +79,10 @@ public enum AINS_STATE {
 }
 
 @objc public enum VMScene: Int {
-    case live = 1
-    case yalla = 2
+    case game = 0
+    case social = 1
+    case ktv = 2
+    case anchor = 3
 }
 
 //MARK: - VMMusicPlayerDelegate
@@ -362,12 +364,19 @@ public let kMPK_RTC_UID: UInt = 1
 
         self.type = .VoiceChat
         rtcKit.enableAudioVolumeIndication(200, smooth: 3, reportVad: false)
-        if scene == .live {
+        if scene == .ktv || scene == .social {
             rtcKit.setChannelProfile(.liveBroadcasting)
             rtcKit.setAudioProfile(.musicHighQuality)
             rtcKit.setAudioScenario(.gameStreaming)
-        } else {
+        } else if  scene == .game{
             rtcKit.setChannelProfile(.communication)
+        } else {
+            rtcKit.setAudioProfile(.musicHighQualityStereo)
+            rtcKit.setAudioScenario(.gameStreaming)
+            rtcKit.setParameters("{\"che.audio.custom_payload_type\":73}")
+            rtcKit.setParameters("{\"che.audio.custom_bitrate\":128000}")
+          //  rtcKit.setRecordingDeviceVolume(128) 4.0.1上才支持
+            rtcKit.setParameters("{\"che.audio.input_channels\":2}")
         }
         setAINS(with: .mid)
         loadKit(with: channelName, rtcUid: rtcUid)
