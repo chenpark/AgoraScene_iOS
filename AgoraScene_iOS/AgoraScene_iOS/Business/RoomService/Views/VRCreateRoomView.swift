@@ -33,7 +33,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         cards.dataSource = self
         cards.delegate = self
         cards.cardSpacing = 20
-        cards.insets = UIEdgeInsets(top: 10, left: 35, bottom: 10, right: 35)
+        cards.insets = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
         return cards
     }()
     
@@ -86,10 +86,7 @@ extension VRCreateRoomView {
     
     public func horizontalCardsView(_: HorizontalCardsView, scrollIndex: Int) {
         self.idx = scrollIndex
-        self.menuBar.dataSource.forEach { $0.selected = false }
-        self.menuBar.dataSource[safe: scrollIndex]?.selected = true
-        self.menuBar.menuList.reloadData()
-        self.menuBar.menuList.scrollToItem(at: IndexPath(row: scrollIndex, section: 0), at: .right, animated: true)
+        self.menuBar.refreshSelected(indexPath: IndexPath(row: scrollIndex, section: 0))
         self.randomRoomName()
     }
     
@@ -102,7 +99,7 @@ extension VRCreateRoomView {
     }
     
     public func horizontalCardsView(_: HorizontalCardsView, viewForIndex index: Int) -> HorizontalCardView {
-        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight)).backgroundColor(.clear).cornerRadius(25)
+        let card = HorizontalCardView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 32, height: self.cardHeight)).backgroundColor(.clear).cornerRadius(25)
         guard let title = self.datas[index]["title"],let detail = self.datas[index]["detail"],let image = UIImage(self.datas[index]["image"]!) else { return card }
         return VRSoundTypeCard(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40, height: self.cardHeight),title: title,note: detail,background: image).cornerRadius(25)
     }

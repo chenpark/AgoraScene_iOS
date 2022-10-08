@@ -99,7 +99,7 @@ extension VoiceRoomInviteUsersController {
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("Invited success!")
+                    self.view.makeToast("Invitation sent!")
                 } else {
                     self.view.makeToast("Invited failed!")
                 }

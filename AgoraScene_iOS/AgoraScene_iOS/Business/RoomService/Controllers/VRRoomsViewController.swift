@@ -138,7 +138,7 @@ extension VRRoomsViewController {
     }
     
     private func loginIMThenPush(room: VRRoomEntity) {
-        ProgressHUD.show("Login IM",interaction: false)
+        ProgressHUD.show("Loading",interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
@@ -147,7 +147,7 @@ extension VRRoomsViewController {
                 let vc = VoiceRoomViewController(info: info)
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                self.view.makeToast("Login IM failed,please retry or install again!")
+                self.view.makeToast("Loading failed,please retry or install again!")
             }
         })
     }
@@ -159,7 +159,7 @@ extension VRRoomsViewController {
         self.all.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[0].detail = "(\($0))"
-            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 0, section: 0)])
+            self.menuBar.refreshSelected(indexPath: IndexPath(row: 0, section: 0))
         }
         
         self.normal.didSelected = { [weak self] in
@@ -168,7 +168,7 @@ extension VRRoomsViewController {
         self.normal.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[1].detail = "(\($0))"
-            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 1, section: 0)])
+            self.menuBar.refreshSelected(indexPath: IndexPath(row: 1, section: 0))
         }
         
         self.spatialSound.didSelected = { [weak self] in
@@ -177,7 +177,7 @@ extension VRRoomsViewController {
         self.spatialSound.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[2].detail = "(\($0))"
-            self.menuBar.menuList.reloadItems(at: [IndexPath(row: 2, section: 0)])
+            self.menuBar.refreshSelected(indexPath: IndexPath(row: 2, section: 0))
         }
     }
 }

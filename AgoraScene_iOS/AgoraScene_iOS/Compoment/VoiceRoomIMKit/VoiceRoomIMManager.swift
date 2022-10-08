@@ -7,6 +7,7 @@
 
 import Foundation
 import AgoraChat
+import KakaJSON
 
 public let VoiceRoomGift = "chatroom_gift"
 public let VoiceRoomPraise = "chatroom_praise"//like 点赞
@@ -14,6 +15,7 @@ public let VoiceRoomInviteSite = "chatroom_inviteSiteNotify"
 public let VoiceRoomApplySite = "chatroom_applySiteNotify"
 public let VoiceRoomDeclineApply = "chatroom_applyRefusedNotify"
 public let VoiceRoomUpdateRobotVolume = "chatroom_updateRobotVolume"
+public let VoiceRoomJoinedMember = "chatroom_join"
 
 @objc public protocol VoiceRoomIMDelegate: NSObjectProtocol {
     
@@ -45,6 +47,8 @@ public let VoiceRoomUpdateRobotVolume = "chatroom_updateRobotVolume"
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String)
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String)
+    
+    func memberLeave(roomId: String,userName: String)
 }
 
 fileprivate let once = VoiceRoomIMManager()
@@ -141,6 +145,12 @@ public extension VoiceRoomIMManager {
                         if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.voiceRoomUpdateRobotVolume(roomId:volume:))) {
                             self.delegate?.voiceRoomUpdateRobotVolume(roomId: self.currentRoomId, volume: body.customExt["volume"] ?? "")
                         }
+                    case VoiceRoomJoinedMember:
+                        if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.userJoinedRoom(roomId:username:))) {
+                            if let user = model(from: body.customExt["room_user"]!, VRUser.self) {
+                                self.delegate?.userJoinedRoom(roomId: message.to, username: user.name ?? "")
+                            }
+                        }
                     default:
                         break
                     }
@@ -195,6 +205,12 @@ public extension VoiceRoomIMManager {
         }
     }
     
+    func userDidLeave(_ aChatroom: AgoraChatroom, user aUsername: String) {
+        if self.delegate != nil,self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.memberLeave(roomId:userName:))),aChatroom.chatroomId == self.currentRoomId {
+            self.delegate?.memberLeave(roomId: self.currentRoomId, userName: aUsername)
+        }
+    }
+    
     //MARK: - Send
     @objc func sendMessage(roomId: String,text: String, ext: [AnyHashable : Any]?,completion: @escaping (AgoraChatMessage?,AgoraChatError?) -> (Void)) {
         let message = AgoraChatMessage(conversationID: roomId, body: AgoraChatTextMessageBody(text: text), ext: ext)
@@ -232,4 +248,9 @@ public extension VoiceRoomIMManager {
         AgoraChatClient.shared().logout(false)
     }
     
+    func fetchMembersCount(roomId: String,completion: @escaping (Int) -> ()) {
+        AgoraChatClient.shared().roomManager?.getChatroomSpecificationFromServer(withId: roomId, fetchMembers: true,completion: { room, error in
+            completion(room?.occupantsCount ?? 0)
+        })
+    }
 }

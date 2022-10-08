@@ -28,6 +28,10 @@ import ZSwiftBaseLib
         self.navigation.back.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
     
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     public func setupNavigationAttributes() {
         self.navigation.title.isHidden = !self.showTitle
         self.navigation.title.textColor = self.titleColor

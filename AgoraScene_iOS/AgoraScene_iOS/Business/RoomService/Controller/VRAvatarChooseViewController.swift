@@ -47,6 +47,7 @@ public class VRAvatarChooseViewController: UICollectionViewController {
             item.portrait = "avatar\(i+1)"
             self.datas.append(item)
         }
+        self.collectionView.backgroundColor = .white
         self.collectionView!.registerCell(VRRoomAvatarCell.self, forCellReuseIdentifier: "VRRoomAvatarCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false)
 
         // Do any additional setup after loading the view.
