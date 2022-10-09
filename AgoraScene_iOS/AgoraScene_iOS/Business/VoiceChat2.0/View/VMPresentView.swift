@@ -11,7 +11,7 @@ class VMPresentView: UIView {
     private var screenSize: CGSize = UIScreen.main.bounds.size
     private var scrollView: UIScrollView = UIScrollView()
     private var audioSetView: VMAudioSettingView = VMAudioSettingView()
-    private var eqView: VMEQSettingView = VMEQSettingView()
+    public var eqView: VMEQSettingView = VMEQSettingView()
     public var roomInfo: VRRoomInfo?
     public var isAudience: Bool = false
     var selBlock: ((AINS_STATE)->Void)?

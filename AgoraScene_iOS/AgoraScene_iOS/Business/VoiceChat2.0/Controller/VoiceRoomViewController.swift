@@ -60,6 +60,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var ains_state: AINS_STATE = .mid
     private var local_index: Int? = nil
     private var alienCanPlay: Bool = true
+    private var vmType: VMScene = .social
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -95,8 +96,10 @@ class VoiceRoomViewController: VRBaseViewController {
         
         guard let user = VoiceRoomUserInfo.shared.user else {return}
         guard let owner = self.roomInfo?.room?.owner else {return}
+        guard let type = self.roomInfo?.room?.sound_effect else {return}
         isOwner = user.uid == owner.uid
         local_index = isOwner ? 0 : nil
+        vmType = getSceneType(type)
         
         VoiceRoomIMManager.shared?.delegate = self
         VoiceRoomIMManager.shared?.addChatRoomListener()
@@ -143,7 +146,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: .live) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: self?.vmType ?? .social) == 0
             VMGroup.leave()
         }
         
@@ -174,6 +177,19 @@ extension VoiceRoomViewController {
             }
         }
         
+    }
+    
+    private func getSceneType(_ type: String) -> VMScene {
+        switch type {
+        case "Karaoke":
+            return .ktv
+        case "Gaming Buddy":
+            return .game
+        case "Professional podcaster":
+            return .anchor
+        default:
+            return .social
+        }
     }
     
     //加入房间获取房间详情
@@ -319,9 +335,6 @@ extension VoiceRoomViewController {
                 }
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
-            if alienCanPlay {
-                rtckit.playBaseAlienMusic()
-            }
             showActiveAlienView(true)
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
             showActiveAlienView(false)
@@ -439,6 +452,11 @@ extension VoiceRoomViewController {
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
                         print("激活机器人成功")
+                        
+                        if self.alienCanPlay {
+                            self.rtckit.playMusic(with: .alien)
+                        }
+                        
                         var mic_info = mic
                         mic_info.status = flag == true ? 5 : -2
                         self.roomInfo?.room?.use_robot = flag
@@ -528,20 +546,47 @@ extension VoiceRoomViewController {
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
             self?.rtckit.setAINS(with: state)
+            if self?.isOwner == false {return}
+            if let use_robot = self?.roomInfo?.room?.use_robot{
+                if use_robot == false {
+                    self?.view.makeToast("请房主先激活机器人")
+                    return
+                }
+                if state == .high {
+                    self?.rtckit.playMusic(with: .ainsHigh)
+                } else if state == .mid {
+                    self?.rtckit.playMusic(with: .ainsMid)
+                } else {
+                    self?.rtckit.playMusic(with: .ainsOff)
+                }
+            }
         }
         preView.useRobotBlock = {[weak self] flag in
             if self?.alienCanPlay == true && flag == true {
-                self?.rtckit.playBaseAlienMusic()
+                self?.rtckit.playMusic(with: .alien)
             }
             
             if self?.alienCanPlay == true && flag == false {
-                self?.rtckit.stopPlayBaseAlienMusic()
+                self?.rtckit.stopPlayMusic()
             }
 
             self?.activeAlien(flag)
         }
         preView.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
+        }
+        preView.eqView.soundBlock = {[weak self] index in
+            if self?.isOwner == false {return}
+            if let use_robot = self?.roomInfo?.room?.use_robot{
+                if use_robot == false {
+                    self?.view.makeToast("请房主先激活机器人")
+                    return
+                }
+            }
+            let count = (index - 1000) / 10
+            let tag = (index - 1000) % 10
+            self?.rtckit.playSound(with: count, type: tag == 1 ? .ainsOff : .ainsHigh)
+            self?.rtcView.showAlienMicView = .blue
         }
         self.view.addSubview(preView)
         self.isShowPreSentView = true
@@ -1086,6 +1131,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
+        requestRoomDetail()
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
@@ -1165,34 +1211,28 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         var first: Dictionary<String, Int>? = Dictionary()
         for mic in mic_info {
             let key: String = mic.key
-            let value = getDictionaryFromJSONString(jsonString: mic.value)
-            first!.updateValue(value["status"] as! Int, forKey: "status")
+            let value = mic.value.z.jsonToDictionary()
+            if let status = value["status"] as? Int {
+               first?["status"] = status
+            }
+
             if key.contains("mic_") {
                 if key.components(separatedBy: "mic_").count > 1 {
-                    let mic_index = key.components(separatedBy: "mic_")[1]
-                    first!.updateValue(Int(mic_index)!, forKey: "index")
-                    
-                    let uid = VoiceRoomUserInfo.shared.user?.uid
-                    if value.keys.contains("uid") {
-                        if uid == value["uid"] as? String ?? "" {
-                            local_index = Int(mic_index)
-                        }
+                    let index = key.components(separatedBy: "mic_")[1]
+                    if let mic_index = Int(index) {
+                       first?["index"] = mic_index
+                       let uid = VoiceRoomUserInfo.shared.user?.uid
+                       if value.keys.contains("uid") {
+                          if uid == value["uid"] as? String ?? "" {
+                            local_index = mic_index
+                          }
+                       }
                     }
-                    
                     return first
                 }
             }
         }
         return nil
-    }
-    
-   private func getDictionaryFromJSONString(jsonString:String) ->Dictionary<String, Any>{
-        let jsonData:Data = jsonString.data(using: .utf8)!
-        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
-        if dict != nil {
-            return dict as! Dictionary
-        }
-        return Dictionary()
     }
 
 }
@@ -1211,10 +1251,10 @@ extension VoiceRoomViewController: ASManagerDelegate {
         
     }
     
-    func reportAlien(with type: ALIEN_TYPE) {
+    func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) {
         print("当前是：\(type.rawValue)在讲话")
         self.rtcView.showAlienMicView = type
-        if type == .ended && self.alienCanPlay {
+        if type == .ended && self.alienCanPlay && musicType == .alien {
             self.alienCanPlay = false
         }
     }
