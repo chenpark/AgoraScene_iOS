@@ -20,6 +20,7 @@ import KakaJSON
     public var amount: Int?
     public var mic_index: Int?
     public var rtc_uid: String?
+    public var volume: Int = 0 //麦克风音量
     
     required public override init() {
         

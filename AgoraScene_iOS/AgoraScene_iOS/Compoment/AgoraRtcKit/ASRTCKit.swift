@@ -754,6 +754,11 @@ public let kMPK_RTC_UID: UInt = 1
     public func adjustPlayoutVolume(with volume: Int32) -> Int32 {
         return mediaPlayer?.adjustPlayoutVolume(volume) ?? -1
     }
+    
+    @discardableResult
+    public func adjustAudioMixingPublishVolume(with volume: Int) -> Int32 {
+        return self.rtcKit.adjustAudioMixingPublishVolume(volume) 
+    }
 
     /**
      * 获取MPK的播放状态

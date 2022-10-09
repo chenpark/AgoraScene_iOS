@@ -125,6 +125,12 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
     
+    public var volume: Int = 0 {
+        didSet {
+            self.micView.setVolume(volume)
+        }
+    }
+    
     private var bgView: UIView = UIView()
     private var iconView: UIImageView = UIImageView()
     private var bgIconView: UIImageView = UIImageView()
