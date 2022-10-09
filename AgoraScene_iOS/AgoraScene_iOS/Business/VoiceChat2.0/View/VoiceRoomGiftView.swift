@@ -10,13 +10,7 @@ import ZSwiftBaseLib
 
 public class VoiceRoomGiftView: UIView,UITableViewDelegate,UITableViewDataSource {
     
-    public var gifts = [VoiceRoomGiftEntity]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.cellAnimation()
-            }
-        }
-    }
+    public var gifts = [VoiceRoomGiftEntity]() 
     
     private var lastOffsetY = CGFloat(0)
                 
@@ -57,15 +51,15 @@ extension VoiceRoomGiftView {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "VoiceRoomGiftCell") as? VoiceRoomGiftCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "VoiceRoomGiftCell", for: indexPath) as? VoiceRoomGiftCell
         if cell == nil {
             cell = VoiceRoomGiftCell(style: .default, reuseIdentifier: "VoiceRoomGiftCell")
         }
-        cell?.gift = self.gifts[safe:indexPath.row]
+        cell?.refresh(item: self.gifts[safe:indexPath.row] ?? VoiceRoomGiftEntity())
         return cell ?? VoiceRoomGiftCell()
     }
     
-    private func cellAnimation() {
+    func cellAnimation() {
         self.alpha = 1
         self.giftList.reloadData()
         let indexPath = IndexPath(row: self.gifts.count-2, section: 0)
@@ -73,11 +67,15 @@ extension VoiceRoomGiftView {
         UIView.animate(withDuration: 0.3) {
             cell?.alpha = 0.35
             cell?.contentView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-            self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count-1, section: 0), at: .bottom, animated: false)
+            self.giftList.scrollToRow(at: IndexPath(row: self.gifts.count-1, section: 0), at: .top, animated: false)
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+3) {
             UIView.animate(withDuration: 0.3, delay: 1, options: .curveEaseInOut) {
                 self.alpha = 0
+            } completion: { finished in
+                if finished {
+                    self.gifts.removeAll()
+                }
             }
         }
     }

@@ -54,7 +54,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         cell?.agreeClosure = { [weak self] in
             self?.agreeUserApply(user: $0)
             self?.apply?.apply_list?[safe: indexPath.row]?.member?.invited = true
-            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+            self?.tableView.reloadData()
         }
         return cell ?? VoiceRoomApplyCell()
     }

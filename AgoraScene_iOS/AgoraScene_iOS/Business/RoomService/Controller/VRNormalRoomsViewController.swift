@@ -30,6 +30,7 @@ public class VRNormalRoomsViewController: UIViewController {
         self.roomListEvent()
         self.refresh()
         self.roomList.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: NSNotification.Name("refreshList"), object: nil)
     }
     
 

@@ -113,9 +113,6 @@ public extension VoiceRoomIMManager {
     //MARK: - AgoraChatManagerDelegate
     func messagesDidReceive(_ aMessages: [AgoraChatMessage]) {
         for message in aMessages {
-            if message.to != self.currentRoomId {
-                continue
-            }
             if message.body is AgoraChatTextMessageBody {
                 if self.delegate != nil,self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.receiveTextMessage(roomId:message:))) {
                     self.delegate?.receiveTextMessage(roomId: self.currentRoomId, message: message)

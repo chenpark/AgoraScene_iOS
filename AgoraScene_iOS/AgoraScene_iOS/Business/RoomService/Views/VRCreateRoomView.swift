@@ -11,7 +11,6 @@ import ZSwiftBaseLib
 public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDataSource {
     
     private let datas = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":LanguageManager.localValue(key: "Multi-audio chat scenario where anyone can unmute their mic and speak")+"\n"+LanguageManager.localValue(key: "Co-Watch / Team Chat / Gaming Buddy Chat"),"image":"chat_room"],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":LanguageManager.localValue(key: "Power natural conversations that make people feel like they're 'in the room' together"),"image":"sa_mode"]]
-//    ["title":"Karaoke","detail":"Multi-audio chat scenario where anyone can unmute their mic and speak\nCo-Watch / Team Chat / Gaming Buddy Chat","image":"karaoke"]
     
     var velocity = CGPoint.zero
     
@@ -49,11 +48,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
         self.menuBar.selectClosure = { [weak self] in
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
-            if $0.row > 0 {
-                self?.roomInput.create.setTitle(LanguageManager.localValue(key: "Go Live"), for: .normal)
-            } else {
-                self?.roomInput.create.setTitle(LanguageManager.localValue(key: "Next"), for: .normal)
-            }
+            self?.refreshBottom(index: $0.row)
         }
         self.roomInput.action = { [weak self] in
             self?.create()
@@ -68,6 +63,14 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
 }
 
 extension VRCreateRoomView {
+    
+    private func refreshBottom(index: Int) {
+        if index > 0 {
+            self.roomInput.create.setTitle(LanguageManager.localValue(key: "Go Live"), for: .normal)
+        } else {
+            self.roomInput.create.setTitle(LanguageManager.localValue(key: "Next"), for: .normal)
+        }
+    }
     
     @objc private func randomRoomName() {
         var namePrefix = LanguageManager.localValue(key: "Chat Room")
@@ -87,6 +90,7 @@ extension VRCreateRoomView {
     public func horizontalCardsView(_: HorizontalCardsView, scrollIndex: Int) {
         self.idx = scrollIndex
         self.menuBar.refreshSelected(indexPath: IndexPath(row: scrollIndex, section: 0))
+        self.refreshBottom(index: scrollIndex)
         self.randomRoomName()
     }
     

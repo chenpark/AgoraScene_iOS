@@ -126,18 +126,15 @@ extension VRCreateRoomInputView {
         if sender.tag == 21 {
             self.privateChoice.isSelected = false
             self.publicChoice.isSelected = true
-            if self.pinCode.textFiled.isFirstResponder {
-                self.pinCode.textFiled.resignFirstResponder()
-                self.recover()
-            }
+            self.recover()
             self.warnMessage.isHidden = true
+            self.endEditing(true)
         } else {
             self.warnMessage.isHidden = false
             self.privateChoice.isSelected = true
             self.publicChoice.isSelected = false
             self.roomNameField.resignFirstResponder()
             self.pinCode.textFiled.becomeFirstResponder()
-//            self.raise()
         }
         UIView.animate(withDuration: 0.3) {
             self.pinCode.alpha = self.publicChoice.isSelected ? 0:1
@@ -218,9 +215,6 @@ extension VRCreateRoomInputView {
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if self.pinCode.textFiled.isFirstResponder {
-//            self.recover()
-        }
         self.pinCode.endEditing(true)
         self.endEditing(true)
     }
