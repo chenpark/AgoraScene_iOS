@@ -61,6 +61,7 @@ public final class VRRoomsViewController: VRBaseViewController {
         self.refreshAvatar()
         self.viewsAction()
         self.childViewControllersEvent()
+        
     }
     
 
@@ -159,7 +160,7 @@ extension VRRoomsViewController {
         self.all.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[0].detail = "(\($0))"
-            self.menuBar.refreshSelected(indexPath: IndexPath(row: 0, section: 0))
+            self.menuBar.menuList.reloadData()
         }
         
         self.normal.didSelected = { [weak self] in
@@ -168,7 +169,7 @@ extension VRRoomsViewController {
         self.normal.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[1].detail = "(\($0))"
-            self.menuBar.refreshSelected(indexPath: IndexPath(row: 1, section: 0))
+            self.menuBar.menuList.reloadData()
         }
         
         self.spatialSound.didSelected = { [weak self] in
@@ -177,7 +178,7 @@ extension VRRoomsViewController {
         self.spatialSound.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
             self.menuBar.dataSource[2].detail = "(\($0))"
-            self.menuBar.refreshSelected(indexPath: IndexPath(row: 2, section: 0))
+            self.menuBar.menuList.reloadData()
         }
     }
 }

@@ -10,13 +10,7 @@ import ZSwiftBaseLib
 
 public class VoiceRoomGiftCell: UITableViewCell {
     
-    public var gift: VoiceRoomGiftEntity? {
-        willSet {
-            if newValue != nil {
-                DispatchQueue.main.async { self.refresh(item: newValue!) }
-            }
-        }
-    }
+    var gift: VoiceRoomGiftEntity?
     
     lazy var container: UIView = {
         UIView(frame: CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height - 5)).backgroundColor(.clear)
@@ -67,12 +61,15 @@ public class VoiceRoomGiftCell: UITableViewCell {
         self.giftNumbers.frame = CGRect(x: self.giftIcon.frame.maxX + 5, y: 5, width: self.container.frame.width - self.giftIcon.frame.maxX - 5, height: self.container.frame.height - 5)
     }
     
-    private func refresh(item: VoiceRoomGiftEntity) {
-        self.avatar.image = item.avatar
-        self.userName.text = item.userName
-        self.giftName.text = "Sent "+(item.gift_name ?? "")
-        self.giftIcon.image = UIImage("\(item.gift_id!)")
-        self.giftNumbers.text = "X \(item.gift_count!)"
+    func refresh(item: VoiceRoomGiftEntity) {
+        if self.gift == nil {
+            self.gift = item
+        }
+        self.avatar.image = self.gift?.avatar
+        self.userName.text = self.gift?.userName ?? ""
+        self.giftName.text = "Sent "+(self.gift?.gift_name ?? "")
+        self.giftIcon.image = UIImage("\(self.gift?.gift_id ?? "")")
+        self.giftNumbers.text = "X \(self.gift?.gift_count ?? "1")"
     }
     
 }

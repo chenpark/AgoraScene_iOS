@@ -52,10 +52,6 @@ class VoiceRoomViewController: VRBaseViewController {
         VoiceRoomInputBar(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 60)).backgroundColor(.white)
     }()
     
-    private lazy var giftsAlert: VoiceRoomGiftsView = {
-        VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-    }()
-    
     private var preView: VMPresentView!
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
@@ -84,7 +80,7 @@ class VoiceRoomViewController: VRBaseViewController {
             }
         }
     }
-    
+        
     convenience init(info: VRRoomInfo) {
         self.init()
         self.roomInfo = info
@@ -644,6 +640,7 @@ extension VoiceRoomViewController {
     private func changeHandsUpState() {
         if self.isOwner {
             self.applyMembersAlert()
+            self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: true)
         } else {
             if self.chatBar.handsState == .unSelected {
                 self.userApplyAlert(nil)
@@ -841,6 +838,7 @@ extension VoiceRoomViewController {
     
     //下麦
     private func leaveMic(with index: Int) {
+        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
             self.dismiss(animated: true)
@@ -863,7 +861,9 @@ extension VoiceRoomViewController {
     
     //mute自己
     private func muteLocal(with index: Int) {
+        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
+        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
             self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
@@ -885,6 +885,7 @@ extension VoiceRoomViewController {
 
     //unmute自己
     private func unmuteLocal(with index: Int) {
+        self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
             self.dismiss(animated: true)
@@ -952,8 +953,9 @@ extension VoiceRoomViewController {
     }
     
     private func showGiftAlert() {
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: self.giftsAlert)
-        self.giftsAlert.sendClosure = { [weak self] in
+        let giftsAlert = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: giftsAlert)
+        giftsAlert.sendClosure = { [weak self] in
             self?.sendGift(gift: $0)
             if $0.gift_id == "VoiceRoomGift9" {
                 vc.dismiss(animated: true)
@@ -967,6 +969,7 @@ extension VoiceRoomViewController {
         gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
         gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar
         self.giftList.gifts.append(gift)
+        self.giftList.cellAnimation()
         if let chatroom_id = self.roomInfo?.room?.chatroom_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_price,let count = gift.gift_count {
             VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_price":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar], completion: { message, error in
                 if error == nil,message != nil {
@@ -1140,11 +1143,10 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
-        let user = model(from: meta ?? [:], VRUser.self)
         if VoiceRoomUserInfo.shared.user?.uid  ?? "" != roomInfo?.room?.owner?.uid ?? "" {
             return
         }
-        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: self.isOwner)
+        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
     }
     
     func receiveInviteSite(roomId: String, meta: [String : String]?) {
@@ -1179,14 +1181,17 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         VoiceRoomIMManager.shared?.delegate = nil
         var message = ""
         switch reason {
-        case .beRemoved: message = "you be removed by owner"
-        case .destroyed: message = "VoiceRoom is destroyed"
-        case .offline: message = "you are offline"
+        case .beRemoved: message = "you are removed by owner!"
+        case .destroyed: message = "VoiceRoom was destroyed!"
+        case .offline: message = "you are offline!"
         @unknown default:
             break
         }
         self.view.makeToast(message,point: self.toastPoint, title: nil, image: nil, completion: nil)
-        if reason == .destroyed {
+        if reason == .destroyed || reason == .beRemoved {
+            if reason == .destroyed {
+                NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
+            }
             self.backAction()
         }
     }
@@ -1229,7 +1234,8 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                        let uid = VoiceRoomUserInfo.shared.user?.uid
                        if value.keys.contains("uid") {
                           if uid == value["uid"] as? String ?? "" {
-                            local_index = mic_index
+                              local_index = mic_index
+                              self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
                           }
                        }
                     }

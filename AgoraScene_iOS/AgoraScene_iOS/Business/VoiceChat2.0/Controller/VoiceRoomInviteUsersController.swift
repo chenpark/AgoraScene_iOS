@@ -54,7 +54,7 @@ public class VoiceRoomInviteUsersController: UITableViewController {
         cell?.inviteClosure = { [weak self] in
             self?.inviteUser(user: $0)
             self?.apply?.members?[safe: indexPath.row]?.invited = true
-            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+            self?.tableView.reloadData()
         }
         return cell ?? VoiceRoomInviteCell()
     }

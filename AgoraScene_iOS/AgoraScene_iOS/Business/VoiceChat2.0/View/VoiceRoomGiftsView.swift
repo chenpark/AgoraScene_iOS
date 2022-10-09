@@ -14,6 +14,8 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
     
     public var sendClosure: ((VoiceRoomGiftEntity)->())?
     
+    var lastPoint = CGPoint.zero
+    
     lazy var header: VoiceRoomAlertContainer = {
         VoiceRoomAlertContainer(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 60)).backgroundColor(.white)
     }()
@@ -151,7 +153,13 @@ extension VoiceRoomGiftsView {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let index = scrollView.contentOffset.x/self.giftList.frame.width
-        self.pageControl.currentPage = index > 1 ? 2:Int(index)
+        self.pageControl.currentPage = Int(index)
+        if index > 1,scrollView.contentOffset.x - self.lastPoint.x > 0 {
+            UIView.animate(withDuration: 0.3, delay: 0) {
+                self.giftList.scrollToItem(at: IndexPath(row: self.gifts.count-1, section: 0), at: .right, animated: false)
+            }
+        }
+        self.lastPoint = scrollView.contentOffset
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -169,6 +177,10 @@ extension VoiceRoomGiftsView {
         self.gifts.forEach { $0.selected = false }
         let gift = self.gifts[safe: indexPath.row]
         gift?.selected = true
+        if indexPath.row == 8 {
+            self.pageControl.currentPage = 3
+            self.giftList.scrollToItem(at: IndexPath(row: self.gifts.count-1, section: 0), at: .right, animated: true)
+        }
         self.current = gift
         if let value = gift?.gift_price {
             if Int(value)! >= 100 {

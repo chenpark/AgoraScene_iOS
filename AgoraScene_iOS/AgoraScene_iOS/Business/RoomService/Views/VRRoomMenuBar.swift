@@ -130,7 +130,6 @@ extension VRRoomMenuBar {
         item.selected = !item.selected
         self.menuList.scrollToItem(at: indexPath, at: .right, animated: true)
         if let cell = self.menuList.dequeueReusableCell(withReuseIdentifier: "VRRoomMenuBarCell", for: indexPath) as? VRRoomMenuBarCell {
-//            cell.render(item)
             self.indicatorMove(cell)
         }
         self.menuList.reloadData()
