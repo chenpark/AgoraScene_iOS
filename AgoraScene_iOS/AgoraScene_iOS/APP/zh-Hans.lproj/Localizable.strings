@@ -33,7 +33,10 @@
 "Edit"="编辑";
 "Raised Hands"="申请上麦";
 "Invite On-Stage"="邀请上麦";
+"Invite" = "邀请";
+"Invited" = "已邀请";
 "Accept"="接受";
+"Accepted"="已经接受";
 "No one raised hands yet"="暂无上麦请求";
 "No audience yet"="暂无听众";
 "Invite"="邀请";
@@ -116,3 +119,4 @@
 "If you have any query, please feel free to contact" = "若您有任何疑问，请联系";
 "Welcome to " = "欢迎来到";
 "Try Best Agora Sound" = "切换声网最佳音效";
+"Room Closed" = "房间销毁";

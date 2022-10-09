@@ -52,10 +52,6 @@ class VoiceRoomViewController: VRBaseViewController {
         VoiceRoomInputBar(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 60)).backgroundColor(.white)
     }()
     
-    private lazy var giftsAlert: VoiceRoomGiftsView = {
-        VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-    }()
-    
     private var preView: VMPresentView!
     private var noticeView: VMNoticeView!
     private var isShowPreSentView: Bool = false
@@ -815,6 +811,7 @@ extension VoiceRoomViewController {
     //mute自己
     private func muteLocal(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
+        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
             self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
@@ -836,6 +833,7 @@ extension VoiceRoomViewController {
 
     //unmute自己
     private func unmuteLocal(with index: Int) {
+        self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
             self.dismiss(animated: true)
@@ -903,8 +901,9 @@ extension VoiceRoomViewController {
     }
     
     private func showGiftAlert() {
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: self.giftsAlert)
-        self.giftsAlert.sendClosure = { [weak self] in
+        let giftsAlert = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: giftsAlert)
+        giftsAlert.sendClosure = { [weak self] in
             self?.sendGift(gift: $0)
             if $0.gift_id == "VoiceRoomGift9" {
                 vc.dismiss(animated: true)

@@ -210,8 +210,8 @@ extension VRCreateRoomInputView {
             self.showWarning(self.nameMessage)
         } else {
             self.hiddenWarning()
-            if let text = textField.text,text.count >= 32 {
-                textField.text = (text as NSString).substring(to: 32)
+            if let text = textField.text,text.count >= 31 {
+                textField.text = (text as NSString).substring(to: 31)
             }
         }
         return true
