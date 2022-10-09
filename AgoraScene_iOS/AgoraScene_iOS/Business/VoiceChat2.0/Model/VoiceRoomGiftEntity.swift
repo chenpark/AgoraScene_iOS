@@ -9,7 +9,20 @@ import Foundation
 import UIKit
 import KakaJSON
 
-@objc open class VoiceRoomGiftEntity: NSObject,Convertible {
+@objc open class VoiceRoomGiftEntity: NSObject,Convertible,NSMutableCopying {
+    
+    public func mutableCopy(with zone: NSZone? = nil) -> Any {
+        let model = VoiceRoomGiftEntity()
+        model.gift_id = self.gift_id
+        model.gift_count = self.gift_count
+        model.gift_price = self.gift_price
+        model.gift_name = self.gift_name
+        model.portrait = self.portrait
+        model.userName = self.userName
+        model.selected = self.selected
+        return model
+    }
+    
     var gift_id: String? = ""
     var gift_name: String? = ""
     var userName: String? = ""

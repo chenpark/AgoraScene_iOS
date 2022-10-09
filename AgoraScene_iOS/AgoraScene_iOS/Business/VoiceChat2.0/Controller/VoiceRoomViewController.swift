@@ -36,10 +36,6 @@ class VoiceRoomViewController: VRBaseViewController {
     
     @UserDefault("VoiceRoomUserAvatar", defaultValue: "") var userAvatar
     
-    private lazy var giftList: VoiceRoomGiftView  = {
-        VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear)
-    }()
-    
     private lazy var chatView: VoiceRoomChatView = {
         VoiceRoomChatView(frame: CGRect(x: 0, y: ScreenHeight - CGFloat(ZBottombarHeight) - (ScreenHeight/667)*210 - 50, width: ScreenWidth, height:(ScreenHeight/667)*210))
     }()
@@ -264,10 +260,14 @@ extension VoiceRoomViewController {
             let pan = UIPanGestureRecognizer(target: self, action: #selector(resignKeyboard))
             pan.minimumNumberOfTouches = 1
             self.rtcView.addGestureRecognizer(pan)
-            self.view.addSubViews([self.chatView,self.giftList,self.chatBar,self.inputBar])
+            self.view.addSubViews([self.chatView,self.giftList(),self.chatBar,self.inputBar])
             self.inputBar.isHidden = true
         }
         self.chatView.messages?.append(self.startMessage())
+    }
+    
+    private func giftList() -> VoiceRoomGiftView {
+        VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear).tag(1111)
     }
     
     private func startMessage() -> VoiceRoomChatEntity {
@@ -972,8 +972,13 @@ extension VoiceRoomViewController {
     private func sendGift(gift: VoiceRoomGiftEntity) {
         gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
         gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar
-        self.giftList.gifts.append(gift)
-        self.giftList.cellAnimation()
+        var giftList: VoiceRoomGiftView? = self.view.viewWithTag(1111) as? VoiceRoomGiftView
+        if giftList == nil {
+            giftList = self.giftList()
+            self.view.addSubview(giftList!)
+        }
+        giftList?.gifts.append(gift)
+        giftList?.cellAnimation()
         if let chatroom_id = self.roomInfo?.room?.chatroom_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_price,let count = gift.gift_count {
             VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_price":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar], completion: { message, error in
                 if error == nil,message != nil {
@@ -1139,11 +1144,12 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveGift(roomId: String, meta: [String : String]?) {
         guard let dic = meta else { return }
-        self.giftList.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
+        let giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
+        giftList?.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
-        requestRoomDetail()
+        self.requestRoomDetail()
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {

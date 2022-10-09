@@ -50,6 +50,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
     }
 
     func refresh(item: VRUser?) {
+        self.user = item
         self.userName.text = item?.name
         if item?.invited == false {
             item?.invited = (item?.mic_index ?? 0 > 1)
