@@ -78,6 +78,7 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
         self.chatRaiser.imageEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 80)
         self.chatRaiser.contentHorizontalAlignment = .left
         if self.eqShow {
+            self.eqShow = false
             let pop = PopTip().tag(191).backgroundColor(UIColor(0x0CA5FD))
             pop.bubbleColor = UIColor(0x0CA5FD)
             pop.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
@@ -159,7 +160,7 @@ extension VoiceRoomChatBar {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VoiceRoomChatBarCell", for: indexPath) as? VoiceRoomChatBarCell
         cell?.icon.image = UIImage(self.datas[indexPath.row])
-        if indexPath.row == 1,self.creator {
+        if indexPath.row == 1,self.creator,self.handsState != .unSelected {
             cell?.redDot.isHidden = false
         } else {
             cell?.redDot.isHidden = true

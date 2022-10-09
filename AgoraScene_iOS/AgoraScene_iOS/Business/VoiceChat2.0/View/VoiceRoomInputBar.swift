@@ -25,7 +25,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     }()
     
     public lazy var inputField: PlaceHolderTextView = {
-        PlaceHolderTextView(frame: CGRect(x: 20, y: 14, width: ScreenWidth-146, height: 34)).delegate(self).font(.systemFont(ofSize: 16, weight: .regular)).backgroundColor(.clear)
+        PlaceHolderTextView(frame: CGRect(x: 20, y: 14, width: ScreenWidth-146, height: 34)).delegate(self).font(.systemFont(ofSize: 16, weight: .regular)).backgroundColor(.clear).textColor(.darkText)
     }()
     
     lazy var send: UIButton = {
@@ -38,17 +38,14 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.inputField.placeHolderColor = UIColor(0xB6B8C9)
         self.rightView.setImage(UIImage(named: "face"), for: .normal)
         self.rightView.setImage(UIImage(named: "key"), for: .selected)
         self.addSubViews([self.inputContainer,self.inputField,self.send,self.line])
         self.inputField.tintColor = UIColor(0x009FFF)
         self.inputField.placeHolder = "Aa"
         self.inputField.placeHolderColor = UIColor(0xB6B8C9)
-        self.inputField.textContainer.maximumNumberOfLines = 1
         self.inputField.returnKeyType = .send
         var orgContainerInset = self.inputField.textContainerInset
-        
         orgContainerInset.left = 6
         self.inputField.textContainerInset = orgContainerInset
         self.inputField.returnKeyType = .send
@@ -75,14 +72,28 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             self.sendClosure!(self.inputField.attributedText.toString())
         }
     }
+
     
     public func textViewDidEndEditing(_ textView: UITextView) {
         
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text == "\n" {
+            self.sendMessage()
+            return false
+        } else {
+            if textView.text.count > 20 {
+                let string = textView.text as NSString
+                textView.text = string.substring(to: 20)
+                self.superview?.makeToast("Reach Limit!", point: CGPoint(x: self.center.x, y: ZNavgationHeight), title: nil, image: nil, completion: nil)
+                return false
+            }
+        }
         return true
     }
+
     
     @objc func changeToEmoji() {
         self.rightView.isSelected = !self.rightView.isSelected
