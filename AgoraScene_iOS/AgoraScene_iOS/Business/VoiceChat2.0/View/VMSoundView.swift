@@ -17,10 +17,12 @@ class VMSoundView: UIView {
     private var yallaView: UIImageView = UIImageView()
     private var soulView: UIImageView = UIImageView()
     private var selView: UIImageView = UIImageView()
+    private var iconBgView: UIView = UIView()
+    private var lineImgView: UIImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        layoutUI()
     }
     
     required init?(coder: NSCoder) {
@@ -29,18 +31,18 @@ class VMSoundView: UIView {
     
     public var cellHeight: CGFloat = 0
     
-    var soundType: SOUND_TYPE = .chat {
+    var soundEffect: String = LanguageManager.localValue(key: "Social Chat") {
         didSet {
-            if soundType == .chat {
+            if soundEffect == LanguageManager.localValue(key: "Social Chat") {
                 typeLabel.text = LanguageManager.localValue(key: "Social Chat")
                 detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat.")
-            } else if soundType == .karaoke {
+            } else if soundEffect == LanguageManager.localValue(key: "Karaoke") {
                 typeLabel.text = LanguageManager.localValue(key: "Karaoke")
                 detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful.")
-            } else if soundType == .game {
+            } else if soundEffect == LanguageManager.localValue(key: "Gaming Buddy") {
                 typeLabel.text = LanguageManager.localValue(key: "Gaming Buddy")
                 detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. ")
-            } else if soundType == .anchor {
+            } else if soundEffect == LanguageManager.localValue(key: "Professional Bodcaster") {
                 typeLabel.text = LanguageManager.localValue(key: "Professional Bodcaster")
                 detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. ")
             }
@@ -49,15 +51,22 @@ class VMSoundView: UIView {
     }
     
     private func layoutUI() {
+        
+        let path: UIBezierPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20.0, height: 20.0))
+        let layer: CAShapeLayer = CAShapeLayer()
+        layer.path = path.cgPath
+        self.layer.mask = layer
+        
         bgView.backgroundColor = .white
-        bgView.layer.cornerRadius = 16
-        bgView.layer.borderWidth = 1
-        bgView.layer.borderColor = UIColor(red: 0, green: 159/255.0, blue: 1, alpha: 1).cgColor
         self.addSubview(bgView)
+
+        lineImgView.image = UIImage(named: "pop_indicator")
+        bgView.addSubview(lineImgView)
 
         typeLabel.text = "Social Chat"
         typeLabel.font = UIFont.systemFont(ofSize: 16)
-        typeLabel.textColor = UIColor(red: 0, green: 159/255.0, blue: 1, alpha: 1)
+        typeLabel.textColor = UIColor.black
+        typeLabel.textAlignment = .center
         bgView.addSubview(typeLabel)
 
         detailLabel.text = "The scene deals with the coordination of your voice and the musical accompaniment through high sound quality and echo cancellation to ensure the best karaoke experience"
@@ -66,6 +75,11 @@ class VMSoundView: UIView {
         detailLabel.font = UIFont.systemFont(ofSize: 13)
         detailLabel.lineBreakMode = .byCharWrapping
         bgView.addSubview(detailLabel)
+        
+        iconBgView.backgroundColor = UIColor(red: 241/255.0, green: 243/255.0, blue: 248/255.0, alpha: 1)
+        iconBgView.layer.cornerRadius = 3
+        iconBgView.layer.masksToBounds = true
+        bgView.addSubview(iconBgView)
 
         yallaView.image = UIImage(named: "yalla")
         bgView.addSubview(yallaView)
@@ -82,9 +96,11 @@ class VMSoundView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bgView.frame = CGRect(x: 20~, y: 0, width: self.bounds.size.width - 40~, height: self.bounds.size.height - 20)
-        typeLabel.frame = CGRect(x: 20~, y: 15~, width: 200~, height: 17~)
-        detailLabel.frame = CGRect(x: 20~, y: 40~, width: self.bounds.size.width - 80~, height: cellHeight)
+        bgView.frame = CGRect(x: 0~, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
+        lineImgView.frame = CGRect(x: self.bounds.size.width / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
+        typeLabel.frame = CGRect(x: 20~, y: 20~, width: self.bounds.size.width - 40~, height: 17~)
+        detailLabel.frame = CGRect(x: 20~, y: 50~, width: self.bounds.size.width - 80~, height: cellHeight)
+        iconBgView.frame = CGRect(x: 10~, y: self.bounds.size.height - 80~, width: self.bounds.size.width - 20~, height: 60~)
         yallaView.frame = CGRect(x: 20~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
         soulView.frame = CGRect(x: 50~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
         usageLabel.frame = CGRect(x: 20~, y: self.bounds.size.height - 74~, width: 200~, height: 12~)
