@@ -17,6 +17,7 @@ public enum ROLE_TYPE {
     case audience
 }
 
+
 fileprivate let giftMap = [["gift_id":"VoiceRoomGift1","gift_name":LanguageManager.localValue(key: "Sweet Heart"),"gift_price":"1","gift_count":"1","selected":true],["gift_id":"VoiceRoomGift2","gift_name":LanguageManager.localValue(key: "Flower"),"gift_price":"2","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift3","gift_name":LanguageManager.localValue(key: "Crystal Box"),"gift_price":"10","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift4","gift_name":LanguageManager.localValue(key: "Super Agora"),"gift_price":"20","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift5","gift_name":LanguageManager.localValue(key: "Star"),"gift_price":"50","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift6","gift_name":LanguageManager.localValue(key: "Lollipop"),"gift_price":"100","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift7","gift_name":LanguageManager.localValue(key: "Diamond"),"gift_price":"500","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift8","gift_name":LanguageManager.localValue(key: "Crown"),"gift_price":"1000","gift_count":"1","selected":false],["gift_id":"VoiceRoomGift9","gift_name":LanguageManager.localValue(key: "Rocket"),"gift_price":"1500","gift_count":"1","selected":false]]
 
 class VoiceRoomViewController: VRBaseViewController {
@@ -24,6 +25,10 @@ class VoiceRoomViewController: VRBaseViewController {
     lazy var toastPoint: CGPoint = {
         CGPoint(x: self.view.center.x, y: self.view.center.y+70)
     }()
+    
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
     
     private var headerView: AgoraChatRoomHeaderView!
     private var rtcView: AgoraChatRoomNormalRtcView!
@@ -693,7 +698,7 @@ extension VoiceRoomViewController {
     }
     
     private func userApplyAlert(_ index: Int?) {
-        let applyAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm").backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
+        let applyAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm",position: .bottom).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: applyAlert)
         applyAlert.actionEvents = { [weak self] in
             if $0 == 31 {
@@ -1043,7 +1048,7 @@ extension VoiceRoomViewController {
         let dic = ["userName":userName,"content":content]
         self.chatView.messages?.append(self.chatView.getItem(dic: dic, join: joined))
         DispatchQueue.main.async {
-            self.perform(#selector(VoiceRoomViewController.refreshChatView), with: nil, afterDelay: 1)
+            self.refreshChatView()
         }
     }
     
@@ -1071,7 +1076,7 @@ extension VoiceRoomViewController {
     private func showInviteMicAlert() {
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 200))
         compent.destination = .center
-        let micAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept").cornerRadius(16).backgroundColor(.white)
+        let micAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept",position: .center).cornerRadius(16).backgroundColor(.white)
         let vc = VoiceRoomAlertViewController(compent: compent, custom: micAlert)
         micAlert.actionEvents = { [weak self] in
             if $0 == 30 {
@@ -1099,6 +1104,11 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
 //MARK: - VoiceRoomIMDelegate
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
+    func memberLeave(roomId: String, userName: String) {
+        
+    }
+    
+    
     func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
         roomInfo?.room?.robot_volume = UInt(volume)
     }
@@ -1118,7 +1128,6 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
         self.showMessage(message: message)
-        
     }
     
     func receiveGift(roomId: String, meta: [String : String]?) {
@@ -1132,7 +1141,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
         let user = model(from: meta ?? [:], VRUser.self)
-        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
+        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != roomInfo?.room?.owner?.uid ?? "" {
             return
         }
         self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: self.isOwner)

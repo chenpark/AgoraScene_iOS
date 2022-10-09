@@ -40,8 +40,10 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
     
     public var datas = ["mic","handuphard","eq","sendgift"]
     
+    @UserDefault("EQShowTips", defaultValue: true) var eqShow
+    
     lazy var chatRaiser: UIButton = {
-        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (100/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
+        UIButton(type: .custom).frame(CGRect(x: 15, y: 5, width: (110/375.0)*ScreenWidth, height: self.frame.height-10)).backgroundColor(UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)).cornerRadius((self.frame.height-10)/2.0).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(white: 1, alpha: 0.8), .normal).addTargetFor(self, action: #selector(raiseAction), for: .touchUpInside)
     }()
     
     lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -70,7 +72,27 @@ public class VoiceRoomChatBar: UIView,UICollectionViewDelegate,UICollectionViewD
             self.datas = ["mic","handuphard","eq"]
         }
         self.addSubViews([self.chatRaiser,self.toolBar])
-        self.chatRaiser.set(image: UIImage("chatraise"), title: "Let's Chat!", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        self.chatRaiser.setImage(UIImage(named: "chatraise"), for: .normal)
+        self.chatRaiser.setTitle(" Let's Chat!", for: .normal)
+        self.chatRaiser.titleEdgeInsets = UIEdgeInsets(top: self.chatRaiser.titleEdgeInsets.top, left: 10, bottom: self.chatRaiser.titleEdgeInsets.bottom, right: 10)
+        self.chatRaiser.imageEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 80)
+        self.chatRaiser.contentHorizontalAlignment = .left
+        if self.eqShow {
+            let pop = PopTip().tag(191).backgroundColor(UIColor(0x0CA5FD))
+            pop.bubbleColor = UIColor(0x0CA5FD)
+            pop.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
+            pop.shadowOpacity = 1
+            pop.shadowRadius = 8
+            pop.shadowOffset = CGSize(width: 0, height: 0)
+            pop.cornerRadius = 12
+            pop.shouldConsiderCutoutTapSeparately = true
+            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                pop.show(customView: UILabel(frame: CGRect(x: 0, y: 0, width: 140, height: 31)).text(LanguageManager.localValue(key: "Try Best Agora Sound")).font(.systemFont(ofSize: 12, weight: .regular)).textAlignment(.center).backgroundColor(UIColor(0x0CA5FD)).textColor(.white), direction: .up, in: self, from: CGRect(x: self.frame.width-(style == .normal ? 110:55), y: self.toolBar.visibleCells[2].frame.origin.y, width: self.toolBar.visibleCells[2].frame.width, height: self.toolBar.visibleCells[2].frame.height))
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now()+6) {
+                pop.hide()
+            }
+        }
     }
     
     required init?(coder: NSCoder) {

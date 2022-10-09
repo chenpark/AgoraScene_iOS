@@ -46,10 +46,14 @@ public final class VRRoomListCell: UITableViewCell {
         self.backgroundColor = .clear
         self.contentView.addSubview(self.background)
         self.background.addSubViews([self.accessSymbol,self.roomName,self.ownerName,self.seenCount,self.entryBlur,self.entryRoom])
-        self.ownerName.contentHorizontalAlignment = .left
-        self.ownerName.set(image: UIImage("testAvatar"), title: "  ", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        self.ownerName.imageEdgeInsets(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: self.background.frame.width/2.0 - 40))
+        self.ownerName.titleEdgeInsets(UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+        self.seenCount.imageEdgeInsets(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 40))
+        self.seenCount.titleEdgeInsets(UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
         self.ownerName.titleLabel?.lineBreakMode(.byTruncatingTail)
-        self.seenCount.set(image: UIImage("person_in_circle"), title: "  ", titlePosition: .right, additionalSpacing: 5, state: .normal)
+        self.ownerName.imageView?.contentMode = .scaleAspectFit
+        self.seenCount.setImage(UIImage(named:"person_in_circle"), for: .normal)
+        self.seenCount.imageView?.contentMode = .scaleAspectFit
         self.seenCount.contentHorizontalAlignment = .left
         self.seenCount.titleLabel?.lineBreakMode(.byTruncatingTail)
         self.ownerName.contentHorizontalAlignment = .left
@@ -69,11 +73,12 @@ public final class VRRoomListCell: UITableViewCell {
             self.accessSymbol.isHidden = true
         }
         self.roomName.text = room.name
-        self.ownerName.setTitle("  \(room.owner?.name ?? "")", for: .normal)
-        self.seenCount.setTitle("  \(room.member_count ?? 0)", for: .normal)
-        var image = UIImage("normal_room")
+        self.ownerName.setTitle("\(room.owner?.name ?? "")", for: .normal)
+        self.seenCount.setTitle("\(room.member_count ?? 0)", for: .normal)
+        self.ownerName.setImage(UIImage(named: room.owner?.portrait ?? ""), for: .normal)
+        var image = UIImage(named: "normal_room")
         if (room.type ?? 0) == 1 {
-            image = UIImage("specific_room")
+            image = UIImage(named:"specific_room")
         }
         self.background.image = image
         

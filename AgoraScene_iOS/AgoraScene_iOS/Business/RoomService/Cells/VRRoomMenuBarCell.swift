@@ -45,7 +45,7 @@ public class VRRoomMenuBarCell: UICollectionViewCell {
 
 extension VRRoomMenuBarCell {
     
-    private func render(_ item: VRRoomMenuBarEntity) {
+    func render(_ item: VRRoomMenuBarEntity) {
         self.content.text = item.title+item.detail
         var font = VRRoomMenuBarCell.normalFont
         var color = UIColor(0x6C7192)
