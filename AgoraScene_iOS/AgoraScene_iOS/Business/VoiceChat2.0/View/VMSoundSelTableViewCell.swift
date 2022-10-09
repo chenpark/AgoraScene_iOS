@@ -11,6 +11,7 @@ public enum SOUND_TYPE {
     case chat
     case karaoke
     case game
+    case anchor
 }
 
 class VMSoundSelTableViewCell: UITableViewCell {
@@ -25,17 +26,22 @@ class VMSoundSelTableViewCell: UITableViewCell {
     private var soulView: UIImageView = UIImageView()
     private var selView: UIImageView = UIImageView()
     
+    var clickBlock:(() -> Void)?
+    
     var cellType: SOUND_TYPE = .chat {
         didSet {
             if cellType == .chat {
-                typeLabel.text = "Social Chat"
-                detailLabel.text = "This scenario focuses on echo cancellation, noise reduction in a multi-person chat setting, creating a quiet chat atmosphere"
+                typeLabel.text = LanguageManager.localValue(key: "Social Chat")
+                detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat.")
             } else if cellType == .karaoke {
-                typeLabel.text = "Karaoke"
-                detailLabel.text = "The scene deals with the coordination of your voice and the musical accompaniment through high sound quality and echo cancellation to ensure the best karaoke experience"
+                typeLabel.text = LanguageManager.localValue(key: "Karaoke")
+                detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful.")
             } else if cellType == .game {
-                typeLabel.text = "Gaming Buddy"
-                detailLabel.text = "This scene focuses on the coordination of human voice and in-game sound during live, interactive game sessions"
+                typeLabel.text = LanguageManager.localValue(key: "Gaming Buddy")
+                detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. ")
+            } else if cellType == .anchor {
+                typeLabel.text = LanguageManager.localValue(key: "Professional Bodcaster")
+                detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. ")
             }
         }
     }
@@ -55,6 +61,8 @@ class VMSoundSelTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    public var cellHeight: CGFloat = 0
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -85,6 +93,9 @@ class VMSoundSelTableViewCell: UITableViewCell {
         bgView.addSubview(typeLabel)
 
         iconView.image = UIImage(named: "icons／Stock／listen")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
+        iconView.addGestureRecognizer(tap)
+        iconView.isUserInteractionEnabled = true
         bgView.addSubview(iconView)
 
         detailLabel.text = "The scene deals with the coordination of your voice and the musical accompaniment through high sound quality and echo cancellation to ensure the best karaoke experience"
@@ -117,7 +128,7 @@ class VMSoundSelTableViewCell: UITableViewCell {
         bgView.frame = CGRect(x: 20~, y: 0, width: self.bounds.size.width - 40~, height: self.bounds.size.height - 20)
         typeLabel.frame = CGRect(x: 20~, y: 15~, width: 200~, height: 17~)
         iconView.frame = CGRect(x: screenWidth - 30~, y: 15~, width: 20~, height: 20~)
-        detailLabel.frame = CGRect(x: 20~, y: 30~, width: self.bounds.size.width - 80~, height: 100)
+        detailLabel.frame = CGRect(x: 20~, y: 40~, width: self.bounds.size.width - 80~, height: cellHeight)
         selView.frame = CGRect(x: screenWidth - 10~, y: self.bounds.size.height - 50~, width: 30~, height: 30~)
         yallaView.frame = CGRect(x: 20~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
         soulView.frame = CGRect(x: 50~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
@@ -135,5 +146,12 @@ class VMSoundSelTableViewCell: UITableViewCell {
         view.layer.shadowRadius = radius
         //设置阴影偏移量
         view.layer.shadowOffset = offset
+    }
+    
+    @objc func click(){
+        guard let clickBlock = clickBlock else {
+            return
+        }
+        clickBlock()
     }
 }

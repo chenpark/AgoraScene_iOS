@@ -21,12 +21,45 @@ class VMEQSettingView: UIView {
     private let sIdentifier = "set"
     private let soIdentifier = "sound"
     private let tIdentifier = "tv"
+    private var effectHeight:[CGFloat] = [0, 0, 0, 0]
+    private var effectType: [SOUND_TYPE] = [.chat, .karaoke, .game, .anchor]
     var backBlock: (() -> Void)?
+    var effectClickBlock:(() -> Void)?
     var ains_state: AINS_STATE = .off {
         didSet {
             tableView.reloadData()
         }
     }
+    
+    var soundEffect: String?{
+        didSet {
+            guard let soundEffect = soundEffect else {
+                return
+            }
+              let socialH: CGFloat = textHeight(text: LanguageManager.localValue(key: "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat."), fontSize: 13, width: self.bounds.size.width - 80~)
+            let ktvH: CGFloat = textHeight(text: LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful."), fontSize: 13, width: self.bounds.size.width - 80~)
+            let gameH: CGFloat = textHeight(text: LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. "), fontSize: 13, width: self.bounds.size.width - 80~)
+            let anchorH: CGFloat = textHeight(text: LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. "), fontSize: 13, width: self.bounds.size.width - 80~)
+            print("\(soundEffect)-----")
+            switch soundEffect {
+            case LanguageManager.localValue(key: "Social Chat"):
+                effectHeight = [socialH, ktvH, gameH, anchorH]
+                effectType = [.chat, .karaoke, .game, .anchor]
+            case LanguageManager.localValue(key: "Karaoke"):
+                effectHeight = [ktvH, socialH, gameH, anchorH]
+                effectType = [.karaoke, .chat, .game, .anchor]
+            case LanguageManager.localValue(key: "Gaming Buddy"):
+                effectHeight = [gameH, socialH, ktvH, anchorH]
+                effectType = [.game, .chat, .karaoke, .anchor]
+            case LanguageManager.localValue(key: "Professional Bodcaster"):
+                effectHeight = [anchorH, socialH, ktvH, gameH]
+                effectType = [.anchor, .chat, .karaoke, .game]
+            default:
+                break
+            }
+        }
+    }
+    
     var selBlock: ((AINS_STATE)->Void)?
     var soundBlock: ((Int)->Void)?
     private var selTag: Int?
@@ -104,7 +137,7 @@ class VMEQSettingView: UIView {
         }
         backBlock()
     }
-
+    
 }
 
 extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
@@ -115,11 +148,12 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch settingType{
         case .effect:
-            if indexPath.row == 0 && indexPath.section == 1 {
-                return 210~
+            if indexPath.section == 0 {
+                return effectHeight[0] + 132
             } else {
-                return 190~
+                return effectHeight[indexPath.row + 1] + 132
             }
+            
         case .Noise:
             if indexPath.row > 1 && indexPath.row < 7 {
                 return 74
@@ -137,7 +171,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if settingType == .effect {
-            return section == 0 ? 1 : 2
+            return section == 0 ? 1 : 3
         } else if settingType == .Spatial {
             return 4
         } else {
@@ -194,19 +228,20 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if settingType == .effect {
             tableView.separatorStyle = .none
             let cell: VMSoundSelTableViewCell = tableView.dequeueReusableCell(withIdentifier: soIdentifier) as! VMSoundSelTableViewCell
             cell.isSel = indexPath.section == 0
+            cell.cellHeight = indexPath.section == 0 ? effectHeight[0] : effectHeight[indexPath.row + 1]
+            cell.clickBlock = {[weak self] in
+                guard let effectClickBlock = self?.effectClickBlock else {return}
+                effectClickBlock()
+            }
             if indexPath.section == 0 {
-                cell.cellType = .chat
+                cell.cellType = effectType[0]
             } else {
-                if indexPath.row == 0 {
-                    cell.cellType = .karaoke
-                } else {
-                    cell.cellType = .game
-                }
+                cell.cellType = effectType[indexPath.row + 1]
             }
             return cell
         } else if settingType == .Spatial {
@@ -265,7 +300,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
-
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -282,6 +317,11 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-
+    
+    func textHeight(text: String, fontSize: CGFloat, width: CGFloat) -> CGFloat {
+        return text.boundingRect(with:CGSize(width: width, height:CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font:UIFont.systemFont(ofSize: fontSize)], context:nil).size.height+5
+        
+    }
+    
 }
 

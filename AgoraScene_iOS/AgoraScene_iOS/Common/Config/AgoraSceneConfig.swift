@@ -9,7 +9,7 @@ import Foundation
 
 public struct AgoraConfig {
     // agoraRtc id and token
-    public static let rtcId: String = "a8c2093abe874f588c2048dec64e2972"
+    public static let rtcId: String = "8a2165e5655b47b3bdfc45ed15c9be46"
     public static let rtcToken: String? = nil
     //agoraChat id and token
     public static let chatId: String = ""
@@ -80,6 +80,41 @@ public struct AgoraConfig {
         "/CN/Share/07-05-R-CN.wav",
         "/CN/Share/07-06-B-CN.wav",
         "/CN/Share/07-07-R-CN.wav",
+    ]
+    
+    public static let SoundSelectSocial: [String] = [
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-01-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-02-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-03-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-04-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-05-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-06-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-07-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/03SoundSelectionSocialChat/CN/03-08-R-CN.wav",
+    ]
+    
+    public static let SoundSelectKTV: [String] = [
+        "\(AgoraConfig.VMBaseUrl)/04SoundSelectionKaraoke/CN/04-01-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/04SoundSelectionKaraoke/CN/04-02-B-CN.wav",
+    ]
+    
+    public static let SoundSelectGame: [String] = [
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-01-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-02-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-03-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-04&05-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-06-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-07-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-08-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-09-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-10-B-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/05SoundSelectionGamingBuddy/CN/05-11-R-CN.wav",
+    ]
+    
+    public static let SoundSelectAnchor: [String] = [
+        "\(AgoraConfig.VMBaseUrl)/06SoundProfessionalBroadcaster/CN/06-01-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/06SoundProfessionalBroadcaster/CN/06-02-R-CN.wav",
+        "\(AgoraConfig.VMBaseUrl)/06SoundProfessionalBroadcaster/CN/06-03-R-CN.wav",
     ]
     
     public static let HighSound: [String] = [

@@ -114,7 +114,7 @@ class AgoraChatRoomHeaderView: UIView {
         let soundSetView = UIView()
         self.configView.addSubview(soundSetView)
         
-        self.soundSetLabel.text = entity.sound_effect ?? "Social Chat"
+        self.soundSetLabel.text = entity.sound_effect ?? LanguageManager.localValue(key: "Social Chat")
         self.soundSetLabel.textColor = .white
         self.soundSetLabel.font = UIFont.systemFont(ofSize: 10)~
         self.configView.addSubview(self.soundSetLabel)

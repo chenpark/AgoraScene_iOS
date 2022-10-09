@@ -53,6 +53,10 @@ public enum AINS_STATE {
     case ainsMid = 3
     case ainsOff = 4
     case sound = 5
+    case game = 6
+    case social = 7
+    case ktv = 8
+    case anchor = 9
 }
 
 /**
@@ -198,6 +202,14 @@ public let kMPK_RTC_UID: UInt = 1
                 count = AgoraConfig.MediumAINSIntroduc.count
             case .ainsOff:
                 count = AgoraConfig.NoneAINSIntroduc.count
+            case .social:
+                count = AgoraConfig.SoundSelectSocial.count
+            case .ktv:
+                count = AgoraConfig.SoundSelectKTV.count
+            case .game:
+                count = AgoraConfig.SoundSelectGame.count
+            case .anchor:
+                count = AgoraConfig.SoundSelectAnchor.count
             case .sound:
                 return
             }
@@ -242,6 +254,42 @@ public let kMPK_RTC_UID: UInt = 1
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
                     rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.NoneAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .social {
+                    if AgoraConfig.SoundSelectSocial[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectSocial[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectSocial[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectSocial[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .ktv {
+                    if AgoraConfig.SoundSelectKTV[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectKTV[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectKTV[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectKTV[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .game {
+                    if AgoraConfig.SoundSelectGame[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectGame[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectGame[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectGame[baseMusicCount])", loopback: false, cycle: 1)
+                } else if musicType == .anchor {
+                    if AgoraConfig.SoundSelectAnchor[baseMusicCount].contains("-B-") {
+                        delegate?.reportAlien?(with: .blue, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectAnchor[baseMusicCount].contains("-R-") {
+                        delegate?.reportAlien?(with: .red, musicType: musicType)
+                    } else if AgoraConfig.SoundSelectAnchor[baseMusicCount].contains("-B&R-") {
+                        delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
+                    }
+                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectAnchor[baseMusicCount])", loopback: false, cycle: 1)
                 }
             }
         }
@@ -359,18 +407,19 @@ public let kMPK_RTC_UID: UInt = 1
      * @param channelName 频道名称
      * @param rtcUid RTCUid 如果传0，大网会自动分配
      * @param rtmUid 可选，如果不使用RTM，使用自己的IM，这个值不用传
+     * @param type 有四种 social，ktv，game， anchor
      */
-    public func joinVoicRoomWith(with channelName: String, rtcUid: Int?, scene: VMScene) -> Int32 {
+    public func joinVoicRoomWith(with channelName: String, rtcUid: Int?, type: VMMUSIC_TYPE) -> Int32 {
 
         self.type = .VoiceChat
         rtcKit.enableAudioVolumeIndication(200, smooth: 3, reportVad: false)
-        if scene == .ktv || scene == .social {
+        if type == .ktv || type == .social {
             rtcKit.setChannelProfile(.liveBroadcasting)
             rtcKit.setAudioProfile(.musicHighQuality)
             rtcKit.setAudioScenario(.gameStreaming)
-        } else if  scene == .game{
+        } else if  type == .game{
             rtcKit.setChannelProfile(.communication)
-        } else {
+        } else if type == .anchor {
             rtcKit.setAudioProfile(.musicHighQualityStereo)
             rtcKit.setAudioScenario(.gameStreaming)
             rtcKit.setParameters("{\"che.audio.custom_payload_type\":73}")
@@ -440,6 +489,14 @@ public let kMPK_RTC_UID: UInt = 1
             baseMusicCount = AgoraConfig.MediumAINSIntroduc.count
         } else if musicType == .ainsOff {
             baseMusicCount = AgoraConfig.NoneAINSIntroduc.count
+        } else if musicType == .social {
+            baseMusicCount = AgoraConfig.SoundSelectSocial.count
+        } else if musicType == .ktv {
+            baseMusicCount = AgoraConfig.SoundSelectKTV.count
+        } else if musicType == .game {
+            baseMusicCount = AgoraConfig.SoundSelectGame.count
+        } else if musicType == .anchor {
+            baseMusicCount = AgoraConfig.SoundSelectAnchor.count
         }
     }
     
@@ -843,6 +900,14 @@ extension ASRTCKit: AgoraRtcMediaPlayerDelegate {
             case .sound:
                 delegate?.reportAlien?(with: .none, musicType: .sound)
                 return
+            case .social:
+                count = AgoraConfig.SoundSelectSocial.count
+            case .ktv:
+                count = AgoraConfig.SoundSelectKTV.count
+            case .game:
+                count = AgoraConfig.SoundSelectGame.count
+            case .anchor:
+                count = AgoraConfig.SoundSelectAnchor.count
             }
             if baseMusicCount < count {
                 baseMusicCount += 1

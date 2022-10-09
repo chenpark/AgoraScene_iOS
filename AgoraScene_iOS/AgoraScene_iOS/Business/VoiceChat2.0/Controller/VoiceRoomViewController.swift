@@ -59,7 +59,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var ains_state: AINS_STATE = .mid
     private var local_index: Int? = nil
     private var alienCanPlay: Bool = true
-    private var vmType: VMScene = .social
+    private var vmType: VMMUSIC_TYPE = .social
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -145,7 +145,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: self?.vmType ?? .social) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, type: self?.vmType ?? .social) == 0
             VMGroup.leave()
         }
         
@@ -178,13 +178,13 @@ extension VoiceRoomViewController {
         
     }
     
-    private func getSceneType(_ type: String) -> VMScene {
+    private func getSceneType(_ type: String) -> VMMUSIC_TYPE {
         switch type {
-        case "Karaoke":
+        case LanguageManager.localValue(key: "Karaoke"):
             return .ktv
-        case "Gaming Buddy":
+        case LanguageManager.localValue(key: "Gaming Buddy"):
             return .game
-        case "Professional podcaster":
+        case LanguageManager.localValue(key: "Professional Bodcaster"):
             return .anchor
         default:
             return .social
@@ -573,6 +573,10 @@ extension VoiceRoomViewController {
         }
         preView.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
+        }
+        preView.eqView.effectClickBlock = {[weak self] in
+            guard let effect = self?.roomInfo?.room?.sound_effect else {return}
+            self?.rtckit.playMusic(with: self?.getSceneType(effect) ?? .social)
         }
         preView.eqView.soundBlock = {[weak self] index in
             if self?.isOwner == false {return}
