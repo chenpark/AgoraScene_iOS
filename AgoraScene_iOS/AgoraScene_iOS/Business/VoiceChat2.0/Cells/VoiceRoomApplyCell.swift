@@ -12,11 +12,7 @@ public class VoiceRoomApplyCell: UITableViewCell {
     
     var agreeClosure: ((VoiceRoomApply?) -> ())?
     
-    var user: VoiceRoomApply? {
-        didSet {
-            DispatchQueue.main.async { self.refresh(item: self.user) }
-        }
-    }
+    var user: VoiceRoomApply? 
 
     lazy var avatar: UIImageView = {
         UIImageView(frame: CGRect(x: 15, y: 12, width: 50, height: 50)).contentMode(.scaleAspectFit).cornerRadius(25).backgroundColor(.cyan)
@@ -50,6 +46,7 @@ public class VoiceRoomApplyCell: UITableViewCell {
     }
 
     func refresh(item: VoiceRoomApply?) {
+        self.user = item
         self.userName.text = item?.member?.name
         self.avatar.image = UIImage(named: item?.member?.portrait ?? "")
         self.operation.setTitle(item?.member?.invited == true ? "Accepted":"Accept", for: .normal)

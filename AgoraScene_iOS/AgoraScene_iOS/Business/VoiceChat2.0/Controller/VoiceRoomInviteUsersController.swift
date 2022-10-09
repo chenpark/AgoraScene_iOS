@@ -50,7 +50,7 @@ public class VoiceRoomInviteUsersController: UITableViewController {
         }
         // Configure the cell...
         cell?.selectionStyle = .none
-        cell?.user = self.apply?.members?[safe: indexPath.row]
+        cell?.refresh(item: self.apply?.members?[safe: indexPath.row])
         cell?.inviteClosure = { [weak self] in
             self?.inviteUser(user: $0)
             self?.apply?.members?[safe: indexPath.row]?.invited = true

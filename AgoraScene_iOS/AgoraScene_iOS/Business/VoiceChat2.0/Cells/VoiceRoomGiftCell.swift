@@ -50,7 +50,6 @@ public class VoiceRoomGiftCell: UITableViewCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        print(self.contentView.frame)
         self.container.frame = CGRect(x: 0, y: 5, width: self.contentView.frame.width, height: self.contentView.frame.height - 5)
         self.container.cornerRadius(22).setGradient([UIColor(red: 0.05, green: 0, blue: 0.76, alpha: 0.24),UIColor(red: 0.71, green: 0.37, blue: 1, alpha: 0.64)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
         self.avatar.frame = CGRect(x: 5, y: 5, width: self.contentView.frame.height - 15, height: self.contentView.frame.height - 15)

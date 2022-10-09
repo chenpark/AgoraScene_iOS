@@ -63,7 +63,8 @@ extension VoiceRoomGiftView {
         self.alpha = 1
         self.giftList.reloadData()
         let indexPath = IndexPath(row: self.gifts.count-2, section: 0)
-        let cell = self.giftList.cellForRow(at: indexPath)
+        let cell = self.giftList.cellForRow(at: indexPath) as? VoiceRoomGiftCell
+        cell?.refresh(item: self.gifts[indexPath.row])
         UIView.animate(withDuration: 0.3) {
             cell?.alpha = 0.35
             cell?.contentView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -75,6 +76,7 @@ extension VoiceRoomGiftView {
             } completion: { finished in
                 if finished {
                     self.gifts.removeAll()
+                    self.removeFromSuperview()
                 }
             }
         }
