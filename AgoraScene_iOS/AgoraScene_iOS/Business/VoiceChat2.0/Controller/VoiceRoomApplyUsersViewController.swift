@@ -50,7 +50,7 @@ public class VoiceRoomApplyUsersViewController: UITableViewController {
         }
         // Configure the cell...
         cell?.selectionStyle = .none
-        cell?.user = self.apply?.apply_list?[safe: indexPath.row]
+        cell?.refresh(item: self.apply?.apply_list?[safe: indexPath.row])
         cell?.agreeClosure = { [weak self] in
             self?.agreeUserApply(user: $0)
             self?.apply?.apply_list?[safe: indexPath.row]?.member?.invited = true
