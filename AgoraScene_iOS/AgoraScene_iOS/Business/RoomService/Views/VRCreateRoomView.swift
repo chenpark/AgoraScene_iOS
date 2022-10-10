@@ -109,6 +109,6 @@ extension VRCreateRoomView {
     }
    
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.roomInput.endEditing(true)
+//        self.roomInput.endEditing(true)
     }
 }
