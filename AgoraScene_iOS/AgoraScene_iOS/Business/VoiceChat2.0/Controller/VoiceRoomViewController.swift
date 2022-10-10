@@ -636,7 +636,7 @@ extension VoiceRoomViewController {
     private func changeHandsUpState() {
         if self.isOwner {
             self.applyMembersAlert()
-            self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: true)
+            self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
         } else {
             if self.chatBar.handsState == .unSelected {
                 self.userApplyAlert(nil)
@@ -1148,7 +1148,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if VoiceRoomUserInfo.shared.user?.uid  ?? "" != roomInfo?.room?.owner?.uid ?? "" {
             return
         }
-        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
+        self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: true)
     }
     
     func receiveInviteSite(roomId: String, meta: [String : String]?) {
@@ -1203,13 +1203,13 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         var index: Int = dic["index"] ?? 0
         let status: Int = dic["status"] ?? 0
         if index > 6 {index = 6}
-        guard let mic: VRRoomMic = roomInfo?.mic_info![index] else {return}
+        guard let mic: VRRoomMic = roomInfo?.mic_info?[index] else {return}
         var mic_info = mic
         mic_info.status = status
         if status == 5 || status == -2 {
             self.roomInfo?.room?.use_robot = status == 5
         }
-        self.roomInfo?.mic_info![index] = mic_info
+        self.roomInfo?.mic_info?[index] = mic_info
         self.rtcView.micInfos = self.roomInfo?.mic_info
         requestRoomDetail()
     }
@@ -1237,7 +1237,11 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                        if value.keys.contains("uid") {
                           if uid == value["uid"] as? String ?? "" {
                               local_index = mic_index
-                              self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+                              if let status = value["status"] as? Int,status == -1 {
+                                  self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: false)
+                              } else {
+                                  self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+                              }
                           }
                        }
                     }
