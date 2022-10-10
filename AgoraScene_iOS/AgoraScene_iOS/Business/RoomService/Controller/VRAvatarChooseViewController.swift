@@ -49,6 +49,7 @@ public class VRAvatarChooseViewController: UICollectionViewController {
         }
         self.collectionView.backgroundColor = .white
         self.collectionView!.registerCell(VRRoomAvatarCell.self, forCellReuseIdentifier: "VRRoomAvatarCell").delegate(self).dataSource(self).showsHorizontalScrollIndicator(false)
+        self.collectionView.bounces = false
 
         // Do any additional setup after loading the view.
     }

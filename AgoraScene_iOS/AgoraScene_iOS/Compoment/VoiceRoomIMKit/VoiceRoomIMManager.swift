@@ -144,7 +144,7 @@ public extension VoiceRoomIMManager {
                         }
                     case VoiceRoomJoinedMember:
                         if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.userJoinedRoom(roomId:username:))) {
-                            if let user = model(from: body.customExt["room_user"]!, VRUser.self) {
+                            if let ext = body.customExt["room_user"], let user = model(from: ext, VRUser.self) {
                                 self.delegate?.userJoinedRoom(roomId: message.to, username: user.name ?? "")
                             }
                         }
