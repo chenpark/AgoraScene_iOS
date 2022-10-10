@@ -49,6 +49,7 @@ public class VRCreateRoomView: UIView,HorizontalCardsDelegate,HorizontalCardsDat
             self?.idx = $0.row
             self?.audioEffectCards.collectionView.scrollToItem(at: $0, at: .centeredHorizontally, animated: true)
             self?.refreshBottom(index: $0.row)
+            self?.randomRoomName()
         }
         self.roomInput.action = { [weak self] in
             self?.create()

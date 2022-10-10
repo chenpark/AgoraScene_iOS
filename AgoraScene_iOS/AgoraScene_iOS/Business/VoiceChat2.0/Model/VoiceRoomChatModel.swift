@@ -21,7 +21,8 @@ import ZSwiftBaseLib
     }()
     
     lazy var width: CGFloat? = {
-       (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 9999), options: .usesLineFragmentOrigin, context: nil).width ?? 0)
+        UILabel().backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeContent).sizeThatFits(CGSize(width: chatViewWidth-54, height: 9999)).width
+//       (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 9999), options: .usesLineFragmentOrigin, context: nil).width ?? 0)
     }()
     
     lazy var attributeContent: NSAttributedString? = {
