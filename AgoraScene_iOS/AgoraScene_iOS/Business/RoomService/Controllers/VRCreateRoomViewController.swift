@@ -71,7 +71,9 @@ extension VRCreateRoomViewController {
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
-                self.goLive()
+                Throttler.throttle {
+                    self.goLive()
+                }
             } else {
                 self.view.makeToast("AgoraChat Login failed!",point: self.view.center, title: nil, image: nil, completion: nil)
             }

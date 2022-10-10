@@ -71,6 +71,7 @@ public class VoiceRoomInviteUsersController: UITableViewController {
 extension VoiceRoomInviteUsersController {
     
     @objc func refresh() {
+        self.apply?.members?.removeAll()
         self.apply = nil
         self.fetchUsers()
     }

@@ -16,6 +16,7 @@
 		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
 		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		056A2DBD28E2D4700030811A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 056A2DBB28E2D4700030811A /* InfoPlist.strings */; };
+		05D2CBB728F4120800E9D7DB /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D2CBB628F4120800E9D7DB /* Throttle.swift */; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
 		05D8C3D628D068D100820391 /* VoiceRoomGiftersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */; };
 		05D8C3D728D068D100820391 /* VoiceRoomApplyUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */; };
@@ -165,6 +166,7 @@
 		05688C3F28D86F2800B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		056A2DBC28E2D4700030811A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		056A2DBE28E2D47A0030811A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		05D2CBB628F4120800E9D7DB /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
 		05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesViewController.swift; sourceTree = "<group>"; };
 		05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomGiftersViewController.swift; sourceTree = "<group>"; };
 		05D8C3D328D068D100820391 /* VoiceRoomApplyUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomApplyUsersViewController.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				E36BE0FA28C5ECD500270D52 /* PresentationEnums.swift */,
 				E36BE0FC28C5ECD500270D52 /* PresentationSegue.swift */,
 				E36BE0FD28C5ECD500270D52 /* Notification+Presentation.swift */,
+				05D2CBB628F4120800E9D7DB /* Throttle.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 			files = (
 				05D8C3FF28D06CE800820391 /* VoiceRoomGifterCell.swift in Sources */,
 				05D8C44528D06E4E00820391 /* VoiceRoomSwitchBar.swift in Sources */,
+				05D2CBB728F4120800E9D7DB /* Throttle.swift in Sources */,
 				05D8C44428D06E4E00820391 /* VoiceRoomPraiseEmitterView.swift in Sources */,
 				E36BE11428C5EE7E00270D52 /* VoiceRoomChatModel.swift in Sources */,
 				05D8C3E528D0699100820391 /* VoiceRoomBusinessRequest.swift in Sources */,

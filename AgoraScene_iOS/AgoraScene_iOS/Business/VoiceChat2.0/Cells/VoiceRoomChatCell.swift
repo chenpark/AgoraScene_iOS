@@ -10,22 +10,16 @@ import ZSwiftBaseLib
 
 public class VoiceRoomChatCell: UITableViewCell {
     
-    var chat: VoiceRoomChatEntity? {
-        willSet {
-            if newValue != nil {
-//                DispatchQueue.main.async { self.refresh(chat: newValue!) }
-            }
-        }
-    }
+    var chat: VoiceRoomChatEntity?
     
     lazy var container: UIImageView = {
         UIImageView(frame: CGRect(x: 15, y: 6, width: self.contentView.frame.width-30, height: self.frame.height-6)).image(UIImage("chatBg")!).backgroundColor(.clear)
     }()
     
     lazy var content: UILabel = {
-        UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width-20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0)
+        UILabel(frame: CGRect(x: 10, y: 7, width: self.container.frame.width-20, height: self.container.frame.height - 18)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byWordWrapping)
     }()
-
+    
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
@@ -39,8 +33,9 @@ public class VoiceRoomChatCell: UITableViewCell {
     }
     
     func refresh(chat: VoiceRoomChatEntity) {
-        self.content.attributedText = chat.attributeContent
         self.container.frame = CGRect(x: 15, y: 6, width: chat.width!+30, height: chat.height!-6)
+        self.content.attributedText = chat.attributeContent
+        self.content.preferredMaxLayoutWidth = self.container.frame.width-24
         self.content.frame = CGRect(x: 12, y: 7, width: self.container.frame.width-24, height: self.container.frame.height - 16)
         self.container.image = (chat.joined == true ? UIImage("joined_msg_bg")!:UIImage("chatBg")!)
     }

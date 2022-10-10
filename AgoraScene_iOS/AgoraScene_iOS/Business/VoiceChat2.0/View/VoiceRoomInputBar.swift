@@ -69,7 +69,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         self.hiddenInputBar()
         self.rightView.isSelected = false
         if self.sendClosure != nil,!self.inputField.attributedText.toString().isEmpty {
-            self.sendClosure!(self.inputField.attributedText.toString())
+            self.sendClosure!(self.inputField.attributedText.toString().trimmingCharacters(in:.whitespacesAndNewlines))
         }
     }
 
@@ -79,7 +79,6 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
         if text == "\n" {
             self.sendMessage()
             return false
@@ -88,7 +87,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             if NSLocale.preferredLanguages.first!.hasPrefix("en") {
                 count = 80
             }
-            if textView.text.count >= count {
+            if textView.text.count > count {
                 let string = textView.text as NSString
                 textView.text = string.substring(to: count)
                 self.superview?.makeToast("Reach Limit!", point: CGPoint(x: self.center.x, y: ZNavgationHeight), title: nil, image: nil, completion: nil)
