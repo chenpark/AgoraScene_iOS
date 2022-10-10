@@ -1147,8 +1147,13 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveGift(roomId: String, meta: [String : String]?) {
         guard let dic = meta else { return }
-        let giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
+        var giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
+        if giftList == nil {
+            giftList = self.giftList()
+            self.view.addSubview(giftList!)
+        }
         giftList?.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
+        giftList?.cellAnimation()
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }

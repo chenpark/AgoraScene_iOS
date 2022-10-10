@@ -99,7 +99,6 @@ extension VoiceRoomApplyUsersViewController {
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.fetchUsers()
                     self.view.makeToast("Agree success!")
                 } else {
                     self.view.makeToast("Agree failed!")
