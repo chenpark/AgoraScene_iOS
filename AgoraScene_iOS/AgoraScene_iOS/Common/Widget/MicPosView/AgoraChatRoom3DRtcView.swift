@@ -37,16 +37,21 @@ class AgoraChatRoom3DRtcView: UIView {
             guard let micInfos = micInfos else {return}
             guard let micInfo: VRRoomMic = micInfos[4] as? VRRoomMic else {return}
             rtcUserView.cellType = getCellTypeWithStatus(micInfo.status)
+            rtcUserView.tag = 204
             rtcUserView.user = micInfo.member
         }
     }
     
-    public override func draw(_ rect: CGRect) {
-        // Drawing code
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
         layoutUI()
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func layoutUI() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: self.bounds.size.width / 4.0, height: 120)
@@ -198,36 +203,46 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
             switch indexPath.item {
             case 0:
                 if let mic_info = micInfos?[0] {
+                    cell.tag = 200
                     cell.user = mic_info.member
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
                 }
             case 1:
                 if let mic_info = micInfos?[1] {
+                    cell.tag = 201
                     cell.user = mic_info.member
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
                 }
             case 2:
                 if let mic_info = micInfos?[5] {
-                    cell.user = mic_info.member
+                    let user: VRUser = VRUser()
+                    user.name = "Agora Blue"
+                    user.portrait = "blue"
+                    cell.user = user
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
                 }
             case 4:
                 if let mic_info = micInfos?[6] {
-                    cell.user = mic_info.member
+                    let user: VRUser = VRUser()
+                    user.name = "Agora Red"
+                    user.portrait = "red"
+                    cell.user = user
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
                 }
             case 5:
                 if let mic_info = micInfos?[2] {
+                    cell.tag = 202
                     cell.user = mic_info.member
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
                 }
             case 6:
                 if let mic_info = micInfos?[3] {
+                    cell.tag = 203
                     cell.user = mic_info.member
                     cell.cellType = getCellTypeWithStatus(mic_info.status)
                     cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
