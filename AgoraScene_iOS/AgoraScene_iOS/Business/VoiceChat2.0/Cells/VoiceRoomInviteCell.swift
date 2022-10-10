@@ -12,11 +12,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
     
     var inviteClosure: ((VRUser?) -> ())?
     
-    var user: VRUser? {
-        didSet {
-            DispatchQueue.main.async { self.refresh(item: self.user) }
-        }
-    }
+    var user: VRUser? 
 
     lazy var avatar: UIImageView = {
         UIImageView(frame: CGRect(x: 15, y: 12, width: 50, height: 50)).contentMode(.scaleAspectFit).cornerRadius(25).backgroundColor(.cyan)

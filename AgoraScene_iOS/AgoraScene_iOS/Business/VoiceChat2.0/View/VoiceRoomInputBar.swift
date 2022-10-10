@@ -84,13 +84,13 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             self.sendMessage()
             return false
         } else {
-            var count = 20
+            var count = 30
             if NSLocale.preferredLanguages.first!.hasPrefix("en") {
                 count = 80
             }
-            if textView.text.count > count {
+            if textView.text.count >= count {
                 let string = textView.text as NSString
-                textView.text = string.substring(to: count-1)
+                textView.text = string.substring(to: count)
                 self.superview?.makeToast("Reach Limit!", point: CGPoint(x: self.center.x, y: ZNavgationHeight), title: nil, image: nil, completion: nil)
                 return false
             }

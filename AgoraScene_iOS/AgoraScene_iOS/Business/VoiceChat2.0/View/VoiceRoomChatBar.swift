@@ -145,7 +145,7 @@ extension VoiceRoomChatBar {
             } else {
                 switch state {
                 case .unSelected: self.datas[idx] = "handuphard"
-                default: self.datas[idx] = "handup_dot"
+                default: self.datas[idx] = "handuphard"
                 }
             }
             self.toolBar.reloadItems(at: [IndexPath(row: idx, section: 0)])
@@ -160,7 +160,7 @@ extension VoiceRoomChatBar {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VoiceRoomChatBarCell", for: indexPath) as? VoiceRoomChatBarCell
         cell?.icon.image = UIImage(self.datas[indexPath.row])
-        if indexPath.row == 1,self.creator,self.handsState != .unSelected {
+        if indexPath.row == 1,self.creator,self.handsState != .selected {
             cell?.redDot.isHidden = false
         } else {
             cell?.redDot.isHidden = true
