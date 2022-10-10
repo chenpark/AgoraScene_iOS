@@ -11,6 +11,7 @@ import ZSwiftBaseLib
 import AgoraChat
 import SVGAPlayer
 import KakaJSON
+import AgoraRtcKit
 
 public enum ROLE_TYPE {
     case owner
@@ -56,7 +57,7 @@ class VoiceRoomViewController: VRBaseViewController {
     private var ains_state: AINS_STATE = .mid
     private var local_index: Int? = nil
     private var alienCanPlay: Bool = true
-    private var vmType: VMScene = .social
+    private var vmType: VMMUSIC_TYPE = .social
     
     public var roomInfo: VRRoomInfo? {
         didSet {
@@ -131,6 +132,7 @@ extension VoiceRoomViewController {
         
         guard let channel_id = self.roomInfo?.room?.channel_id else {return}
         guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
+        guard let rtcUid = VoiceRoomUserInfo.shared.user?.rtc_uid else {return}
         rtckit.setClientRole(role: isOwner ? .owner : .audience)
         rtckit.delegate = self
         
@@ -142,7 +144,7 @@ extension VoiceRoomViewController {
         
         VMGroup.enter()
         VMQueue.async {[weak self] in
-            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: 0, scene: self?.vmType ?? .social) == 0
+            rtcJoinSuccess = self?.rtckit.joinVoicRoomWith(with: "\(channel_id)", rtcUid: Int(rtcUid) ?? 0, type: self?.vmType ?? .social) == 0
             VMGroup.leave()
         }
         
@@ -175,13 +177,13 @@ extension VoiceRoomViewController {
         
     }
     
-    private func getSceneType(_ type: String) -> VMScene {
+    private func getSceneType(_ type: String) -> VMMUSIC_TYPE {
         switch type {
-        case "Karaoke":
+        case LanguageManager.localValue(key: "Karaoke"):
             return .ktv
-        case "Gaming Buddy":
+        case LanguageManager.localValue(key: "Gaming Buddy"):
             return .game
-        case "Professional podcaster":
+        case LanguageManager.localValue(key: "Professional Bodcaster"):
             return .anchor
         default:
             return .social
@@ -421,7 +423,11 @@ extension VoiceRoomViewController {
     }
     
     private func showSoundView() {
-        
+        guard let soundEffect = self.roomInfo?.room?.sound_effect else {return}
+        let soundView = VMSoundView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        soundView.soundEffect = soundEffect
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: soundView)
+        self.presentViewController(vc)
     }
     
     private func showActiveAlienView(_ active: Bool) {
@@ -506,6 +512,7 @@ extension VoiceRoomViewController {
                         var newRoom = room
                         newRoom.robot_volume = UInt(Vol)
                         self.roomInfo?.room = newRoom
+                        self.rtckit.adjustAudioMixingPublishVolume(with: Vol)
                     }
                 } else {
                     print("调节机器人音量失败")
@@ -574,6 +581,10 @@ extension VoiceRoomViewController {
         }
         preView.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
+        }
+        preView.eqView.effectClickBlock = {[weak self] in
+            guard let effect = self?.roomInfo?.room?.sound_effect else {return}
+            self?.rtckit.playMusic(with: self?.getSceneType(effect) ?? .social)
         }
         preView.eqView.soundBlock = {[weak self] index in
             if self?.isOwner == false {return}
@@ -1224,9 +1235,8 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         for mic in mic_info {
             let key: String = mic.key
             let value = mic.value.z.jsonToDictionary()
-            if let status = value["status"] as? Int {
-               first?["status"] = status
-            }
+            guard let status: Int = value["status"] as? Int else {return nil}
+            first?["status"] = status
 
             if key.contains("mic_") {
                 if key.components(separatedBy: "mic_").count > 1 {
@@ -1242,6 +1252,15 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                               } else {
                                   self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
                               }
+                              
+                              //如果当前是0的状态  就设置成主播
+                              if isOwner {
+                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
+                              } else {
+                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
+                                  self.rtckit.setClientRole(role: status == 0 ? .owner : .audience)
+                              }
+                                    
                           }
                        }
                     }
@@ -1273,6 +1292,22 @@ extension VoiceRoomViewController: ASManagerDelegate {
         self.rtcView.showAlienMicView = type
         if type == .ended && self.alienCanPlay && musicType == .alien {
             self.alienCanPlay = false
+        }
+    }
+    
+    func reportAudioVolumeIndicationOfSpeakers(speakers: [AgoraRtcAudioVolumeInfo]) {
+        guard let micinfo = self.roomInfo?.mic_info else {return}
+        for speaker in speakers {
+            for (index,mic) in micinfo.enumerated() {
+                guard let user = mic.member else {return}
+                guard let rtcUid = Int(user.rtc_uid ?? "0") else {return}
+                if rtcUid == speaker.uid {
+                    var mic = micinfo[index]
+                    mic.member?.volume = Int(speaker.volume)
+                    self.roomInfo?.mic_info![index] = mic
+                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                }
+            }
         }
     }
 }

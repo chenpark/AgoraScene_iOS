@@ -54,6 +54,7 @@ class VMPresentView: UIView {
         
         eqView.backgroundColor = .white
         eqView.frame = CGRect(x: screenSize.width, y: 0, width: screenSize.width, height: self.bounds.size.height)
+        eqView.soundEffect = roomInfo?.room?.sound_effect ?? LanguageManager.localValue(key: "Social Chat")
         eqView.resBlock = {[weak self] type in
             self?.eqView.settingType = type
         }

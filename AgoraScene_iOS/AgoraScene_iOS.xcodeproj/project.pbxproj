@@ -77,6 +77,7 @@
 		E346372328D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */; };
 		E346372728D9AE8500026F85 /* VMConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372628D9AE8500026F85 /* VMConfirmView.swift */; };
 		E3682BEA28E29B4800DA21FD /* VMMuteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3682BE928E29B4800DA21FD /* VMMuteView.swift */; };
+		E3682BEE28F2B09D00DA21FD /* VMSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3682BED28F2B09D00DA21FD /* VMSoundView.swift */; };
 		E36BE0E228C5E74500270D52 /* AgoraSceneConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */; };
 		E36BE0FE28C5ECD500270D52 /* UIButtonLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */; };
 		E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */; };
@@ -226,6 +227,7 @@
 		E346372228D84E5E00026F85 /* VoiceRoomAudiencesEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesEntity.swift; sourceTree = "<group>"; };
 		E346372628D9AE8500026F85 /* VMConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMConfirmView.swift; sourceTree = "<group>"; };
 		E3682BE928E29B4800DA21FD /* VMMuteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMMuteView.swift; sourceTree = "<group>"; };
+		E3682BED28F2B09D00DA21FD /* VMSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSoundView.swift; sourceTree = "<group>"; };
 		E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraSceneConfig.swift; sourceTree = "<group>"; };
 		E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonLayoutExtension.swift; sourceTree = "<group>"; };
 		E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBundleExtension.swift; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 				E36BE19C28C9C47900270D52 /* VMPresentView.swift */,
 				E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */,
 				E346372628D9AE8500026F85 /* VMConfirmView.swift */,
+				E3682BED28F2B09D00DA21FD /* VMSoundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -933,6 +936,7 @@
 				E36BE10228C5ECD500270D52 /* VRUser.swift in Sources */,
 				E36BE15928C5F49600270D52 /* ASRTCKit.swift in Sources */,
 				E36BE12228C5EF2A00270D52 /* VoiceRoomAlertContainer.swift in Sources */,
+				E3682BEE28F2B09D00DA21FD /* VMSoundView.swift in Sources */,
 				E36BE11D28C5EF1700270D52 /* VoiceRoomAlertViewController.swift in Sources */,
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,
 				05D8C43528D06E0F00820391 /* VRBaseViewController.swift in Sources */,
@@ -1105,12 +1109,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1138,12 +1142,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

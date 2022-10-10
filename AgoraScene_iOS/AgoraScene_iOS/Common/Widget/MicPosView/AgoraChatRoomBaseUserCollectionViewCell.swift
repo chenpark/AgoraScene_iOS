@@ -23,6 +23,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         didSet {
             rtcUserView.iconImgUrl = user?.portrait ?? ""
             rtcUserView.nameStr = user?.name ?? "\(self.tag - 200)"
+            rtcUserView.volume = user?.volume ?? 0
         }
     }
     
