@@ -105,6 +105,7 @@ public class VoiceRoomGiftsView: UIView,UICollectionViewDelegate,UICollectionVie
         self.chooseQuantity.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 30)
         self.lineLayer.addSubViews([self.chooseQuantity,self.send])
         self.giftList.isPagingEnabled = true
+        self.giftList.alwaysBounceHorizontal = true
         self.header.addSubview(self.title)
         pop.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.12)
         pop.shadowOpacity = 1
