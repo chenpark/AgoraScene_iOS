@@ -216,7 +216,7 @@ extension VRCreateRoomInputView {
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.pinCode.endEditing(true)
-//        self.endEditing(true)
+        self.pinCode.resignFirstResponder()
+        self.endEditing(true)
     }
 }

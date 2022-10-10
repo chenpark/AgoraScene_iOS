@@ -45,7 +45,7 @@ public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UIColl
     }()
     
     lazy var iconList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 20, y: self.customUsage.frame.maxY+5, width: self.effectName.frame.width, height: 20), collectionViewLayout: self.flowLayout).delegate(self).dataSource(self).registerCell(VRIconCell.self, forCellReuseIdentifier: "VRIconCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).isUserInteractionEnabled(false)
+        UICollectionView(frame: CGRect(x: 20, y: self.customUsage.frame.maxY+5, width: self.effectName.frame.width, height: 20), collectionViewLayout: self.flowLayout).delegate(self).dataSource(self).registerCell(VRIconCell.self, forCellReuseIdentifier: "VRIconCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).isUserInteractionEnabled(false).backgroundColor(.white)
     }()
     
     lazy var chooseSymbol: UIImageView = {

@@ -191,7 +191,7 @@ public extension VRVerifyCodeView {
     
     @objc func textFiledDidEnd(_ textFiled: UITextField) {
         guard let inputStr = textFiled.text else { return }
-        if isInput, inputStr.count >= inputTextNum {
+        if isInput {
             inputFinish?(inputStr)
         }
     }

@@ -52,7 +52,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
             item?.invited = (item?.mic_index ?? 0 > 1)
         }
         self.avatar.image = UIImage(named: item?.portrait ?? "")
-        self.operation.setTitle(item?.invited == true ? "Invited":"Invite", for: .normal)
+        self.operation.setTitle(item?.invited == true ? LanguageManager.localValue(key: "Invited"):LanguageManager.localValue(key: "Invite"), for: .normal)
         self.operation.setBackgroundImage(UIImage(named: item?.invited == true ? "":"blue_btn_bg"), for: .normal)
         var color = UIColor.white
         if item?.invited == true {

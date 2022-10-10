@@ -55,6 +55,12 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         if self.name.isEmpty || self.effects.type.isEmpty {
             self.view.makeToast("param error!",point: self.view.center, title: nil, image: nil, completion: nil)
         }
+        Throttler.throttle {
+            self.createRoom()
+        }
+    }
+    
+    private func createRoom() {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.name,"is_private":!self.code.isEmpty,"password":self.code,"type":self.type,"sound_effect":self.effects.type,"allow_free_join_mic":false], classType: VRRoomInfo.self) { info, error in
             if error == nil,info != nil {
                 let vc = VoiceRoomViewController(info: info!)

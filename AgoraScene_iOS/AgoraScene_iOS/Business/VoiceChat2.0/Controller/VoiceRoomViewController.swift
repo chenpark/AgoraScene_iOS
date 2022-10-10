@@ -661,7 +661,7 @@ extension VoiceRoomViewController {
         self.chatBar.micState = !self.chatBar.micState
         self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
         //需要根据麦位特殊处理
-        self.chatBar.micState == false ? self.muteLocal(with: 0):self.unmuteLocal(with: 0)
+        self.chatBar.micState == true ? self.muteLocal(with: 0):self.unmuteLocal(with: 0)
     }
     
     private func showUsers() {
@@ -868,13 +868,12 @@ extension VoiceRoomViewController {
     
     //mute自己
     private func muteLocal(with index: Int) {
-        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
-        self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
             self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
+                    self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
                     self.view.makeToast("mute local success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
 //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
 //                    var mic_info = mic
@@ -892,12 +891,12 @@ extension VoiceRoomViewController {
 
     //unmute自己
     private func unmuteLocal(with index: Int) {
-        self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
             self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
+                    self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
                     self.view.makeToast("unmuteLocal success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
 //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
 //                    var mic_info = mic
@@ -1249,15 +1248,16 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                     if let mic_index = Int(index) {
                        first?["index"] = mic_index
                        let uid = VoiceRoomUserInfo.shared.user?.uid
+                        if !self.isOwner {
+                            if value.keys.contains("status"),let status = value["status"] as? Int,status == -1 {
+                                self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
+                            } else {
+                                self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+                            }
+                        }
                        if value.keys.contains("uid") {
                           if uid == value["uid"] as? String ?? "" {
                               local_index = mic_index
-                              if let status = value["status"] as? Int,status == -1 {
-                                  self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: false)
-                              } else {
-                                  self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
-                              }
-                              
                               //如果当前是0的状态  就设置成主播
                               if isOwner {
                                   self.rtckit.muteLocalAudioStream(mute: status != 0)
