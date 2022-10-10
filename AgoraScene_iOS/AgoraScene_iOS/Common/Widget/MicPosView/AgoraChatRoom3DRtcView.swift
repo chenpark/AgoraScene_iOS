@@ -26,6 +26,16 @@ class AgoraChatRoom3DRtcView: UIView {
     private var lastCenterPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var lastMovedPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var touchState: TouchState = .began
+    
+    public var micInfos: [VRRoomMic]? {
+        didSet {
+            guard let _ = collectionView else {
+                return
+            }
+            collectionView.reloadData()
+        }
+    }
+    
     public override func draw(_ rect: CGRect) {
         // Drawing code
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -172,7 +182,7 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
         if indexPath.item != 3  {
             return CGSize(width: self.bounds.size.width / 3.0, height: 150~)
         } else {
-            return CGSize(width: self.bounds.size.width, height: 250~)
+            return CGSize(width: self.bounds.size.width, height: self.bounds.size.height - 300~)
         }
     }
     

@@ -71,7 +71,7 @@ class VoiceRoomViewController: VRBaseViewController {
                     if type == 0 && self.rtcView != nil {
                         self.rtcView.micInfos = mics
                     } else if type == 1 && self.sRtcView != nil {
-                        
+                        self.sRtcView.micInfos = mics
                     }
                 }
             }
@@ -247,7 +247,7 @@ extension VoiceRoomViewController {
         self.sRtcView.snp.makeConstraints { make in
             make.top.equalTo(self.headerView.snp.bottom);
             make.left.right.equalTo(self.view);
-            make.height.equalTo(550~);
+            make.bottom.equalTo(self.view.snp.bottom).offset(isHairScreen ? -84 : -50);
         }
         
         self.rtcView.snp.makeConstraints { make in
