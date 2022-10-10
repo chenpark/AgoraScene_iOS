@@ -33,6 +33,11 @@ class AgoraChatRoom3DRtcView: UIView {
                 return
             }
             collectionView.reloadData()
+            
+            guard let micInfos = micInfos else {return}
+            guard let micInfo: VRRoomMic = micInfos[4] as? VRRoomMic else {return}
+            rtcUserView.cellType = getCellTypeWithStatus(micInfo.status)
+            rtcUserView.user = micInfo.member
         }
     }
     
@@ -192,23 +197,43 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
             let cell: AgoraChatRoom3DUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: vIdentifier, for: indexPath) as! AgoraChatRoom3DUserCollectionViewCell
             switch indexPath.item {
             case 0:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                if let mic_info = micInfos?[0] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                }
             case 1:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                if let mic_info = micInfos?[1] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                }
             case 2:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                if let mic_info = micInfos?[5] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                }
             case 4:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeAdmin
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                if let mic_info = micInfos?[6] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                }
             case 5:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                if let mic_info = micInfos?[2] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeDown
+                }
+            case 6:
+                if let mic_info = micInfos?[3] {
+                    cell.user = mic_info.member
+                    cell.cellType = getCellTypeWithStatus(mic_info.status)
+                    cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                }
             default:
-                cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
-                cell.directionType = .AgoraChatRoom3DUserDirectionTypeUp
+                break
             }
             return cell
         } else {
@@ -219,5 +244,28 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+    }
+    
+    private func getCellTypeWithStatus(_ status: Int) -> AgoraChatRoomBaseUserCellType {
+        switch status {
+            case -2:
+                return .AgoraChatRoomBaseUserCellTypeAlienNonActive
+            case -1:
+                return .AgoraChatRoomBaseUserCellTypeAdd
+            case 0:
+                return .AgoraChatRoomBaseUserCellTypeNormalUser
+            case 1:
+                return .AgoraChatRoomBaseUserCellTypeMute
+            case 2:
+                return .AgoraChatRoomBaseUserCellTypeForbidden
+            case 3:
+                return .AgoraChatRoomBaseUserCellTypeLock
+            case 4:
+                return .AgoraChatRoomBaseUserCellTypeMuteAndLock
+            case 5:
+                return .AgoraChatRoomBaseUserCellTypeAlienActive
+            default:
+                return .AgoraChatRoomBaseUserCellTypeAdd
+        }
     }
 }

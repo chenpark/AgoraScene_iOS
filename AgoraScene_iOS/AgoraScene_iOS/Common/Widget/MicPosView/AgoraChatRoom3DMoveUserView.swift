@@ -72,6 +72,14 @@ class AgoraChatRoom3DMoveUserView: UIView {
         }
     }
     
+    public var user: VRUser? {
+        didSet {
+            iconImgUrl = user?.portrait ?? ""
+            nameStr = user?.name ?? "\(self.tag - 200)"
+            volume = user?.volume ?? 0
+        }
+    }
+    
     public var iconImgUrl: String = "" {
         didSet {
             self.iconView.image = UIImage(named: iconImgUrl)
@@ -87,6 +95,12 @@ class AgoraChatRoom3DMoveUserView: UIView {
     public var bgColor: UIColor = .black {
         didSet {
             self.bgView.backgroundColor = bgColor
+        }
+    }
+    
+    public var volume: Int = 0 {
+        didSet {
+            self.micView.setVolume(volume)
         }
     }
     

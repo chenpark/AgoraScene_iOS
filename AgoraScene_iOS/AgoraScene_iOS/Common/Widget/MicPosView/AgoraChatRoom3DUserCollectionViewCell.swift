@@ -30,6 +30,14 @@ class AgoraChatRoom3DUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    public var user: VRUser? {
+        didSet {
+            rtcUserView.iconImgUrl = user?.portrait ?? ""
+            rtcUserView.nameStr = user?.name ?? "\(self.tag - 200)"
+            rtcUserView.volume = user?.volume ?? 0
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
