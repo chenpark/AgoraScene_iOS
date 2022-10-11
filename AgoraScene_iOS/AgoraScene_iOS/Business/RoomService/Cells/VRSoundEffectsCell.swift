@@ -33,7 +33,7 @@ public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UIColl
     }()
     
     lazy var customUsage: UILabel = {
-        UILabel(frame: CGRect(x: 20, y: self.effectDesc.frame.maxY+10, width: 200, height: 15)).font(.systemFont(ofSize: 11, weight: .regular)).textColor(UIColor(0xD8D8D8)).text("Current Customer Usage")
+        UILabel(frame: CGRect(x: 20, y: self.effectDesc.frame.maxY+10, width: 200, height: 15)).font(.systemFont(ofSize: 11, weight: .regular)).textColor(UIColor(0xD8D8D8)).text(LanguageManager.localValue(key: "Current Customer Usage"))
     }()
     
     lazy var flowLayout: UICollectionViewFlowLayout = {

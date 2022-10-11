@@ -97,6 +97,9 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         return true
     }
 
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return true
+    }
     
     @objc func changeToEmoji() {
         self.rightView.isSelected = !self.rightView.isSelected
@@ -114,7 +117,6 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         if !self.inputField.isFirstResponder {
             return
         }
-        self.rightView.setImage(UIImage(named: "face"), for: .normal)
         let frame = notification.keyboardEndFrame
         let duration = notification.keyboardAnimationDuration
         self.keyboardHeight = frame!.height
@@ -159,6 +161,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             self.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: self.keyboardHeight+60)
         }
         self.emoji?.removeFromSuperview()
+        self.rightView.isSelected = false
     }
     
     func convertText(text: NSAttributedString?,key: String) -> NSAttributedString {

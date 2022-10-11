@@ -55,7 +55,7 @@ public final class VRRoomsViewController: VRBaseViewController {
         // Do any additional setup after loading the view.
         self.view.addSubViews([self.background,self.menuBar,self.container,self.create])
         self.view.bringSubviewToFront(self.navigation)
-        self.navigation.title.text = "Agora Chat Room"
+        self.navigation.title.text = LanguageManager.localValue(key: "Agora Chat Room")
         self.navigation.addSubview(self.avatar)
         self.avatar.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
         self.refreshAvatar()

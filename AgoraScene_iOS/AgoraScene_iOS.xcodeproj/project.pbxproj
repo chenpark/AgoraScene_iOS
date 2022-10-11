@@ -16,6 +16,8 @@
 		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
 		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		056A2DBD28E2D4700030811A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 056A2DBB28E2D4700030811A /* InfoPlist.strings */; };
+		05BC75BB28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BC75BA28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift */; };
+		05BC75BD28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BC75BC28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift */; };
 		05D2CBB728F4120800E9D7DB /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D2CBB628F4120800E9D7DB /* Throttle.swift */; };
 		05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */; };
 		05D8C3D628D068D100820391 /* VoiceRoomGiftersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */; };
@@ -166,6 +168,8 @@
 		05688C3F28D86F2800B39C22 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		056A2DBC28E2D4700030811A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		056A2DBE28E2D47A0030811A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		05BC75BA28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VoiceRoomViewController+IM.swift"; sourceTree = "<group>"; };
+		05BC75BC28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VoiceRoomViewController+ChatBar.swift"; sourceTree = "<group>"; };
 		05D2CBB628F4120800E9D7DB /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
 		05D8C3D128D068D100820391 /* VoiceRoomAudiencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomAudiencesViewController.swift; sourceTree = "<group>"; };
 		05D8C3D228D068D100820391 /* VoiceRoomGiftersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRoomGiftersViewController.swift; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 				05D8C3D428D068D100820391 /* VoiceRoomInviteUsersController.swift */,
 				E36BE11C28C5EF1700270D52 /* VoiceRoomAlertViewController.swift */,
 				E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */,
+				05BC75BA28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift */,
+				05BC75BC28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -902,6 +908,7 @@
 				E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */,
 				05D8C42328D06DFB00820391 /* HorizontalCardView.swift in Sources */,
 				E36BE19028C876FC00270D52 /* VMSwitchTableViewCell.swift in Sources */,
+				05BC75BB28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift in Sources */,
 				053F14B328D5B65600350D7A /* VoiceRoomDisclaimerView.swift in Sources */,
 				05D8C42628D06DFB00820391 /* VRSoundEffectsList.swift in Sources */,
 				E36BE10128C5ECD500270D52 /* UIImageBundleExtension.swift in Sources */,
@@ -941,6 +948,7 @@
 				E36BE15928C5F49600270D52 /* ASRTCKit.swift in Sources */,
 				E36BE12228C5EF2A00270D52 /* VoiceRoomAlertContainer.swift in Sources */,
 				E3682BEE28F2B09D00DA21FD /* VMSoundView.swift in Sources */,
+				05BC75BD28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift in Sources */,
 				E36BE11D28C5EF1700270D52 /* VoiceRoomAlertViewController.swift in Sources */,
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,
 				05D8C43528D06E0F00820391 /* VRBaseViewController.swift in Sources */,
@@ -1113,7 +1121,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
@@ -1128,7 +1136,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1146,7 +1154,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 499WYUV8Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
@@ -1161,7 +1169,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

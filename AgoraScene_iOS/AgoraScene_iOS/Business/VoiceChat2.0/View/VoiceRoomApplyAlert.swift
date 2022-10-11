@@ -34,7 +34,7 @@ public class VoiceRoomApplyAlert: UIView {
     }()
     
     lazy var confirmContainer: UIView = {
-        UIView(frame: CGRect(x: self.cancel.frame.maxX+22, y: self.content.frame.maxY + 35, width: (self.frame.width-78)/2.0, height: 40)).backgroundColor(.white)
+        UIView(frame: self.confirm.frame).backgroundColor(.white)
     }()
     
     private var position: VoiceRoomApplyAlertPosition = .bottom
