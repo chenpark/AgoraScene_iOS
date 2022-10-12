@@ -206,6 +206,20 @@ extension VoiceRoomViewController {
         }
     }
     
+    func requestRankList() {
+        guard let room_id = self.roomInfo?.room?.room_id else {return}
+        VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchGiftContribute(roomId: room_id), params: [:], classType: VRUsers.self) {[weak self] list, error in
+            if error == nil {
+                guard let list = list?.ranking_list else { return }
+                var info = self?.roomInfo
+                info?.room?.ranking_list = list
+                self?.roomInfo = info
+            } else {
+                self?.view.makeToast("\(error?.localizedDescription ?? "")",point: self?.toastPoint ?? .zero, title: nil, image: nil, completion: nil)
+            }
+        }
+    }
+    
     func layoutUI() {
         
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -525,23 +539,6 @@ extension VoiceRoomViewController {
         }
     }
     
-    //     func leaveRoom() {
-    //        guard let roomId = roomInfo?.room?.room_id else {return}
-    //        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) {[weak self] map, error in
-    //            if map != nil {
-    //                //如果返回的结果为true 表示上麦成功
-    //                if let result = map?["result"] as? Bool,error == nil,result {
-    //                    debugPrint("--- giveupStage :result:\(result)")
-    //                    self?.requestRoomDetail()
-    //                } else {
-    //                    self?.view.makeToast("leaveRoom failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
-    //                }
-    //            } else {
-    //
-    //            }
-    //        }
-    //    }
-    
     func getApplyList() {
         guard let roomId = roomInfo?.room?.room_id else {return}
         
@@ -764,101 +761,6 @@ extension VoiceRoomViewController {
         self.presentViewController(vc)
     }
     
-<<<<<<< HEAD
-    private func applyMembersAlert() {
-        let userAlert = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: self.roomInfo?.room?.room_id ?? ""),VoiceRoomInviteUsersController(roomId: self.roomInfo?.room?.room_id ?? "")],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: userAlert)
-        self.presentViewController(vc)
-    }
-    
-    private func showGiftAlert() {
-        let giftsAlert = VoiceRoomGiftsView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180), gifts: self.gifts()).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
-        let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (110/84.0)*((ScreenWidth-30)/4.0)+180)), custom: giftsAlert)
-        giftsAlert.sendClosure = { [weak self] in
-            self?.sendGift(gift: $0)
-            if $0.gift_id == "VoiceRoomGift9" {
-                vc.dismiss(animated: true)
-                self?.rocketAnimation()
-            }
-        }
-        self.presentViewController(vc)
-    }
-    
-    private func sendGift(gift: VoiceRoomGiftEntity) {
-        gift.userName = VoiceRoomUserInfo.shared.user?.name ?? ""
-        gift.portrait = VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar
-        var giftList: VoiceRoomGiftView? = self.view.viewWithTag(1111) as? VoiceRoomGiftView
-        if giftList == nil {
-            giftList = self.giftList()
-            self.view.addSubview(giftList!)
-        }
-        giftList?.gifts.append(gift)
-        giftList?.cellAnimation()
-        if let chatroom_id = self.roomInfo?.room?.chatroom_id,let uid = self.roomInfo?.room?.owner?.uid,let id = gift.gift_id,let name = gift.gift_name,let value = gift.gift_price,let count = gift.gift_count {
-            VoiceRoomIMManager.shared?.sendCustomMessage(roomId: chatroom_id, event: VoiceRoomGift, customExt: ["gift_id":id,"gift_name":name,"gift_price":value,"gift_count":count,"userNaem":VoiceRoomUserInfo.shared.user?.name ?? "","portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar], completion: { message, error in
-                if error == nil,message != nil {
-                    if let c = Int(count),let v = Int(value),var amount = VoiceRoomUserInfo.shared.user?.amount {
-                        amount += c*v
-                        VoiceRoomUserInfo.shared.user?.amount = amount
-                    }
-                    self.notifyServerGiftInfo(id: id, count: count, uid: uid)
-                } else {
-                    self.view.makeToast("Send failed \(error?.errorDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
-                }
-            })
-        }
-    }
-    
-    private func notifyServerGiftInfo(id: String,count: String,uid: String) {
-        if let roomId = self.roomInfo?.room?.room_id {
-            VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
-                if let result = dic?["result"] as? Bool,error == nil,result {
-                    debugPrint("result:\(result)")
-                    self.requestRoomDetail()
-                } else {
-                    self.view.makeToast("Send failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
-                }
-            }
-        }
-    }
-    
-    func rocketAnimation() {
-        let player = SVGAPlayer(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
-        player.loops = 1
-        player.clearsAfterStop = true
-        player.contentMode = .scaleAspectFill
-        player.delegate = self
-        player.tag(199)
-        self.view.addSubview(player)
-        let parser = SVGAParser()
-        parser.parse(withNamed: "rocket", in: .main) { entitiy in
-            player.videoItem = entitiy
-            player.startAnimation()
-        } failureBlock: { error in
-            player.removeFromSuperview()
-        }
-    }
-    
-    private func gifts() -> [VoiceRoomGiftEntity] {
-        var gifts = [VoiceRoomGiftEntity]()
-        for dic in giftMap {
-            gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
-        }
-        return gifts
-    }
-    
-    func reLogin() {
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar,"name":VoiceRoomUserInfo.shared.user?.name ?? ""],classType:VRUser.self) { [weak self] user, error in
-            if error == nil {
-                VoiceRoomUserInfo.shared.user = user
-                VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
-                AgoraChatClient.shared().renewToken(user?.im_token ?? "")
-            } else {
-                self?.view.makeToast("\(error?.localizedDescription ?? "")",point: self?.toastPoint ?? .zero, title: nil, image: nil, completion: nil)
-            }
-        }
-    }
-    
     private func leaveRoom() {
         guard let room_id = roomInfo?.room?.room_id else {return}
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
@@ -909,171 +811,170 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
     }
 }
 
-<<<<<<< HEAD
 //MARK: - VoiceRoomIMDelegate
-extension VoiceRoomViewController: VoiceRoomIMDelegate {
-    
-    func memberLeave(roomId: String, userName: String) {
-        requestRoomDetail()
-    }
-    
-    
-    func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
-        roomInfo?.room?.robot_volume = UInt(volume)
-    }
-    
-    
-    func chatTokenDidExpire(code: AgoraChatErrorCode) {
-        if code == .tokenExpire {
-            self.reLogin()
-        }
-    }
-
-    func chatTokenWillExpire(code: AgoraChatErrorCode) {
-        if code == .tokeWillExpire {
-            self.reLogin()
-        }
-    }
-    
-    func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
-        self.showMessage(message: message)
-    }
-    
-    func receiveGift(roomId: String, meta: [String : String]?) {
-        guard let dic = meta else { return }
-        self.requestRoomDetail()
-        var giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
-        if giftList == nil {
-            giftList = self.giftList()
-            self.view.addSubview(giftList!)
-        }
-        giftList?.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
-        giftList?.cellAnimation()
-        if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
-            self.rocketAnimation()
-        }
-    }
-    
-    func receiveApplySite(roomId: String, meta: [String : String]?) {
-        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != roomInfo?.room?.owner?.uid ?? "" {
-            return
-        }
-        self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: true)
-    }
-    
-    func receiveInviteSite(roomId: String, meta: [String : String]?) {
-        guard let map = meta?["user"] else { return }
-        let user = model(from: map, VRUser.self)
-        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user?.uid ?? "" {
-            return
-        }
-        self.showInviteMicAlert()
-    }
-    
-    func refuseInvite(roomId: String, meta: [String : String]?) {
-        let user = model(from: meta ?? [:], VRUser.self)
-        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
-            return
-        }
-        self.view.makeToast("User \(user.name ?? "") refuse invite",point: self.toastPoint, title: nil, image: nil, completion: nil)
-    }
-    
-    func userJoinedRoom(roomId: String, username: String) {
-        requestRoomDetail()
-        self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
-    }
-    
-    func announcementChanged(roomId: String, content: String) {
-        self.view.makeToast("Voice room announcement changed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
-        guard let _ = roomInfo?.room else {return}
-        roomInfo?.room!.announcement = content
-    }
-    
-    func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason) {
-        VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
-        VoiceRoomIMManager.shared?.delegate = nil
-        var message = ""
-        switch reason {
-        case .beRemoved: message = "you are removed by owner!"
-        case .destroyed: message = "VoiceRoom was destroyed!"
-        case .offline: message = "you are offline!"
-        @unknown default:
-            break
-        }
-        self.view.makeToast(message,point: self.toastPoint, title: nil, image: nil, completion: nil)
-        if reason == .destroyed || reason == .beRemoved {
-            if reason == .destroyed {
-                NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
-            }
-            self.backAction()
-        }
-        requestRoomDetail()
-    }
-    
-    func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
-        guard let dic = getMicStatus(with: attributeMap) else {return}
-        var index: Int = dic["index"] ?? 0
-        let status: Int = dic["status"] ?? 0
-        if index > 6 {index = 6}
-        guard let mic: VRRoomMic = roomInfo?.mic_info?[index] else {return}
-        var mic_info = mic
-        mic_info.status = status
-        if status == 5 || status == -2 {
-            self.roomInfo?.room?.use_robot = status == 5
-        }
-        self.roomInfo?.mic_info?[index] = mic_info
-        self.rtcView.micInfos = self.roomInfo?.mic_info
-        requestRoomDetail()
-    }
-    
-    func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
-        
-    }
-    
-    private func getMicStatus(with map: [String : String]?) -> Dictionary<String, Int>? {
-        guard let mic_info = map else {return nil}
-        var first: Dictionary<String, Int>? = Dictionary()
-        for mic in mic_info {
-            let key: String = mic.key
-            let value = mic.value.z.jsonToDictionary()
-            guard let status: Int = value["status"] as? Int else {return nil}
-            first?["status"] = status
-
-            if key.contains("mic_") {
-                if key.components(separatedBy: "mic_").count > 1 {
-                    let index = key.components(separatedBy: "mic_")[1]
-                    if let mic_index = Int(index) {
-                       first?["index"] = mic_index
-                       let uid = VoiceRoomUserInfo.shared.user?.uid
-                        if !self.isOwner {
-                            if value.keys.contains("status"),let status = value["status"] as? Int,status == -1 {
-                                self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
-                            } else {
-                                self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
-                            }
-                        }
-                       if value.keys.contains("uid") {
-                          if uid == value["uid"] as? String ?? "" {
-                              local_index = mic_index
-                              //如果当前是0的状态  就设置成主播
-                              if isOwner {
-                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
-                              } else {
-                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
-                                  self.rtckit.setClientRole(role: status == 0 ? .owner : .audience)
-                              }
-                                    
-                          }
-                       }
-                    }
-                    return first
-                }
-            }
-        }
-        return nil
-    }
-
-}
+//extension VoiceRoomViewController: VoiceRoomIMDelegate {
+//
+//    func memberLeave(roomId: String, userName: String) {
+//        requestRoomDetail()
+//    }
+//
+//
+//    func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
+//        roomInfo?.room?.robot_volume = UInt(volume)
+//    }
+//
+//
+//    func chatTokenDidExpire(code: AgoraChatErrorCode) {
+//        if code == .tokenExpire {
+//            self.reLogin()
+//        }
+//    }
+//
+//    func chatTokenWillExpire(code: AgoraChatErrorCode) {
+//        if code == .tokeWillExpire {
+//            self.reLogin()
+//        }
+//    }
+//
+//    func receiveTextMessage(roomId: String, message: AgoraChatMessage) {
+//        self.showMessage(message: message)
+//    }
+//
+//    func receiveGift(roomId: String, meta: [String : String]?) {
+//        guard let dic = meta else { return }
+//        self.requestRoomDetail()
+//        var giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
+//        if giftList == nil {
+//            giftList = self.giftList()
+//            self.view.addSubview(giftList!)
+//        }
+//        giftList?.gifts.append(model(from: dic, VoiceRoomGiftEntity.self))
+//        giftList?.cellAnimation()
+//        if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
+//            self.rocketAnimation()
+//        }
+//    }
+//
+//    func receiveApplySite(roomId: String, meta: [String : String]?) {
+//        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != roomInfo?.room?.owner?.uid ?? "" {
+//            return
+//        }
+//        self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: true)
+//    }
+//
+//    func receiveInviteSite(roomId: String, meta: [String : String]?) {
+//        guard let map = meta?["user"] else { return }
+//        let user = model(from: map, VRUser.self)
+//        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user?.uid ?? "" {
+//            return
+//        }
+//        self.showInviteMicAlert()
+//    }
+//
+//    func refuseInvite(roomId: String, meta: [String : String]?) {
+//        let user = model(from: meta ?? [:], VRUser.self)
+//        if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
+//            return
+//        }
+//        self.view.makeToast("User \(user.name ?? "") refuse invite",point: self.toastPoint, title: nil, image: nil, completion: nil)
+//    }
+//
+//    func userJoinedRoom(roomId: String, username: String) {
+//        requestRoomDetail()
+//        self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
+//    }
+//
+//    func announcementChanged(roomId: String, content: String) {
+//        self.view.makeToast("Voice room announcement changed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
+//        guard let _ = roomInfo?.room else {return}
+//        roomInfo?.room!.announcement = content
+//    }
+//
+//    func userBeKicked(roomId: String, reason: AgoraChatroomBeKickedReason) {
+//        VoiceRoomIMManager.shared?.userQuitRoom(completion: nil)
+//        VoiceRoomIMManager.shared?.delegate = nil
+//        var message = ""
+//        switch reason {
+//        case .beRemoved: message = "you are removed by owner!"
+//        case .destroyed: message = "VoiceRoom was destroyed!"
+//        case .offline: message = "you are offline!"
+//        @unknown default:
+//            break
+//        }
+//        self.view.makeToast(message,point: self.toastPoint, title: nil, image: nil, completion: nil)
+//        if reason == .destroyed || reason == .beRemoved {
+//            if reason == .destroyed {
+//                NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
+//            }
+//            self.backAction()
+//        }
+//        requestRoomDetail()
+//    }
+//
+//    func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
+//        guard let dic = getMicStatus(with: attributeMap) else {return}
+//        var index: Int = dic["index"] ?? 0
+//        let status: Int = dic["status"] ?? 0
+//        if index > 6 {index = 6}
+//        guard let mic: VRRoomMic = roomInfo?.mic_info?[index] else {return}
+//        var mic_info = mic
+//        mic_info.status = status
+//        if status == 5 || status == -2 {
+//            self.roomInfo?.room?.use_robot = status == 5
+//        }
+//        self.roomInfo?.mic_info?[index] = mic_info
+//        self.rtcView.micInfos = self.roomInfo?.mic_info
+//        requestRoomDetail()
+//    }
+//
+//    func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {
+//
+//    }
+//
+//    private func getMicStatus(with map: [String : String]?) -> Dictionary<String, Int>? {
+//        guard let mic_info = map else {return nil}
+//        var first: Dictionary<String, Int>? = Dictionary()
+//        for mic in mic_info {
+//            let key: String = mic.key
+//            let value = mic.value.z.jsonToDictionary()
+//            guard let status: Int = value["status"] as? Int else {return nil}
+//            first?["status"] = status
+//
+//            if key.contains("mic_") {
+//                if key.components(separatedBy: "mic_").count > 1 {
+//                    let index = key.components(separatedBy: "mic_")[1]
+//                    if let mic_index = Int(index) {
+//                       first?["index"] = mic_index
+//                       let uid = VoiceRoomUserInfo.shared.user?.uid
+//                        if !self.isOwner {
+//                            if value.keys.contains("status"),let status = value["status"] as? Int,status == -1 {
+//                                self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
+//                            } else {
+//                                self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+//                            }
+//                        }
+//                       if value.keys.contains("uid") {
+//                          if uid == value["uid"] as? String ?? "" {
+//                              local_index = mic_index
+//                              //如果当前是0的状态  就设置成主播
+//                              if isOwner {
+//                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
+//                              } else {
+//                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
+//                                  self.rtckit.setClientRole(role: status == 0 ? .owner : .audience)
+//                              }
+//
+//                          }
+//                       }
+//                    }
+//                    return first
+//                }
+//            }
+//        }
+//        return nil
+//    }
+//
+//}
 
 //MARK: - ASManagerDelegate
 extension VoiceRoomViewController: ASManagerDelegate {

@@ -51,10 +51,6 @@ class AgoraChatRoomHeaderView: UIView {
         }
     }
     
-//    override func draw(_ rect: CGRect) {
-//
-//    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -101,16 +97,19 @@ class AgoraChatRoomHeaderView: UIView {
         self.rankFBtn.layer.masksToBounds = true
         self.rankFBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
         self.addSubview(self.rankFBtn)
+        self.rankFBtn.isHidden = true
         
         self.rankSBtn.layer.cornerRadius = 13~
         self.rankSBtn.layer.masksToBounds = true
         self.rankSBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
         self.addSubview(self.rankSBtn)
+        self.rankSBtn.isHidden = true
         
         self.rankTBtn.layer.cornerRadius = 13~
         self.rankTBtn.layer.masksToBounds = true
         self.rankTBtn.addTargetFor(self, action: #selector(rankClick), for: .touchUpInside)
         self.addSubview(self.rankTBtn)
+        self.rankTBtn.isHidden = true
         
         self.configView.layer.cornerRadius = 11~;
         self.configView.layer.masksToBounds = true;
@@ -288,10 +287,6 @@ class AgoraChatRoomHeaderView: UIView {
             make.width.height.equalTo(26)
             make.right.equalTo(self.totalCountLabel.snp.left).offset(-10)
         }
-        
-        self.rankFBtn.isHidden = true
-        self.rankSBtn.isHidden = true
-        self.rankTBtn.isHidden = true
 
     }
     
@@ -320,7 +315,6 @@ class AgoraChatRoomHeaderView: UIView {
         if let rankList = entity.ranking_list {
             
             if rankList.count == 0 {return}
-            
             
             if let fImg = rankList[0].portrait {
                 self.rankFBtn.setImage(UIImage(named: fImg), for: .normal)

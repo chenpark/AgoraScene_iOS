@@ -124,6 +124,7 @@ extension VoiceRoomViewController {
             VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                 if let result = dic?["result"] as? Bool,error == nil,result {
                     debugPrint("result:\(result)")
+                    self.requestRankList()
                 } else {
                     self.view.makeToast("Send failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }

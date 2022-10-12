@@ -14,7 +14,7 @@ import KakaJSON
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func memberLeave(roomId: String, userName: String) {
-        
+       
     }
     
     func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
@@ -50,7 +50,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
-        self.requestRoomDetail()
+        requestRankList()
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
@@ -78,6 +78,9 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     
     func userJoinedRoom(roomId: String, username: String) {
+        Throttler.throttle(delay: 1) {
+            self.requestRoomDetail()
+        }
         self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }
     
@@ -105,6 +108,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             }
             self.backAction()
         }
+        
     }
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
@@ -120,7 +124,9 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         }
         self.roomInfo?.mic_info?[index] = mic_info
         self.rtcView.micInfos = self.roomInfo?.mic_info
-        requestRoomDetail()
+        Throttler.throttle(delay: 1) {
+            self.requestRoomDetail()
+        }
     }
     
     func roomAttributesDidRemoved(roomId: String, attributes: [String]?, from fromId: String) {

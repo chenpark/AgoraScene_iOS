@@ -70,6 +70,18 @@ import KakaJSON
     }
 }
 
+@objc open class VRUsers: NSObject, Convertible {
+    var ranking_list: [VRUser]?
+    
+    required public override init() {
+        
+    }
+    
+    public func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        property.name
+    }
+}
+
 @objc open class VRRoomInfo:NSObject, Convertible {
     
     var room: VRRoomEntity?
