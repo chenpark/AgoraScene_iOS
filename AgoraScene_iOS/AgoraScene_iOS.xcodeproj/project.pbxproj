@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0527762528F6BB7700F11006 /* VoiceRoomEndLiveAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0527762428F6BB7700F11006 /* VoiceRoomEndLiveAlert.swift */; };
 		053F14B328D5B65600350D7A /* VoiceRoomDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053F14B228D5B65600350D7A /* VoiceRoomDisclaimerView.swift */; };
 		053F14B528D5B9AD00350D7A /* VRDisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053F14B428D5B9AD00350D7A /* VRDisclaimerViewController.swift */; };
 		054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */; };
@@ -155,6 +156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0527762428F6BB7700F11006 /* VoiceRoomEndLiveAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomEndLiveAlert.swift; sourceTree = "<group>"; };
 		053F14B228D5B65600350D7A /* VoiceRoomDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomDisclaimerView.swift; sourceTree = "<group>"; };
 		053F14B428D5B9AD00350D7A /* VRDisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRDisclaimerViewController.swift; sourceTree = "<group>"; };
 		054AF7AD28D16864004C60A3 /* VRAllRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRAllRoomsViewController.swift; sourceTree = "<group>"; };
@@ -595,6 +597,7 @@
 				E36BE19E28C9E54A00270D52 /* VMEQSettingView.swift */,
 				E346372628D9AE8500026F85 /* VMConfirmView.swift */,
 				E3682BED28F2B09D00DA21FD /* VMSoundView.swift */,
+				0527762428F6BB7700F11006 /* VoiceRoomEndLiveAlert.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -893,6 +896,7 @@
 				05D8C3E628D0699100820391 /* VoiceRoomBusinessApi.swift in Sources */,
 				E36BE11028C5ECD500270D52 /* PresentationSegue.swift in Sources */,
 				05D8C47528D0734700820391 /* VoiceRoomIMManager.swift in Sources */,
+				0527762528F6BB7700F11006 /* VoiceRoomEndLiveAlert.swift in Sources */,
 				05D8C44A28D06E4E00820391 /* VoiceRoomEmojiListView.swift in Sources */,
 				05D8C3D528D068D100820391 /* VoiceRoomAudiencesViewController.swift in Sources */,
 				E36BE18A28C83CF100270D52 /* VMUpstageView.swift in Sources */,

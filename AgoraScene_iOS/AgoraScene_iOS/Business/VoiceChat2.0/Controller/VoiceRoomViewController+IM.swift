@@ -77,7 +77,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         self.view.makeToast("User \(user.name ?? "") refuse invite",point: self.toastPoint, title: nil, image: nil, completion: nil)
     }
     
-    func userJoinedRoom(roomId: String, username: String) {
+    func userJoinedRoom(roomId: String, username: String, ext: Dictionary<String,Any>?) {
         self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }
     

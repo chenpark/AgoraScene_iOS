@@ -148,6 +148,7 @@ extension VoiceRoomGiftsView {
         self.disableView.isHidden = false
         if self.sendClosure != nil,self.current != nil {
             self.current?.gift_count = self.gift_count
+            self.chooseQuantity.setTitle("1", for: .normal)
             self.sendClosure!(self.current!.mutableCopy() as! VoiceRoomGiftEntity)
         }
         DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {

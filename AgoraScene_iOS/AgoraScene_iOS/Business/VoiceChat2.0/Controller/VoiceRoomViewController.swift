@@ -309,10 +309,7 @@ extension VoiceRoomViewController {
             //giveupStage()
             cancelRequestSpeak(index: nil)
             if self.isOwner {
-                if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
-                }).first {
-                    self.navigationController?.popToViewController(vc, animated: true)
-                }
+                self.showEndLive()
             } else {
                 self.navigationController?.popViewController(animated: true)
             }
@@ -878,6 +875,27 @@ extension VoiceRoomViewController {
             VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .agreeInvite(roomId: roomId), params: [:]) { _, _ in
                 
             }
+        }
+    }
+    
+    func showEndLive() {
+        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-70, height: 190))
+        compent.destination = .center
+        let micAlert = VoiceRoomEndLiveAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-70, height: 190), title: LanguageManager.localValue(key: "End Live"), content: LanguageManager.localValue(key: "The room will close after you leave."),cancel: LanguageManager.localValue(key: "Cancel"),confirm: LanguageManager.localValue(key: "Confirm")).cornerRadius(16).backgroundColor(.white)
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: micAlert)
+        micAlert.actionEvents = { [weak self] in
+            if $0 != 30 {
+                self?.ownerBack()
+            }
+            vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
+    }
+    
+    private func ownerBack() {
+        if let vc = self.navigationController?.viewControllers.filter({ $0 is VRRoomsViewController
+        }).first {
+            self.navigationController?.popToViewController(vc, animated: true)
         }
     }
     
