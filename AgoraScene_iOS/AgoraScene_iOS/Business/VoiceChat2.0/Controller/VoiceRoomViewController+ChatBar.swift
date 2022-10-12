@@ -162,10 +162,18 @@ extension VoiceRoomViewController {
     }
     
     func changeMicState() {
+        guard let idx = self.local_index else {
+            self.view.makeToast("you have no wheat slots!", point: self.view.center, title: nil, image: nil, completion: nil)
+            return
+        }
+        if !self.isOwner,idx == 0 {
+            self.view.makeToast("you have no wheat slots!", point: self.view.center, title: nil, image: nil, completion: nil)
+            return
+        }
         self.chatBar.micState = !self.chatBar.micState
         self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
         //需要根据麦位特殊处理
-        self.chatBar.micState == true ? self.muteLocal(with: 0):self.unmuteLocal(with: 0)
+        self.chatBar.micState == true ? self.muteLocal(with: idx):self.unmuteLocal(with: idx)
     }
     
     func showUsers() {
