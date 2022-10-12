@@ -100,7 +100,7 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 2
         } else {
-            return isPrivate ? 3 : 2
+            return roomInfo?.room?.type == 1 ? 3 : 2
         }
     }
     

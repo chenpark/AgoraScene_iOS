@@ -27,6 +27,9 @@ class AgoraChatRoom3DRtcView: UIView {
     private var lastMovedPoint: CGPoint = CGPoint(x: UIScreen.main.bounds.size.width / 2.0, y: 275~)
     private var touchState: TouchState = .began
     
+    public var clickBlock: (() -> Void)?
+    public var activeBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
+    
     public var micInfos: [VRRoomMic]? {
         didSet {
             guard let _ = collectionView else {
@@ -38,6 +41,8 @@ class AgoraChatRoom3DRtcView: UIView {
             guard let micInfo: VRRoomMic = micInfos[4] as? VRRoomMic else {return}
             rtcUserView.cellType = getCellTypeWithStatus(micInfo.status)
             rtcUserView.tag = 204
+            guard let member = micInfo.member else {return}
+            
             rtcUserView.user = micInfo.member
         }
     }
@@ -249,6 +254,20 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
                 }
             default:
                 break
+            }
+            
+            if indexPath.item == 2 || indexPath.item == 4 {
+                cell.activeBlock = {[weak self] type in
+                    guard let activeBlock = self?.activeBlock else {
+                        return
+                    }
+                    activeBlock(type)
+                }
+            } else {
+                cell.clickBlock = {[weak self] in
+                    guard let clickBlock = self?.clickBlock else {return}
+                    clickBlock()
+                }
             }
             return cell
         } else {

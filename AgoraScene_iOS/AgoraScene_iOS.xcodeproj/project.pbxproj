@@ -79,6 +79,7 @@
 		E346372728D9AE8500026F85 /* VMConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E346372628D9AE8500026F85 /* VMConfirmView.swift */; };
 		E3682BEA28E29B4800DA21FD /* VMMuteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3682BE928E29B4800DA21FD /* VMMuteView.swift */; };
 		E3682BEE28F2B09D00DA21FD /* VMSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3682BED28F2B09D00DA21FD /* VMSoundView.swift */; };
+		E3682BF028F54E6D00DA21FD /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3682BEF28F54E6D00DA21FD /* UIButton+Extension.swift */; };
 		E36BE0E228C5E74500270D52 /* AgoraSceneConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */; };
 		E36BE0FE28C5ECD500270D52 /* UIButtonLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */; };
 		E36BE0FF28C5ECD500270D52 /* ResourceBundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */; };
@@ -230,6 +231,7 @@
 		E346372628D9AE8500026F85 /* VMConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMConfirmView.swift; sourceTree = "<group>"; };
 		E3682BE928E29B4800DA21FD /* VMMuteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMMuteView.swift; sourceTree = "<group>"; };
 		E3682BED28F2B09D00DA21FD /* VMSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMSoundView.swift; sourceTree = "<group>"; };
+		E3682BEF28F54E6D00DA21FD /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		E36BE0E128C5E74500270D52 /* AgoraSceneConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraSceneConfig.swift; sourceTree = "<group>"; };
 		E36BE0E728C5ECD500270D52 /* UIButtonLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonLayoutExtension.swift; sourceTree = "<group>"; };
 		E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBundleExtension.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				E36BE0E828C5ECD500270D52 /* ResourceBundleExtension.swift */,
 				E36BE0E928C5ECD500270D52 /* UIViewToastExtension.swift */,
 				E36BE0EA28C5ECD500270D52 /* UIImageBundleExtension.swift */,
+				E3682BEF28F54E6D00DA21FD /* UIButton+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				E36BE15928C5F49600270D52 /* ASRTCKit.swift in Sources */,
 				E36BE12228C5EF2A00270D52 /* VoiceRoomAlertContainer.swift in Sources */,
 				E3682BEE28F2B09D00DA21FD /* VMSoundView.swift in Sources */,
+				E3682BF028F54E6D00DA21FD /* UIButton+Extension.swift in Sources */,
 				E36BE11D28C5EF1700270D52 /* VoiceRoomAlertViewController.swift in Sources */,
 				E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */,
 				05D8C43528D06E0F00820391 /* VRBaseViewController.swift in Sources */,
@@ -1122,6 +1126,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1155,6 +1160,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

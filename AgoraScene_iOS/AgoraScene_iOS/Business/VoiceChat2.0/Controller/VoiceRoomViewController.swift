@@ -28,7 +28,7 @@ class VoiceRoomViewController: VRBaseViewController {
     }()
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        .lightContent
     }
     
     private var headerView: AgoraChatRoomHeaderView!
@@ -90,6 +90,7 @@ class VoiceRoomViewController: VRBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setNeedsStatusBarAppearanceUpdate()
         
         guard let user = VoiceRoomUserInfo.shared.user else {return}
         guard let owner = self.roomInfo?.room?.owner else {return}
@@ -220,6 +221,7 @@ extension VoiceRoomViewController {
         self.view.addSubview(headerView)
         
         self.sRtcView = AgoraChatRoom3DRtcView()
+        sRtcView
         self.view.addSubview(self.sRtcView)
         
         self.rtcView = AgoraChatRoomNormalRtcView()
@@ -1001,6 +1003,7 @@ extension VoiceRoomViewController {
             VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .giftTo(roomId: roomId), params: ["gift_id":id,"num":Int(count) ?? 1,"to_uid":uid]) { dic, error in
                 if let result = dic?["result"] as? Bool,error == nil,result {
                     debugPrint("result:\(result)")
+                    self.requestRoomDetail()
                 } else {
                     self.view.makeToast("Send failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
@@ -1119,7 +1122,7 @@ extension VoiceRoomViewController: SVGAPlayerDelegate {
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func memberLeave(roomId: String, userName: String) {
-        
+        requestRoomDetail()
     }
     
     
@@ -1146,6 +1149,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func receiveGift(roomId: String, meta: [String : String]?) {
         guard let dic = meta else { return }
+        self.requestRoomDetail()
         var giftList = self.view.viewWithTag(1111) as? VoiceRoomGiftView
         if giftList == nil {
             giftList = self.giftList()
@@ -1156,7 +1160,6 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if let id = meta?["gift_id"],id == "VoiceRoomGift9" {
             self.rocketAnimation()
         }
-        self.requestRoomDetail()
     }
     
     func receiveApplySite(roomId: String, meta: [String : String]?) {
@@ -1184,6 +1187,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     
     func userJoinedRoom(roomId: String, username: String) {
+        requestRoomDetail()
         self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }
     
@@ -1211,6 +1215,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             }
             self.backAction()
         }
+        requestRoomDetail()
     }
     
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {

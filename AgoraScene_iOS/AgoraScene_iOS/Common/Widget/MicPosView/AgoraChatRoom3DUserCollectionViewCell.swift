@@ -38,6 +38,9 @@ class AgoraChatRoom3DUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    public var clickBlock: (() -> Void)?
+    public var activeBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -57,6 +60,17 @@ class AgoraChatRoom3DUserCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(self.contentView).offset(-20~)
         }
         
+        rtcUserView.clickBlock = {[weak self] in
+            guard let clickBlock = self?.clickBlock else {return}
+            clickBlock()
+        }
+        
+        rtcUserView.activeVBlock = {[weak self] type in
+            guard let activeBlock = self?.activeBlock else {
+                return
+            }
+            activeBlock(type)
+        }
     }
     
 }
