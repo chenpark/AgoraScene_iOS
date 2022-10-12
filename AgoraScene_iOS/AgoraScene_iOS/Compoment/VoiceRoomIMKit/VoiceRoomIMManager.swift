@@ -36,7 +36,7 @@ public let VoiceRoomJoinedMember = "chatroom_join"
     
     func refuseInvite(roomId: String, meta: [String:String]?)
     
-    func userJoinedRoom(roomId: String, username: String)
+    func userJoinedRoom(roomId: String, username: String,ext: Dictionary<String,Any>?)
     
     func announcementChanged(roomId: String, content: String)
     
@@ -143,9 +143,9 @@ public extension VoiceRoomIMManager {
                             self.delegate?.voiceRoomUpdateRobotVolume(roomId: self.currentRoomId, volume: body.customExt["volume"] ?? "")
                         }
                     case VoiceRoomJoinedMember:
-                        if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.userJoinedRoom(roomId:username:))) {
+                        if self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.userJoinedRoom(roomId:username:ext:))) {
                             if let ext = body.customExt["room_user"], let user = model(from: ext, VRUser.self) {
-                                self.delegate?.userJoinedRoom(roomId: message.to, username: user.name ?? "")
+                                self.delegate?.userJoinedRoom(roomId: message.to, username: user.name ?? "",ext: body.customExt)
                             }
                         }
                     default:
@@ -156,13 +156,7 @@ public extension VoiceRoomIMManager {
         }
     }
     //MARK: - AgoraChatroomManagerDelegate
-    func didReceiveUserJoinedChatroom(_ aChatroom: AgoraChatroom, username aUsername: String) {
-        if self.delegate != nil,self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.userJoinedRoom(roomId:username:))) {
-            if let roomId = aChatroom.chatroomId,roomId == self.currentRoomId  {
-                self.delegate?.userJoinedRoom(roomId: roomId, username: aUsername)
-            }
-        }
-    }
+
     
     func chatroomAnnouncementDidUpdate(_ aChatroom: AgoraChatroom, announcement aAnnouncement: String?) {
         if self.delegate != nil,self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.announcementChanged(roomId:content:))) {
