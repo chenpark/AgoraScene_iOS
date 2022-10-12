@@ -39,7 +39,7 @@ public final class VRUserProfileViewController: VRBaseViewController {
         }
         self.userInfo.editFinished = { [weak self] in
             guard let `self` = self else { return }
-            if self.userName != $0 {
+            if self.userName != $0,!$0.isEmpty {
                 self.changeUserName(userName: $0)
             }
         }

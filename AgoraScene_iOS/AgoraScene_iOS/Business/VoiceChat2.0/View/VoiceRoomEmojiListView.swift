@@ -24,7 +24,7 @@ public class VoiceRoomEmojiListView: UIView,UICollectionViewDelegate,UICollectio
     }()
 
     lazy var emojiList: UICollectionView = {
-        UICollectionView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: self.frame.height-10), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomEmojiCell.self, forCellReuseIdentifier: "VoiceRoomEmojiCell").dataSource(self).delegate(self)
+        UICollectionView(frame: CGRect(x: 0, y: 10, width: ScreenWidth, height: self.frame.height-10), collectionViewLayout: self.flowLayout).registerCell(VoiceRoomEmojiCell.self, forCellReuseIdentifier: "VoiceRoomEmojiCell").dataSource(self).delegate(self).backgroundColor(.white)
     }()
     
     lazy var separaLine: UIView = {

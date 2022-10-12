@@ -52,7 +52,7 @@ public class VoiceRoomGiftersViewController: UITableViewController {
         if cell == nil {
             cell = VoiceRoomGifterCell(style: .default, reuseIdentifier: "VoiceRoomGifterCell")
         }
-        cell?.user = self.dataSource.ranking_list?[safe: indexPath.row]
+        cell?.refresh(item: self.dataSource.ranking_list?[safe: indexPath.row])
         cell?.index = indexPath.row
         // Configure the cell...
         cell?.selectionStyle = .none

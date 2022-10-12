@@ -17,12 +17,11 @@ import ZSwiftBaseLib
         ((self.userName ?? "") + (self.content ?? ""))
     }
     lazy var height: CGFloat? = {
-        (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 999.0), options: .usesLineFragmentOrigin, context: nil).height ?? 0)+26
+        UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth-54, height: 15~)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeContent).sizeThatFits(CGSize(width: chatViewWidth-54, height: 9999)).height+26
     }()
     
     lazy var width: CGFloat? = {
-        UILabel().backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeContent).sizeThatFits(CGSize(width: chatViewWidth-54, height: 9999)).width
-//       (self.attributeContent?.boundingRect(with: CGSize(width: chatViewWidth - 54, height: 9999), options: .usesLineFragmentOrigin, context: nil).width ?? 0)
+        UILabel(frame: CGRect(x: 0, y: 0, width: chatViewWidth-54, height: 15~)).backgroundColor(.clear).numberOfLines(0).lineBreakMode(.byWordWrapping).attributedText(self.attributeContent).sizeThatFits(CGSize(width: chatViewWidth-54, height: 9999)).width
     }()
     
     lazy var attributeContent: NSAttributedString? = {
@@ -36,12 +35,12 @@ extension VoiceRoomChatEntity {
         if self.joined! == false {
             let attachment = NSTextAttachment()
             attachment.image = UIImage("fangzhu")
-            attachment.bounds = CGRect(x: 0, y: -4.5, width: 18, height: 18)
+            attachment.bounds = CGRect(x: 0, y: -1.5, width: 14, height: 14)
             let host = NSMutableAttributedString(attachment: attachment)
             host.append(NSAttributedString(string: " "))
             var text = NSMutableAttributedString {
-                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 13, weight: .semibold)).lineSpacing(5)
-                AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 13, weight: .regular)).lineSpacing(5)
+                AttributedText(self.userName!+" : ").foregroundColor(Color(0x8BB3FF)).font(.systemFont(ofSize: 14, weight: .semibold)).lineSpacing(5)
+                AttributedText(self.content!).foregroundColor(self.joined! == false ? Color.white:Color(0xFCF0B3)).font(.systemFont(ofSize: 14, weight: .regular)).lineSpacing(5)
             }
             var string = text.string as NSString
             if (VoiceRoomUserInfo.shared.currentRoomOwner?.name ?? "") == self.userName! {
