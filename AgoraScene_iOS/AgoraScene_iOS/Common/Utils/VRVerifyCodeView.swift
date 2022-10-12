@@ -24,7 +24,7 @@ public class VRVerifyCodeView: UIView {
     /// 输入框
     lazy var textFiled: VRVerifyCodeTextView = {
         let textFiled = VRVerifyCodeTextView(frame: CGRect(x: self.padding, y: 0, width: self.frame.width - 2*self.padding, height: self.frame.height)).backgroundColor(.clear).textColor(.clear).delegate(self)
-        textFiled.tintColor = .clear
+        textFiled.tintColor = .darkText
         textFiled.keyboardType = .decimalPad
         textFiled.addTarget(self, action: #selector(textFiledDidChange(_:)), for: .editingChanged)
         textFiled.addTarget(self, action: #selector(textFiledDidEnd(_:)), for: .editingDidEnd)

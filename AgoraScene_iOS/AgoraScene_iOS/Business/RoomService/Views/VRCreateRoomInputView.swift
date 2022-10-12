@@ -82,7 +82,9 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
         self.setupAttributes()
         self.pinCode.textValueChange = { [weak self] in
             self?.code = $0
-            self?.hiddenWarning()
+            if $0.count >= 4 {
+                self?.hiddenWarning()
+            }
         }
         self.pinCode.beginEdit = { [weak self] in
             self?.raise()

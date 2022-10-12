@@ -38,7 +38,7 @@ final class LauchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        VoiceRoomIMManager.shared?.configIM(appkey: "52117440#955012")
+        VoiceRoomIMManager.shared?.configIM(appkey: "81399972#1002901")
         //MARK: - you can replace request host call this.
 //        VoiceRoomBusinessRequest.shared.changeHost(host: <#T##String#>)
         self.login()

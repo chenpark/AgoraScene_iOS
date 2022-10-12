@@ -10,11 +10,7 @@ import ZSwiftBaseLib
 
 public class VoiceRoomGifterCell: UITableViewCell {
     
-    var user: VRUser? {
-        didSet {
-            DispatchQueue.main.async { self.refresh(item: self.user) }
-        }
-    }
+    var user: VRUser?
     
     var index: Int = 0 {
         didSet  {
@@ -61,7 +57,7 @@ public class VoiceRoomGifterCell: UITableViewCell {
         self.total.frame = CGRect(x: self.contentView.frame.width-75, y: self.avatar.center.y-15, width: 60, height: 30)
     }
 
-    private func refresh(item: VRUser?) {
+    func refresh(item: VRUser?) {
         self.userName.text = item?.name ?? ""
         self.total.setTitle("  \(item?.amount ?? 0)", for: .normal)
         self.avatar.image = UIImage(named: item?.portrait ?? "")

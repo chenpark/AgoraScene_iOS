@@ -78,13 +78,23 @@ extension VRCreateRoomView {
         if self.idx == 1 {
             namePrefix = LanguageManager.localValue(key: "Spatial Audio Mode Room")
         }
-        self.roomInput.roomNameField.text = namePrefix+" \((1...100).randomElement() ?? 1)"
+        self.roomInput.roomNameField.text = namePrefix+"-"+Date().z.dateString("MMdd")+"-\((1...100).randomElement() ?? 1)"
         self.roomInput.name = self.roomInput.roomNameField.text ?? ""
     }
     
     private func create() {
-        if self.createAction != nil {
-            self.createAction!()
+        if self.roomInput.privateChoice.isSelected != true {
+            if self.createAction != nil {
+                self.createAction!()
+            }
+        } else {
+            if self.roomInput.code.count >= 4 {
+                if self.createAction != nil {
+                    self.createAction!()
+                }
+            } else {
+                self.makeToast("4 Digit Password Required", point: self.center, title: nil, image: nil, completion: nil)
+            }
         }
     }
     

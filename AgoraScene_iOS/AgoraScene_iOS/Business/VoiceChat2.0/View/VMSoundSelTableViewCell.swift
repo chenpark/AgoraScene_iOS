@@ -114,7 +114,7 @@ class VMSoundSelTableViewCell: UITableViewCell {
         soulView.image = UIImage(named: "soul")
         bgView.addSubview(soulView)
 
-        usageLabel.text = "Current Customer Usage"
+        usageLabel.text = LanguageManager.localValue(key: "Current Customer Usage")
         usageLabel.font = UIFont.systemFont(ofSize: 11)
         usageLabel.textColor = UIColor(red: 0, green: 159/255.0, blue: 1, alpha: 1)
         bgView.addSubview(usageLabel)
