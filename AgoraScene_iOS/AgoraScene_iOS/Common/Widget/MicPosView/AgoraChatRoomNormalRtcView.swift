@@ -83,7 +83,12 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         
         if indexPath.item < 6 {
             let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
-            cell.tag = indexPath.item + 200
+            cell.viewTag = indexPath.item + 200
+            cell.clickBlock = {[weak self] tag in
+                print("------\(tag)")
+                guard let block = self?.clickBlock else {return}
+                block(cell.cellType, tag)
+            }
             /*
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
@@ -109,13 +114,6 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             } else {
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
             }
-            
-            cell.clickBlock = {[weak self] tag in
-                print("------\(tag)")
-                guard let block = self?.clickBlock else {return}
-                block(cell.cellType, tag)
-            }
-
             return cell
         } else {
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell

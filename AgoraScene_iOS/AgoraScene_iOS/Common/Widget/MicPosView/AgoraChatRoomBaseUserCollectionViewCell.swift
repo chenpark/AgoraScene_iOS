@@ -22,8 +22,14 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
     var user: VRUser? {
         didSet {
             rtcUserView.iconImgUrl = user?.portrait ?? ""
-            rtcUserView.nameStr = user?.name ?? "\(self.tag - 200)"
+            rtcUserView.nameStr = user?.name ?? "\(viewTag - 200)"
             rtcUserView.volume = user?.volume ?? 0
+        }
+    }
+    
+    public var viewTag: Int = 0 {
+        didSet {
+            rtcUserView.tag = viewTag
         }
     }
     
@@ -45,7 +51,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             guard let clickBlock = self?.clickBlock else {
                 return
             }
-            clickBlock(self?.tag ?? 0)
+            clickBlock(self!.viewTag)
         }
         self.contentView.addSubview(rtcUserView)
         
