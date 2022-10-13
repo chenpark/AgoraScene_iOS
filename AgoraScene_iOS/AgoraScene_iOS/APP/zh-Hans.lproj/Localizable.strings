@@ -99,6 +99,9 @@
 "Set Room Name" = "设置房间名称";
 "Gaming Buddy"="游戏陪玩";
 "Social Chat"="语聊社交";
+"active" = "激活";
+"blue" = "声蓝羽";
+"red" = "声红颜";
 "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat."="通过调节噪⾳消除和回声抑制的参数，解决语聊社交场景的⼈声通话问题，享受超低延时、清晰动听的⼈声。";
 "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful."="该⾳效专注于解决单⼈或多⼈唱K场景的各类问题，包括伴奏和⼈声的均衡处理，声⾳的曲调和声线美化，多⼈合唱的⾳量均衡和实时同步等。能够让K歌的场景更拟真，演唱者的歌声更动听。";
 "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. "="该⾳效专注于解决主播陪玩游戏场景⾥各类问题，包括⼈声和游戏声⾳的协同混响处理，声⾳的曲调和声线美化等。能够让陪玩主播的声⾳更具吸引⼒，同时保证游戏声⾳的场景感。";

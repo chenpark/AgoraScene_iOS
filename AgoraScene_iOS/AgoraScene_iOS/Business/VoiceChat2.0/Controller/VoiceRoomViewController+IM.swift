@@ -14,7 +14,10 @@ import KakaJSON
 extension VoiceRoomViewController: VoiceRoomIMDelegate {
     
     func memberLeave(roomId: String, userName: String) {
-       
+        let info = self.roomInfo
+        let count: Int = info?.room?.member_count ?? 0
+        info?.room?.member_count = count - 1
+        self.roomInfo = info
     }
     
     func voiceRoomUpdateRobotVolume(roomId: String, volume: String) {
@@ -78,6 +81,15 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     }
     
     func userJoinedRoom(roomId: String, username: String, ext: Dictionary<String,Any>?) {
+        //更新用户人数
+        if ext?.keys.contains("member_count") == true  {
+            if let count: String = ext?["member_count"] as? String {
+                let info = self.roomInfo
+                info?.room?.member_count = Int(count)
+                self.roomInfo = info
+            }
+            
+        }
         self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }
     

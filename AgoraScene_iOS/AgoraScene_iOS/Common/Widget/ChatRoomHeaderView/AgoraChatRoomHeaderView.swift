@@ -234,28 +234,28 @@ class AgoraChatRoomHeaderView: UIView {
         }
         
         self.giftBtn.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.left).offset(15~);
+            make.left.equalTo(self.snp.left).offset(15);
             make.centerY.equalTo(self.configView);
             make.width.equalTo(58~);
             make.height.equalTo(26~);
         }
         
         self.lookBtn.snp.makeConstraints { make in
-            make.left.equalTo(self.giftBtn.snp.right).offset(5~);
+            make.left.equalTo(self.giftBtn.snp.right).offset(5);
             make.centerY.equalTo(self.configView);
             make.width.equalTo(58~);
             make.height.equalTo(26~);
         }
         
         self.noticeView.snp.makeConstraints { make in
-            make.left.equalTo(self.lookBtn.snp.right).offset(5~);
+            make.left.equalTo(self.lookBtn.snp.right).offset(5);
             make.centerY.equalTo(self.configView);
             make.width.equalTo(90~);
             make.height.equalTo(26~);
         }
         
         imgView.snp.makeConstraints { make in
-            make.left.equalTo(self.noticeView).offset(5~);
+            make.left.equalTo(self.noticeView).offset(5);
             make.centerY.equalTo(self.noticeView);
             make.width.height.equalTo(15~);
         }

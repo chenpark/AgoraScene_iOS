@@ -76,7 +76,7 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
     }
     
     public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
-    
+    public var clickVBlock: (() -> Void)?
     override init(frame: CGRect) {
         super.init(frame: frame)
         SwiftyFitsize.reference(width: 375, iPadFitMultiple: 0.6)
@@ -96,13 +96,13 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(cornerView)
         
         blueAlienView.iconImgUrl = "blue"
-        blueAlienView.nameStr = "Agora Blue"
+        blueAlienView.nameStr = LanguageManager.localValue(key: "blue")
         blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
-        blueAlienView.activeVBlock = {[weak self] type in
-            guard let activeVBlock = self?.activeVBlock else {
+        blueAlienView.clickBlock = {
+            guard let clickVBlock = self.clickVBlock else {
                 return
             }
-            activeVBlock(type)
+            clickVBlock()
         }
         self.contentView.addSubview(blueAlienView)
         
@@ -113,14 +113,14 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(blueCoverView)
 
         redAlienView.iconImgUrl = "red"
-        redAlienView.nameStr = "Agora Red"
-        redAlienView.activeVBlock = {[weak self] type in
-            guard let activeVBlock = self?.activeVBlock else {
+        redAlienView.nameStr = LanguageManager.localValue(key: "red")
+        redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
+        redAlienView.clickBlock = {
+            guard let clickVBlock = self.clickVBlock else {
                 return
             }
-            activeVBlock(type)
+            clickVBlock()
         }
-        redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienNonActive
         self.contentView.addSubview(redAlienView)
 
         linkView.image = UIImage(named: "icons／solid／link")

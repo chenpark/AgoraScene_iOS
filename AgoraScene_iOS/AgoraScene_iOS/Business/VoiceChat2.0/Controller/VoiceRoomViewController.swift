@@ -211,7 +211,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendGETRequest(api: .fetchGiftContribute(roomId: room_id), params: [:], classType: VRUsers.self) {[weak self] list, error in
             if error == nil {
                 guard let list = list?.ranking_list else { return }
-                var info = self?.roomInfo
+                let info = self?.roomInfo
                 info?.room?.ranking_list = list
                 self?.roomInfo = info
             } else {
@@ -235,7 +235,6 @@ extension VoiceRoomViewController {
         self.view.addSubview(headerView)
         
         self.sRtcView = AgoraChatRoom3DRtcView()
-        sRtcView
         self.view.addSubview(self.sRtcView)
         
         self.rtcView = AgoraChatRoomNormalRtcView()
@@ -351,8 +350,6 @@ extension VoiceRoomViewController {
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
-        } else if type == .AgoraChatRoomBaseUserCellTypeAlienNonActive {
-            showActiveAlienView(false)
         } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser {
             //用户下麦或者mute自己
             if tag - 200 == local_index {
@@ -719,6 +716,7 @@ extension VoiceRoomViewController {
     }
     
     func changeMic(from: Int, to: Int) {
+        print("-----\(from)----\(to)----\(local_index)")
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         let params: Dictionary<String, Int> = [
             "from": from,
@@ -730,6 +728,7 @@ extension VoiceRoomViewController {
                 if result {
                     self.view.makeToast("changeMic success!")
                     self.local_index = to
+                    self.micExchange(from, to: to)
                 } else {
                     self.view.makeToast("changeMic failed!")
                 }
@@ -737,6 +736,19 @@ extension VoiceRoomViewController {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
+    }
+    
+    func micExchange(_ from: Int, to: Int) {
+        //立即更新麦位位置
+        guard let fromUser: VRRoomMic = self.roomInfo?.mic_info![from] else {return}
+        fromUser.mic_index = to
+        
+        guard let toUser: VRRoomMic = self.roomInfo?.mic_info![to] else {return}
+        toUser.mic_index = from
+        
+        self.roomInfo?.mic_info![from] = toUser
+        self.roomInfo?.mic_info![to] = fromUser
+        self.rtcView.micInfos = self.roomInfo?.mic_info
     }
     
     func showMuteView(with index: Int) {

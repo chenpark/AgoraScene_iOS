@@ -101,7 +101,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
     
-    public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
+    //public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
     
     public var iconWidth: CGFloat = 60~ {
         didSet {
@@ -181,11 +181,15 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         coverView.layer.masksToBounds = true
         self.addSubview(coverView)
         self.coverView.isHidden = true
+        
+        let alienTap = UITapGestureRecognizer(target: self, action: #selector(alienTap))
+        coverView.addGestureRecognizer(alienTap)
+        coverView.isUserInteractionEnabled = true
 
         activeButton.backgroundColor = .blue
         activeButton.layer.cornerRadius = 8~
         activeButton.layer.masksToBounds = true
-        activeButton.setTitle("active", for: .normal)
+        activeButton.setTitle(LanguageManager.localValue(key: "active"), for: .normal)
         activeButton.setTitleColor(.white, for: .normal)
         activeButton.titleLabel?.font = UIFont.systemFont(ofSize: 9)~
         activeButton.addTargetFor(self, action: #selector(active), for: .touchUpInside)
@@ -194,7 +198,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         
         self.nameBtn.setTitleColor(.white, for: .normal)
         self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 11)~
-        self.nameBtn.setTitle("jack ma", for: .normal)
+        self.nameBtn.setTitle("", for: .normal)
         self.nameBtn.isUserInteractionEnabled = false;
         self.addSubview(self.nameBtn)
         
@@ -238,6 +242,8 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             make.centerX.equalTo(self)
             make.top.equalTo(self.iconView.snp.bottom).offset(10~)
             make.height.equalTo(20~)
+            make.left.equalTo(10)
+            make.right.equalTo(-10)
         }
     }
    
@@ -249,10 +255,16 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     }
     
     @objc private func active() {
-        guard let activeVBlock = activeVBlock else {
+        guard let clickBlock = clickBlock else {
             return
         }
-        let type: AgoraChatRoomBaseUserCellType = cellType == .AgoraChatRoomBaseUserCellTypeAlienActive ? .AgoraChatRoomBaseUserCellTypeAlienNonActive : .AgoraChatRoomBaseUserCellTypeAlienActive
-        activeVBlock(type)
+        clickBlock()
+    }
+    
+    @objc private func alienTap() {
+        guard let clickBlock = clickBlock else {
+            return
+        }
+        clickBlock()
     }
 }

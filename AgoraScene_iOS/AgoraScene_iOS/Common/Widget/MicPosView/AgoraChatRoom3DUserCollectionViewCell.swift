@@ -65,12 +65,12 @@ class AgoraChatRoom3DUserCollectionViewCell: UICollectionViewCell {
             clickBlock()
         }
         
-        rtcUserView.activeVBlock = {[weak self] type in
-            guard let activeBlock = self?.activeBlock else {
-                return
-            }
-            activeBlock(type)
-        }
+//        rtcUserView.activeVBlock = {[weak self] type in
+//            guard let activeBlock = self?.activeBlock else {
+//                return
+//            }
+//            activeBlock(type)
+//        }
     }
     
 }

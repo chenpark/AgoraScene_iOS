@@ -123,16 +123,15 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 cell.cellType = mic_info.status == 5 ? .AgoraChatRoomBaseUserCellTypeActived : .AgoraChatRoomBaseUserCellTypeNonActived
                 cell.showAlienMicView = self.showAlienMicView
             }
-            cell.activeVBlock = {[weak self] type in
-                guard let block = self?.clickBlock else {return}
-                block(type, 0)
-            }
             
+            cell.clickVBlock = {
+                guard let clickBlock = self.clickBlock else {return}
+                clickBlock(.AgoraChatRoomBaseUserCellTypeAlienActive, 0)
+            }
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
     }
 }
