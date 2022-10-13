@@ -37,10 +37,10 @@ class VMManagerView: UIView {
             //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
             let m_type = micInfo?.status
             var username: String = "\(micInfo?.mic_index ?? 0)"
-            var iconStr: String = "avatar1"
+            var iconStr: String = ""
             if let user = micInfo?.member {
                 username = user.name ?? "\(String(describing: micInfo?.index))"
-                iconStr = user.portrait ?? "avatar1"
+                iconStr = user.portrait ?? ""
             }
             if m_type == -1 {
                 iconView.isHidden = true
