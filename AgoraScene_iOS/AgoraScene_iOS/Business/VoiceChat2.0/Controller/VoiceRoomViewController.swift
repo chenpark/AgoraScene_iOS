@@ -660,6 +660,7 @@ extension VoiceRoomViewController {
                     //                    mic_info.status = -1
                     //                    self.roomInfo?.mic_info![index] = mic_info
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                    self.rtckit.setClientRole(role: .audience)
                 } else {
                     self.view.makeToast("leaveMic failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
@@ -683,6 +684,7 @@ extension VoiceRoomViewController {
                     //                    mic_info.status = 1
                     //                    self.roomInfo?.mic_info![index] = mic_info
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                    self.rtckit.muteLocalAudioStream(mute: true)
                 } else {
                     self.view.makeToast("unmute local failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
@@ -706,6 +708,7 @@ extension VoiceRoomViewController {
                     //                    mic_info.status = 0
                     //                    self.roomInfo?.mic_info![index] = mic_info
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                    self.rtckit.muteLocalAudioStream(mute: false)
                 } else {
                     self.view.makeToast("unmuteLocal failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
