@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons／Stock／gonggao(2).png",
+      "filename" : "liwu.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons／Stock／gonggao@2x(2).png",
+      "filename" : "liwu@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons／Stock／gonggao@3x(2).png",
+      "filename" : "liwu@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

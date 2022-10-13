@@ -83,17 +83,18 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         
         if indexPath.item < 6 {
             let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
-            cell.viewTag = indexPath.item + 200
             cell.clickBlock = {[weak self] tag in
-                print("------\(tag)")
+                print("------\(tag)-----\(indexPath.item)")
                 guard let block = self?.clickBlock else {return}
-                block(cell.cellType, tag)
+                block(cell.cellType, tag + 200)
             }
             /*
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
             if let mic_info = micInfos?[indexPath.item] {
-                cell.user = mic_info.member
+                let user: VRUser = mic_info.member ?? VRUser()
+                user.mic_index = indexPath.item
+                cell.refreshUser(with: user)
                 switch mic_info.status {
                 case -1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd

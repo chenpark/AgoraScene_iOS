@@ -88,7 +88,12 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                 info?.room?.member_count = Int(count)
                 self.roomInfo = info
             }
-            
+        } else if ext?.keys.contains("click_count") == true  {
+            if let count: String = ext?["click_count"] as? String {
+                let info = self.roomInfo
+                info?.room?.click_count = Int(count)
+                self.roomInfo = info
+            }
         }
         self.convertShowText(userName: username, content: LanguageManager.localValue(key: "Joined"),joined: true)
     }

@@ -55,7 +55,7 @@ class VMMuteView: UIView {
                 roleBtn.isHidden = true
                 micView.isHidden = false
                 micView.setState(.forbidden)
-                muteBtn.setTitle("unMute", for: .normal)
+                muteBtn.setTitle(LanguageManager.localValue(key: "Unmute"), for: .normal)
                 nameLabel.text = username
             }
         }
@@ -85,7 +85,7 @@ class VMMuteView: UIView {
         self.addSubview(lineImgView)
         
         bgView.frame = CGRect(x: ScreenWidth / 2 - 32~, y: 40~, width: 64~, height: 64~)
-        bgView.backgroundColor = .lightGray
+        bgView.backgroundColor = UIColor.HexColor(hex: 0xdad9e9, alpha: 1)
         bgView.layer.cornerRadius = 32~
         bgView.layer.masksToBounds = true
         self.addSubview(bgView)
@@ -102,7 +102,9 @@ class VMMuteView: UIView {
         iconView.isHidden = true
         
         nameLabel.frame = CGRect(x: ScreenWidth/2.0 - 100~, y: 110~, width: 200~, height: 20)
-        nameLabel.text = "hello world"
+        nameLabel.text = ""
+        nameLabel.textColor = UIColor.HexColor(hex: 0x333333, alpha: 1)
+        nameLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         nameLabel.textAlignment = .center
         self.addSubview(nameLabel)
         
@@ -115,7 +117,7 @@ class VMMuteView: UIView {
         self.roleBtn.isHidden = true
         
         lineView.frame = CGRect(x: 0, y: 160~, width: ScreenWidth, height: 1)
-        lineView.backgroundColor = .separator
+        lineView.backgroundColor = UIColor.HexColor(hex: 0x979797, alpha: 0.12)
         self.addSubview(lineView)
         
         micView.frame = CGRect(x: self.bounds.size.width / 2.0 + 10~, y: 85~, width: 20~, height: 20~)
@@ -125,16 +127,16 @@ class VMMuteView: UIView {
         micView.isHidden = true
         
         leaveBtn.frame = CGRect(x: 0, y: 170~, width: ScreenWidth / 2.0, height: 40~)
-        leaveBtn.setTitleColor(.blue, for: .normal)
-        leaveBtn.setTitle("leave", for: .normal)
+        leaveBtn.setTitleColor(UIColor(red: 21/255.0, green: 110/255.0, blue: 243/255.0, alpha: 1), for: .normal)
+        leaveBtn.setTitle(LanguageManager.localValue(key: "Off-Stage"), for: .normal)
         leaveBtn.font(UIFont.systemFont(ofSize: 14))
         leaveBtn.tag = 400
         leaveBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(leaveBtn)
         
         muteBtn.frame = CGRect(x: ScreenWidth / 2, y: 170~, width: ScreenWidth / 2.0, height: 40~)
-        muteBtn.setTitleColor(.blue, for: .normal)
-        muteBtn.setTitle("Mute", for: .normal)
+        muteBtn.setTitleColor(UIColor(red: 21/255.0, green: 110/255.0, blue: 243/255.0, alpha: 1), for: .normal)
+        muteBtn.setTitle(LanguageManager.localValue(key: "Mute"), for: .normal)
         muteBtn.font(UIFont.systemFont(ofSize: 14))
         muteBtn.tag = 401
         muteBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)

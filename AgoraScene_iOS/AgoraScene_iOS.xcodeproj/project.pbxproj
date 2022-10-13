@@ -140,6 +140,7 @@
 		E39B68C028C5A4770083D0F9 /* AgoraChatRoomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B68BF28C5A4770083D0F9 /* AgoraChatRoomHeaderView.swift */; };
 		E39B68C328C5A4D30083D0F9 /* arrow.svga in Resources */ = {isa = PBXBuildFile; fileRef = E39B68C228C5A4D30083D0F9 /* arrow.svga */; };
 		E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B68C528C5A5200083D0F9 /* SwiftyFitSize.swift */; };
+		E3C7109628F8053A00C9091B /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7109528F8053A00C9091B /* UIColor+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -298,6 +299,7 @@
 		E39B68C228C5A4D30083D0F9 /* arrow.svga */ = {isa = PBXFileReference; lastKnownFileType = file; path = arrow.svga; sourceTree = "<group>"; };
 		E39B68C428C5A4EA0083D0F9 /* 一个箭头.svga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "一个箭头.svga"; sourceTree = "<group>"; };
 		E39B68C528C5A5200083D0F9 /* SwiftyFitSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyFitSize.swift; sourceTree = "<group>"; };
+		E3C7109528F8053A00C9091B /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		E7FDA5B4BD12E652325A52AB /* Pods_AgoraScene_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraScene_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -412,6 +414,7 @@
 				E36BE0E928C5ECD500270D52 /* UIViewToastExtension.swift */,
 				E36BE0EA28C5ECD500270D52 /* UIImageBundleExtension.swift */,
 				E3682BEF28F54E6D00DA21FD /* UIButton+Extension.swift */,
+				E3C7109528F8053A00C9091B /* UIColor+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 				05D8C3FF28D06CE800820391 /* VoiceRoomGifterCell.swift in Sources */,
 				05D8C44528D06E4E00820391 /* VoiceRoomSwitchBar.swift in Sources */,
 				05D2CBB728F4120800E9D7DB /* Throttle.swift in Sources */,
+				E3C7109628F8053A00C9091B /* UIColor+extension.swift in Sources */,
 				05D8C44428D06E4E00820391 /* VoiceRoomPraiseEmitterView.swift in Sources */,
 				E36BE11428C5EE7E00270D52 /* VoiceRoomChatModel.swift in Sources */,
 				05D8C3E528D0699100820391 /* VoiceRoomBusinessRequest.swift in Sources */,

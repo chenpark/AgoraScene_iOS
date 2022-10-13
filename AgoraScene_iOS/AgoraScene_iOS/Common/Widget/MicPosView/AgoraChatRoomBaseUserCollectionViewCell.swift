@@ -19,19 +19,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var user: VRUser? {
-        didSet {
-            rtcUserView.iconImgUrl = user?.portrait ?? ""
-            rtcUserView.nameStr = user?.name ?? "\(viewTag - 200)"
-            rtcUserView.volume = user?.volume ?? 0
-        }
-    }
-    
-    public var viewTag: Int = 0 {
-        didSet {
-            rtcUserView.tag = viewTag
-        }
-    }
+    private var user: VRUser?
     
     var clickBlock: ((Int) -> Void)?
     
@@ -51,7 +39,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             guard let clickBlock = self?.clickBlock else {
                 return
             }
-            clickBlock(self!.viewTag)
+            clickBlock(self?.user?.mic_index ?? 0)
         }
         self.contentView.addSubview(rtcUserView)
         
@@ -59,5 +47,12 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             make.left.right.bottom.top.equalTo(self.contentView)
         }
         
+    }
+    
+    public func refreshUser(with user: VRUser?) {
+        rtcUserView.iconImgUrl = user?.portrait ?? ""
+        rtcUserView.nameStr = user?.name ?? "\(user?.mic_index ?? 0)"
+        rtcUserView.volume = user?.volume ?? 0
+        self.user = user
     }
 }

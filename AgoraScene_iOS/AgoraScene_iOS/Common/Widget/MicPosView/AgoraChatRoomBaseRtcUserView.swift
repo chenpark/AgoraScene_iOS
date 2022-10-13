@@ -166,12 +166,12 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         self.bgIconView.image = UIImage(named: "icons／solid／add")
         self.bgIconView.layer.cornerRadius = 15~
         self.bgIconView.layer.masksToBounds = true
-        self.addSubview(self.bgIconView)
+        self.bgView.addSubview(self.bgIconView)
         
         self.iconView.image = UIImage(named: "avatar1")
         self.iconView.layer.cornerRadius = 30~
         self.iconView.layer.masksToBounds = true
-        self.addSubview(self.iconView)
+        self.bgView.addSubview(self.iconView)
         
         self.addSubview(micView)
         
@@ -179,7 +179,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         coverView.alpha = 0.2
         coverView.layer.cornerRadius = 30~
         coverView.layer.masksToBounds = true
-        self.addSubview(coverView)
+        self.bgView.addSubview(coverView)
         self.coverView.isHidden = true
         
         let alienTap = UITapGestureRecognizer(target: self, action: #selector(alienTap))
