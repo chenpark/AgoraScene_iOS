@@ -797,13 +797,14 @@ extension VoiceRoomViewController {
     func showEndLive() {
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-70, height: 190))
         compent.destination = .center
+        self.inputBar.hiddenInputBar()
         let micAlert = VoiceRoomEndLiveAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-70, height: 190), title: LanguageManager.localValue(key: "End Live"), content: LanguageManager.localValue(key: "The room will close after you leave."),cancel: LanguageManager.localValue(key: "Cancel"),confirm: LanguageManager.localValue(key: "Confirm")).cornerRadius(16).backgroundColor(.white)
         let vc = VoiceRoomAlertViewController(compent: compent, custom: micAlert)
         micAlert.actionEvents = { [weak self] in
             if $0 != 30 {
+                vc.dismiss(animated: true)
                 self?.ownerBack()
             }
-            vc.dismiss(animated: true)
         }
         self.presentViewController(vc)
     }
@@ -816,6 +817,7 @@ extension VoiceRoomViewController {
     }
     
     func showInviteMicAlert() {
+        self.inputBar.hiddenInputBar()
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth-75, height: 200))
         compent.destination = .center
         let micAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-75, height: 200), content: "Anchor Invited You On-Stage",cancel: "Decline",confirm: "Accept",position: .center).cornerRadius(16).backgroundColor(.white)

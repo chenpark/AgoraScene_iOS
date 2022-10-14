@@ -18,9 +18,9 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     
     private let height = ((ScreenWidth-90-3*16)/4.0)*(53/60.0)
     
-    private let codeMessage = LanguageManager.localValue(key: "Enter 4 Digit Password.")
+    private let codeMessage = LanguageManager.localValue(key: "Enter 4 Digit Password")
     
-    private let nameMessage = LanguageManager.localValue(key: "Please set a name.")
+    private let nameMessage = LanguageManager.localValue(key: "Please set a name")
     
     private var offset = CGFloat(ScreenHeight < 812 ? 150:120)
     
@@ -82,9 +82,6 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
         self.setupAttributes()
         self.pinCode.textValueChange = { [weak self] in
             self?.code = $0
-            if $0.count >= 4 {
-                self?.hiddenWarning()
-            }
         }
         self.pinCode.beginEdit = { [weak self] in
             self?.raise()
@@ -97,6 +94,7 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
         self.create.layer.shadowOpacity = 1
         self.create.layer.shadowRadius = 8
         self.create.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.warnMessage.isHidden = true
     }
     
     private func stateImage(button: UIButton) {
@@ -113,7 +111,6 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
 extension VRCreateRoomInputView {
     
     private func setupAttributes() {
-        self.warnMessage.alpha = 0
         self.pinCode.alpha = 0
         self.randomName.set(image: UIImage("random"), title: LanguageManager.localValue(key: "Random"), titlePosition: .right, additionalSpacing: 5, state: .normal)
         self.stateImage(button: self.publicChoice)
@@ -162,32 +159,13 @@ extension VRCreateRoomInputView {
                 if self.action != nil {
                     self.action!()
                 }
-            } else if self.code.isEmpty {
-                self.showWarning(self.codeMessage)
-            } else {
-                self.showWarning(self.nameMessage)
             }
         } else {
             if let name = self.roomNameField.text,!name.isEmpty {
                 if self.action != nil {
                     self.action!()
                 }
-            } else {
-                self.showWarning(self.nameMessage)
             }
-        }
-    }
-    
-    private func showWarning(_ text: String) {
-        self.warnMessage.text = text
-        UIView.animate(withDuration: 0.3) {
-            self.warnMessage.alpha = 1
-        }
-    }
-    
-    private func hiddenWarning() {
-        UIView.animate(withDuration: 0.3) {
-            self.warnMessage.alpha = 0
         }
     }
     
@@ -205,10 +183,7 @@ extension VRCreateRoomInputView {
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField != self.roomNameField { return false }
-        if (textField.text ?? "").isEmpty {
-            self.showWarning(self.nameMessage)
-        } else {
-            self.hiddenWarning()
+        if !(textField.text ?? "").isEmpty {
             if let text = textField.text,text.count >= 31 {
                 textField.text = (text as NSString).substring(to: 31)
                 return false
