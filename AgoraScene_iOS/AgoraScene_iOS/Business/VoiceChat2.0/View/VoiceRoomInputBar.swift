@@ -32,6 +32,14 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         UIButton(type: .custom).frame(CGRect(x: ScreenWidth - 82, y: 12, width: 67, height: 36)).cornerRadius(18).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)]).title(LanguageManager.localValue(key: "Send"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .regular)).addTargetFor(self, action: #selector(sendMessage), for: .touchUpInside)
     }()
     
+    private var limitCount: Int {
+        var count = 30
+        if NSLocale.preferredLanguages.first!.hasPrefix("en") {
+            count = 80
+        }
+        return count
+    }
+    
     let line = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 1)).backgroundColor(.white)
     
     var emoji: VoiceRoomEmojiListView?
@@ -49,6 +57,7 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         orgContainerInset.left = 6
         self.inputField.textContainerInset = orgContainerInset
         self.inputField.returnKeyType = .send
+        
         let view = UIView(frame: CGRect(x: self.inputContainer.frame.width-self.inputField.frame.height , y: 0, width: self.inputField.frame.height, height: self.inputField.frame.height)).backgroundColor(.white)
         view.addSubview(self.rightView)
         self.inputContainer.addSubview(view)
@@ -73,7 +82,6 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         }
     }
 
-    
     public func textViewDidEndEditing(_ textView: UITextView) {
         
     }
@@ -83,13 +91,9 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             self.sendMessage()
             return false
         } else {
-            var count = 30
-            if NSLocale.preferredLanguages.first!.hasPrefix("en") {
-                count = 80
-            }
-            if textView.text.count >= count,!text.isEmpty {
+            if textView.attributedText.length >= self.limitCount,!text.isEmpty {
                 let string = textView.text as NSString
-                textView.text = string.substring(to: count)
+                textView.text = string.substring(to: self.limitCount)
                 self.superview?.makeToast("Reach Limit!", point: CGPoint(x: self.center.x, y: ZNavgationHeight), title: nil, image: nil, completion: nil)
                 return false
             }
@@ -97,9 +101,6 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
         return true
     }
 
-    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        return true
-    }
     
     @objc func changeToEmoji() {
         self.rightView.isSelected = !self.rightView.isSelected
@@ -136,7 +137,11 @@ public class VoiceRoomInputBar: UIView,UITextViewDelegate {
             guard let `self` = self else { return }
             emoji.deleteEmoji.isEnabled = true
             emoji.deleteEmoji.isUserInteractionEnabled = true
-            self.inputField.attributedText = self.convertText(text: self.inputField.attributedText, key: $0)
+            if self.inputField.attributedText.length <= self.limitCount {
+                self.inputField.attributedText = self.convertText(text: self.inputField.attributedText, key: $0)
+            } else {
+                self.superview?.makeToast("Reach Limit!", point: CGPoint(x: self.center.x, y: ZNavgationHeight), title: nil, image: nil, completion: nil)
+            }
         }
         emoji.deleteClosure = { [weak self] in
             if self?.inputField.text?.count ?? 0 > 0 {
