@@ -38,6 +38,26 @@ class AgoraChatRoomNormalRtcView: UIView {
             layoutUI()
         }
     }
+    
+    public func updateVolume(with uid: String, vol: Int) {
+        /**
+         1.根据uid来判断是哪个cell需要更新音量
+         2.更新音量
+         */
+        guard let micInfos = micInfos else {
+            return
+        }
+        for i in micInfos {
+            guard let member = i.member else {return}
+            guard let cur_uid = member.uid else {return}
+            if cur_uid == uid {
+                guard let mic_index = member.mic_index else {return}
+                let indexPath: IndexPath = IndexPath(item: mic_index, section: 0)
+                let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.cellForItem(at: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
+                cell.refreshVolume(vol: vol)
+            }
+        }
+    }
 
     private func layoutUI() {
         
@@ -82,9 +102,10 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.item < 6 {
-            let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
+            let cell:   AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
+            cell.tag = indexPath.item
             cell.clickBlock = {[weak self] tag in
-                print("------\(tag)-----\(indexPath.item)")
+                print("------\(tag)-----\(cell.tag))")
                 guard let block = self?.clickBlock else {return}
                 block(cell.cellType, tag + 200)
             }
@@ -94,7 +115,6 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             if let mic_info = micInfos?[indexPath.item] {
                 let user: VRUser = mic_info.member ?? VRUser()
                 user.mic_index = indexPath.item
-                cell.refreshUser(with: user)
                 switch mic_info.status {
                 case -1:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
@@ -111,6 +131,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 default:
                     break
                 }
+                cell.refreshUser(with: user)
                 
             } else {
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
@@ -132,5 +153,6 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("---点击--\(indexPath.item)----")
     }
 }

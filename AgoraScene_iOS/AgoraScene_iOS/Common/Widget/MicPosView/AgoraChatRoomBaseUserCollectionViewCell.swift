@@ -19,8 +19,6 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private var user: VRUser?
-    
     var clickBlock: ((Int) -> Void)?
     
     override init(frame: CGRect) {
@@ -39,7 +37,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             guard let clickBlock = self?.clickBlock else {
                 return
             }
-            clickBlock(self?.user?.mic_index ?? 0)
+            clickBlock(self!.tag)
         }
         self.contentView.addSubview(rtcUserView)
         
@@ -52,7 +50,10 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
     public func refreshUser(with user: VRUser?) {
         rtcUserView.iconImgUrl = user?.portrait ?? ""
         rtcUserView.nameStr = user?.name ?? "\(user?.mic_index ?? 0)"
-        rtcUserView.volume = user?.volume ?? 0
-        self.user = user
+    }
+    
+    public func refreshVolume(vol: Int) {
+        rtcUserView.volume = vol
     }
 }
+

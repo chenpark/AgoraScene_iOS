@@ -20,6 +20,10 @@ public enum AgoraChatRoomBaseUserCellType {
    case AgoraChatRoomBaseUserCellTypeAlienActive
 }
 
+protocol RtcUserViewDelegate: NSObjectProtocol {
+    func didRtcUserViewClicked(tag: Int)
+}
+
 class AgoraChatRoomBaseRtcUserView: UIView {
 
     public var cellType: AgoraChatRoomBaseUserCellType = .AgoraChatRoomBaseUserCellTypeAdd {
@@ -101,8 +105,6 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         }
     }
     
-    //public var activeVBlock: ((AgoraChatRoomBaseUserCellType) -> Void)?
-    
     public var iconWidth: CGFloat = 60~ {
         didSet {
             self.iconView.layer.cornerRadius = (iconWidth / 2.0)~
@@ -130,7 +132,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             self.micView.setVolume(volume)
         }
     }
-    
+
     private var bgView: UIView = UIView()
     private var iconView: UIImageView = UIImageView()
     private var bgIconView: UIImageView = UIImageView()
@@ -140,6 +142,7 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     private var nameBtn: UIButton = UIButton()
     private var coverView: UIView = UIView()
     private var activeButton: UIButton = UIButton()
+    private var targetBtn: UIButton = UIButton()
     
     var clickBlock: (() -> Void)?
     
@@ -158,10 +161,6 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         self.bgView.layer.masksToBounds = true
         self.bgView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         self.addSubview(self.bgView)
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapClick))
-        self.bgView.addGestureRecognizer(tap)
-        self.bgView.isUserInteractionEnabled = true
 
         self.bgIconView.image = UIImage(named: "icons／solid／add")
         self.bgIconView.layer.cornerRadius = 15~
@@ -198,9 +197,13 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         
         self.nameBtn.setTitleColor(.white, for: .normal)
         self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 11)~
+        self.nameBtn.titleLabel?.lineBreakMode = .byTruncatingTail
         self.nameBtn.setTitle("", for: .normal)
         self.nameBtn.isUserInteractionEnabled = false;
         self.addSubview(self.nameBtn)
+        
+        self.targetBtn.addTargetFor(self, action: #selector(tapClick), for: .touchUpInside)
+        self.addSubview(self.targetBtn)
         
         self.bgView.snp.makeConstraints { make in
             make.centerX.equalTo(self)
@@ -245,9 +248,14 @@ class AgoraChatRoomBaseRtcUserView: UIView {
             make.left.equalTo(10)
             make.right.equalTo(-10)
         }
+        
+        self.targetBtn.snp.makeConstraints { make in
+            make.left.right.bottom.equalTo(self.nameBtn)
+            make.top.equalTo(self.bgView)
+        }
     }
    
-    @objc private func tapClick(tap: UITapGestureRecognizer) {
+    @objc private func tapClick(sender: UIButton) {
         guard let clickBlock = clickBlock else {
             return
         }

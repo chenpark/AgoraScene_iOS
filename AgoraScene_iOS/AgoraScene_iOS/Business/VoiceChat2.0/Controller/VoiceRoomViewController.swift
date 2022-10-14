@@ -875,10 +875,12 @@ extension VoiceRoomViewController: ASManagerDelegate {
                 guard let user = mic.member else {return}
                 guard let rtcUid = Int(user.rtc_uid ?? "0") else {return}
                 if rtcUid == speaker.uid {
-                    var mic = micinfo[index]
-                    mic.member?.volume = Int(speaker.volume)
-                    self.roomInfo?.mic_info![index] = mic
-                    self.rtcView.micInfos = self.roomInfo?.mic_info
+//                    var mic = micinfo[index]
+//                    mic.member?.volume = Int(speaker.volume)
+//                    self.roomInfo?.mic_info![index] = mic
+//                    self.rtcView.micInfos = self.roomInfo?.mic_info
+                    guard let uid = user.uid else {return}
+                    self.rtcView.updateVolume(with: uid, vol: Int(speaker.volume))
                 }
             }
         }
