@@ -27,7 +27,7 @@ class VMMuteView: UIView {
     private var muteBtn: UIButton = UIButton()
     private var leaveBtn: UIButton = UIButton()
     private var sepView: UIView = UIView()
-    private var micView: AgoraMicVolView = AgoraMicVolView()
+  //  private var micView: AgoraMicVolView = AgoraMicVolView()
     public var isOwner: Bool = false
     public var micInfo: VRRoomMic? {
         didSet {
@@ -47,14 +47,14 @@ class VMMuteView: UIView {
                 iconView.isHidden = false
                 iconView.image = UIImage(named: iconStr)
                 nameLabel.text = username
-                micView.setState(.on)
-                micView.setVolume(100)
-                micView.isHidden = false
+//                micView.setState(.on)
+//                micView.setVolume(100)
+//                micView.isHidden = false
             } else if m_type == 1 {
                 iconView.isHidden = false
                 roleBtn.isHidden = true
-                micView.isHidden = false
-                micView.setState(.forbidden)
+//                micView.isHidden = false
+//                micView.setState(.forbidden)
                 muteBtn.setTitle(LanguageManager.localValue(key: "Unmute"), for: .normal)
                 nameLabel.text = username
             }
@@ -120,11 +120,11 @@ class VMMuteView: UIView {
         lineView.backgroundColor = UIColor.HexColor(hex: 0x979797, alpha: 0.12)
         self.addSubview(lineView)
         
-        micView.frame = CGRect(x: self.bounds.size.width / 2.0 + 10~, y: 85~, width: 20~, height: 20~)
-        micView.setState(.on)
-        micView.setVolume(100)
-        self.addSubview(micView)
-        micView.isHidden = true
+//        micView.frame = CGRect(x: self.bounds.size.width / 2.0 + 10~, y: 85~, width: 20~, height: 20~)
+//        micView.setState(.on)
+//        micView.setVolume(100)
+//        self.addSubview(micView)
+//        micView.isHidden = true
         
         leaveBtn.frame = CGRect(x: 0, y: 170~, width: ScreenWidth / 2.0, height: 40~)
         leaveBtn.setTitleColor(UIColor(red: 21/255.0, green: 110/255.0, blue: 243/255.0, alpha: 1), for: .normal)

@@ -103,11 +103,11 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         
         if indexPath.item < 6 {
             let cell:   AgoraChatRoomBaseUserCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: nIdentifier, for: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
-            cell.tag = indexPath.item
+            cell.tag = indexPath.item + 200
             cell.clickBlock = {[weak self] tag in
                 print("------\(tag)-----\(cell.tag))")
                 guard let block = self?.clickBlock else {return}
-                block(cell.cellType, tag + 200)
+                block(cell.cellType, tag)
             }
             /*
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
