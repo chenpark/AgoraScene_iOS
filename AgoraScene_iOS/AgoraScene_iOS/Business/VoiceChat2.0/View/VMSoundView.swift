@@ -46,7 +46,7 @@ class VMSoundView: UIView {
                 typeLabel.text = LanguageManager.localValue(key: "Professional Bodcaster")
                 detailLabel.text = LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. ")
             }
-            cellHeight = textHeight(text: detailLabel.text!, fontSize: 13, width: self.bounds.size.width - 80~)
+            cellHeight = textHeight(text: detailLabel.text!, fontSize: 13, width: self.bounds.size.width - 40~)
         }
     }
     
@@ -64,20 +64,21 @@ class VMSoundView: UIView {
         bgView.addSubview(lineImgView)
 
         typeLabel.text = "Social Chat"
-        typeLabel.font = UIFont.systemFont(ofSize: 16)
-        typeLabel.textColor = UIColor.black
+        typeLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        typeLabel.textColor = UIColor(red: 0.016, green: 0.035, blue: 0.145, alpha: 1)
         typeLabel.textAlignment = .center
         bgView.addSubview(typeLabel)
 
         detailLabel.text = "The scene deals with the coordination of your voice and the musical accompaniment through high sound quality and echo cancellation to ensure the best karaoke experience"
         detailLabel.textAlignment = .left
         detailLabel.numberOfLines = 0
+        detailLabel.textColor = UIColor(red: 0.235, green: 0.257, blue: 0.403, alpha: 1)
         detailLabel.font = UIFont.systemFont(ofSize: 13)
         detailLabel.lineBreakMode = .byCharWrapping
         bgView.addSubview(detailLabel)
         
         iconBgView.backgroundColor = UIColor(red: 241/255.0, green: 243/255.0, blue: 248/255.0, alpha: 1)
-        iconBgView.layer.cornerRadius = 3
+        iconBgView.layer.cornerRadius = 10
         iconBgView.layer.masksToBounds = true
         bgView.addSubview(iconBgView)
 
@@ -87,9 +88,9 @@ class VMSoundView: UIView {
         soulView.image = UIImage(named: "soul")
         bgView.addSubview(soulView)
 
-        usageLabel.text = "Current Customer Usage"
-        usageLabel.font = UIFont.systemFont(ofSize: 11)
-        usageLabel.textColor = UIColor(red: 0, green: 159/255.0, blue: 1, alpha: 1)
+        usageLabel.text = "The following customers are using it: "
+        usageLabel.font = UIFont.systemFont(ofSize: 12)
+        usageLabel.textColor = UIColor(red: 0.593, green: 0.612, blue: 0.732, alpha: 1)
         bgView.addSubview(usageLabel)
 
     }
@@ -97,13 +98,13 @@ class VMSoundView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         bgView.frame = CGRect(x: 0~, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
-        lineImgView.frame = CGRect(x: self.bounds.size.width / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
-        typeLabel.frame = CGRect(x: 20~, y: 20~, width: self.bounds.size.width - 40~, height: 17~)
-        detailLabel.frame = CGRect(x: 20~, y: 50~, width: self.bounds.size.width - 80~, height: cellHeight)
-        iconBgView.frame = CGRect(x: 10~, y: self.bounds.size.height - 80~, width: self.bounds.size.width - 20~, height: 60~)
-        yallaView.frame = CGRect(x: 20~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
-        soulView.frame = CGRect(x: 50~, y: self.bounds.size.height - 55~, width: 20~, height: 20~)
-        usageLabel.frame = CGRect(x: 20~, y: self.bounds.size.height - 74~, width: 200~, height: 12~)
+        lineImgView.frame = CGRect(x: self.bounds.size.width / 2.0 - 20~, y: 8, width: 40~, height: 4)
+        typeLabel.frame = CGRect(x: 20~, y: 32, width: self.bounds.size.width - 40~, height: 18)
+        detailLabel.frame = CGRect(x: 20~, y: 60, width: self.bounds.size.width - 40~, height: cellHeight)
+        iconBgView.frame = CGRect(x: 20~, y: self.bounds.size.height - 94, width: self.bounds.size.width - 40~, height: 60)
+        yallaView.frame = CGRect(x: 30~, y: self.bounds.size.height - 62, width: 20~, height: 20)
+        soulView.frame = CGRect(x: 60~, y: self.bounds.size.height - 62, width: 20~, height: 20)
+        usageLabel.frame = CGRect(x: 30~, y: self.bounds.size.height - 84, width: 300~, height: 12)
     }
     
     func textHeight(text: String, fontSize: CGFloat, width: CGFloat) -> CGFloat {

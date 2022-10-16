@@ -16,6 +16,8 @@ class AgoraChatRoomNormalRtcView: UIView {
     
     var clickBlock: ((AgoraChatRoomBaseUserCellType, Int) -> Void)?
     
+    var isOwner: Bool = false
+    
     var micInfos: [VRRoomMic]? {
         didSet {
             guard let _ = collectionView else {
@@ -121,9 +123,9 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
                 case 0:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
                 case 1:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMute
+                    cell.cellType = mic_info.member != nil ? .AgoraChatRoomBaseUserCellTypeMuteWithPerson : .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson
                 case 2:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeForbidden
+                    cell.cellType = mic_info.member != nil ? .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson : .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson
                 case 3:
                     cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
                 case 4:

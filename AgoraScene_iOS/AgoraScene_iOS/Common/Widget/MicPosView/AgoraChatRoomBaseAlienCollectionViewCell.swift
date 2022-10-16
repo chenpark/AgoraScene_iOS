@@ -90,7 +90,7 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
     private func layoutUI() {
         cornerView.layer.cornerRadius = 33~
         cornerView.layer.masksToBounds = true
-        cornerView.layer.borderColor = UIColor.white.cgColor
+        cornerView.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2).cgColor
         cornerView.layer.borderWidth = 1~
         cornerView.backgroundColor = .clear
         self.contentView.addSubview(cornerView)

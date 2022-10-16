@@ -24,16 +24,22 @@ class AgoraChatRoom3DMoveUserView: UIView {
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
                 self.bgIconView.image = UIImage(named: "icons／solid／add")
-            case .AgoraChatRoomBaseUserCellTypeMute:
-                self.iconView.isHidden = true
+            case .AgoraChatRoomBaseUserCellTypeMuteWithPerson:
+                self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-                self.bgIconView.image = UIImage(named: "icons／solid／add")
-            case .AgoraChatRoomBaseUserCellTypeForbidden:
-                self.iconView.isHidden = true
+            case .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson:
+                self.iconView.isHidden = false
+                self.micView.isHidden = true
+                self.bgIconView.image = UIImage(named: "icons／solid／mute")
+            case .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson:
+                self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-                self.bgIconView.image = UIImage(named: "icons／solid／add")
+            case .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson:
+                self.iconView.isHidden = false
+                self.micView.isHidden = true
+                self.bgIconView.image = UIImage(named: "icons／solid／mute")
             case .AgoraChatRoomBaseUserCellTypeLock:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
@@ -177,7 +183,7 @@ class AgoraChatRoom3DMoveUserView: UIView {
         
         self.nameBtn.setTitleColor(.white, for: .normal)
         self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 11)~
-        self.nameBtn.setTitle("jack ma", for: .normal)
+        self.nameBtn.setTitle("", for: .normal)
         self.nameBtn.isUserInteractionEnabled = false;
         self.addSubview(self.nameBtn)
         

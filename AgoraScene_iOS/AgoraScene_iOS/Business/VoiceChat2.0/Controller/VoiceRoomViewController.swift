@@ -238,6 +238,7 @@ extension VoiceRoomViewController {
         self.view.addSubview(self.sRtcView)
         
         self.rtcView = AgoraChatRoomNormalRtcView()
+        self.rtcView.isOwner = self.isOwner
         self.rtcView.clickBlock = {[weak self] (type, tag) in
             self?.didRtcAction(with: type, tag: tag)
         }
@@ -350,7 +351,7 @@ extension VoiceRoomViewController {
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
             showActiveAlienView(true)
-        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser {
+        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser || type == .AgoraChatRoomBaseUserCellTypeAdmin {
             //用户下麦或者mute自己
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
@@ -365,13 +366,17 @@ extension VoiceRoomViewController {
             } else {
                 //用户下麦或者mute自己
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
+        } else if type == .AgoraChatRoomBaseUserCellTypeMuteWithPerson {
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
             } else {
                 if isOwner {
                     showApplyAlert(tag - 200)
                 }
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson {
+            if isOwner {
+                showApplyAlert(tag - 200)
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
             if isOwner {
@@ -379,13 +384,17 @@ extension VoiceRoomViewController {
             } else {
                 //用户下麦或者mute自己
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
+        } else if type == .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson {
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
             } else {
                 if isOwner {
                     showApplyAlert(tag - 200)
                 }
+            }
+        } else if type == .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson {
+            if isOwner {
+                showApplyAlert(tag - 200)
             }
         }
     }
@@ -434,9 +443,9 @@ extension VoiceRoomViewController {
     
     func showSoundView() {
         guard let soundEffect = self.roomInfo?.room?.sound_effect else {return}
-        let soundView = VMSoundView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        let soundView = VMSoundView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 240~))
         soundView.soundEffect = soundEffect
-        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: soundView)
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 240~)), custom: soundView)
         self.presentViewController(vc)
     }
     
@@ -496,11 +505,11 @@ extension VoiceRoomViewController {
                 //如果返回的结果为true 表示上麦成功
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
-                        print("修改群公告成功")
+                        self.view.makeToast("Notice Posted")
                         self.roomInfo?.room?.announcement = str
                     }
                 } else {
-                    print("修改群公告失败")
+                    self.view.makeToast("Post Failed")
                 }
             } else {
                 
@@ -871,14 +880,11 @@ extension VoiceRoomViewController: ASManagerDelegate {
     func reportAudioVolumeIndicationOfSpeakers(speakers: [AgoraRtcAudioVolumeInfo]) {
         guard let micinfo = self.roomInfo?.mic_info else {return}
         for speaker in speakers {
-            for (index,mic) in micinfo.enumerated() {
+           // if speaker.vad == 0 {return}
+            for mic in micinfo {
                 guard let user = mic.member else {return}
                 guard let rtcUid = Int(user.rtc_uid ?? "0") else {return}
                 if rtcUid == speaker.uid {
-//                    var mic = micinfo[index]
-//                    mic.member?.volume = Int(speaker.volume)
-//                    self.roomInfo?.mic_info![index] = mic
-//                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     guard let uid = user.uid else {return}
                     self.rtcView.updateVolume(with: uid, vol: Int(speaker.volume))
                 }

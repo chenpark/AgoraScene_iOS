@@ -225,7 +225,9 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.baseAlienMic[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
-                    rtcKit.startAudioMixing("\(AgoraConfig.CreateCommonRoom)\(AgoraConfig.baseAlienMic[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.CreateCommonRoom)\(AgoraConfig.baseAlienMic[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .ainsHigh {
                     if AgoraConfig.HighAINSIntroduc[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -235,7 +237,9 @@ public let kMPK_RTC_UID: UInt = 1
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
                     print("-----\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.HighAINSIntroduc[baseMusicCount])")
-                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.HighAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.HighAINSIntroduc[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .ainsMid {
                     if AgoraConfig.MediumAINSIntroduc[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -244,6 +248,8 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.MediumAINSIntroduc[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
+                    var musicStr = "\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.MediumAINSIntroduc[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
                     rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.MediumAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
                 } else if musicType == .ainsOff {
                     if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-B-") {
@@ -253,7 +259,9 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
-                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.NoneAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.NoneAINSIntroduc[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .social {
                     if AgoraConfig.SoundSelectSocial[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -262,7 +270,9 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.SoundSelectSocial[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
-                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectSocial[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.SoundSelectSocial[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .ktv {
                     if AgoraConfig.SoundSelectKTV[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -271,7 +281,9 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.SoundSelectKTV[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
-                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectKTV[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.SoundSelectKTV[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .game {
                     if AgoraConfig.SoundSelectGame[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -280,7 +292,9 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.SoundSelectGame[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
-                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectGame[baseMusicCount])", loopback: false, cycle: 1)
+                    var musicStr = "\(AgoraConfig.SoundSelectGame[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .anchor {
                     if AgoraConfig.SoundSelectAnchor[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -289,6 +303,8 @@ public let kMPK_RTC_UID: UInt = 1
                     } else if AgoraConfig.SoundSelectAnchor[baseMusicCount].contains("-B&R-") {
                         delegate?.reportAlien?(with: .blueAndRed, musicType: musicType)
                     }
+                    var musicStr = "\(AgoraConfig.SoundSelectAnchor[baseMusicCount])"
+                    musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
                     rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectAnchor[baseMusicCount])", loopback: false, cycle: 1)
                 }
             }
@@ -412,7 +428,7 @@ public let kMPK_RTC_UID: UInt = 1
     public func joinVoicRoomWith(with channelName: String, rtcUid: Int?, type: VMMUSIC_TYPE) -> Int32 {
 
         self.type = .VoiceChat
-        rtcKit.enableAudioVolumeIndication(200, smooth: 3, reportVad: false)
+        rtcKit.enableAudioVolumeIndication(200, smooth: 3, reportVad: true)
         if type == .ktv || type == .social {
             rtcKit.setChannelProfile(.liveBroadcasting)
             rtcKit.setAudioProfile(.musicHighQuality)
@@ -509,6 +525,7 @@ public let kMPK_RTC_UID: UInt = 1
         } else if type == .ainsOff {
             path = AgoraConfig.NoneSound[index]
         }
+        path = path.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
         rtcKit.startAudioMixing(path, loopback: false, cycle: 1)
     }
     

@@ -15,7 +15,9 @@ class AgoraMicVolView: UIView {
     
     private var imageView: UIImageView!
     
-    private var animaView: UIImageView!
+   // private var animaView: UIImageView!
+    
+    private var animateView: UIView!
     
     private var progressLayer: CAShapeLayer!
     
@@ -56,14 +58,14 @@ class AgoraMicVolView: UIView {
         self.micState = state
         switch state {
         case .on:
-            self.imageView.image = UIImage(named: "ic_mic_status_on")
-            self.animaView.isHidden = false
+            self.imageView.image = UIImage(named: "micon")
+            self.animateView.isHidden = false
         case .off:
-            self.imageView.image = UIImage(named: "ic_mic_status_off")
-            self.animaView.isHidden = true
+            self.imageView.image = UIImage(named: "micoff")
+            self.animateView.isHidden = true
         case .forbidden:
-            self.imageView.image = UIImage(named: "ic_mic_status_forbidden")
-            self.animaView.isHidden = true
+            self.imageView.image = UIImage(named: "micoff")
+            self.animateView.isHidden = true
         }
     }
 
@@ -72,26 +74,31 @@ class AgoraMicVolView: UIView {
 private extension AgoraMicVolView {
     func layoutUI() {
         imageView = UIImageView()
-        imageView.image = UIImage(named:"ic_mic_status_off")
+        imageView.image = UIImage(named:"micon")
         addSubview(imageView)
         
-        animaView = UIImageView()
-        animaView.image = UIImage(named:"ic_mic_status_volume")
-        animaView.isHidden  = true
-        addSubview(animaView)
+        animateView = UIView()
+        animateView.layer.cornerRadius = 2.22
+        animateView.layer.masksToBounds = true
+        animateView.backgroundColor = .green
+        addSubview(animateView)
         
         progressLayer = CAShapeLayer()
         progressLayer.lineCap = .square
         progressLayer.strokeColor = UIColor.white.cgColor
         progressLayer.strokeStart = 0
         progressLayer.strokeEnd = 0
-        animaView.layer.mask = progressLayer
+        animateView.layer.mask = progressLayer
    
         imageView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalToSuperview()
         }
-        animaView.snp.makeConstraints { make in
-            make.left.right.top.bottom.equalToSuperview()
+        
+        animateView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview().offset(1)
+            make.width.equalTo(4.44)
+            make.height.equalTo(6.87)
+            make.top.equalTo(3.73)
         }
     }
 }

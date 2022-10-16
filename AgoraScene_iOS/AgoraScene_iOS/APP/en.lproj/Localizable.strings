@@ -83,6 +83,9 @@
 "Mic Muted" = "Mic Muted";
 "Mic Unmuted" = "Mic Unmuted";
 "Off-Stage" = "Off-Stage";
+"Post Success" = "Notice Posted";
+"Post Failed" = "Post Failed";
+"Lau" = "EN";
 "Invitation Sent" = "Invitation Sent";
 "The stage is full, try again later" = "The stage is full, try again later";
 "Your request has been sent, please wait for reply" = "Your request has been sent, please wait for reply";

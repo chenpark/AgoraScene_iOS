@@ -132,6 +132,8 @@ class VMManagerView: UIView {
         iconView.layer.cornerRadius = 32~
         iconView.layer.masksToBounds = true
         self.addSubview(iconView)
+        iconView.layer.borderColor = UIColor.HexColor(hex: 0x979797, alpha: 0.12).cgColor
+        iconView.layer.borderWidth = 0.5
         iconView.isHidden = true
         
         nameLabel.frame = CGRect(x: ScreenWidth/2.0 - 100~, y: 110~, width: 200~, height: 20)

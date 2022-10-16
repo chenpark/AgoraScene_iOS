@@ -10,8 +10,10 @@ import SnapKit
 
 public enum AgoraChatRoomBaseUserCellType {
    case AgoraChatRoomBaseUserCellTypeAdd
-   case AgoraChatRoomBaseUserCellTypeMute
-   case AgoraChatRoomBaseUserCellTypeForbidden
+   case AgoraChatRoomBaseUserCellTypeMuteWithPerson
+   case AgoraChatRoomBaseUserCellTypeMuteWithoutPerson
+   case AgoraChatRoomBaseUserCellTypeForbiddenWithPerson
+   case AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson
    case AgoraChatRoomBaseUserCellTypeLock
    case AgoraChatRoomBaseUserCellTypeNormalUser
    case AgoraChatRoomBaseUserCellTypeMuteAndLock
@@ -40,15 +42,22 @@ class AgoraChatRoomBaseRtcUserView: UIView {
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
                 self.bgIconView.image = UIImage(named: "icons／solid／add")
-            case .AgoraChatRoomBaseUserCellTypeMute:
+            case .AgoraChatRoomBaseUserCellTypeMuteWithPerson:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-            case .AgoraChatRoomBaseUserCellTypeForbidden:
+            case .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson:
+                self.iconView.isHidden = false
+                self.micView.isHidden = true
+                self.bgIconView.image = UIImage(named: "icons／solid／mute")
+            case .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-                self.bgIconView.image = UIImage(named: "icons／solid／add")
+            case .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson:
+                self.iconView.isHidden = false
+                self.micView.isHidden = true
+                self.bgIconView.image = UIImage(named: "icons／solid／mute")
             case .AgoraChatRoomBaseUserCellTypeLock:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
@@ -157,26 +166,26 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     }
     
     fileprivate func layoutUI() {
-        self.bgView.layer.cornerRadius = 30~;
+        self.bgView.layer.cornerRadius = 30;
         self.bgView.layer.masksToBounds = true
         self.bgView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
         self.addSubview(self.bgView)
 
         self.bgIconView.image = UIImage(named: "icons／solid／add")
-        self.bgIconView.layer.cornerRadius = 15~
+        self.bgIconView.layer.cornerRadius = 15
         self.bgIconView.layer.masksToBounds = true
         self.bgView.addSubview(self.bgIconView)
         
         self.iconView.image = UIImage(named: "avatar1")
-        self.iconView.layer.cornerRadius = 30~
+        self.iconView.layer.cornerRadius = 30
         self.iconView.layer.masksToBounds = true
         self.bgView.addSubview(self.iconView)
         
         self.addSubview(micView)
         
         coverView.backgroundColor = .black
-        coverView.alpha = 0.2
-        coverView.layer.cornerRadius = 30~
+        coverView.alpha = 0.5
+        coverView.layer.cornerRadius = 30
         coverView.layer.masksToBounds = true
         self.bgView.addSubview(coverView)
         self.coverView.isHidden = true
@@ -185,18 +194,18 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         coverView.addGestureRecognizer(alienTap)
         coverView.isUserInteractionEnabled = true
 
-        activeButton.backgroundColor = .blue
-        activeButton.layer.cornerRadius = 8~
+        activeButton.layer.cornerRadius = 8
         activeButton.layer.masksToBounds = true
         activeButton.setTitle(LanguageManager.localValue(key: "active"), for: .normal)
         activeButton.setTitleColor(.white, for: .normal)
-        activeButton.titleLabel?.font = UIFont.systemFont(ofSize: 9)~
+        activeButton.setBackgroundImage(UIImage(named: "active"), for: .normal)
+        activeButton.titleLabel?.font = UIFont.systemFont(ofSize: 9)
         activeButton.addTargetFor(self, action: #selector(active), for: .touchUpInside)
         self.addSubview(activeButton)
         self.activeButton.isHidden = true
         
         self.nameBtn.setTitleColor(.white, for: .normal)
-        self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 11)~
+        self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         self.nameBtn.titleLabel?.lineBreakMode = .byTruncatingTail
         self.nameBtn.setTitle("", for: .normal)
         self.nameBtn.isUserInteractionEnabled = false;
@@ -207,44 +216,44 @@ class AgoraChatRoomBaseRtcUserView: UIView {
         
         self.bgView.snp.makeConstraints { make in
             make.centerX.equalTo(self)
-            make.top.equalTo(self).offset(20~);
-            make.width.height.equalTo(60~)
+            make.top.equalTo(self).offset(20);
+            make.width.height.equalTo(60)
         }
         
         self.bgIconView.snp.makeConstraints { make in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self.bgView)
-            make.width.height.equalTo(30~)
+            make.width.height.equalTo(22)
         }
         
         self.iconView.snp.makeConstraints { make in
             make.centerX.equalTo(self)
-            make.top.equalTo(self).offset(20~);
-            make.width.height.equalTo(60~)
+            make.top.equalTo(self).offset(20);
+            make.width.height.equalTo(60)
         }
         
         self.micView.snp.makeConstraints { make in
-            make.right.equalTo(self.iconView).offset(5~)
-            make.width.height.equalTo(18~)
-            make.bottom.equalTo(self.iconView.snp.bottom).offset(-5~)
+            make.right.equalTo(self.iconView).offset(-3)
+            make.width.height.equalTo(18)
+            make.bottom.equalTo(self.iconView.snp.bottom).offset(-2)
         }
         
         coverView.snp.makeConstraints { make in
             make.top.bottom.left.right.equalTo(iconView)
-            make.height.width.equalTo(60~)
+            make.height.width.equalTo(60)
         }
         
         activeButton.snp.makeConstraints { make in
             make.centerX.equalTo(iconView)
             make.bottom.equalTo(iconView)
-            make.width.equalTo(40~)
-            make.height.equalTo(16~)
+            make.width.equalTo(40)
+            make.height.equalTo(16)
         }
         
         self.nameBtn.snp.makeConstraints { make in
             make.centerX.equalTo(self)
-            make.top.equalTo(self.iconView.snp.bottom).offset(10~)
-            make.height.equalTo(20~)
+            make.top.equalTo(self.iconView.snp.bottom).offset(10)
+            make.height.equalTo(20)
             make.left.equalTo(10)
             make.right.equalTo(-10)
         }

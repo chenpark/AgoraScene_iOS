@@ -281,25 +281,26 @@ extension AgoraChatRoom3DRtcView: UICollectionViewDelegate, UICollectionViewData
     }
     
     private func getCellTypeWithStatus(_ status: Int) -> AgoraChatRoomBaseUserCellType {
-        switch status {
-            case -2:
-                return .AgoraChatRoomBaseUserCellTypeAlienNonActive
-            case -1:
-                return .AgoraChatRoomBaseUserCellTypeAdd
-            case 0:
-                return .AgoraChatRoomBaseUserCellTypeNormalUser
-            case 1:
-                return .AgoraChatRoomBaseUserCellTypeMute
-            case 2:
-                return .AgoraChatRoomBaseUserCellTypeForbidden
-            case 3:
-                return .AgoraChatRoomBaseUserCellTypeLock
-            case 4:
-                return .AgoraChatRoomBaseUserCellTypeMuteAndLock
-            case 5:
-                return .AgoraChatRoomBaseUserCellTypeAlienActive
-            default:
-                return .AgoraChatRoomBaseUserCellTypeAdd
-        }
+//        switch status {
+//            case -2:
+//                return .AgoraChatRoomBaseUserCellTypeAlienNonActive
+//            case -1:
+//                return .AgoraChatRoomBaseUserCellTypeAdd
+//            case 0:
+//                return .AgoraChatRoomBaseUserCellTypeNormalUser
+//            case 1:
+//                return .AgoraChatRoomBaseUserCellTypeMute
+//            case 2:
+//                return .AgoraChatRoomBaseUserCellTypeForbidden
+//            case 3:
+//                return .AgoraChatRoomBaseUserCellTypeLock
+//            case 4:
+//                return .AgoraChatRoomBaseUserCellTypeMuteAndLock
+//            case 5:
+//                return .AgoraChatRoomBaseUserCellTypeAlienActive
+//            default:
+//                return .AgoraChatRoomBaseUserCellTypeAdd
+//        }
+        return .AgoraChatRoomBaseUserCellTypeAdd
     }
 }

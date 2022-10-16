@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons／outlined／mic.png",
+      "filename" : "icons／solid／add.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "mic@2x.png",
+      "filename" : "icons／solid／add@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "mic@3x.png",
+      "filename" : "icons／solid／add@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
