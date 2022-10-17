@@ -11,4 +11,5 @@ import Foundation
     var title: String = ""
     var detail: String = ""
     var selected: Bool = false
+    var index: Int? = 0
 }

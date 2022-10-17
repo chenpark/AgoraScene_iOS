@@ -10,7 +10,9 @@ import ZSwiftBaseLib
 
 public class VRSoundEffectsCell: UITableViewCell,UICollectionViewDelegate,UICollectionViewDataSource {
     
-    private var images = ["yalla","soul"]
+    var entity: VRRoomMenuBarEntity?
+    
+    private var images = [["wangyi","momo","pipi","yinyu"],["wangyi","jiamian","yinyu","paipaivoice","wanba","qingtian","skr","soul"],["yalla-ludo","jiamian"],["qingmang","cowLive","yuwan","weibo"]]
     
     lazy var background: UIView = {
         UIView(frame: CGRect(x: 20, y: 15, width: ScreenWidth-40, height: self.frame.height - 15)).backgroundColor(.white).cornerRadius(20)
@@ -77,7 +79,7 @@ extension VRSoundEffectsCell {
     static func items() -> [VRRoomMenuBarEntity] {
         var items = [VRRoomMenuBarEntity]()
         do {
-            for dic in [["title":LanguageManager.localValue(key: "Social Chat"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat."),"selected":true],["title":LanguageManager.localValue(key: "Karaoke"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful."),"selected":false],["title":LanguageManager.localValue(key: "Gaming Buddy"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. "),"selected":false],["title":LanguageManager.localValue(key: "Professional Podcaster"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. "),"selected":false]] {
+            for dic in [["title":LanguageManager.localValue(key: "Social Chat"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat."),"selected":true,"index":0],["title":LanguageManager.localValue(key: "Karaoke"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful."),"selected":false,"index":1],["title":LanguageManager.localValue(key: "Gaming Buddy"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. "),"selected":false,"index":2],["title":LanguageManager.localValue(key: "Professional Podcaster"),"detail":LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. "),"selected":false,"index":3]] {
                 let data = try JSONSerialization.data(withJSONObject: dic, options: [])
                 let item = try JSONDecoder().decode(VRRoomMenuBarEntity.self, from: data)
                 items.append(item)
@@ -89,16 +91,17 @@ extension VRSoundEffectsCell {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.images.count
+        self.images[self.entity?.index ?? 0].count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRIconCell", for: indexPath) as? VRIconCell
-        cell?.imageView.image = UIImage(self.images[indexPath.row])
+        cell?.imageView.image = UIImage(self.images[self.entity?.index ?? 0][indexPath.row])
         return cell ?? UICollectionViewCell()
     }
     
     func refresh(item: VRRoomMenuBarEntity) {
+        self.entity = item
         self.effectName.text = item.title
         self.effectDesc.text = item.detail
         self.chooseSymbol.isHidden = !item.selected
@@ -113,7 +116,7 @@ extension VRSoundEffectsCell {
         self.effectDesc.frame = CGRect(x: 20, y: self.effectName.frame.maxY+4, width: self.effectName.frame.width, height: VRSoundEffectsList.heightMap[item.title] ?? 60)
         self.line.frame = CGRect(x: 20, y: self.effectDesc.frame.maxY+6, width: self.effectDesc.frame.width, height: 1)
         self.customUsage.frame = CGRect(x: 20, y: self.effectDesc.frame.maxY+10, width: 200, height: 15)
-        self.iconList.frame = CGRect(x: 20, y: Int(self.customUsage.frame.maxY)+5, width: self.images.count*20+10*(self.images.count-1), height: 20)
+        self.iconList.frame = CGRect(x: 20, y: Int(self.customUsage.frame.maxY)+5, width: Int(self.background.frame.width) - 40, height: 20)
         self.chooseSymbol.frame = CGRect(x: self.background.frame.width-32, y: self.background.frame.height-31, width: 32, height: 31)
     }
     

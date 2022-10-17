@@ -75,7 +75,7 @@ extension VRRoomMenuBar {
                 items.append(item)
             }
         } catch {
-            assert(false, "\(error.localizedDescription)")
+            print("\(error.localizedDescription)")
         }
         return items
     }
