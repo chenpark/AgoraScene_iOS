@@ -11,16 +11,20 @@ import SVGAPlayer
 extension VoiceRoomViewController {
     
     func showEQView() {
-        preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~))
+        preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 280~))
         preView.isAudience = !isOwner
         preView.roomInfo = roomInfo
         preView.ains_state = ains_state
+        var isTouchAble = false
+        if let use_robot = roomInfo?.room?.use_robot {
+            isTouchAble = use_robot
+        }
+        preView.isTouchAble = isTouchAble
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
             self?.rtckit.setAINS(with: state)
             if self?.isOwner == false {return}
-            if let use_robot = self?.roomInfo?.room?.use_robot{
-                if use_robot == false {
+                if isTouchAble == false {
                     self?.view.makeToast("请房主先激活机器人")
                     return
                 }
@@ -31,7 +35,6 @@ extension VoiceRoomViewController {
                 } else {
                     self?.rtckit.playMusic(with: .ainsOff)
                 }
-            }
         }
         preView.useRobotBlock = {[weak self] flag in
             if self?.alienCanPlay == true && flag == true {
@@ -71,7 +74,7 @@ extension VoiceRoomViewController {
         self.headerView.isUserInteractionEnabled = false
         
         UIView.animate(withDuration: 0.5, animations: {
-            self.preView.frame = CGRect(x: 0, y: ScreenHeight - 450~, width: ScreenWidth, height: 450~)
+            self.preView.frame = CGRect(x: 0, y: ScreenHeight - 360~, width: ScreenWidth, height: 360~)
         }, completion: nil)
     }
     
@@ -192,7 +195,6 @@ extension VoiceRoomViewController {
         guard let mic_info = roomInfo?.mic_info?[index] else {return}
         manageView.micInfo = mic_info
         manageView.resBlock = {[weak self] (state, flag) in
-            self?.dismiss(animated: true)
             if state == .invite {
                 if flag {
                     self?.applyMembersAlert()

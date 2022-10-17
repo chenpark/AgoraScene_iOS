@@ -25,7 +25,7 @@ class VMANISSUPTableViewCell: UITableViewCell {
     private var noneBtn: UIButton = UIButton()
     private var anisBtn: UIButton = UIButton()
     private var selBtn: UIButton!
-    
+    public var isTouchAble: Bool = false
     public var cellTag: Int = 1000 {
         didSet {
             noneBtn.tag = cellTag + 1
@@ -49,8 +49,8 @@ class VMANISSUPTableViewCell: UITableViewCell {
         didSet {
             if btn_state == .off {
                 noneBtn.backgroundColor = .white
-                noneBtn.layer.borderColor = UIColor.blue.cgColor
-                noneBtn.setTitleColor(.blue, for: .normal)
+                noneBtn.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor
+                noneBtn.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
                 noneBtn.layer.borderWidth = 1
                 
                 anisBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
@@ -61,8 +61,8 @@ class VMANISSUPTableViewCell: UITableViewCell {
                 selBtn = noneBtn
             } else if btn_state == .middle {
                 anisBtn.backgroundColor = .white
-                anisBtn.layer.borderColor = UIColor.blue.cgColor
-                anisBtn.setTitleColor(.blue, for: .normal)
+                anisBtn.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor
+                anisBtn.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
                 anisBtn.layer.borderWidth = 1
                 
                 noneBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
@@ -114,7 +114,7 @@ class VMANISSUPTableViewCell: UITableViewCell {
         
         noneBtn.frame = CGRect(x: screenWidth - 70~, y: 12~, width: 50~, height: 30~)
         noneBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
-        noneBtn.setTitle("Off", for: .normal)
+        noneBtn.setTitle("Without AINS".localized(), for: .normal)
         noneBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         noneBtn.font(UIFont.systemFont(ofSize: 11))
         noneBtn.layer.cornerRadius = 3
@@ -122,9 +122,9 @@ class VMANISSUPTableViewCell: UITableViewCell {
         noneBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(noneBtn)
         
-        anisBtn.frame = CGRect(x: screenWidth - 160~, y: 12~, width: 80~, height: 30~)
+        anisBtn.frame = CGRect(x: screenWidth - 130~, y: 12~, width: 50~, height: 30~)
         anisBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
-        anisBtn.setTitle("Middle", for: .normal)
+        anisBtn.setTitle("With AINS".localized(), for: .normal)
         anisBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         anisBtn.font(UIFont.systemFont(ofSize: 11))
         anisBtn.layer.cornerRadius = 3
@@ -140,9 +140,11 @@ class VMANISSUPTableViewCell: UITableViewCell {
         guard let resBlock = resBlock else {return}
         resBlock(sender.tag)
         
+        if !isTouchAble {return}
+        
         sender.backgroundColor = .white
-        sender.layer.borderColor = UIColor.blue.cgColor
-        sender.setTitleColor(.blue, for: .normal)
+        sender.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor
+        sender.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
         sender.layer.borderWidth = 1
         if selBtn != nil {
             selBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)

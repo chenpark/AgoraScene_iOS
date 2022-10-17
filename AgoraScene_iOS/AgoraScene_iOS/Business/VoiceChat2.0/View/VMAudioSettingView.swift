@@ -7,6 +7,7 @@
 
 import UIKit
 import ZSwiftBaseLib
+import SnapKit
 
 public enum AUDIO_SETTING_TYPE {
     case effect
@@ -26,7 +27,7 @@ class VMAudioSettingView: UIView {
     private let slIdentifier = "slider"
     private let nIdentifier = "normal"
     
-    private var settingName: [String] = ["Agora Blue && Agora Red","Robot volume","Best Agora Sound","AINS","Spatial Audio"]
+    private var settingName: [String] = ["\(LanguageManager.localValue(key: "blue")) && \(LanguageManager.localValue(key: "red"))",LanguageManager.localValue(key: "Robot Volume"),LanguageManager.localValue(key: "Best Sound"),"AINS","Spatial Audio"]
     private var settingImage: [String] = ["icons／set／jiqi", "icons／set／jiqi(1)", "icons／set／jiqi(2)", "icons／set／jiqi(3)", "icons／set／jiqi(4)"]
     private var soundTitle: [String] = []
     private var ainsTitle: [String] = []
@@ -53,18 +54,18 @@ class VMAudioSettingView: UIView {
         layer.path = path.cgPath
         self.layer.mask = layer
         
-        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
+        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8, width: 40~, height: 4)
         lineImgView.image = UIImage(named: "pop_indicator")
         self.addSubview(lineImgView)
         
         titleLabel.frame = CGRect(x: ScreenWidth / 2.0 - 60~, y: 30~, width: 120~, height: 30~)
         titleLabel.textAlignment = .center
-        titleLabel.text = "Audio Settings"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.text = LanguageManager.localValue(key: "Audio Settings")
+        titleLabel.textColor = UIColor(red: 0.016, green: 0.035, blue: 0.145, alpha: 1)
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         self.addSubview(titleLabel)
         
-        tableView.frame = CGRect(x: 0, y: 60~, width: ScreenWidth, height: 390~)
+        tableView.frame = CGRect(x: 0, y: 70~, width: ScreenWidth, height: 280~)
         tableView.registerCell(VMSwitchTableViewCell.self, forCellReuseIdentifier: swIdentifier)
         tableView.registerCell(VMSliderTableViewCell.self, forCellReuseIdentifier: slIdentifier)
         tableView.registerCell(VMNorSetTableViewCell.self, forCellReuseIdentifier: nIdentifier)
@@ -73,6 +74,8 @@ class VMAudioSettingView: UIView {
         self.addSubview(tableView)
         tableView.tableFooterView = UIView()
         
+        tableView.separatorColor = UIColor.HexColor(hex: 0xF6F6F6, alpha: 1)
+        
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
         } else {
@@ -80,7 +83,7 @@ class VMAudioSettingView: UIView {
         };
         
     }
-
+    
 }
 
 extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
@@ -93,7 +96,7 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40~
+        return 32~
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,26 +109,29 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
+            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 32~))
             headerView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
-            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
-            titleLabel.text = "Bot Settings"
+            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 2~, width: 300~, height: 30~))
+            titleLabel.text = LanguageManager.localValue(key: "Bot Settings")
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
             headerView.addSubview(titleLabel)
             return headerView
         } else {
-            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
+            
+            let width = textAutoWidth(height: 300, font: UIFont.systemFont(ofSize: 13), text: LanguageManager.localValue(key: "ACEQ"))
+            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 32~))
             headerView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
-            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
+            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 2~, width: width, height: 30~))
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
-            titleLabel.text = "Room Audio Settings"
+            titleLabel.text = LanguageManager.localValue(key: "ACEQ")
             headerView.addSubview(titleLabel)
             
-            let imgView: UIImageView = UIImageView(frame: CGRect(x: 150~, y: 10~, width: 30~, height: 20~))
-            imgView.image = UIImage(named: "common／new")
+            let imgView: UIImageView = UIImageView(frame: CGRect(x: width + 30~, y: 6~, width: 30~, height: 20~))
+            imgView.image = UIImage(named: "new")
             headerView.addSubview(imgView)
+            
             return headerView
         }
     }
@@ -169,11 +175,11 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
             } else if indexPath.row == 1 {
                 switch ains_state {
                 case .high:
-                    cell.contentLabel.text = "high"
+                    cell.contentLabel.text = "High".localized()
                 case .mid:
-                    cell.contentLabel.text = "middle"
+                    cell.contentLabel.text = "Middle".localized()
                 case .off:
-                    cell.contentLabel.text = "off"
+                    cell.contentLabel.text = "Off".localized()
                 }
             }
             return  cell
@@ -196,5 +202,12 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-
+    
+    func textAutoWidth(height:CGFloat, font:UIFont, text: String) ->CGFloat{
+        let origin = NSStringDrawingOptions.usesLineFragmentOrigin
+        let lead = NSStringDrawingOptions.usesFontLeading
+        let rect = text.boundingRect(with:CGSize(width:0, height: height), options: [origin,lead], attributes: [NSAttributedString.Key.font:font], context:nil)
+        return rect.width
+    }
+    
 }

@@ -36,16 +36,17 @@ class VMSwitchTableViewCell: UITableViewCell {
     }
     
     private func layoutUI() {
-        iconView.frame = CGRect(x: 20~, y: 17~, width: 20~, height: 20~)
+        iconView.frame = CGRect(x: 20, y: 17~, width: 20, height: 20~)
         iconView.image = UIImage(named: "icons／set／jiqi")
         self.contentView.addSubview(iconView)
         
-        titleLabel.frame = CGRect(x: 50~, y: 17~, width: 200~, height: 20~)
+        titleLabel.frame = CGRect(x: 50, y: 17~, width: 200~, height: 20~)
         titleLabel.text = "AgoraBlue"
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
         self.contentView.addSubview(titleLabel)
         
-        swith.frame = CGRect(x: screenWidth - 65~, y: 13~, width: 45~, height: 28~)
+        swith.frame = CGRect(x: screenWidth - 65, y: 13~, width: 45, height: 28~)
         self.contentView.addSubview(swith)
         swith.addTarget(self, action: #selector(useRobot), for: .valueChanged)
     }

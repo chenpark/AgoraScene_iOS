@@ -426,7 +426,7 @@ extension VoiceRoomViewController {
     }
     
     func showNoticeView(with role: ROLE_TYPE) {
-        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220~))
+        let noticeView = VMNoticeView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 220))
         noticeView.roleType = role
         noticeView.noticeStr = roomInfo?.room?.announcement ?? ""
         noticeView.resBlock = {[weak self] (flag, str) in
@@ -437,7 +437,7 @@ extension VoiceRoomViewController {
         }
         let noticeStr = self.roomInfo?.room?.announcement ?? ""
         noticeView.noticeStr = noticeStr
-        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220~)), custom: noticeView)
+        let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 220)), custom: noticeView)
         self.presentViewController(vc)
     }
     
@@ -660,7 +660,6 @@ extension VoiceRoomViewController {
         self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
-            self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.view.makeToast("leaveMic success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -683,7 +682,6 @@ extension VoiceRoomViewController {
     func muteLocal(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .closeMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
-            self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
@@ -707,7 +705,6 @@ extension VoiceRoomViewController {
     func unmuteLocal(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
-            self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)

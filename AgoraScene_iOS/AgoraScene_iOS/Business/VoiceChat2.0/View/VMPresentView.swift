@@ -14,6 +14,7 @@ class VMPresentView: UIView {
     public var eqView: VMEQSettingView = VMEQSettingView()
     public var roomInfo: VRRoomInfo?
     public var isAudience: Bool = false
+    public var isTouchAble: Bool = false
     var selBlock: ((AINS_STATE)->Void)?
     var ains_state: AINS_STATE = .mid
     var useRobotBlock: ((Bool) -> Void)?
@@ -54,6 +55,7 @@ class VMPresentView: UIView {
         
         eqView.backgroundColor = .white
         eqView.frame = CGRect(x: screenSize.width, y: 0, width: screenSize.width, height: self.bounds.size.height)
+        eqView.isTouchAble = isTouchAble
         eqView.soundEffect = roomInfo?.room?.sound_effect ?? LanguageManager.localValue(key: "Social Chat")
         eqView.resBlock = {[weak self] type in
             self?.eqView.settingType = type

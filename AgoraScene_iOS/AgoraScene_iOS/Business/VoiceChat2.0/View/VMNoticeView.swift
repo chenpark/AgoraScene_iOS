@@ -103,6 +103,7 @@ class VMNoticeView: UIView {
 
         tv.frame = CGRect(x: 10, y: 60~, width: ScreenWidth - 20 , height: 160~)
         tv.text = "Welcome"
+        tv.setPlaceholder(text: placeHolder)
         tv.textColor = UIColor(red: 0.235, green: 0.257, blue: 0.403, alpha: 1)
         tv.font = UIFont.systemFont(ofSize: 14)
         tv.delegate = self
@@ -134,6 +135,7 @@ class VMNoticeView: UIView {
        self.subBtn.isHidden = true
        self.editBtn.isHidden = false
        self.limLabel.isHidden = true
+       tv.resignFirstResponder()
     }
     
    @objc private func sub() {
@@ -147,22 +149,20 @@ class VMNoticeView: UIView {
         self.editBtn.isHidden = true
         self.limLabel.isHidden = false
         tv.isEditable = true
+        tv.becomeFirstResponder()
     }
 }
 
 extension VMNoticeView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        var text = textView.text
-        if text?.hasPrefix(placeHolder) == true {
-            text = text!.replacingOccurrences(of: placeHolder, with: "")
-        }
+        let text = textView.text
         if text!.count >= 140 {
             let indexStart = text!.startIndex
             let indexEnd = text!.index(indexStart, offsetBy: 140)
             tv.text = String(text![indexStart..<indexEnd])
             limLabel.text = "140/140"
             tv.textColor = UIColor(red: 0.235, green: 0.257, blue: 0.403, alpha: 1)
-        } else {
+        } else if text!.count > 0 {
             tv.text = text
             limLabel.text = "\(text!.count)/140"
             tv.textColor = UIColor(red: 0.235, green: 0.257, blue: 0.403, alpha: 1)
@@ -171,3 +171,15 @@ extension VMNoticeView: UITextViewDelegate {
     
 }
 
+extension UITextView {
+    func setPlaceholder(text: String) {
+        let placeholderLabel = UILabel()
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        placeholderLabel.textColor = UIColor(red: 0.593, green: 0.612, blue: 0.732, alpha: 1)
+        placeholderLabel.text = text
+        placeholderLabel.sizeToFit()
+        addSubview(placeholderLabel)
+        setValue(placeholderLabel, forKeyPath: "_placeholderLabel")
+    }
+}

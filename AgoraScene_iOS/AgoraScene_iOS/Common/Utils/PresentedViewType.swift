@@ -57,7 +57,7 @@ public struct PresentedViewComponent {
                 canPanDismiss: Bool = true,
                 panDismissDirection: PanDismissDirection? = nil,
                 keyboardTranslationType: KeyboardTranslationType = .unabgeschirmt(compress: true),
-                keyboardPadding: CGFloat = 20) {
+                keyboardPadding: CGFloat = 0) {
         self.contentSize = contentSize
         self.destination = destination
         self.presentTransitionType = presentTransitionType

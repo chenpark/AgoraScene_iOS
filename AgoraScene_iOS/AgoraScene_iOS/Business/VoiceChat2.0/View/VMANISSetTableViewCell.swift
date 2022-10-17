@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class VMANISSetTableViewCell: UITableViewCell {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
@@ -14,6 +15,7 @@ class VMANISSetTableViewCell: UITableViewCell {
     private var midBtn: UIButton = UIButton()
     private var offBtn: UIButton = UIButton()
     private var selBtn: UIButton!
+    public var isTouchAble: Bool = false
     public var ains_state: AINS_STATE = .mid {
         didSet {
             switch ains_state {
@@ -45,13 +47,14 @@ class VMANISSetTableViewCell: UITableViewCell {
     }
     
     private func layoutUI() {
-        titleLabel.frame = CGRect(x: 20~, y: 17~, width: 200~, height: 20~)
-        titleLabel.text = "your AINS"
+       // titleLabel.frame = CGRect(x: 20~, y: 17~, width: 200~, height: 20~)
+        titleLabel.text = "Your AINS".localized()
+        titleLabel.font = UIFont.systemFont(ofSize: 13)
         self.contentView.addSubview(titleLabel)
         
-        offBtn.frame = CGRect(x: screenWidth - 70~, y: 12~, width: 50~, height: 30~)
+      //  offBtn.frame = CGRect(x: screenWidth - 70~, y: 12~, width: 50~, height: 30~)
         offBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
-        offBtn.setTitle("Off", for: .normal)
+        offBtn.setTitle(" \("Off".localized()) ", for: .normal)
         offBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         offBtn.font(UIFont.systemFont(ofSize: 11))
         offBtn.layer.cornerRadius = 3
@@ -60,24 +63,24 @@ class VMANISSetTableViewCell: UITableViewCell {
         offBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(offBtn)
         
-        midBtn.frame = CGRect(x: screenWidth - 160~, y: 12~, width: 80~, height: 30~)
+     //   midBtn.frame = CGRect(x: screenWidth - 160~, y: 12~, width: 80~, height: 30~)
         midBtn.backgroundColor = .white
-        midBtn.setTitle("Middle", for: .normal)
-        midBtn.setTitleColor(UIColor.blue, for: .normal)
+        midBtn.setTitle(" \("Middle".localized()) ".localized(), for: .normal)
+        midBtn.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
         midBtn.font(UIFont.systemFont(ofSize: 11))
         midBtn.backgroundColor = .white
         midBtn.layer.cornerRadius = 3
         midBtn.layer.masksToBounds = true
-        midBtn.layer.borderColor = UIColor.blue.cgColor
+        midBtn.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor
         midBtn.layer.borderWidth = 1
         midBtn.tag = 101
         midBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(midBtn)
         self.selBtn = midBtn
         
-        highBtn.frame = CGRect(x: screenWidth - 220~, y: 12~, width: 50~, height: 30~)
+    //    highBtn.frame = CGRect(x: screenWidth - 220~, y: 12~, width: 50~, height: 30~)
         highBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
-        highBtn.setTitle("High", for: .normal)
+        highBtn.setTitle(" \("High".localized()) ".localized(), for: .normal)
         highBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
         highBtn.font(UIFont.systemFont(ofSize: 11))
         highBtn.layer.cornerRadius = 3
@@ -86,10 +89,35 @@ class VMANISSetTableViewCell: UITableViewCell {
         highBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(highBtn)
         
+        titleLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+        }
+        
+        offBtn.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(24)
+        }
+        
+        midBtn.snp.makeConstraints { make in
+            make.right.equalTo(offBtn.snp.left).offset(-6)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(24)
+        }
+        
+        highBtn.snp.makeConstraints { make in
+            make.right.equalTo(midBtn.snp.left).offset(-6)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(24)
+        }
+        
     }
     
     @objc private func click(sender: UIButton) {
-        setBtnStateWith(sender)
+        if isTouchAble {
+            setBtnStateWith(sender)
+        }
         
         guard let selBlock = selBlock else {
             return
@@ -108,8 +136,8 @@ class VMANISSetTableViewCell: UITableViewCell {
     private func setBtnStateWith(_ btn: UIButton) {
         if selBtn == btn {return}
         btn.backgroundColor = .white
-        btn.layer.borderColor = UIColor.blue.cgColor
-        btn.setTitleColor(.blue, for: .normal)
+        btn.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor
+        btn.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
         btn.layer.borderWidth = 1
         
         selBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)

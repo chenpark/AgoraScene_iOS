@@ -27,6 +27,7 @@ class VMMuteView: UIView {
     private var muteBtn: UIButton = UIButton()
     private var leaveBtn: UIButton = UIButton()
     private var sepView: UIView = UIView()
+  
   //  private var micView: AgoraMicVolView = AgoraMicVolView()
     public var isOwner: Bool = false
     public var micInfo: VRRoomMic? {
@@ -34,25 +35,25 @@ class VMMuteView: UIView {
             //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
             let m_type = micInfo?.status
             var username: String = "\(micInfo?.mic_index ?? 0)"
-            var iconStr: String = "avatar1"
+            var iconStr: String = ""
             if let user = micInfo?.member {
                 username = user.name ?? "\(String(describing: micInfo?.index))"
-                iconStr = user.portrait ?? "avatar1"
+                iconStr = user.portrait ?? ""
             }
 
             leaveBtn.isHidden = isOwner
             sepView.isHidden = isOwner
+            roleBtn.isHidden = !isOwner
             muteBtn.frame = isOwner ? CGRect(x: 0, y: 170~, width: self.bounds.size.width, height: 40~) : CGRect(x: self.bounds.size.width / 2.0, y: 170~, width: self.bounds.size.width / 2.0, height: 40~)
+            iconView.image = UIImage(named: iconStr)
             if m_type == 0 {
                 iconView.isHidden = false
-                iconView.image = UIImage(named: iconStr)
                 nameLabel.text = username
 //                micView.setState(.on)
 //                micView.setVolume(100)
 //                micView.isHidden = false
             } else if m_type == 1 {
                 iconView.isHidden = false
-                roleBtn.isHidden = true
 //                micView.isHidden = false
 //                micView.setState(.forbidden)
                 muteBtn.setTitle(LanguageManager.localValue(key: "Unmute"), for: .normal)
@@ -110,8 +111,8 @@ class VMMuteView: UIView {
         
         roleBtn.frame = CGRect(x: ScreenWidth/2.0 - 50~, y: 135~, width: 100~, height: 20)
         roleBtn.setImage(UIImage(named: "Landlord"), for: .normal)
-        roleBtn.setTitle("host", for: .normal)
-        roleBtn.setTitleColor(.black, for: .normal)
+        roleBtn.setTitle(" \(LanguageManager.localValue(key: "host"))", for: .normal)
+        roleBtn.setTitleColor(UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1), for: .normal)
         roleBtn.font(UIFont.systemFont(ofSize: 11))
         self.addSubview(roleBtn)
         self.roleBtn.isHidden = true

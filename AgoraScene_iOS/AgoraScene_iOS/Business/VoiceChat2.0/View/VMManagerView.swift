@@ -91,6 +91,8 @@ class VMManagerView: UIView {
                 inviteBtn.setTitle(LanguageManager.localValue(key: "Kick"), for: .normal)
                 muteBtn.setTitle(LanguageManager.localValue(key: "Unmute"), for: .normal)
             }
+            
+            roleBtn.isHidden = !isOwner
         }
     }
     

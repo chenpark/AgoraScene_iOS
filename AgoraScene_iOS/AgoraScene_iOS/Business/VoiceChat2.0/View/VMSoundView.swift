@@ -88,7 +88,7 @@ class VMSoundView: UIView {
         soulView.image = UIImage(named: "soul")
         bgView.addSubview(soulView)
 
-        usageLabel.text = "The following customers are using it: "
+        usageLabel.text = "CUS Use".localized()
         usageLabel.font = UIFont.systemFont(ofSize: 12)
         usageLabel.textColor = UIColor(red: 0.593, green: 0.612, blue: 0.732, alpha: 1)
         bgView.addSubview(usageLabel)

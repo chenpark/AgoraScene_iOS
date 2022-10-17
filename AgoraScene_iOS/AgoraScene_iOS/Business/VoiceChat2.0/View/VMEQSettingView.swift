@@ -25,6 +25,7 @@ class VMEQSettingView: UIView {
     private var effectType: [SOUND_TYPE] = [.chat, .karaoke, .game, .anchor]
     var backBlock: (() -> Void)?
     var effectClickBlock:(() -> Void)?
+    var isTouchAble: Bool = false
     var ains_state: AINS_STATE = .off {
         didSet {
             tableView.reloadData()
@@ -65,17 +66,17 @@ class VMEQSettingView: UIView {
     private var selTag: Int?
     
     private let settingName: [String] = ["Spatial Audio", "Attenuation factor", "Air absorb", "Voice blur"]
-    private let soundType: [String] = ["TV Sound", "Kitchen Sound", "Street Sound", "Mashine Sound", "Office Sound", "Home Sound", "Construction Sound","Alert Sound/Music","Applause","Wind Sound","Mic Pop Filter","Audio Feedback","Microphone Finger Rub Sound","Screen Tap Sound"]
-    private let soundDetail: [String] = ["Ex. Bird, car, subway sounds", "Ex. Fan, air conditioner, vacuum cleaner, printer sounds", "Ex. Keyboard tapping, mouse clicking sounds", "Ex. Door closing, chair squeaking, baby crying sounds", "Ex. Knocking sound"]
+    private let soundType: [String] = ["TV Sound".localized(), "Kitchen Sound".localized(), "Street Sound".localized(), "Mashine Sound".localized(), "Office Sound".localized(), "Home Sound".localized(), "Construction Sound".localized(),"Alert Sound/Music".localized(),"Applause".localized(),"Wind Sound".localized(),"Mic Pop Filter".localized(),"Audio Feedback".localized(),"Microphone Finger Rub Sound".localized(),"Screen Tap Sound".localized()]
+    private let soundDetail: [String] = ["Ex. Bird, car, subway sounds".localized(), "Ex. Fan, air conditioner, vacuum cleaner, printer sounds".localized(), "Ex. Keyboard tapping, mouse clicking sounds".localized(), "Ex. Door closing, chair squeaking, baby crying sounds".localized(), "Ex. Knocking sound".localized()]
     
     var settingType: AUDIO_SETTING_TYPE = .Spatial {
         didSet {
             if settingType == .Spatial {
                 titleLabel.text = "Spatial Setting"
             } else if settingType == .Noise {
-                titleLabel.text = "Noise Setting"
+                titleLabel.text = "Noise Setting".localized()
             }else if settingType == .effect {
-                titleLabel.text = "Effect Setting"
+                titleLabel.text = "Effect Setting".localized()
             }
             tableView.reloadData()
         }
@@ -100,18 +101,18 @@ class VMEQSettingView: UIView {
         backBtn.addTargetFor(self, action: #selector(back), for: .touchUpInside)
         self.addSubview(backBtn)
         
-        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
+        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8, width: 40~, height: 4)
         lineImgView.image = UIImage(named: "pop_indicator")
         self.addSubview(lineImgView)
         
         titleLabel.frame = CGRect(x: ScreenWidth / 2.0 - 60~, y: 25~, width: 120~, height: 30~)
         titleLabel.textAlignment = .center
         titleLabel.text = "Spatial Audio"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.textColor = UIColor.HexColor(hex: 0x040925, alpha: 1)
+        titleLabel.font = UIFont.systemFont(ofSize: 16,weight: .bold)
         self.addSubview(titleLabel)
         
-        tableView.frame = CGRect(x: 0, y: 60~, width: ScreenWidth, height: 390~)
+        tableView.frame = CGRect(x: 0, y: 70~, width: ScreenWidth, height: 280~)
         tableView.registerCell(VMSwitchTableViewCell.self, forCellReuseIdentifier: swIdentifier)
         tableView.registerCell(VMSliderTableViewCell.self, forCellReuseIdentifier: slIdentifier)
         tableView.registerCell(VMNorSetTableViewCell.self, forCellReuseIdentifier: nIdentifier)
@@ -166,7 +167,11 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40~
+        if settingType == .Noise && section == 2 {
+            return textHeight(text: "AINS Sup".localized(), fontSize: 13, width: ScreenWidth - 40) + 15
+        } else {
+            return 40~
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -196,7 +201,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Current Sound Selection"
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
             } else {
-                titleLabel.text = settingType == .Spatial ? "Agora Blue Bot" : "AINS Setting"
+                titleLabel.text = settingType == .Spatial ? "Agora Blue Bot" : "AINS Settings".localized()
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
             }
             headerView.addSubview(titleLabel)
@@ -211,17 +216,20 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 titleLabel.text = "Other Sound Selection"
             } else {
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
-                titleLabel.text = settingType == .Spatial ? "Agora Red Bot" : "To know agora ains"
+                titleLabel.text = settingType == .Spatial ? "Agora Red Bot" : "AINS Definition".localized()
             }
             headerView.addSubview(titleLabel)
             return headerView
         } else {
-            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
+            let height = textHeight(text: "AINS Sup".localized(), fontSize: 13, width: ScreenWidth - 40)
+            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: height + 15))
             headerView.backgroundColor = UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
-            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
+            let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: screenWidth - 40, height: height))
+            titleLabel.numberOfLines = 0
+            titleLabel.lineBreakMode = .byCharWrapping
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
-            titleLabel.text = "Agora AINS supports the following sounds, click to have bot play the sound:"
+            titleLabel.text = "AINS Sup".localized()
             headerView.addSubview(titleLabel)
             return headerView
         }
@@ -260,6 +268,8 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 let cell: VMANISSetTableViewCell = tableView.dequeueReusableCell(withIdentifier: sIdentifier) as! VMANISSetTableViewCell
                 cell.ains_state = ains_state
+                cell.selectionStyle = .none
+                cell.isTouchAble = isTouchAble
                 cell.selBlock = {[weak self] state in
                     self?.ains_state = state
                     guard let block = self?.selBlock else {return}
@@ -269,7 +279,11 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 return cell
             } else if indexPath.section == 1 {
                 let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: tIdentifier)!
-                cell.textLabel?.text = "AINS：AI Noise Suppression"
+                cell.textLabel?.text = "AINS: AI Noise Suppression".localized()
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
+                cell.textLabel?.textColor = UIColor.HexColor(hex: 0x3C4267, alpha: 1)
+                cell.isUserInteractionEnabled = false
+                cell.selectionStyle = .none
                 return cell
             } else {
                 let cell: VMANISSUPTableViewCell = tableView.dequeueReusableCell(withIdentifier: pIdentifier)! as! VMANISSUPTableViewCell
@@ -279,6 +293,8 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     cell.cellType = .normal
                 }
+                cell.isTouchAble = isTouchAble
+                cell.selectionStyle = .none
                 cell.titleLabel.text = soundType[indexPath.row]
                 cell.cellTag = 1000 + indexPath.row * 10
                 if selTag == nil {
@@ -293,9 +309,11 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 cell.resBlock = {[weak self] index in
-                    self?.selTag = index
+                    if cell.isTouchAble {
+                        self?.selTag = index
+                        self?.tableView.reloadData()
+                    }
                     self?.soundBlock!(index)
-                    self?.tableView.reloadData()
                 }
                 return cell
             }
