@@ -250,7 +250,7 @@ public let kMPK_RTC_UID: UInt = 1
                     }
                     var musicStr = "\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.MediumAINSIntroduc[baseMusicCount])"
                     musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
-                    rtcKit.startAudioMixing("\(AgoraConfig.SetAINSIntroduce)\(AgoraConfig.MediumAINSIntroduc[baseMusicCount])", loopback: false, cycle: 1)
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 } else if musicType == .ainsOff {
                     if AgoraConfig.NoneAINSIntroduc[baseMusicCount].contains("-B-") {
                         delegate?.reportAlien?(with: .blue, musicType: musicType)
@@ -305,7 +305,7 @@ public let kMPK_RTC_UID: UInt = 1
                     }
                     var musicStr = "\(AgoraConfig.SoundSelectAnchor[baseMusicCount])"
                     musicStr = musicStr.replacingOccurrences(of: "CN", with: LanguageManager.localValue(key: "Lau"))
-                    rtcKit.startAudioMixing("\(AgoraConfig.SoundSelectAnchor[baseMusicCount])", loopback: false, cycle: 1)
+                    rtcKit.startAudioMixing(musicStr, loopback: false, cycle: 1)
                 }
             }
         }

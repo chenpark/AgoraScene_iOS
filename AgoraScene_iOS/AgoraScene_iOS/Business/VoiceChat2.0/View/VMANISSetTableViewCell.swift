@@ -50,9 +50,9 @@ class VMANISSetTableViewCell: UITableViewCell {
        // titleLabel.frame = CGRect(x: 20~, y: 17~, width: 200~, height: 20~)
         titleLabel.text = "Your AINS".localized()
         titleLabel.font = UIFont.systemFont(ofSize: 13)
+        titleLabel.textColor = UIColor.HexColor(hex: 0x3C4267, alpha: 1)
         self.contentView.addSubview(titleLabel)
-        
-      //  offBtn.frame = CGRect(x: screenWidth - 70~, y: 12~, width: 50~, height: 30~)
+
         offBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
         offBtn.setTitle(" \("Off".localized()) ", for: .normal)
         offBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)
@@ -62,8 +62,7 @@ class VMANISSetTableViewCell: UITableViewCell {
         offBtn.tag = 100
         offBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(offBtn)
-        
-     //   midBtn.frame = CGRect(x: screenWidth - 160~, y: 12~, width: 80~, height: 30~)
+
         midBtn.backgroundColor = .white
         midBtn.setTitle(" \("Middle".localized()) ".localized(), for: .normal)
         midBtn.setTitleColor(UIColor.HexColor(hex: 0x0A7AFF, alpha: 1), for: .normal)
@@ -77,8 +76,7 @@ class VMANISSetTableViewCell: UITableViewCell {
         midBtn.addTargetFor(self, action: #selector(click), for: .touchUpInside)
         self.addSubview(midBtn)
         self.selBtn = midBtn
-        
-    //    highBtn.frame = CGRect(x: screenWidth - 220~, y: 12~, width: 50~, height: 30~)
+
         highBtn.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1)
         highBtn.setTitle(" \("High".localized()) ".localized(), for: .normal)
         highBtn.setTitleColor(UIColor(red: 151/255.0, green: 156/255.0, blue: 187/255.0, alpha: 1), for: .normal)

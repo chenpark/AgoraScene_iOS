@@ -101,6 +101,7 @@ class VMANISSUPTableViewCell: UITableViewCell {
         titleLabel.frame = CGRect(x: 20~, y: 10~, width: 200~, height: 20~)
         titleLabel.text = "TV Sound"
         titleLabel.font = UIFont.systemFont(ofSize: 13)
+        titleLabel.textColor = UIColor.HexColor(hex: 0x3C4267, alpha: 1)
         self.contentView.addSubview(titleLabel)
         
         detailLabel.frame = CGRect(x: 20~, y: 30~, width: 150~, height: 30~)

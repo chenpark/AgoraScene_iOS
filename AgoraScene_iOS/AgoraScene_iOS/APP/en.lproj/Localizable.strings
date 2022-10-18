@@ -119,6 +119,7 @@
 "AINS Definition" = "AINS Definition";
 "AINS Sup" = "Agora AINS support the following aounds, click to have bot play the sound:";
 "With AINS" = "AINS";
+"AINS: AI Noise Suppression" = "AINS: AI Noise Suppression";
 "Without AINS" = "None";
 "TV Sound" = "TV Sound";
 "Kitchen Sound" = "Kitchen Sound";
@@ -132,6 +133,8 @@
 "Wind Sound" = "Wind Sound";
 "Mic Pop Filter" = "Mic Pop Filter";
 "Audio Feedback" = "Audio Feedback";
+"Host Bot" = "Only host can change the robot settings";
+"Host Sound" = "Only host can change Best Agora Sound";
 "Microphone Finger Rub Sound" = "Microphone Finger Rub Sound";
 "Screen Tap Sound" = "Screen Tap Sound";
 "Ex. Bird, car, subway sounds" = "Ex. Bird, car, subway sounds";

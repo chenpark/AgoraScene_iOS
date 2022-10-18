@@ -55,7 +55,7 @@ class AgoraChatRoomNormalRtcView: UIView {
             if cur_uid == uid {
                 guard let mic_index = member.mic_index else {return}
                 let indexPath: IndexPath = IndexPath(item: mic_index, section: 0)
-                let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.cellForItem(at: indexPath) as! AgoraChatRoomBaseUserCollectionViewCell
+                guard let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseUserCollectionViewCell else {return}
                 cell.refreshVolume(vol: vol)
             }
         }

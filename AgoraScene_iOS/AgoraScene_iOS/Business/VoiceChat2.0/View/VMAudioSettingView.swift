@@ -27,7 +27,7 @@ class VMAudioSettingView: UIView {
     private let slIdentifier = "slider"
     private let nIdentifier = "normal"
     
-    private var settingName: [String] = ["\(LanguageManager.localValue(key: "blue")) && \(LanguageManager.localValue(key: "red"))",LanguageManager.localValue(key: "Robot Volume"),LanguageManager.localValue(key: "Best Sound"),"AINS","Spatial Audio"]
+    private var settingName: [String] = ["\(LanguageManager.localValue(key: "blue")) & \(LanguageManager.localValue(key: "red"))",LanguageManager.localValue(key: "Robot Volume"),LanguageManager.localValue(key: "Best Sound"),"AINS","Spatial Audio"]
     private var settingImage: [String] = ["icons／set／jiqi", "icons／set／jiqi(1)", "icons／set／jiqi(2)", "icons／set／jiqi(3)", "icons／set／jiqi(4)"]
     private var soundTitle: [String] = []
     private var ainsTitle: [String] = []

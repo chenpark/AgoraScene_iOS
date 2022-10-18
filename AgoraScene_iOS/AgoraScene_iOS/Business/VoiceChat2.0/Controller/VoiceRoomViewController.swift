@@ -451,7 +451,7 @@ extension VoiceRoomViewController {
     
     func showActiveAlienView(_ active: Bool) {
         if !isOwner {
-            self.view.makeToast("只有房主才能操作agora机器人")
+            self.view.makeToast("Host Bot".localized())
             return
         }
         let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~))
