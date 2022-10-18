@@ -26,6 +26,7 @@ class VMANISSUPTableViewCell: UITableViewCell {
     private var anisBtn: UIButton = UIButton()
     private var selBtn: UIButton!
     public var isTouchAble: Bool = false
+    public var isAudience: Bool = false
     public var cellTag: Int = 1000 {
         didSet {
             noneBtn.tag = cellTag + 1
@@ -141,7 +142,7 @@ class VMANISSUPTableViewCell: UITableViewCell {
         guard let resBlock = resBlock else {return}
         resBlock(sender.tag)
         
-        if !isTouchAble {return}
+        if (!isTouchAble || isAudience) {return}
         
         sender.backgroundColor = .white
         sender.layer.borderColor = UIColor.HexColor(hex: 0x0A7AFF, alpha: 1).cgColor

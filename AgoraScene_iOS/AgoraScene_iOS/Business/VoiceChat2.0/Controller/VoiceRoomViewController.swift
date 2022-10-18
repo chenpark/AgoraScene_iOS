@@ -350,7 +350,9 @@ extension VoiceRoomViewController {
                 }
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
-            showActiveAlienView(true)
+            if self.roomInfo?.room?.use_robot == false {
+                showActiveAlienView(true)
+            }
         } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser || type == .AgoraChatRoomBaseUserCellTypeAdmin {
             //用户下麦或者mute自己
             if tag - 200 == local_index {
@@ -480,6 +482,7 @@ extension VoiceRoomViewController {
                         
                         if self.alienCanPlay {
                             self.rtckit.playMusic(with: .alien)
+                            self.alienCanPlay = false
                         }
                         
                         var mic_info = mic
@@ -526,7 +529,6 @@ extension VoiceRoomViewController {
                 //如果返回的结果为true 表示上麦成功
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
-                        print("调节机器人音量成功")
                         guard let room = self.roomInfo?.room else {return}
                         var newRoom = room
                         newRoom.robot_volume = UInt(Vol)
@@ -534,7 +536,6 @@ extension VoiceRoomViewController {
                         self.rtckit.adjustAudioMixingPublishVolume(with: Vol)
                     }
                 } else {
-                    print("调节机器人音量失败")
                 }
             } else {
                 
@@ -575,9 +576,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .muteMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("mute success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
-                    self.view.makeToast("mute failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -591,10 +590,8 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("unmute success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
                 } else {
-                    self.view.makeToast("unmute failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -613,9 +610,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .kickMic(roomId: roomId), params: dic) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("kickoff success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
-                    self.view.makeToast("kickoff failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -629,9 +624,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .lockMic(roomId: roomId), params: ["mic_index": index]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("lock success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
-                    self.view.makeToast("lock failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -645,9 +638,7 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unlockMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("unLock success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
-                    self.view.makeToast("unLock failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -662,7 +653,6 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("leaveMic success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
                     //                    var mic_info = mic
                     //                    mic_info.status = -1
@@ -670,7 +660,6 @@ extension VoiceRoomViewController {
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.setClientRole(role: .audience)
                 } else {
-                    self.view.makeToast("leaveMic failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -685,7 +674,6 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
-                    self.view.makeToast("mute local success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
                     //                    var mic_info = mic
                     //                    mic_info.status = 1
@@ -693,7 +681,6 @@ extension VoiceRoomViewController {
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.muteLocalAudioStream(mute: true)
                 } else {
-                    self.view.makeToast("unmute local failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -708,7 +695,6 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
-                    self.view.makeToast("unmuteLocal success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
                     //                    var mic_info = mic
                     //                    mic_info.status = 0
@@ -716,7 +702,6 @@ extension VoiceRoomViewController {
                     //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.muteLocalAudioStream(mute: false)
                 } else {
-                    self.view.makeToast("unmuteLocal failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
@@ -734,11 +719,9 @@ extension VoiceRoomViewController {
             self.dismiss(animated: true)
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast("changeMic success!")
                     self.local_index = to
                     self.micExchange(from, to: to)
                 } else {
-                    self.view.makeToast("changeMic failed!")
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
@@ -766,6 +749,7 @@ extension VoiceRoomViewController {
         muteView.isOwner = isOwner
         muteView.micInfo = mic_info
         muteView.resBlock = {[weak self] (state) in
+            self?.dismiss(animated: true)
             if state == .leave {
                 self?.leaveMic(with: index)
             } else if state == .mute {
@@ -869,9 +853,9 @@ extension VoiceRoomViewController: ASManagerDelegate {
     func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) {
         print("当前是：\(type.rawValue)在讲话")
         self.rtcView.showAlienMicView = type
-        if type == .ended && self.alienCanPlay && musicType == .alien {
-            self.alienCanPlay = false
-        }
+//        if type == .ended && self.alienCanPlay && musicType == .alien {
+//            self.alienCanPlay = false
+//        }
     }
     
     func reportAudioVolumeIndicationOfSpeakers(speakers: [AgoraRtcAudioVolumeInfo]) {

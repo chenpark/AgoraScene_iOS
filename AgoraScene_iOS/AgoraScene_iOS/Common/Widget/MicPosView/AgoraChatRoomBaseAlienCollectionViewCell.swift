@@ -88,7 +88,7 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
     }
     
     private func layoutUI() {
-        cornerView.layer.cornerRadius = 33~
+        cornerView.layer.cornerRadius = 33
         cornerView.layer.masksToBounds = true
         cornerView.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2).cgColor
         cornerView.layer.borderWidth = 1~
@@ -108,7 +108,7 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         
         blueCoverView.backgroundColor = .black
         blueCoverView.alpha = 0.2
-        blueCoverView.layer.cornerRadius = 30~
+        blueCoverView.layer.cornerRadius = 30
         blueCoverView.layer.masksToBounds = true
         self.contentView.addSubview(blueCoverView)
 
@@ -137,10 +137,10 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         }
         
         cornerView.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView).offset(17~)
-            make.left.equalTo(self.contentView.bounds.size.width / 4.0 - 33~)
-            make.right.equalTo(-(self.contentView.bounds.size.width / 4.0 - 33~))
-            make.height.equalTo(66~)
+            make.top.equalTo(self.contentView).offset(17)
+            make.left.equalTo(self.contentView.bounds.size.width / 4.0 - 33)
+            make.right.equalTo(-(self.contentView.bounds.size.width / 4.0 - 33))
+            make.height.equalTo(66)
         }
         
         linkView.snp.makeConstraints { make in

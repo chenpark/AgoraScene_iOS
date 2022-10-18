@@ -15,36 +15,33 @@ extension VoiceRoomViewController {
         preView.isAudience = !isOwner
         preView.roomInfo = roomInfo
         preView.ains_state = ains_state
-        var isTouchAble = false
-        if let use_robot = roomInfo?.room?.use_robot {
-            isTouchAble = use_robot
-        }
-        preView.isTouchAble = isTouchAble
+        preView.isTouchAble = roomInfo?.room?.use_robot ?? false
         preView.selBlock = {[weak self] state in
             self?.ains_state = state
             self?.rtckit.setAINS(with: state)
-            if self?.isOwner == false {return}
-                if isTouchAble == false {
-                    self?.view.makeToast("请房主先激活机器人")
-                    return
-                }
-                if state == .high {
-                    self?.rtckit.playMusic(with: .ainsHigh)
-                } else if state == .mid {
-                    self?.rtckit.playMusic(with: .ainsMid)
-                } else {
-                    self?.rtckit.playMusic(with: .ainsOff)
-                }
+            if self?.isOwner == false || self?.roomInfo?.room?.use_robot == false {return}
+            if state == .high {
+                self?.rtckit.playMusic(with: .ainsHigh)
+            } else if state == .mid {
+                self?.rtckit.playMusic(with: .ainsMid)
+            } else {
+                self?.rtckit.playMusic(with: .ainsOff)
+            }
         }
         preView.useRobotBlock = {[weak self] flag in
             if self?.alienCanPlay == true && flag == true {
+                self?.roomInfo?.room?.use_robot = true
                 self?.rtckit.playMusic(with: .alien)
             }
-            
-            if self?.alienCanPlay == true && flag == false {
+//            if self?.alienCanPlay == true && flag == false {
+//                self?.rtckit.stopPlayMusic()
+//            }
+//
+            if flag == false {
+                self?.roomInfo?.room?.use_robot = false
                 self?.rtckit.stopPlayMusic()
             }
-            
+            self?.preView.isTouchAble = flag
             self?.activeAlien(flag)
         }
         preView.volBlock = {[weak self] vol in
@@ -55,10 +52,13 @@ extension VoiceRoomViewController {
             self?.rtckit.playMusic(with: self?.getSceneType(effect) ?? .social)
         }
         preView.eqView.soundBlock = {[weak self] index in
-            if self?.isOwner == false {return}
+            if self?.isOwner == false {
+                self?.view.makeToast("Host Bot".localized())
+                return
+            }
             if let use_robot = self?.roomInfo?.room?.use_robot{
                 if use_robot == false {
-                    self?.view.makeToast("请房主先激活机器人")
+                    self?.view.makeToast("Active First".localized())
                     return
                 }
             }
@@ -195,6 +195,7 @@ extension VoiceRoomViewController {
         guard let mic_info = roomInfo?.mic_info?[index] else {return}
         manageView.micInfo = mic_info
         manageView.resBlock = {[weak self] (state, flag) in
+            self?.dismiss(animated: true)
             if state == .invite {
                 if flag {
                     self?.applyMembersAlert()

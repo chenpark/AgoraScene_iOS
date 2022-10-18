@@ -72,6 +72,7 @@
 "Crown" = "Crown";
 "Rocket" = "Rocket";
 "Wand" = "Wand";
+"Active First" = "Please activate the robot first";
 "4 Digit Password Required" = "4 Digit Password Required";
 "Incorrect Password" = "Incorrect Password";
 "Room Created" = "Room Created";
@@ -89,6 +90,9 @@
 "Bot Settings" = "Bot Settings";
 "Audio Settings" = "Audio Settings";
 "Invitation Sent" = "Invitation Sent";
+"Current Sound" = "Current Sound Selection";
+"Other Sound" = "Other Sound Selection";
+"Professional Bodcaster" = "Professional Bodcaster";
 "The stage is full, try again later" = "The stage is full, try again later";
 "Your request has been sent, please wait for reply" = "Your request has been sent, please wait for reply";
 "Request Cancelled" = "Request Cancelled";

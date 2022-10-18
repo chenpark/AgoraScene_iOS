@@ -16,6 +16,11 @@ public enum AUDIO_SETTING_TYPE {
 }
 
 class VMAudioSettingView: UIView {
+    
+    lazy var cover: UIView = {
+        UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56~)).backgroundColor(.clear).setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
+    }()
+    
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     private var lineImgView: UIImageView = UIImageView()
     private var titleLabel: UILabel = UILabel()
@@ -54,7 +59,9 @@ class VMAudioSettingView: UIView {
         layer.path = path.cgPath
         self.layer.mask = layer
         
-        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8, width: 40~, height: 4)
+        self.addSubview(cover)
+        
+        lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
         lineImgView.image = UIImage(named: "pop_indicator")
         self.addSubview(lineImgView)
         
@@ -142,8 +149,8 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 let cell: VMSwitchTableViewCell = tableView.dequeueReusableCell(withIdentifier: swIdentifier) as! VMSwitchTableViewCell
                 cell.iconView.image = UIImage(named: settingImage[0])
                 cell.titleLabel.text = settingName[0]
-                cell.alpha = isAudience ? 0.5 : 1
-                cell.isUserInteractionEnabled = !isAudience
+                cell.isAudience = isAudience
+                cell.selectionStyle = .none
                 cell.swith.isOn = roomInfo?.room?.use_robot ?? false
                 cell.useRobotBlock = {[weak self] flag in
                     guard let useRobotBlock = self?.useRobotBlock else {return}
@@ -154,8 +161,8 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
                 let cell: VMSliderTableViewCell = tableView.dequeueReusableCell(withIdentifier: slIdentifier) as! VMSliderTableViewCell
                 cell.iconView.image = UIImage(named: settingImage[1])
                 cell.titleLabel.text = settingName[1]
-                cell.alpha = isAudience ? 0.5 : 1
-                cell.isUserInteractionEnabled = !isAudience
+                cell.isAudience = isAudience
+                cell.selectionStyle = .none
                 cell.volBlock = {[weak self] vol in
                     guard let volBlock = self?.volBlock else {return}
                     volBlock(vol)

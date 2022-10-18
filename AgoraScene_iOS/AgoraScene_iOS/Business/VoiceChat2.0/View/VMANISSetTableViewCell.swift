@@ -113,9 +113,8 @@ class VMANISSetTableViewCell: UITableViewCell {
     }
     
     @objc private func click(sender: UIButton) {
-        if isTouchAble {
-            setBtnStateWith(sender)
-        }
+       
+        setBtnStateWith(sender)
         
         guard let selBlock = selBlock else {
             return

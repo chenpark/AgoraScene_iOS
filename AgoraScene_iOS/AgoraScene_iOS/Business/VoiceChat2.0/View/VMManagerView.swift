@@ -15,6 +15,10 @@ public enum ADMIN_ACTION {
 }
 
 class VMManagerView: UIView {
+    
+    private lazy var cover: UIView = {
+        UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56~)).backgroundColor(.clear).setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
+    }()
 
     private var lineImgView: UIImageView = UIImageView()
     private var bgView: UIView = UIView()
@@ -114,6 +118,8 @@ class VMManagerView: UIView {
         let layer: CAShapeLayer = CAShapeLayer()
         layer.path = path.cgPath
         self.layer.mask = layer
+        
+        self.addSubview(cover)
         
         lineImgView.frame = CGRect(x: ScreenWidth / 2.0 - 20~, y: 8~, width: 40~, height: 4~)
         lineImgView.image = UIImage(named: "pop_indicator")

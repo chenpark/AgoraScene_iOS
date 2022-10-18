@@ -15,6 +15,12 @@ class VMSliderTableViewCell: UITableViewCell {
     public var titleLabel: UILabel = UILabel()
     public var slider: UISlider = UISlider()
     public var countLabel: UILabel = UILabel()
+    var isAudience: Bool = false {
+        didSet {
+            slider.alpha = isAudience ? 0.5 : 1
+            slider.isUserInteractionEnabled = !isAudience
+        }
+    }
     var volBlock: ((Int) -> Void)?
     public var isNoiseSet: Bool = false {
         didSet {
@@ -48,6 +54,7 @@ class VMSliderTableViewCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         
     //    slider.frame = CGRect(x: screenWidth - 225, y: 17~, width: 160, height: 20~)
+        
         slider.addTarget(self, action: #selector(touchEnd), for: .touchUpInside)
         self.contentView.addSubview(slider)
         

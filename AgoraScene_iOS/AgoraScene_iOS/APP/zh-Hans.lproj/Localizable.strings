@@ -147,6 +147,10 @@
 "Effect Setting" = "最佳音效";
 "Host Bot" = "只有房主可以调整机器人设置";
 "Host Sound" = "只有房主可以更改最佳音效";
+"Active First" = "请房主先激活机器人";
+"Current Sound" = "当前最佳音效";
+"Other Sound" = "其他最佳音效";
+"Professional Bodcaster" = "专业音频主播";
 "AINS: AI Noise Suppression" = "AINS: AI降噪";
 "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat."="通过调节噪⾳消除和回声抑制的参数，解决语聊社交场景的⼈声通话问题，享受超低延时、清晰动听的⼈声。";
 "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful."="该⾳效专注于解决单⼈或多⼈唱K场景的各类问题，包括伴奏和⼈声的均衡处理，声⾳的曲调和声线美化，多⼈合唱的⾳量均衡和实时同步等。能够让K歌的场景更拟真，演唱者的歌声更动听。";

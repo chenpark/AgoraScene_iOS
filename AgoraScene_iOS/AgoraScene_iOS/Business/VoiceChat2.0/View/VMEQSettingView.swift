@@ -14,6 +14,10 @@ class VMEQSettingView: UIView {
     private var tableView: UITableView = UITableView()
     private var backBtn: UIButton = UIButton()
     
+    lazy var cover: UIView = {
+        UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 56~)).backgroundColor(.clear).setGradient([UIColor(red: 0.929, green: 0.906, blue: 1, alpha: 1),UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
+    }()
+    
     private let swIdentifier = "switch"
     private let slIdentifier = "slider"
     private let nIdentifier = "normal"
@@ -26,6 +30,7 @@ class VMEQSettingView: UIView {
     var backBlock: (() -> Void)?
     var effectClickBlock:(() -> Void)?
     var isTouchAble: Bool = false
+    var isAudience: Bool = false
     var ains_state: AINS_STATE = .off {
         didSet {
             tableView.reloadData()
@@ -95,6 +100,8 @@ class VMEQSettingView: UIView {
         let layer: CAShapeLayer = CAShapeLayer()
         layer.path = path.cgPath
         self.layer.mask = layer
+        
+        self.addSubview(cover)
         
         backBtn.frame = CGRect(x: 10~, y: 30~, width: 20~, height: 30~)
         backBtn.setImage(UIImage(named: "back"), for: .normal)
@@ -198,7 +205,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             if settingType == .effect {
-                titleLabel.text = "Current Sound Selection"
+                titleLabel.text = "Current Sound".localized()
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
             } else {
                 titleLabel.text = settingType == .Spatial ? "Agora Blue Bot" : "AINS Settings".localized()
@@ -213,7 +220,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             if settingType == .effect {
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
-                titleLabel.text = "Other Sound Selection"
+                titleLabel.text = "Other Sound".localized()
             } else {
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
                 titleLabel.text = settingType == .Spatial ? "Agora Red Bot" : "AINS Definition".localized()
@@ -239,18 +246,23 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
         
         if settingType == .effect {
             tableView.separatorStyle = .none
-            let cell: VMSoundSelTableViewCell = tableView.dequeueReusableCell(withIdentifier: soIdentifier) as! VMSoundSelTableViewCell
+            var cellType: SOUND_TYPE = .chat
+            var cellHeight: CGFloat = 0
+            if indexPath.section == 0 {
+                cellType = effectType[0]
+                cellHeight = effectHeight[0]
+            } else {
+                cellType = effectType[indexPath.row + 1]
+                cellHeight = effectHeight[indexPath.row + 1]
+            }
+
+            let cell: VMSoundSelTableViewCell = VMSoundSelTableViewCell.init(style: .default, reuseIdentifier: soIdentifier, cellType: cellType, cellHeight: cellHeight)
             cell.isSel = indexPath.section == 0
-            cell.cellHeight = indexPath.section == 0 ? effectHeight[0] : effectHeight[indexPath.row + 1]
             cell.clickBlock = {[weak self] in
                 guard let effectClickBlock = self?.effectClickBlock else {return}
                 effectClickBlock()
             }
-            if indexPath.section == 0 {
-                cell.cellType = effectType[0]
-            } else {
-                cell.cellType = effectType[indexPath.row + 1]
-            }
+
             return cell
         } else if settingType == .Spatial {
             if indexPath.row == 1 {
@@ -294,6 +306,7 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
                     cell.cellType = .normal
                 }
                 cell.isTouchAble = isTouchAble
+                cell.isAudience = isAudience
                 cell.selectionStyle = .none
                 cell.titleLabel.text = soundType[indexPath.row]
                 cell.cellTag = 1000 + indexPath.row * 10

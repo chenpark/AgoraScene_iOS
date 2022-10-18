@@ -497,6 +497,7 @@ public let kMPK_RTC_UID: UInt = 1
         guard let musicType = musicType else {
             return
         }
+        delegate?.reportAlien?(with: .none, musicType: musicType)
         if musicType == .alien {
             baseMusicCount = AgoraConfig.baseAlienMic.count
         } else if musicType == .ainsHigh {
