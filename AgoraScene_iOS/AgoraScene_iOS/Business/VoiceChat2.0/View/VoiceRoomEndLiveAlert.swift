@@ -13,10 +13,6 @@ final public class VoiceRoomEndLiveAlert: UIView {
     /// 30 is cancel,other is confirm
     @objc public var actionEvents: ((Int)->())?
     
-    lazy var header: VoiceRoomAlertContainer = {
-        VoiceRoomAlertContainer(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 60))
-    }()
-    
     lazy var title: UILabel = {
         UILabel(frame: CGRect(x: 20, y: 30, width: self.frame.width-40, height: 22)).font(.systemFont(ofSize: 16, weight: .regular)).textColor(UIColor(0x040925)).textAlignment(.center)
     }()
@@ -45,7 +41,7 @@ final public class VoiceRoomEndLiveAlert: UIView {
     
     @objc public convenience init(frame: CGRect,title message: String ,content: String,cancel tips: String,confirm text: String) {
         self.init(frame: frame)
-        self.addSubViews([self.header,self.title,self.content,self.cancel,self.confirmContainer,self.confirm])
+        self.addSubViews([self.title,self.content,self.cancel,self.confirmContainer,self.confirm])
         self.title.text = message
         self.content.text(LanguageManager.localValue(key: content))
         self.cancel.setTitle(LanguageManager.localValue(key: tips), for: .normal)

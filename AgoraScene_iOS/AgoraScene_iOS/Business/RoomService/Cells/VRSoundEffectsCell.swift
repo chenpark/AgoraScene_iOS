@@ -118,6 +118,7 @@ extension VRSoundEffectsCell {
         self.customUsage.frame = CGRect(x: 20, y: self.effectDesc.frame.maxY+10, width: 200, height: 15)
         self.iconList.frame = CGRect(x: 20, y: Int(self.customUsage.frame.maxY)+5, width: Int(self.background.frame.width) - 40, height: 20)
         self.chooseSymbol.frame = CGRect(x: self.background.frame.width-32, y: self.background.frame.height-31, width: 32, height: 31)
+        self.iconList.reloadData()
     }
     
 }
