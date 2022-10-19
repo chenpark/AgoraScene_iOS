@@ -31,6 +31,12 @@ class VMPresentView: UIView {
     }
     
     private func layoutUI() {
+        
+        let path: UIBezierPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20.0, height: 20.0))
+        let layer: CAShapeLayer = CAShapeLayer()
+        layer.path = path.cgPath
+        self.layer.mask = layer
+        
         scrollView.contentSize = CGSize(width: screenSize.width * 2, height: 0)
         scrollView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: self.bounds.size.height)
         self.addSubview(scrollView)

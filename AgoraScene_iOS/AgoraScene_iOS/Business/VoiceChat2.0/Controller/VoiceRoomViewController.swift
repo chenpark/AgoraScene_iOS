@@ -508,11 +508,11 @@ extension VoiceRoomViewController {
                 //如果返回的结果为true 表示上麦成功
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
-                        self.view.makeToast("Notice Posted")
+                        self.view.makeToast("Notice Posted".localized())
                         self.roomInfo?.room?.announcement = str
                     }
                 } else {
-                    self.view.makeToast("Post Failed")
+                    self.view.makeToast("Post Failed".localized())
                 }
             } else {
                 
@@ -533,7 +533,7 @@ extension VoiceRoomViewController {
                         var newRoom = room
                         newRoom.robot_volume = UInt(Vol)
                         self.roomInfo?.room = newRoom
-                        self.rtckit.adjustAudioMixingPublishVolume(with: Vol)
+                        self.rtckit.adjustAudioMixingVolume(with: Vol)
                     }
                 } else {
                 }

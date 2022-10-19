@@ -440,7 +440,7 @@ public let kMPK_RTC_UID: UInt = 1
             rtcKit.setAudioScenario(.gameStreaming)
             rtcKit.setParameters("{\"che.audio.custom_payload_type\":73}")
             rtcKit.setParameters("{\"che.audio.custom_bitrate\":128000}")
-          //  rtcKit.setRecordingDeviceVolume(128) 4.0.1上才支持
+          //  rtcKit.setRecordingDeviceVolume(128)
             rtcKit.setParameters("{\"che.audio.input_channels\":2}")
         }
         setAINS(with: .mid)
@@ -774,10 +774,11 @@ public let kMPK_RTC_UID: UInt = 1
     }
     
     @discardableResult
-    public func adjustAudioMixingPublishVolume(with volume: Int) -> Int32 {
-        return self.rtcKit.adjustAudioMixingPublishVolume(volume) 
+    public func adjustAudioMixingVolume(with volume: Int) -> Int32 {
+        return rtcKit.adjustAudioMixingVolume(volume)
     }
 
+    
     /**
      * 获取MPK的播放状态
      * @return MPK的播放状态的结果
