@@ -77,6 +77,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
             return
         }
+        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
         self.view.makeToast("User \(user.name ?? "") refuse invite",point: self.toastPoint, title: nil, image: nil, completion: nil)
     }
     

@@ -15,7 +15,7 @@ public class VoiceRoomGiftView: UIView,UITableViewDelegate,UITableViewDataSource
     private var lastOffsetY = CGFloat(0)
                 
     public lazy var giftList: UITableView = {
-        UITableView(frame: CGRect(x: 15, y: 0, width: self.frame.width-30, height: self.frame.height), style: .plain).tableFooterView(UIView()).separatorStyle(.none).registerCell(VoiceRoomGiftCell.self, forCellReuseIdentifier: "VoiceRoomGiftCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).delegate(self).dataSource(self).backgroundColor(.clear)
+        UITableView(frame: CGRect(x: 5, y: 0, width: self.frame.width-20, height: self.frame.height), style: .plain).tableFooterView(UIView()).separatorStyle(.none).registerCell(VoiceRoomGiftCell.self, forCellReuseIdentifier: "VoiceRoomGiftCell").showsVerticalScrollIndicator(false).showsHorizontalScrollIndicator(false).delegate(self).dataSource(self).backgroundColor(.clear)
     }()
 
     public override init(frame: CGRect) {
