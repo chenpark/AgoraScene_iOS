@@ -13,6 +13,7 @@ public enum HEADER_ACTION {
     case notice
     case soundClick
     case rank
+    case popBack
 }
 
 class AgoraChatRoomHeaderView: UIView {

@@ -49,7 +49,7 @@ class VMConfirmView: UIView {
         
         contentLabel.frame = CGRect(x: self.bounds.size.width / 2.0 - 150~, y: 72~, width: 300~, height: 60~)
         contentLabel.textAlignment = .center
-        contentLabel.text = self.type == .addbot ? "Add bot".localized() : "Exit Room".localized()
+        contentLabel.text = self.type == .addbot ? "Add Bot".localized() : "Exit Room".localized()
         contentLabel.numberOfLines = 0
         contentLabel.lineBreakMode = .byCharWrapping
         contentLabel.textColor = UIColor.HexColor(hex: 0x6C7192, alpha: 1)

@@ -316,16 +316,16 @@ extension VoiceRoomViewController {
     }
     
     func didHeaderAction(with action: HEADER_ACTION) {
-        if action == .back {
+        if action == .back || action == .popBack  {
             self.notifySeverLeave()
             self.rtckit.leaveChannel()
             
             //giveupStage()
             cancelRequestSpeak(index: nil)
-            if self.isOwner {
+            if self.isOwner && action != .popBack {
                 self.showEndLive()
             } else {
-                self.navigationController?.popViewController(animated: true)
+                self.ownerBack()
             }
         } else if action == .notice {
             showNoticeView(with: self.isOwner ? .owner : .audience)
