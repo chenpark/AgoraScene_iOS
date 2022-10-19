@@ -86,6 +86,10 @@ extension VoiceRoomViewController {
             self?.rtckit.playSound(with: count, type: tag == 1 ? .ainsOff : .ainsHigh)
             self?.rtcView.showAlienMicView = .blue
         }
+        preView.eqView.visitBlock = {[weak self] in
+            let VC: VoiceRoomHelpViewController = VoiceRoomHelpViewController()
+            self?.navigationController?.pushViewController(VC, animated: true)
+        }
         self.view.addSubview(preView)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false

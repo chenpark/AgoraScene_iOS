@@ -113,8 +113,8 @@ class VoiceRoomViewController: VRBaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(leaveRoom), name: Notification.Name("terminate"), object: nil)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.navigation.isHidden = false
     }
     
@@ -763,9 +763,10 @@ extension VoiceRoomViewController {
     }
     
     @objc private func leaveRoom() {
-        guard let room_id = roomInfo?.room?.room_id else {return}
-        VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
-            print(map?["result"] as? Bool ?? false)
+        if let room_id = roomInfo?.room?.room_id {
+            VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
+                print(map?["result"] as? Bool ?? false)
+            }
         }
     }
         

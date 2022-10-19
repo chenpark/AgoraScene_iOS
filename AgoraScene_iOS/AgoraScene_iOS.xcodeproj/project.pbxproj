@@ -142,6 +142,7 @@
 		E39B68C328C5A4D30083D0F9 /* arrow.svga in Resources */ = {isa = PBXBuildFile; fileRef = E39B68C228C5A4D30083D0F9 /* arrow.svga */; };
 		E39B68C628C5A5200083D0F9 /* SwiftyFitSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B68C528C5A5200083D0F9 /* SwiftyFitSize.swift */; };
 		E3C7109628F8053A00C9091B /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7109528F8053A00C9091B /* UIColor+extension.swift */; };
+		E3E8F4F028FFDB5500B97821 /* VoiceRoomHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E8F4EF28FFDB5500B97821 /* VoiceRoomHelpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -302,6 +303,7 @@
 		E39B68C428C5A4EA0083D0F9 /* 一个箭头.svga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "一个箭头.svga"; sourceTree = "<group>"; };
 		E39B68C528C5A5200083D0F9 /* SwiftyFitSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyFitSize.swift; sourceTree = "<group>"; };
 		E3C7109528F8053A00C9091B /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
+		E3E8F4EF28FFDB5500B97821 /* VoiceRoomHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomHelpViewController.swift; sourceTree = "<group>"; };
 		E7FDA5B4BD12E652325A52AB /* Pods_AgoraScene_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraScene_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -547,6 +549,7 @@
 				E36BE18328C7242300270D52 /* VoiceRoomViewController.swift */,
 				05BC75BA28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift */,
 				05BC75BC28F55E5E00DD8E3B /* VoiceRoomViewController+ChatBar.swift */,
+				E3E8F4EF28FFDB5500B97821 /* VoiceRoomHelpViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 				05D2CBB728F4120800E9D7DB /* Throttle.swift in Sources */,
 				E3C7109628F8053A00C9091B /* UIColor+extension.swift in Sources */,
 				05D8C44428D06E4E00820391 /* VoiceRoomPraiseEmitterView.swift in Sources */,
+				E3E8F4F028FFDB5500B97821 /* VoiceRoomHelpViewController.swift in Sources */,
 				E36BE11428C5EE7E00270D52 /* VoiceRoomChatModel.swift in Sources */,
 				05D8C3E528D0699100820391 /* VoiceRoomBusinessRequest.swift in Sources */,
 				054AF7AE28D16864004C60A3 /* VRAllRoomsViewController.swift in Sources */,
@@ -1138,7 +1142,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = KR58Y29Q42;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
@@ -1154,7 +1158,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.agora.www.AgoraScene-iOS12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1172,7 +1176,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 19;
-				DEVELOPMENT_TEAM = 499WYUV8Q2;
+				DEVELOPMENT_TEAM = KR58Y29Q42;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraScene_iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgoraChatRoom;
@@ -1188,7 +1192,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.enterprise.easeim;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.agora.www.AgoraScene-iOS12";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

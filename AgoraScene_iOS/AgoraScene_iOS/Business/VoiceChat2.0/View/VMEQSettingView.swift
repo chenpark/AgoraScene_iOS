@@ -7,11 +7,11 @@
 
 import UIKit
 
-class VMEQSettingView: UIView {
+class VMEQSettingView: UIView, UITextViewDelegate {
     private var screenWidth: CGFloat = UIScreen.main.bounds.size.width
     private var lineImgView: UIImageView = UIImageView()
     private var titleLabel: UILabel = UILabel()
-    private var tableView: UITableView = UITableView()
+    private var tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var backBtn: UIButton = UIButton()
     
     lazy var cover: UIView = {
@@ -29,6 +29,7 @@ class VMEQSettingView: UIView {
     private var effectType: [SOUND_TYPE] = [.chat, .karaoke, .game, .anchor]
     var backBlock: (() -> Void)?
     var effectClickBlock:((SOUND_TYPE) -> Void)?
+    var visitBlock: (() -> Void)?
     var isTouchAble: Bool = false
     var isAudience: Bool = false
     var ains_state: AINS_STATE = .off {
@@ -202,6 +203,51 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if settingType == .effect && section == 1 {
+            return  40
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footer: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth , height: 40))
+        footer.backgroundColor = .white
+        let textView: UITextView = UITextView(frame: CGRect(x: 30, y: 0, width: screenWidth - 60, height: 40))
+            
+        let text = NSMutableAttributedString(string: "Visit More".localized())
+        text.addAttribute(NSAttributedString.Key.font,
+                              value: UIFont.systemFont(ofSize: 13),
+                              range: NSRange(location: 0, length: text.length))
+        text.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.HexColor(hex: 0x3C4267, alpha: 1), range: NSRange(location: 0, length: text.length))
+            
+        let interactableText = NSMutableAttributedString(string: "www.agora.io")
+        interactableText.addAttribute(NSAttributedString.Key.font,
+                                      value: UIFont.systemFont(ofSize: 12, weight: .bold),
+                                          range: NSRange(location: 0, length: interactableText.length))
+
+        interactableText.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSRange(location: 0, length: interactableText.length))
+            
+            // Adding the link interaction to the interactable text
+        interactableText.addAttribute(NSAttributedString.Key.link,
+                                          value: "SignInPseudoLink",
+                                          range: NSRange(location: 0, length: interactableText.length))
+        interactableText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.HexColor(hex: 0x3C4267, alpha: 1), range: NSRange(location: 0, length: interactableText.length))
+        text.append(interactableText)
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        text.addAttribute(.paragraphStyle, value: paragraph, range: NSRange(location: 0, length: text.length))
+        textView.attributedText = text
+
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.delegate = self
+        
+        footer.addSubview(textView)
+        
+        return footer
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
@@ -370,6 +416,14 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func textHeight(text: String, fontSize: CGFloat, width: CGFloat) -> CGFloat {
         return text.boundingRect(with:CGSize(width: width, height:CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font:UIFont.systemFont(ofSize: fontSize)], context:nil).size.height+5
         
+    }
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        
+        guard let visitBlock = visitBlock else {return true}
+        visitBlock()
+        
+        return true
     }
     
 }
