@@ -110,7 +110,7 @@ class VoiceRoomViewController: VRBaseViewController {
         layoutUI()
         //处理底部事件
         self.charBarEvents()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(leaveRoom), name: Notification.Name("terminate"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -761,7 +761,7 @@ extension VoiceRoomViewController {
         self.presentViewController(vc)
     }
     
-    private func leaveRoom() {
+    @objc private func leaveRoom() {
         guard let room_id = roomInfo?.room?.room_id else {return}
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
             print(map?["result"] as? Bool ?? false)
