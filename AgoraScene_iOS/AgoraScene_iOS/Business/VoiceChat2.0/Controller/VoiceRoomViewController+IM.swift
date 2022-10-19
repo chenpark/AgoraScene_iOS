@@ -121,7 +121,8 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             if reason == .destroyed {
                 NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
             }
-            self.backAction()
+            self.didHeaderAction(with: .back)
+            
         }
         
     }

@@ -184,9 +184,11 @@ extension VRCreateRoomInputView {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField != self.roomNameField { return false }
         if !(textField.text ?? "").isEmpty {
-            if let text = textField.text,text.count >= 31 {
-                textField.text = (text as NSString).substring(to: 31)
+            if let text = textField.text,text.count >= 32,!string.isEmpty {
+                textField.text = (text as NSString).substring(to: 32)
                 return false
+            } else {
+                return true
             }
         }
         return true
