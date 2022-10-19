@@ -184,6 +184,8 @@ public extension VoiceRoomIMManager {
         AgoraChatClient.shared().logout(false)
     }
     
+    
+    
     func chatroomAttributesDidUpdated(_ roomId: String, attributeMap: [String : String]?, from fromId: String) {
         if self.delegate != nil,self.delegate!.responds(to: #selector(VoiceRoomIMDelegate.roomAttributesDidUpdated(roomId:attributeMap:from:))),roomId == self.currentRoomId  {
             self.delegate?.roomAttributesDidUpdated(roomId: roomId, attributeMap: attributeMap, from: fromId)
