@@ -77,6 +77,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         if VoiceRoomUserInfo.shared.user?.uid  ?? "" != user.uid ?? "" {
             return
         }
+        self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
         self.view.makeToast("User \(user.name ?? "") refuse invite",point: self.toastPoint, title: nil, image: nil, completion: nil)
     }
     
@@ -116,7 +117,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             break
         }
         self.view.makeToast(message,point: self.toastPoint, title: nil, image: nil, completion: nil)
-        if reason == .destroyed || reason == .beRemoved {
+        if reason == .destroyed || reason == .beRemoved || reason == .offline {
             if reason == .destroyed {
                 NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
             }

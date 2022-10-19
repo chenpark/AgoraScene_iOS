@@ -40,7 +40,7 @@ final class LauchViewController: UIViewController {
         super.viewDidLoad()
         VoiceRoomIMManager.shared?.configIM(appkey: "81399972#1002901")
         //MARK: - you can replace request host call this.
-//        VoiceRoomBusinessRequest.shared.changeHost(host: <#T##String#>)
+//        VoiceRoomBusinessRequest.shared.changeHost(host: "http://ad-fulldemo-gateway-chat-staging.sh2.agoralab.co")
         self.login()
         self.view.addSubViews([self.background])
     }

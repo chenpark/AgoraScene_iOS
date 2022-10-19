@@ -110,7 +110,7 @@ class VoiceRoomViewController: VRBaseViewController {
         layoutUI()
         //处理底部事件
         self.charBarEvents()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(leaveRoom), name: Notification.Name("terminate"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -285,7 +285,7 @@ extension VoiceRoomViewController {
     }
     
     func giftList() -> VoiceRoomGiftView {
-        VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear).tag(1111)
+        VoiceRoomGiftView(frame: CGRect(x: 10, y: self.chatView.frame.minY - (ScreenWidth/9.0*2), width: ScreenWidth/3.0*2+20, height: ScreenWidth/9.0*1.8)).backgroundColor(.clear).tag(1111)
     }
     
     func startMessage() -> VoiceRoomChatEntity {
@@ -762,7 +762,7 @@ extension VoiceRoomViewController {
         self.presentViewController(vc)
     }
     
-    private func leaveRoom() {
+    @objc private func leaveRoom() {
         guard let room_id = roomInfo?.room?.room_id else {return}
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: room_id), params: [:]) { map, err in
             print(map?["result"] as? Bool ?? false)
@@ -791,8 +791,12 @@ extension VoiceRoomViewController {
         let micAlert = VoiceRoomEndLiveAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth-70, height: 190), title: LanguageManager.localValue(key: "End Live"), content: LanguageManager.localValue(key: "The room will close after you leave."),cancel: LanguageManager.localValue(key: "Cancel"),confirm: LanguageManager.localValue(key: "Confirm")).cornerRadius(16).backgroundColor(.white)
         let vc = VoiceRoomAlertViewController(compent: compent, custom: micAlert)
         micAlert.actionEvents = { [weak self] in
+            vc.dismiss(animated: true)
             if $0 != 30 {
-                vc.dismiss(animated: true)
+                self?.notifySeverLeave()
+                self?.rtckit.leaveChannel()
+                //giveupStage()
+                self?.cancelRequestSpeak(index: nil)
                 self?.ownerBack()
             }
         }
