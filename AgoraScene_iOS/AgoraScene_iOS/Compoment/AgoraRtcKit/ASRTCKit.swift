@@ -552,21 +552,21 @@ public let kMPK_RTC_UID: UInt = 1
     public func setAINS(with level: AINS_STATE) {
         switch level {
         case .high:
-            rtcKit.setParameters("{\"che.audio.anis_mode\":2}")
+            rtcKit.setParameters("{\"che.audio.ains_mode\":2}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":10}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":10}")
             rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":0}")
             rtcKit.setParameters("{\"che.audio.nsng.finallowermask\":8}")
             rtcKit.setParameters("{\"che.audio.nsng.enhfactorstastical\":200}")
         case .mid:
-            rtcKit.setParameters("{\"che.audio.anis_mode\":2}")
+            rtcKit.setParameters("{\"che.audio.ains_mode\":2}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":80}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":50}")
             rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":5}")
             rtcKit.setParameters("{\"che.audio.nsng.finallowermask\":30}")
             rtcKit.setParameters("{\"che.audio.nsng.enhfactorstastical\":200}")
         case .off:
-            rtcKit.setParameters("{\"che.audio.anis_mode\":0}")
+            rtcKit.setParameters("{\"che.audio.ains_mode\":0}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerBound\":80}")
             rtcKit.setParameters("{\"che.audio.nsng.lowerMask\":50}")
             rtcKit.setParameters("{\"che.audio.nsng.statisticalbound\":5}")

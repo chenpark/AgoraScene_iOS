@@ -456,7 +456,7 @@ extension VoiceRoomViewController {
             self.view.makeToast("Host Bot".localized())
             return
         }
-        let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~))
+        let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~), type: .addbot)
         var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth - 40~, height: 220~))
         compent.destination = .center
         let vc = VoiceRoomAlertViewController(compent: compent, custom: confirmView)

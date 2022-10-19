@@ -47,7 +47,26 @@ extension VoiceRoomViewController {
         preView.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
         }
-        preView.eqView.effectClickBlock = {[weak self] in
+        preView.eqView.effectClickBlock = {[weak self] type in
+
+            /**
+             1.如果是观众，则toast 提示
+             2.如果是主播先要判断是否开启机器人
+             */
+            if self!.isOwner == false {
+                self?.view.makeToast("Host Sound".localized())
+                return
+            }
+            if self?.roomInfo?.room?.use_robot == false {
+                self?.view.makeToast("Active First".localized())
+                return
+            }
+            
+            if type == .none {
+                //如果选择的是其他音效。弹窗确认是否需要退出
+                self?.showExitRoomView()
+                return
+            }
             guard let effect = self?.roomInfo?.room?.sound_effect else {return}
             self?.rtckit.playMusic(with: self?.getSceneType(effect) ?? .social)
         }
@@ -272,6 +291,20 @@ extension VoiceRoomViewController {
                 self?.cancelRequestSpeak(index: nil)
             }
             vc.dismiss(animated: true)
+        }
+        self.presentViewController(vc)
+    }
+    
+    func showExitRoomView() {
+        let confirmView = VMConfirmView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 40~, height: 220~), type: .leave)
+        var compent = PresentedViewComponent(contentSize: CGSize(width: ScreenWidth - 40~, height: 220~))
+        compent.destination = .center
+        let vc = VoiceRoomAlertViewController(compent: compent, custom: confirmView)
+        confirmView.resBlock = {[weak self] (flag) in
+            self?.dismiss(animated: true)
+            if flag {
+                self?.didHeaderAction(with: .back)
+            }
         }
         self.presentViewController(vc)
     }

@@ -26,6 +26,7 @@
 "Go Live" = "Go Live";
 "Confirm" = "Confirm";
 "Cancel" = "Cancel";
+"Submit" = "Submit";
 "Profile" = "Profile";
 "Notice" = "Notice";
 "Let's Chat!" = "Let's Chat!";
@@ -92,6 +93,10 @@
 "Invitation Sent" = "Invitation Sent";
 "Current Sound" = "Current Sound Selection";
 "Other Sound" = "Other Sound Selection";
+"Prompt" = "Prompt";
+"Add Bot" = "Add bot to listen to sound effect";
+"Exit Room" = "Exit the classroom and recreate a new one?";
+"otherSound" = "Switching other Agora Sound Selection need to exit the chatroom.";
 "Professional Bodcaster" = "Professional Bodcaster";
 "The stage is full, try again later" = "The stage is full, try again later";
 "Your request has been sent, please wait for reply" = "Your request has been sent, please wait for reply";

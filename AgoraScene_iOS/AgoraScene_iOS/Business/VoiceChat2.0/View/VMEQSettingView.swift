@@ -28,7 +28,7 @@ class VMEQSettingView: UIView {
     private var effectHeight:[CGFloat] = [0, 0, 0, 0]
     private var effectType: [SOUND_TYPE] = [.chat, .karaoke, .game, .anchor]
     var backBlock: (() -> Void)?
-    var effectClickBlock:(() -> Void)?
+    var effectClickBlock:((SOUND_TYPE) -> Void)?
     var isTouchAble: Bool = false
     var isAudience: Bool = false
     var ains_state: AINS_STATE = .off {
@@ -86,6 +86,8 @@ class VMEQSettingView: UIView {
             tableView.reloadData()
         }
     }
+    
+    lazy var otherSoundHeaderHeight: CGFloat = textHeight(text: "otherSound".localized(), fontSize: 12, width: ScreenWidth - 100)
     
     var resBlock: ((AUDIO_SETTING_TYPE) -> Void)?
     
@@ -176,6 +178,8 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if settingType == .Noise && section == 2 {
             return textHeight(text: "AINS Sup".localized(), fontSize: 13, width: ScreenWidth - 40) + 15
+        } else if settingType == .effect && section == 1 {
+            return 40~ + 12~ + otherSoundHeaderHeight + 10~
         } else {
             return 40~
         }
@@ -214,18 +218,41 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
             headerView.addSubview(titleLabel)
             return headerView
         } else if section == 1  {
-            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40~))
+            let headerHeight:CGFloat = (section == 1 && settingType == .effect) ? 40~ + 12 + otherSoundHeaderHeight + 10~ : 40~
+            let headerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: headerHeight))
             headerView.backgroundColor = settingType == .effect ? .white : UIColor(red: 247/255.0, green: 248/255.0, blue: 251/255.0, alpha: 1)
             let titleLabel: UILabel = UILabel(frame: CGRect(x: 20~, y: 5~, width: 300~, height: 30~))
             titleLabel.font = UIFont.systemFont(ofSize: 13)
             if settingType == .effect {
                 titleLabel.textColor = UIColor(red: 60/255.0, green: 66/255.0, blue: 103/255.0, alpha: 1)
                 titleLabel.text = "Other Sound".localized()
+                headerView.addSubview(titleLabel)
+                
+                if section == 1 {
+                    let warningView = UIView(frame: CGRect(x: 20, y: 40~, width: screenWidth - 40~, height: 12 + otherSoundHeaderHeight))
+                    warningView.layer.cornerRadius = 5
+                    warningView.layer.masksToBounds = true
+                    warningView.backgroundColor = UIColor.HexColor(hex: 0xFFF7DC, alpha: 1)
+                    headerView.addSubview(warningView)
+                    
+                    let iconView: UIImageView = UIImageView(frame: CGRect(x: 8, y: 7, width: 16, height: 16))
+                    iconView.image = UIImage(named: "zhuyi")
+                    warningView.addSubview(iconView)
+                    
+                    let warningLabel = UILabel(frame: CGRect(x: 30, y: 6, width: screenWidth - 100, height: otherSoundHeaderHeight))
+                    warningLabel.text = "otherSound".localized()
+                    warningLabel.numberOfLines = 0
+                    warningLabel.lineBreakMode = .byCharWrapping
+                    warningLabel.font = UIFont.systemFont(ofSize: 12)
+                    warningLabel.textColor = UIColor.HexColor(hex: 0xE76D21, alpha: 1)
+                    warningView.addSubview(warningLabel)
+                }
             } else {
                 titleLabel.textColor = UIColor(red: 108/255.0, green: 113/255.0, blue: 146/255.0, alpha: 1)
                 titleLabel.text = settingType == .Spatial ? "Agora Red Bot" : "AINS Definition".localized()
+                headerView.addSubview(titleLabel)
             }
-            headerView.addSubview(titleLabel)
+
             return headerView
         } else {
             let height = textHeight(text: "AINS Sup".localized(), fontSize: 13, width: ScreenWidth - 40)
@@ -258,11 +285,6 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
 
             let cell: VMSoundSelTableViewCell = VMSoundSelTableViewCell.init(style: .default, reuseIdentifier: soIdentifier, cellType: cellType, cellHeight: cellHeight)
             cell.isSel = indexPath.section == 0
-            cell.clickBlock = {[weak self] in
-                guard let effectClickBlock = self?.effectClickBlock else {return}
-                effectClickBlock()
-            }
-
             return cell
         } else if settingType == .Spatial {
             if indexPath.row == 1 {
@@ -335,16 +357,12 @@ extension VMEQSettingView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.section == 1 {
-            guard let block = resBlock else {return}
-            switch indexPath.row{
-            case 0:
-                block(.effect)
-            case 1:
-                block(.Noise)
-            default:
-                block(.Spatial)
+        if settingType == .effect {
+            guard let effectClickBlock = effectClickBlock else {return}
+            if indexPath.section == 0 {
+                effectClickBlock(effectType[0])
+            } else {
+                effectClickBlock(.none)
             }
         }
     }

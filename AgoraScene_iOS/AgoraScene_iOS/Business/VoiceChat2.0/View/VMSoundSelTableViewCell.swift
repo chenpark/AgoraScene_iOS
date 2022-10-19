@@ -12,6 +12,7 @@ public enum SOUND_TYPE {
     case karaoke
     case game
     case anchor
+    case none
 }
 
 class VMSoundSelTableViewCell: UITableViewCell {
@@ -88,9 +89,9 @@ class VMSoundSelTableViewCell: UITableViewCell {
         bgView.addSubview(typeLabel)
 
         iconView.image = UIImage(named: "icons／Stock／listen")
-        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
-        iconView.addGestureRecognizer(tap)
-        iconView.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
+//        iconView.addGestureRecognizer(tap)
+//        iconView.isUserInteractionEnabled = true
         bgView.addSubview(iconView)
 
         detailLabel.text = detailStr
@@ -125,6 +126,8 @@ class VMSoundSelTableViewCell: UITableViewCell {
             basetag = 30
         case .anchor:
             basetag = 40
+        case .none:
+            break
         }
         for (index, value) in iconImgs.enumerated() {
             let imgView: UIImageView = UIImageView()
@@ -166,13 +169,13 @@ class VMSoundSelTableViewCell: UITableViewCell {
         //设置阴影偏移量
         view.layer.shadowOffset = offset
     }
-    
-    @objc func click(){
-        guard let clickBlock = clickBlock else {
-            return
-        }
-        clickBlock()
-    }
+//    
+//    @objc func click(){
+//        guard let clickBlock = clickBlock else {
+//            return
+//        }
+//        clickBlock()
+//    }
     
     private func setCellType(with type: SOUND_TYPE) {
         self.cellType = type
