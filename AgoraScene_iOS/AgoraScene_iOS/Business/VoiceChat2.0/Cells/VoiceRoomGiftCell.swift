@@ -33,7 +33,7 @@ public class VoiceRoomGiftCell: UITableViewCell {
     }()
     
     lazy var giftNumbers: UILabel = {
-        UILabel(frame: CGRect(x: self.frame.width/5.0*4+8, y: 10, width: self.frame.width/5.0-16, height: self.frame.height - 20)).font(.init(name: "RobotoNembersVF", size: 18)).textColor(.white)
+        UILabel(frame: CGRect(x: self.frame.width/5.0*4+8, y: 10, width: self.frame.width/5.0-16, height: self.frame.height - 20)).font(.init(name: "RobotoNembersVF", size: 16)).textColor(.white)
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
