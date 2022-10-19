@@ -117,7 +117,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             break
         }
         self.view.makeToast(message,point: self.toastPoint, title: nil, image: nil, completion: nil)
-        if reason == .destroyed || reason == .beRemoved {
+        if reason == .destroyed || reason == .beRemoved || reason == .offline {
             if reason == .destroyed {
                 NotificationCenter.default.post(name: NSNotification.Name("refreshList"), object: nil)
             }
