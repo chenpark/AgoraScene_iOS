@@ -469,7 +469,10 @@ extension VoiceRoomViewController {
     }
     
     func activeAlien(_ flag: Bool) {
-        if isOwner == false {return}
+        if isOwner == false {
+            self.view.makeToast("Host Bot".localized())
+            return
+        }
         guard let roomId = roomInfo?.room?.room_id else {return}
         guard let mic: VRRoomMic = roomInfo?.mic_info![6] else {return}
         let params: Dictionary<String, Bool> = ["use_robot":flag]

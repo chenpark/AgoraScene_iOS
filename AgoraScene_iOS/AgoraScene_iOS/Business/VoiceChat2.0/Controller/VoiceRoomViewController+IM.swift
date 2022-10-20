@@ -170,6 +170,9 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                             } else {
                                 self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
                             }
+                            if mic_index == local_index && (status == -1 || status == 3 || status == 4){
+                                local_index = nil
+                            }
                         }
                        if value.keys.contains("uid") {
                           if uid == value["uid"] as? String ?? "" {
