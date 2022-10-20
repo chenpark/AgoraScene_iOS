@@ -87,8 +87,9 @@ extension VRUserInfoView {
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = textField.text as? NSString,text.length >= 16 {
+        if let text = textField.text as? NSString,text.length >= 16,string.isEmpty {
             textField.text = text.substring(to: 16)
+            return false
         }
         return true
     }

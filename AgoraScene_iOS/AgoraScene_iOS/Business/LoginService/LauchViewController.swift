@@ -31,7 +31,6 @@ final class LauchViewController: UIViewController {
         ["avatar1","avatar2","avatar3","avatar4","avatar5","avatar6","avatar7","avatar8","avatar9","avatar10","avatar11","avatar12","avatar13","avatar14","avatar15","avatar16","avatar17","avatar18"]
     }
     
-    
     lazy var background: UIImageView = {
         UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight)).image(UIImage(named: "splash_screen")!).contentMode(.scaleAspectFill)
     }()
@@ -65,7 +64,7 @@ extension LauchViewController {
         }
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .login(()), params: ["deviceId":UIDevice.current.deviceUUID,"portrait":avatar,"name":userRandomName],classType:VRUser.self) { [weak self] user, error in
             ProgressHUD.dismiss()
-            if error == nil {
+            if error == nil,user != nil {
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.entryHome()
