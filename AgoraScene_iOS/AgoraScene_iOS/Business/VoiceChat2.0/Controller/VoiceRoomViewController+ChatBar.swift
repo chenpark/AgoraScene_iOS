@@ -203,6 +203,7 @@ extension VoiceRoomViewController {
         self.chatBar.micState = !self.chatBar.micState
         self.chatBar.refresh(event: .mic, state: self.chatBar.micState ? .selected:.unSelected, asCreator: false)
         //需要根据麦位特殊处理
+        self.chatBar.micState == true ? self.muteLocal(with: idx):self.unmuteLocal(with: idx)
         self.rtckit.muteLocalAudioStream(mute: self.chatBar.micState)
     }
     
