@@ -184,7 +184,7 @@ extension VoiceRoomViewController {
             return .ktv
         case LanguageManager.localValue(key: "Gaming Buddy"):
             return .game
-        case LanguageManager.localValue(key: "Professional Bodcaster"):
+        case LanguageManager.localValue(key: "Professional Podcaster"):
             return .anchor
         default:
             return .social

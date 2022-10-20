@@ -15,12 +15,17 @@ public class VoiceRoomInviteUsersController: UITableViewController {
     
     private var roomId: String?
     
+    private var idx = 0
+    
     lazy var empty: VREmptyView = {
         VREmptyView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 360), title: "No audience yet", image: nil).backgroundColor(.white)
     }()
     
-    public convenience init(roomId:String) {
+    public convenience init(roomId:String,mic_index: Int?) {
         self.init()
+        if mic_index != nil {
+            self.idx = mic_index ?? 0
+        }
         self.roomId = roomId
     }
 
@@ -96,7 +101,11 @@ extension VoiceRoomInviteUsersController {
     
     private func inviteUser(user: VRUser?) {
         ProgressHUD.show()
-        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .inviteUserToMic(roomId: self.roomId ?? ""), params: ["uid":user?.uid ?? ""]) { dic, error in
+        var params: Dictionary<String,Any> = ["uid":user?.uid ?? ""]
+        if self.idx > 0 {
+            params = ["uid":(user?.uid ?? ""),"mic_index":self.idx]
+        }
+        VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .inviteUserToMic(roomId: self.roomId ?? ""), params: params) { dic, error in
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
