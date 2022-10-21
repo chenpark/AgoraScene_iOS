@@ -139,7 +139,7 @@ extension VRRoomsViewController {
     }
     
     private func loginIMThenPush(room: VRRoomEntity) {
-        ProgressHUD.show("Loading",interaction: false)
+        ProgressHUD.show(NSLocalizedString("Loading", comment: ""),interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
