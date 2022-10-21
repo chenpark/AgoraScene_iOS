@@ -159,12 +159,18 @@ extension VRCreateRoomInputView {
                 if self.action != nil {
                     self.action!()
                 }
+            } else {
+                if self.roomNameField.text?.isEmpty ?? true {
+                    self.superview?.superview?.makeToast(NSLocalizedString("No Room Name", comment: ""), point: self.superview?.superview?.center ?? .zero, title: nil, image: nil, completion: nil)
+                }
             }
         } else {
             if let name = self.roomNameField.text,!name.isEmpty {
                 if self.action != nil {
                     self.action!()
                 }
+            } else {
+                self.superview?.superview?.makeToast(NSLocalizedString("No Room Name", comment: ""), point: self.superview?.superview?.center ?? .zero, title: nil, image: nil, completion: nil)
             }
         }
     }
