@@ -47,9 +47,50 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         
     }
     
-    public func refreshUser(with user: VRUser?) {
-        rtcUserView.iconImgUrl = user?.portrait ?? ""
-        rtcUserView.nameStr = user?.name ?? "\(user?.mic_index ?? 0)"
+    public func refreshUser(with mic: VRRoomMic) {
+        let status = mic.status
+        var bgIcon: String = ""
+        switch status {
+        case -1:
+            rtcUserView.iconView.isHidden = true
+            rtcUserView.micView.isHidden = true
+            rtcUserView.bgIconView.image = UIImage(named: "icons／solid／add")
+        case 0:
+            rtcUserView.iconView.isHidden = false
+            rtcUserView.micView.isHidden = false
+            rtcUserView.micView.setState(.on)
+            rtcUserView.nameBtn.setImage(UIImage(named: ""), for: .normal)
+        case 1:
+            //需要区分有用户还是没有用户
+            bgIcon = mic.member == nil ? "icons／solid／mute" : ""
+            rtcUserView.micView.isHidden = mic.member == nil
+            rtcUserView.bgIconView.image = UIImage(named: bgIcon)
+            rtcUserView.bgIconView.isHidden = mic.member != nil
+        case 2:
+            cellType =  .AgoraChatRoomBaseUserCellTypeForbidden
+            //需要区分有用户还是没有用户
+            bgIcon = mic.member == nil ? "icons／solid／mute" : ""
+            rtcUserView.micView.isHidden = mic.member == nil
+            rtcUserView.bgIconView.image = UIImage(named: bgIcon)
+            rtcUserView.bgIconView.isHidden = mic.member != nil
+        case 3:
+            rtcUserView.iconView.isHidden = true
+            rtcUserView.micView.isHidden = false
+            rtcUserView.micView.setState(.forbidden)
+            rtcUserView.bgIconView.image = UIImage(named: "icons／solid／lock")
+        case 4:
+            rtcUserView.iconView.isHidden = true
+            rtcUserView.micView.isHidden = false
+            rtcUserView.micView.setState(.forbidden)
+            rtcUserView.bgIconView.image = UIImage(named: "icons／solid／lock")
+        default:
+            break
+        }
+
+        rtcUserView.iconView.isHidden = mic.member == nil
+        rtcUserView.iconView.image = UIImage(mic.member?.portrait ?? "")
+        rtcUserView.nameBtn.setImage(UIImage(named: mic.mic_index == 0 ? "Landlord" : ""), for: .normal)
+        rtcUserView.nameBtn.setTitle(mic.member?.name ?? "\(mic.mic_index)", for: .normal)
     }
     
     public func refreshVolume(vol: Int) {

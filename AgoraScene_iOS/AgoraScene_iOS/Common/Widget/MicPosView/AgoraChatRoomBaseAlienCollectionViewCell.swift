@@ -49,7 +49,8 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
                 blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
                 redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
             }
-            
+            blueAlienView.micView.isHidden = true
+            redAlienView.micView.isHidden = true
         }
     }
     
@@ -147,6 +148,10 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
             make.centerY.centerX.equalTo(cornerView)
         }
         
+    }
+    
+    public func refreshAlien(with status: Int) {
+        self.cellType = status == -2 ? .AgoraChatRoomBaseUserCellTypeNonActived : .AgoraChatRoomBaseUserCellTypeActived
     }
     
 }

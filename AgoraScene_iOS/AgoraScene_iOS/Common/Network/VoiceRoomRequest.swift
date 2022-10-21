@@ -38,8 +38,8 @@ public struct VoiceRoomRequestHTTPMethod: RawRepresentable, Equatable, Hashable 
     
     @objc public static var shared = VoiceRoomRequest()
     
-    var host: String =  "https://gateway-fulldemo-staging.agoralab.co"
-  //  var host = "http://ad-fulldemo-gateway-chat-staging.sh2.agoralab.co"
+    //var host: String =  "https://gateway-fulldemo-staging.agoralab.co"
+    var host = "http://ad-fulldemo-gateway-chat-staging.sh2.agoralab.co"
     private lazy var config: URLSessionConfiguration = {
         //MARK: - session config
         let config = URLSessionConfiguration.default

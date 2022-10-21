@@ -60,6 +60,24 @@ class AgoraChatRoomNormalRtcView: UIView {
             }
         }
     }
+    
+    public func updateVolume(with index: Int, vol: Int) {
+        let indexPath: IndexPath = IndexPath(item: index, section: 0)
+        guard let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseUserCollectionViewCell else {return}
+        cell.refreshVolume(vol: vol)
+    }
+    
+    public func updateUser(_ mic: VRRoomMic) {
+        let indexPath: IndexPath = IndexPath(item: mic.mic_index, section: 0)
+        guard let cell: AgoraChatRoomBaseUserCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseUserCollectionViewCell else {return}
+        cell.refreshUser(with: mic)
+    }
+    
+    public func updateAlien(_ status: Int) {
+        let indexPath: IndexPath = IndexPath(item: 6, section: 0)
+        guard let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseAlienCollectionViewCell else {return}
+        cell.refreshAlien(with: status)
+    }
 
     private func layoutUI() {
         
@@ -115,26 +133,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
             if let mic_info = micInfos?[indexPath.item] {
-                let user: VRUser = mic_info.member ?? VRUser()
-                user.mic_index = indexPath.item
-                switch mic_info.status {
-                case -1:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
-                case 0:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeNormalUser
-                case 1:
-                    cell.cellType = mic_info.member != nil ? .AgoraChatRoomBaseUserCellTypeMuteWithPerson : .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson
-                case 2:
-                    cell.cellType = mic_info.member != nil ? .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson : .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson
-                case 3:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeLock
-                case 4:
-                    cell.cellType = .AgoraChatRoomBaseUserCellTypeMuteAndLock
-                default:
-                    break
-                }
-                cell.refreshUser(with: user)
-                
+                cell.refreshUser(with: mic_info)
             } else {
                 cell.cellType = .AgoraChatRoomBaseUserCellTypeAdd
             }

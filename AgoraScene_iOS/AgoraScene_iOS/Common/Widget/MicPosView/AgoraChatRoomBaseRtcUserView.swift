@@ -10,14 +10,11 @@ import SnapKit
 
 public enum AgoraChatRoomBaseUserCellType {
    case AgoraChatRoomBaseUserCellTypeAdd
-   case AgoraChatRoomBaseUserCellTypeMuteWithPerson
-   case AgoraChatRoomBaseUserCellTypeMuteWithoutPerson
-   case AgoraChatRoomBaseUserCellTypeForbiddenWithPerson
-   case AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson
+   case AgoraChatRoomBaseUserCellTypeMute
+   case AgoraChatRoomBaseUserCellTypeForbidden
    case AgoraChatRoomBaseUserCellTypeLock
    case AgoraChatRoomBaseUserCellTypeNormalUser
    case AgoraChatRoomBaseUserCellTypeMuteAndLock
-   case AgoraChatRoomBaseUserCellTypeAdmin
    case AgoraChatRoomBaseUserCellTypeAlienNonActive
    case AgoraChatRoomBaseUserCellTypeAlienActive
 }
@@ -42,22 +39,15 @@ class AgoraChatRoomBaseRtcUserView: UIView {
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
                 self.bgIconView.image = UIImage(named: "icons／solid／add")
-            case .AgoraChatRoomBaseUserCellTypeMuteWithPerson:
+            case .AgoraChatRoomBaseUserCellTypeMute:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-            case .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson:
-                self.iconView.isHidden = false
-                self.micView.isHidden = true
                 self.bgIconView.image = UIImage(named: "icons／solid／mute")
-            case .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson:
+            case .AgoraChatRoomBaseUserCellTypeForbidden:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
-            case .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson:
-                self.iconView.isHidden = false
-                self.micView.isHidden = true
-                self.bgIconView.image = UIImage(named: "icons／solid／mute")
             case .AgoraChatRoomBaseUserCellTypeLock:
                 self.iconView.isHidden = true
                 self.micView.isHidden = true
@@ -72,11 +62,6 @@ class AgoraChatRoomBaseRtcUserView: UIView {
                 self.micView.isHidden = false
                 self.micView.setState(.forbidden)
                 self.bgIconView.image = UIImage(named: "icons／solid／lock")
-            case .AgoraChatRoomBaseUserCellTypeAdmin:
-                self.iconView.isHidden = false
-                self.micView.isHidden = false
-                self.micView.setState(.on)
-                self.nameBtn.setImage(UIImage(named: "Landlord"), for: .normal)
             case .AgoraChatRoomBaseUserCellTypeAlienNonActive:
                 self.iconView.isHidden = false
                 self.micView.isHidden = false
@@ -99,6 +84,12 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     public var iconImgUrl: String = "" {
         didSet {
             self.iconView.image = UIImage(named: iconImgUrl)
+        }
+    }
+    
+    public var ownerIcon: String = "" {
+        didSet {
+            self.nameBtn.setImage(UIImage(named: ownerIcon), for: .normal)
         }
     }
     
@@ -143,12 +134,10 @@ class AgoraChatRoomBaseRtcUserView: UIView {
     }
 
     private var bgView: UIView = UIView()
-    private var iconView: UIImageView = UIImageView()
-    private var bgIconView: UIImageView = UIImageView()
-    private var micView: AgoraMicVolView = AgoraMicVolView()
-    private var volImgView: UIImageView = UIImageView()
-    private var volBgView: UIView = UIView()
-    private var nameBtn: UIButton = UIButton()
+    public var iconView: UIImageView = UIImageView()
+    public var bgIconView: UIImageView = UIImageView()
+    public var micView: AgoraMicVolView = AgoraMicVolView()
+    public var nameBtn: UIButton = UIButton()
     private var coverView: UIView = UIView()
     private var activeButton: UIButton = UIButton()
     private var targetBtn: UIButton = UIButton()

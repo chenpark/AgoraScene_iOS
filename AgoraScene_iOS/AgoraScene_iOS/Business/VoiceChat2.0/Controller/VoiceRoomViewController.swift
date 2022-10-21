@@ -86,6 +86,7 @@ class VoiceRoomViewController: VRBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigation.isHidden = true
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     override func viewDidLoad() {
@@ -116,6 +117,7 @@ class VoiceRoomViewController: VRBaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigation.isHidden = false
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     deinit {
@@ -353,7 +355,7 @@ extension VoiceRoomViewController {
             if self.roomInfo?.room?.use_robot == false {
                 showActiveAlienView(true)
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser || type == .AgoraChatRoomBaseUserCellTypeAdmin {
+        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser{
             //用户下麦或者mute自己
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
@@ -368,17 +370,13 @@ extension VoiceRoomViewController {
             } else {
                 //用户下麦或者mute自己
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeMuteWithPerson {
+        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
             } else {
                 if isOwner {
                     showApplyAlert(tag - 200)
                 }
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeMuteWithoutPerson {
-            if isOwner {
-                showApplyAlert(tag - 200)
             }
         } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
             if isOwner {
@@ -386,17 +384,13 @@ extension VoiceRoomViewController {
             } else {
                 //用户下麦或者mute自己
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeForbiddenWithPerson {
+        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
             if tag - 200 == local_index {
                 showMuteView(with: tag - 200)
             } else {
                 if isOwner {
                     showApplyAlert(tag - 200)
                 }
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeForbiddenWithoutPerson {
-            if isOwner {
-                showApplyAlert(tag - 200)
             }
         }
     }
@@ -445,8 +439,7 @@ extension VoiceRoomViewController {
     
     func showSoundView() {
         guard let soundEffect = self.roomInfo?.room?.sound_effect else {return}
-        let soundView = VMSoundView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 240~))
-        soundView.soundEffect = soundEffect
+        let soundView = VMSoundView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 240~), soundEffect: soundEffect)
         let vc = VoiceRoomAlertViewController.init(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 240~)), custom: soundView)
         self.presentViewController(vc)
     }
@@ -727,7 +720,6 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")")
             }
         }
     }
@@ -742,7 +734,8 @@ extension VoiceRoomViewController {
         
         self.roomInfo?.mic_info![from] = toUser
         self.roomInfo?.mic_info![to] = fromUser
-        self.rtcView.micInfos = self.roomInfo?.mic_info
+        self.rtcView.updateUser(fromUser)
+        self.rtcView.updateUser(toUser)
     }
     
     func showMuteView(with index: Int) {
@@ -772,7 +765,7 @@ extension VoiceRoomViewController {
             }
         }
     }
-        
+    
     func refuse() {
         if let roomId = self.roomInfo?.room?.room_id {
             VoiceRoomBusinessRequest.shared.sendGETRequest(api: .refuseInvite(roomId: roomId), params: [:]) { _, _ in
@@ -861,21 +854,19 @@ extension VoiceRoomViewController: ASManagerDelegate {
     func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) {
         print("当前是：\(type.rawValue)在讲话")
         self.rtcView.showAlienMicView = type
-//        if type == .ended && self.alienCanPlay && musicType == .alien {
-//            self.alienCanPlay = false
-//        }
+        //        if type == .ended && self.alienCanPlay && musicType == .alien {
+        //            self.alienCanPlay = false
+        //        }
     }
     
     func reportAudioVolumeIndicationOfSpeakers(speakers: [AgoraRtcAudioVolumeInfo]) {
         guard let micinfo = self.roomInfo?.mic_info else {return}
         for speaker in speakers {
-           // if speaker.vad == 0 {return}
             for mic in micinfo {
                 guard let user = mic.member else {return}
                 guard let rtcUid = Int(user.rtc_uid ?? "0") else {return}
                 if rtcUid == speaker.uid {
-                    guard let uid = user.uid else {return}
-                    self.rtcView.updateVolume(with: uid, vol: Int(speaker.volume))
+                    self.rtcView.updateVolume(with: mic.mic_index, vol: Int(speaker.volume))
                 }
             }
         }

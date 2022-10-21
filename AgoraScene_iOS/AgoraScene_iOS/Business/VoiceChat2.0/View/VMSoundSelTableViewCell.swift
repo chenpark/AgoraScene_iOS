@@ -28,7 +28,7 @@ class VMSoundSelTableViewCell: UITableViewCell {
     private var selView: UIImageView = UIImageView()
     
     private var typeStr: String = ""
-    private var detailStr: String = "''"
+    private var detailStr: String = ""
     
     private var images = [["wangyi","momo","pipi","yinyu"],["wangyi","jiamian","yinyu","paipaivoice","wanba","qingtian","skr","soul"],["yalla-ludo","jiamian"],["qingmang","cowLive","yuwan","weibo"]]
     private var iconImgs:[String]?
