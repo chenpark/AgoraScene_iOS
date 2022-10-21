@@ -157,12 +157,11 @@ extension VoiceRoomViewController {
                 if error == nil {
                     IMJoinSuccess = true
                     VMGroup.leave()
-                    self.view.makeToast("join IM success!",point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
                     self.view.makeToast("\(error?.errorDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     IMJoinSuccess = false
                     VMGroup.leave()
-                    self.view.makeToast("join IM failed!",point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast(NSLocalizedString("join IM failed!", comment: ""),point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             })
             
@@ -292,7 +291,7 @@ extension VoiceRoomViewController {
         VoiceRoomUserInfo.shared.currentRoomOwner = self.roomInfo?.room?.owner
         let entity = VoiceRoomChatEntity()
         entity.userName = self.roomInfo?.room?.owner?.name
-        entity.content = "Welcome to Agora Chat Room! Sexual or violent content is strictly prohibited. Speak kindly, friendship muchly."
+        entity.content = NSLocalizedString("Welcome to the voice chat room! Pornography, gambling or violence is strictly prohibited in the room.", comment: "")
         entity.attributeContent = entity.attributeContent
         entity.uid = self.roomInfo?.room?.owner?.uid
         entity.width = entity.width
@@ -304,7 +303,7 @@ extension VoiceRoomViewController {
         guard let roomId = self.roomInfo?.room?.room_id  else { return }
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
-                self.view.makeToast("Joined successful!",point: self.toastPoint, title: nil, image: nil, completion: nil)
+                self.view.makeToast(NSLocalizedString("Joined successful!", comment: ""),point: self.toastPoint, title: nil, image: nil, completion: nil)
             } else {
                 self.didHeaderAction(with: .back)
             }
@@ -511,7 +510,7 @@ extension VoiceRoomViewController {
                 //如果返回的结果为true 表示上麦成功
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
-                        self.view.makeToast("Notice Posted".localized())
+                        self.view.makeToast(NSLocalizedString("Notice Posted", comment: "").localized())
                         self.roomInfo?.room?.announcement = str
                     }
                 } else {
