@@ -322,11 +322,10 @@ extension VoiceRoomViewController {
             self.rtckit.leaveChannel()
             
             //giveupStage()
-            cancelRequestSpeak(index: nil)
             if self.isOwner && action != .popBack {
                 self.showEndLive()
             } else {
-                self.ownerBack()
+                self.backAction()
             }
         } else if action == .notice {
             showNoticeView(with: self.isOwner ? .owner : .audience)
