@@ -156,23 +156,19 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
     private func updateMic(_ map: [String : String]?) {
         guard let mic_info = map else {return}
         print("map----\(mic_info)")
-        let keys = mic_info.keys
+        let keys = mic_info.keys.map { $0 }
         print("--keys:\(keys.count)")
-        for key in keys {
-            print("---key:\(key)-----\(String(describing: mic_info[key]))")
-            let value: String = mic_info[key]! as String
-            print("json----\(value)")
+        for i in 0...keys.count-1 {
+            let key = keys[i]
+            print("key is: \(key)")
+            let value: String = mic_info[key] ?? ""
             let mic_dic: [String: Any] = value.z.jsonToDictionary()
             let mic: VRRoomMic = model(from: mic_dic, type: VRRoomMic.self) as! VRRoomMic
             let status = mic.status
-            let mic_index = mic.mic_index 
-        print("---update--\(status)----\(mic_index)")
+            let mic_index = mic.mic_index
+            print("---update--\(status)----\(mic_index)")
             if !self.isOwner {
-                if status == -1 {
-                    self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
-                } else {
-                    self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
-                }
+                self.refreshHandsUp(status: status)
                 if mic_index == local_index && (status == -1 || status == 3 || status == 4){
                     local_index = nil
                 }
@@ -206,7 +202,6 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                 }
             }
         }
-        
 //        return
 //        for (_, mic_value) in mic_info.enumerated() {
 //            let value: String = mic_value.value
@@ -304,6 +299,14 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
 //        }
 //        return nil
 //    }
+    
+    func refreshHandsUp(status: Int) {
+        if status == -1 {
+            self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
+        } else {
+            self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
+        }
+    }
 
     func sendTextMessage(text: String) {
         self.inputBar.endEditing(true)
