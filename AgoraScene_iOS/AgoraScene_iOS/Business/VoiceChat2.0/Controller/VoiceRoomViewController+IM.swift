@@ -178,16 +178,18 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                         let local_uid = VoiceRoomUserInfo.shared.user?.uid
                         if uid == local_uid {
                             local_index = mic_index
-                            //如果当前是0的状态  就设置成主播
-                            self.rtckit.muteLocalAudioStream(mute: status != 0)
                             if !isOwner {
                                 self.rtckit.setClientRole(role: status == 0 ? .owner : .audience)
                             }
+                            //如果当前是0的状态  就设置成主播
+                            self.rtckit.muteLocalAudioStream(mute: status != 0)
                         }
                     }
                 } else {
-                    self.rtckit.muteLocalAudioStream(mute: true)
-                    self.rtckit.setClientRole(role: .audience)
+                    if !self.isOwner {
+                        self.rtckit.muteLocalAudioStream(mute: true)
+                        self.rtckit.setClientRole(role: .audience)
+                    }
                 }
             }
         }
