@@ -48,7 +48,6 @@ class VMPresentView: UIView {
         audioSetView.isAudience = isAudience
         audioSetView.ains_state = ains_state
         audioSetView.resBlock = {[weak self] type in
-            self?.scrollView.isScrollEnabled = true
             self?.eqView.settingType = type
             self?.eqView.ains_state = self!.ains_state
             self?.scrollView.setContentOffset(CGPoint(x: (self?.screenSize.width)!, y: 0), animated: true)

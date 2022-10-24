@@ -147,7 +147,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             
             cell.clickVBlock = {
                 guard let clickBlock = self.clickBlock else {return}
-                clickBlock(.AgoraChatRoomBaseUserCellTypeAlienActive, 0)
+                clickBlock(.AgoraChatRoomBaseUserCellTypeAlienActive, 206)
             }
             return cell
         }

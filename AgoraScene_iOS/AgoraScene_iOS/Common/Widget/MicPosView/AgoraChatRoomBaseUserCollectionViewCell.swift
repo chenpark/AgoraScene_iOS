@@ -63,20 +63,27 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         case 1:
             //需要区分有用户还是没有用户
             bgIcon = mic.member == nil ? "icons／solid／mute" : ""
-            rtcUserView.micView.isHidden = mic.member == nil
+            if mic.member != nil {
+                rtcUserView.micView.isHidden = false
+                rtcUserView.micView.setState(.off)
+            } else {
+                rtcUserView.micView.isHidden = true
+            }
             rtcUserView.bgIconView.image = UIImage(named: bgIcon)
             rtcUserView.bgIconView.isHidden = mic.member != nil
         case 2:
-            cellType =  .AgoraChatRoomBaseUserCellTypeForbidden
-            //需要区分有用户还是没有用户
             bgIcon = mic.member == nil ? "icons／solid／mute" : ""
-            rtcUserView.micView.isHidden = mic.member == nil
+            if mic.member != nil {
+                rtcUserView.micView.isHidden = false
+                rtcUserView.micView.setState(.off)
+            } else {
+                rtcUserView.micView.isHidden = true
+            }
             rtcUserView.bgIconView.image = UIImage(named: bgIcon)
             rtcUserView.bgIconView.isHidden = mic.member != nil
         case 3:
             rtcUserView.iconView.isHidden = true
-            rtcUserView.micView.isHidden = false
-            rtcUserView.micView.setState(.forbidden)
+            rtcUserView.micView.isHidden = true
             rtcUserView.bgIconView.image = UIImage(named: "icons／solid／lock")
         case 4:
             rtcUserView.iconView.isHidden = true

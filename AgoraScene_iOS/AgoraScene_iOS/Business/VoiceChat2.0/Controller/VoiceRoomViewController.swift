@@ -338,60 +338,95 @@ extension VoiceRoomViewController {
     }
     
     func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
-        if type == .AgoraChatRoomBaseUserCellTypeAdd {
-            //这里需要区分观众与房主
-            if isOwner {
-                showApplyAlert(tag - 200)
-            } else {
-                if local_index != nil {
-                    changeMic(from: local_index!, to: tag - 200)
-                } else {
-                    userApplyAlert(tag - 200)
-                }
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
+        let index: Int = tag - 200
+        guard let mic: VRRoomMic = roomInfo?.mic_info?[index] else {return}
+        if index == 6 {//操作机器人
             if self.roomInfo?.room?.use_robot == false {
-                showActiveAlienView(true)
+               showActiveAlienView(true)
             }
-        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser{
-            //用户下麦或者mute自己
-            if tag - 200 == local_index {
-                showMuteView(with: tag - 200)
-            } else {
-                if isOwner {
-                    showApplyAlert(tag - 200)
-                }
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeLock {
+        } else {
             if isOwner {
-                showApplyAlert(tag - 200)
-            } else {
-                //用户下麦或者mute自己
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
-            if tag - 200 == local_index {
-                showMuteView(with: tag - 200)
-            } else {
-                if isOwner {
-                    showApplyAlert(tag - 200)
+                if index == 0 {
+                    showMuteView(with: index)
+                } else {
+                    showApplyAlert(index)
                 }
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
-            if isOwner {
-                showApplyAlert(tag - 200)
             } else {
-                //用户下麦或者mute自己
-            }
-        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
-            if tag - 200 == local_index {
-                showMuteView(with: tag - 200)
-            } else {
-                if isOwner {
-                    showApplyAlert(tag - 200)
+                /*
+                 1.如果当前麦位有用户，普通人只能操作自己
+                 2.如果麦位没人 需要先判端是否是换麦还是申请上卖
+                 */
+                if let _ = mic.member {
+                    if local_index == index {
+                        showMuteView(with: index)
+                    }
+                } else {
+                    if local_index != nil {
+                        changeMic(from: local_index!, to: tag - 200)
+                    } else {
+                        userApplyAlert(tag - 200)
+                    }
                 }
             }
         }
+        
     }
+    
+//    func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
+//        if type == .AgoraChatRoomBaseUserCellTypeAdd {
+//            //这里需要区分观众与房主
+//            if isOwner {
+//                showApplyAlert(tag - 200)
+//            } else {
+//                if local_index != nil {
+//                    changeMic(from: local_index!, to: tag - 200)
+//                } else {
+//                    userApplyAlert(tag - 200)
+//                }
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
+//            if self.roomInfo?.room?.use_robot == false {
+//                showActiveAlienView(true)
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser{
+//            //用户下麦或者mute自己
+//            if tag - 200 == local_index {
+//                showMuteView(with: tag - 200)
+//            } else {
+//                if isOwner {
+//                    showApplyAlert(tag - 200)
+//                }
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeLock {
+//            if isOwner {
+//                showApplyAlert(tag - 200)
+//            } else {
+//                //用户下麦或者mute自己
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
+//            if tag - 200 == local_index {
+//                showMuteView(with: tag - 200)
+//            } else {
+//                if isOwner {
+//                    showApplyAlert(tag - 200)
+//                }
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
+//            if isOwner {
+//                showApplyAlert(tag - 200)
+//            } else {
+//                //用户下麦或者mute自己
+//            }
+//        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
+//            if tag - 200 == local_index {
+//                showMuteView(with: tag - 200)
+//            } else {
+//                if isOwner {
+//                    showApplyAlert(tag - 200)
+//                }
+//            }
+//        }
+//    }
     
     func notifySeverLeave() {
         guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
@@ -685,6 +720,22 @@ extension VoiceRoomViewController {
     //unmute自己
     func unmuteLocal(with index: Int) {
         guard let roomId = self.roomInfo?.room?.room_id else { return }
+        
+        /**
+         1.如果房主禁言了用户，用户没办法解除禁言
+         2.如果客户mute了自己，房主没办法打开用户
+         */
+        if let mic = self.roomInfo?.mic_info?[index] {
+            if mic.status == 2 && self.isOwner == false {
+                self.view.makeToast("Banned".localized())
+                return
+            }
+            
+            if mic.status == 1 && self.isOwner == true {
+                return
+            }
+        }
+        
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelCloseMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
