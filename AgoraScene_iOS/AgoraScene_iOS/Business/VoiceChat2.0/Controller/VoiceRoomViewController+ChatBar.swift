@@ -101,8 +101,8 @@ extension VoiceRoomViewController {
         }, completion: nil)
     }
     
-    func applyMembersAlert() {
-        let userAlert = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: self.roomInfo?.room?.room_id ?? ""),VoiceRoomInviteUsersController(roomId: self.roomInfo?.room?.room_id ?? "",mic_index: nil)],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+    func applyMembersAlert(position: VoiceRoomSwitchBarDirection) {
+        let userAlert = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomApplyUsersViewController(roomId: self.roomInfo?.room?.room_id ?? ""),VoiceRoomInviteUsersController(roomId: self.roomInfo?.room?.room_id ?? "",mic_index: nil)],titles: [LanguageManager.localValue(key: "Raised Hands"),LanguageManager.localValue(key: "Invite On-Stage")],position: position).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: userAlert)
         self.presentViewController(vc)
     }
@@ -180,7 +180,7 @@ extension VoiceRoomViewController {
     
     func changeHandsUpState() {
         if self.isOwner {
-            self.applyMembersAlert()
+            self.applyMembersAlert(position: .left)
             self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
         } else {
             if self.chatBar.handsState == .unSelected {
@@ -208,7 +208,7 @@ extension VoiceRoomViewController {
     }
     
     func showUsers() {
-        let contributes = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: self.roomInfo?.room?.room_id ?? "")],titles: [LanguageManager.localValue(key: "Contribution List")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        let contributes = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 420),controllers: [VoiceRoomGiftersViewController(roomId: self.roomInfo?.room?.room_id ?? "")],titles: [LanguageManager.localValue(key: "Contribution List")], position: .left).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 420)), custom: contributes)
         self.presentViewController(vc)
     }
@@ -222,7 +222,7 @@ extension VoiceRoomViewController {
             self?.dismiss(animated: true)
             if state == .invite {
                 if flag {
-                    self?.applyMembersAlert()
+                    self?.applyMembersAlert(position: .right)
                 } else {
                     self?.kickoff(with: index)
                 }
