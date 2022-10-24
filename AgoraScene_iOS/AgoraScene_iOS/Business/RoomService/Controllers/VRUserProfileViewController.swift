@@ -63,7 +63,7 @@ extension VRUserProfileViewController {
     private func showAlert() {
         self.endEdit()
         let avatar = VRAvatarChooseViewController(collectionViewLayout: UICollectionViewLayout())
-        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 535),controllers: [avatar],titles: [LanguageManager.localValue(key: "Change Profile Picture")]).cornerRadius(20, [.topLeft,.topRight], .white, 0)
+        let tmp = VoiceRoomUserView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 535),controllers: [avatar],titles: [LanguageManager.localValue(key: "Change Profile Picture")], position: .left).cornerRadius(20, [.topLeft,.topRight], .white, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: 535)), custom: tmp)
         avatar.selectedClosure = { [weak self] in
             self?.changeUserAvatar(avatar: $0)

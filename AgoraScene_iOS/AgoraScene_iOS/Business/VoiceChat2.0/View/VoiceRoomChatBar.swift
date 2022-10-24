@@ -114,34 +114,14 @@ extension VoiceRoomChatBar {
         self.creator = asCreator
         switch event {
         case .mic:
-            self.micState = state == .selected ? true:false
-            switch state {
-            case .unSelected:
-                self.datas[0] = "mic"
-            case .selected:
-                self.datas[0] = "unmic"
-            case .disable:
-                break
-            }
+            self.refreshMicState(state: state)
             self.toolBar.reloadItems(at: [IndexPath(row: 0, section: 0)])
         case .handsUp:
             self.handsState = state
             var idx = 0
-            for (index,element) in self.datas.enumerated() {
-                if element == "handuphard" || element == "handup_dot" || element == "handuphard-1" {
-                    idx = index
-                    break
-                }
-            }
+            self.sinkIndex(idx: &idx)
             if !asCreator {
-                switch state {
-                case .unSelected:
-                    self.datas[idx] = "handuphard"
-                case .selected:
-                    self.datas[idx] = "handup_dot"
-                case .disable:
-                    self.datas[idx] = "handuphard-1"
-                }
+                self.refreshHandsState(state: state,idx: idx)
             } else {
                 switch state {
                 case .unSelected: self.datas[idx] = "handuphard"
@@ -150,6 +130,38 @@ extension VoiceRoomChatBar {
             }
             self.toolBar.reloadItems(at: [IndexPath(row: idx, section: 0)])
         default: break
+        }
+    }
+    
+    private func sinkIndex(idx: inout Int) {
+        for (index,element) in self.datas.enumerated() {
+            if element == "handuphard" || element == "handup_dot" || element == "handuphard-1" {
+                idx = index
+                break
+            }
+        }
+    }
+    
+    private func refreshMicState(state: VoiceRoomChatBarState) {
+        self.micState = state == .selected ? true:false
+        switch state {
+        case .unSelected:
+            self.datas[0] = "mic"
+        case .selected:
+            self.datas[0] = "unmic"
+        case .disable:
+            break
+        }
+    }
+    
+    private func refreshHandsState(state: VoiceRoomChatBarState,idx: Int) {
+        switch state {
+        case .unSelected:
+            self.datas[idx] = "handuphard"
+        case .selected:
+            self.datas[idx] = "handup_dot"
+        case .disable:
+            self.datas[idx] = "handuphard-1"
         }
     }
     
@@ -170,7 +182,6 @@ extension VoiceRoomChatBar {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
         if self.events != nil {
             if indexPath.row == 1,self.handsState != .disable {
                 self.events!(VoiceRoomChatBarEvents(rawValue: indexPath.row)!)

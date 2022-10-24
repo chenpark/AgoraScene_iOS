@@ -127,24 +127,6 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
         
     }
     
-    //    func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
-    //        guard let dic = getMicStatus(with: attributeMap) else {return}
-    //        var index: Int = dic["index"] ?? 0
-    //        let status: Int = dic["status"] ?? 0
-    //        if index > 6 {index = 6}
-    //        guard let mic: VRRoomMic = roomInfo?.mic_info?[index] else {return}
-    //        let mic_info = mic
-    //        mic_info.status = status
-    //        if status == 5 || status == -2 {
-    //            self.roomInfo?.room?.use_robot = status == 5
-    //        }
-    //        self.roomInfo?.mic_info?[index] = mic_info
-    //        self.rtcView.micInfos = self.roomInfo?.mic_info
-    //        Throttler.throttle(delay: 1) {
-    //            self.requestRoomDetail()
-    //        }
-    //    }
-    
     func roomAttributesDidUpdated(roomId: String, attributeMap: [String : String]?, from fromId: String) {
         updateMic(attributeMap)
     }
@@ -199,53 +181,6 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             }
         }
     }
-    
-    
-    //    private func getMicStatus(with map: [String : String]?) -> Dictionary<String, Int>? {
-    //        guard let mic_info = map else {return nil}
-    //        var first: Dictionary<String, Int>? = Dictionary()
-    //        for mic in mic_info {
-    //            let key: String = mic.key
-    //            let value = mic.value.z.jsonToDictionary()
-    //            guard let status: Int = value["status"] as? Int else {return nil}
-    //            first?["status"] = status
-    //
-    //            if key.contains("mic_") {
-    //                if key.components(separatedBy: "mic_").count > 1 {
-    //                    let index = key.components(separatedBy: "mic_")[1]
-    //                    if let mic_index = Int(index) {
-    //                       first?["index"] = mic_index
-    //                       let uid = VoiceRoomUserInfo.shared.user?.uid
-    //                        if !self.isOwner {
-    //                            if value.keys.contains("status"),let status = value["status"] as? Int,status == -1 {
-    //                                self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
-    //                            } else {
-    //                                self.chatBar.refresh(event: .handsUp, state: .disable, asCreator: false)
-    //                            }
-    //                            if mic_index == local_index && (status == -1 || status == 3 || status == 4){
-    //                                local_index = nil
-    //                            }
-    //                        }
-    //                       if value.keys.contains("uid") {
-    //                          if uid == value["uid"] as? String ?? "" {
-    //                              local_index = mic_index
-    //                              //如果当前是0的状态  就设置成主播
-    //                              if isOwner {
-    //                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
-    //                              } else {
-    //                                  self.rtckit.muteLocalAudioStream(mute: status != 0)
-    //                                  self.rtckit.setClientRole(role: status == 0 ? .owner : .audience)
-    //                              }
-    //
-    //                          }
-    //                       }
-    //                    }
-    //                    return first
-    //                }
-    //            }
-    //        }
-    //        return nil
-    //    }
     
     func refreshHandsUp(status: Int) {
         if status == -1 {
