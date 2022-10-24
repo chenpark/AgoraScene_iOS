@@ -6,3 +6,4 @@
   
 */
 CFBundleDisplayName = "声动语聊";
+NSMicrophoneUsageDescription = "当您进入语音聊天室时，声动语聊想要申请麦克风访问";

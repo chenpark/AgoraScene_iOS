@@ -6,3 +6,4 @@
   
 */
 CFBundleDisplayName = "AgoraChatRoom";
+NSMicrophoneUsageDescription = "Agora Chat Demo want to  mic access,when you enter voice chat room";

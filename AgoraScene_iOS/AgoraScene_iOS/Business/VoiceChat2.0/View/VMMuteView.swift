@@ -56,7 +56,7 @@ class VMMuteView: UIView {
 //                micView.setState(.on)
 //                micView.setVolume(100)
 //                micView.isHidden = false
-            } else if m_type == 1 {
+            } else if m_type == 1 || m_type == 2{
                 iconView.isHidden = false
 //                micView.isHidden = false
 //                micView.setState(.forbidden)

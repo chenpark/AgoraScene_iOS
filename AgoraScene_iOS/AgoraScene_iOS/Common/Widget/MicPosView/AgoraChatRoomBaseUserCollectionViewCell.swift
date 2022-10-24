@@ -54,11 +54,13 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
         case -1:
             rtcUserView.iconView.isHidden = true
             rtcUserView.micView.isHidden = true
+            rtcUserView.bgIconView.isHidden = false
             rtcUserView.bgIconView.image = UIImage(named: "icons／solid／add")
         case 0:
             rtcUserView.iconView.isHidden = false
             rtcUserView.micView.isHidden = false
             rtcUserView.micView.setState(.on)
+            rtcUserView.bgIconView.isHidden = true
             rtcUserView.nameBtn.setImage(UIImage(named: ""), for: .normal)
         case 1:
             //需要区分有用户还是没有用户
@@ -85,11 +87,13 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             rtcUserView.iconView.isHidden = true
             rtcUserView.micView.isHidden = true
             rtcUserView.bgIconView.image = UIImage(named: "icons／solid／lock")
+            rtcUserView.bgIconView.isHidden = false
         case 4:
             rtcUserView.iconView.isHidden = true
             rtcUserView.micView.isHidden = false
             rtcUserView.micView.setState(.forbidden)
             rtcUserView.bgIconView.image = UIImage(named: "icons／solid／lock")
+            rtcUserView.bgIconView.isHidden = false
         default:
             break
         }

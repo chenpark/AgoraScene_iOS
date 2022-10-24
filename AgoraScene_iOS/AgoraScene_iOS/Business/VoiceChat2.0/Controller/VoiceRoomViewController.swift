@@ -318,13 +318,11 @@ extension VoiceRoomViewController {
     
     func didHeaderAction(with action: HEADER_ACTION) {
         if action == .back || action == .popBack  {
-            self.notifySeverLeave()
-            self.rtckit.leaveChannel()
-            
-            //giveupStage()
             if self.isOwner && action != .popBack {
                 self.showEndLive()
             } else {
+                self.notifySeverLeave()
+                self.rtckit.leaveChannel()
                 self.backAction()
             }
         } else if action == .notice {
@@ -371,62 +369,6 @@ extension VoiceRoomViewController {
         }
         
     }
-    
-//    func didRtcAction(with type: AgoraChatRoomBaseUserCellType, tag: Int) {
-//        if type == .AgoraChatRoomBaseUserCellTypeAdd {
-//            //这里需要区分观众与房主
-//            if isOwner {
-//                showApplyAlert(tag - 200)
-//            } else {
-//                if local_index != nil {
-//                    changeMic(from: local_index!, to: tag - 200)
-//                } else {
-//                    userApplyAlert(tag - 200)
-//                }
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeAlienActive {
-//            if self.roomInfo?.room?.use_robot == false {
-//                showActiveAlienView(true)
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeNormalUser{
-//            //用户下麦或者mute自己
-//            if tag - 200 == local_index {
-//                showMuteView(with: tag - 200)
-//            } else {
-//                if isOwner {
-//                    showApplyAlert(tag - 200)
-//                }
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeLock {
-//            if isOwner {
-//                showApplyAlert(tag - 200)
-//            } else {
-//                //用户下麦或者mute自己
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeMute {
-//            if tag - 200 == local_index {
-//                showMuteView(with: tag - 200)
-//            } else {
-//                if isOwner {
-//                    showApplyAlert(tag - 200)
-//                }
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeMuteAndLock {
-//            if isOwner {
-//                showApplyAlert(tag - 200)
-//            } else {
-//                //用户下麦或者mute自己
-//            }
-//        } else if type == .AgoraChatRoomBaseUserCellTypeForbidden {
-//            if tag - 200 == local_index {
-//                showMuteView(with: tag - 200)
-//            } else {
-//                if isOwner {
-//                    showApplyAlert(tag - 200)
-//                }
-//            }
-//        }
-//    }
     
     func notifySeverLeave() {
         guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
@@ -510,6 +452,7 @@ extension VoiceRoomViewController {
                         print("激活机器人成功")
                         
                         if self.alienCanPlay {
+                            self.rtckit.adjustAudioMixingVolume(with: 50)
                             self.rtckit.playMusic(with: .alien)
                             self.alienCanPlay = false
                         }
@@ -615,6 +558,9 @@ extension VoiceRoomViewController {
     
     //取消禁言指定麦位
     func unMute(with index: Int) {
+        if index != 0 && self.isOwner {
+            return
+        }
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
@@ -728,10 +674,6 @@ extension VoiceRoomViewController {
         if let mic = self.roomInfo?.mic_info?[index] {
             if mic.status == 2 && self.isOwner == false {
                 self.view.makeToast("Banned".localized())
-                return
-            }
-            
-            if mic.status == 1 && self.isOwner == true {
                 return
             }
         }

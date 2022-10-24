@@ -92,7 +92,7 @@ class VMManagerView: UIView {
                 nameLabel.text = username
 //                micView.setState(.forbidden)
 //                micView.isHidden = false
-                inviteBtn.setTitle(LanguageManager.localValue(key: "Kick"), for: .normal)
+                inviteBtn.setTitle(LanguageManager.localValue(key: micInfo?.member != nil ? "Kick" : "Invite"), for: .normal)
                 muteBtn.setTitle(LanguageManager.localValue(key: "Unmute"), for: .normal)
             }
             

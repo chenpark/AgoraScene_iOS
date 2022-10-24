@@ -245,6 +245,12 @@ extension VoiceRoomViewController {
     }
     
     func userApplyAlert(_ index: Int?) {
+        
+        if self.chatBar.handsState == .selected {
+            self.view.makeToast("Request Wait".localized())
+            return
+        }
+        
         let applyAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm",position: .bottom).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: applyAlert)
         applyAlert.actionEvents = { [weak self] in
