@@ -30,7 +30,7 @@ public class VoiceRoomUserView: UIView {
         super.init(frame: frame)
     }
     
-    convenience init(frame: CGRect,controllers: [UIViewController],titles:[String]) {
+    convenience init(frame: CGRect,controllers: [UIViewController],titles:[String],position: VoiceRoomSwitchBarDirection) {
         self.init(frame: frame)
         self.controllers = controllers
         self.titles = titles
@@ -40,6 +40,10 @@ public class VoiceRoomUserView: UIView {
         }
         self.switchBar.selectAction = { [weak self] in
             self?.container.index = $0-11
+        }
+        if position == .right {
+            self.switchBar.moveTo(direction: .right)
+            self.container.index = 1
         }
     }
     
