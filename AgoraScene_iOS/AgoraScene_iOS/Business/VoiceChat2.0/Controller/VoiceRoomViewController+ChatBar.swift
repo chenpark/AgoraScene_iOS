@@ -251,6 +251,15 @@ extension VoiceRoomViewController {
             return
         }
         
+        if let mic_index = index {
+            if let mic: VRRoomMic = self.roomInfo?.mic_info?[mic_index] {
+                if mic.status == 3 || mic.status == 4 {
+                    self.view.makeToast("Mic Closed".localized())
+                    return
+                }
+            }
+        }
+        
         let applyAlert = VoiceRoomApplyAlert(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: (205/375.0)*ScreenWidth),content: "Request to Speak?",cancel: "Cancel",confirm: "Confirm",position: .bottom).backgroundColor(.white).cornerRadius(20, [.topLeft,.topRight], .clear, 0)
         let vc = VoiceRoomAlertViewController(compent: PresentedViewComponent(contentSize: CGSize(width: ScreenWidth, height: (205/375.0)*ScreenWidth)), custom: applyAlert)
         applyAlert.actionEvents = { [weak self] in

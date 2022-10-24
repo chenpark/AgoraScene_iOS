@@ -558,8 +558,10 @@ extension VoiceRoomViewController {
     
     //取消禁言指定麦位
     func unMute(with index: Int) {
-        if index != 0 && self.isOwner {
-            return
+        if let user = roomInfo?.mic_info?[index] {
+            if user.status == 1 && index != 0 && self.isOwner {
+                return
+            }
         }
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .unmuteMic(roomId: roomId, index: index), params: [:]) { dic, error in
@@ -697,6 +699,14 @@ extension VoiceRoomViewController {
     }
     
     func changeMic(from: Int, to: Int) {
+        
+        if let mic: VRRoomMic = self.roomInfo?.mic_info?[to] {
+            if mic.status == 3 || mic.status == 4 {
+                self.view.makeToast("Mic Closed".localized())
+                return
+            }
+        }
+        
         guard let roomId = self.roomInfo?.room?.room_id else { return }
         let params: Dictionary<String, Int> = [
             "from": from,

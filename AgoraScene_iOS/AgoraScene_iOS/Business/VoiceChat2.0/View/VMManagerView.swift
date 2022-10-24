@@ -214,6 +214,7 @@ class VMManagerView: UIView {
 
         //0:正常状态 1:闭麦 2:禁言 3:锁麦 4:锁麦和禁言 -1:空闲
         let m_type = micInfo.status
+        let user: VRUser? = micInfo.member
         switch m_type {
         case -1:
             if sender.tag == 300 {
@@ -240,7 +241,7 @@ class VMManagerView: UIView {
         case 2:
             if sender.tag == 300 {
                 state = .invite
-                flag = false
+                flag = user != nil ? false : true
             } else if sender.tag == 301 {
                 state = .mute
                 flag = false
@@ -272,7 +273,7 @@ class VMManagerView: UIView {
         case 1:
             if sender.tag == 300 {
                 state = .invite
-                flag = true
+                flag = user != nil ? false : true
             } else if sender.tag == 301 {
                 state = .mute
                 flag = false
