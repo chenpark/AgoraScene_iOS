@@ -62,6 +62,22 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
         UILabel(frame: CGRect(x: self.publicChoice.frame.minX, y: self.pinCode.frame.maxY+12, width: ScreenWidth - 80, height: 20)).font(.systemFont(ofSize: 12, weight: .regular)).textColor(UIColor(0xFA396A)).text(self.codeMessage)
     }()
     
+    lazy var timeLimit: UIButton = {
+        UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight) - 58, width: ScreenWidth-60, height: 40)).isUserInteractionEnabled(false).attributedTitle(self.timeWarning, .normal)
+    }()
+    
+    lazy var timeWarning: NSAttributedString = {
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage("candel")
+        attachment.bounds = CGRect(x: 0, y: -3, width: 14, height: 14)
+        let host = NSMutableAttributedString(attachment: attachment)
+        host.append(NSAttributedString {
+            AttributedText("")
+            AttributedText("This product is for testing only,not for commerce.Every room will be maintained for 10 minutes.".localized()).foregroundColor(UIColor(0x3C4267)).font(.systemFont(ofSize: 12, weight: .regular)).lineBreakeMode(.byWordWrapping)
+        })
+        return host
+    }()
+    
     lazy var create: UIButton = {
         UIButton(type: .custom).frame(CGRect(x: 30, y: self.frame.height - CGFloat(ZTabbarHeight), width: ScreenWidth - 60, height: 48)).cornerRadius(24).title(LanguageManager.localValue(key: "Next"), .normal).textColor(.white, .normal).font(.systemFont(ofSize: 16, weight: .semibold)).addTargetFor(self, action: #selector(createAction), for: .touchUpInside).setGradient([UIColor(red: 0.13, green: 0.608, blue: 1, alpha: 1),UIColor(red: 0.204, green: 0.366, blue: 1, alpha: 1)], [CGPoint(x: 0, y: 0),CGPoint(x: 0, y: 1)])
     }()
@@ -73,7 +89,8 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
-        self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.createContainer,self.create])
+        self.addSubViews([self.roomName,self.randomName,self.roomBackground,self.roomNameField,self.roomEncryption,self.publicChoice,self.privateChoice,self.pinCode,self.warnMessage,self.timeLimit,self.createContainer,self.create])
+        self.timeLimit.titleLabel?.numberOfLines = 0
         self.createContainer.layer.cornerRadius = 24
         self.createContainer.layer.shadowRadius = 8
         self.createContainer.layer.shadowOffset = CGSize(width: 0, height: 4)
