@@ -145,7 +145,9 @@ extension VRCreateRoomInputView {
             self.recover()
             self.warnMessage.isHidden = true
             self.endEditing(true)
+            self.timeLimit.isHidden = false
         } else {
+            self.timeLimit.isHidden = ScreenHeight < 812
             self.warnMessage.isHidden = false
             self.privateChoice.isSelected = true
             self.publicChoice.isSelected = false
