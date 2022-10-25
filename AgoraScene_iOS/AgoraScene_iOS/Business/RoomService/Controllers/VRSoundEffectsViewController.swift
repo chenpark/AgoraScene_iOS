@@ -53,7 +53,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
     
     @objc func goLive() {
         if self.name.isEmpty || self.effects.type.isEmpty {
-            self.view.makeToast(NSLocalizedString("No Room Name", comment: ""),point: self.view.center, title: nil, image: nil, completion: nil)
+            self.view.makeToast("No Room Name".localized(),point: self.view.center, title: nil, image: nil, completion: nil)
         }
         Throttler.throttle {
             self.createRoom()
@@ -63,17 +63,17 @@ public class VRSoundEffectsViewController: VRBaseViewController {
     private func createRoom() {
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .createRoom(()), params: ["name":self.name,"is_private":!self.code.isEmpty,"password":self.code,"type":self.type,"sound_effect":self.effects.type,"allow_free_join_mic":false], classType: VRRoomInfo.self) { info, error in
             if error == nil,info != nil {
-                self.view.makeToast(NSLocalizedString("Room Created", comment: ""), point: self.view.center, title: nil, image: nil, completion: nil)
+                self.view.makeToast("Room Created".localized(), point: self.view.center, title: nil, image: nil, completion: nil)
                 let vc = VoiceRoomViewController(info: info!)
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                self.view.makeToast("Create failed!",point: self.view.center, title: nil, image: nil, completion: nil)
+                self.view.makeToast("Create failed!".localized(),point: self.view.center, title: nil, image: nil, completion: nil)
             }
         }
     }
     
     @objc private func entryRoom() {
-        ProgressHUD.show(NSLocalizedString("Loading", comment: ""),interaction: false)
+        ProgressHUD.show("Loading".localized(),interaction: false)
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {

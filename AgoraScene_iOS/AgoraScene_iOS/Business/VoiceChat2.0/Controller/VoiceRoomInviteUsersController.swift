@@ -109,9 +109,9 @@ extension VoiceRoomInviteUsersController {
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast(NSLocalizedString("Invitation sent!", comment: ""))
+                    self.view.makeToast("Invitation sent!".localized())
                 } else {
-                    self.view.makeToast(NSLocalizedString("Invited failed!", comment: ""))
+                    self.view.makeToast("Invited failed!".localized())
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")

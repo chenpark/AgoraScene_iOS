@@ -163,7 +163,7 @@ extension VoiceRoomViewController {
                     self.view.makeToast("\(error?.errorDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
                     IMJoinSuccess = false
                     VMGroup.leave()
-                    self.view.makeToast(NSLocalizedString("join IM failed!", comment: ""),point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast("join IM failed!".localized(),point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             })
             
@@ -293,7 +293,7 @@ extension VoiceRoomViewController {
         VoiceRoomUserInfo.shared.currentRoomOwner = self.roomInfo?.room?.owner
         let entity = VoiceRoomChatEntity()
         entity.userName = self.roomInfo?.room?.owner?.name
-        entity.content = NSLocalizedString("Welcome to the voice chat room! Pornography, gambling or violence is strictly prohibited in the room.", comment: "")
+        entity.content = "Welcome to the voice chat room! Pornography, gambling or violence is strictly prohibited in the room.".localized()
         entity.attributeContent = entity.attributeContent
         entity.uid = self.roomInfo?.room?.owner?.uid
         entity.width = entity.width
@@ -305,7 +305,7 @@ extension VoiceRoomViewController {
         guard let roomId = self.roomInfo?.room?.room_id  else { return }
         VoiceRoomBusinessRequest.shared.sendPOSTRequest(api: .joinRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
-                self.view.makeToast(NSLocalizedString("Joined successful!", comment: ""),point: self.toastPoint, title: nil, image: nil, completion: nil)
+                self.view.makeToast("Joined successful!".localized(),point: self.toastPoint, title: nil, image: nil, completion: nil)
             } else {
                 self.didHeaderAction(with: .back)
             }
@@ -480,7 +480,7 @@ extension VoiceRoomViewController {
                 //如果返回的结果为true 表示上麦成功
                 if let result = map?["result"] as? Bool,error == nil,result {
                     if result == true {
-                        self.view.makeToast(NSLocalizedString("Notice Posted", comment: "").localized())
+                        self.view.makeToast("Notice Posted".localized())
                         self.roomInfo?.room?.announcement = str
                     }
                 } else {
@@ -651,16 +651,11 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .selected, asCreator: false)
-                    //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    //                    var mic_info = mic
-                    //                    mic_info.status = 1
-                    //                    self.roomInfo?.mic_info![index] = mic_info
-                    //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.muteLocalAudioStream(mute: true)
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+//                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -684,16 +679,11 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .mic, state: .unSelected, asCreator: false)
-                    //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    //                    var mic_info = mic
-                    //                    mic_info.status = 0
-                    //                    self.roomInfo?.mic_info![index] = mic_info
-                    //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.muteLocalAudioStream(mute: false)
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+//                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }

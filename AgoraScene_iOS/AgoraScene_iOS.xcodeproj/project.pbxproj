@@ -14,7 +14,6 @@
 		054AF7B028D16876004C60A3 /* VRNormalRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7AF28D16876004C60A3 /* VRNormalRoomsViewController.swift */; };
 		054AF7B228D16892004C60A3 /* VRSpatialSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AF7B128D16892004C60A3 /* VRSpatialSoundViewController.swift */; };
 		05688C2828D857B000B39C22 /* rocket.svga in Resources */ = {isa = PBXBuildFile; fileRef = 05688C2728D857B000B39C22 /* rocket.svga */; };
-		05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05688C2F28D86CB800B39C22 /* VRRoomAvatarCell.swift */; };
 		05688C3C28D86F2400B39C22 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05688C3E28D86F2400B39C22 /* Localizable.strings */; };
 		056A2DBD28E2D4700030811A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 056A2DBB28E2D4700030811A /* InfoPlist.strings */; };
 		05BC75BB28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BC75BA28F55D8F00DD8E3B /* VoiceRoomViewController+IM.swift */; };
@@ -914,7 +913,6 @@
 				05D8C40F28D06DED00820391 /* HorizontalCardCell.swift in Sources */,
 				E36BE10A28C5ECD500270D52 /* FlipHorizontalAnimation.swift in Sources */,
 				05D8C40528D06CE800820391 /* VoiceRoomAudienceCell.swift in Sources */,
-				05688C3028D86CB800B39C22 /* VRRoomAvatarCell.swift in Sources */,
 				05D8C40428D06CE800820391 /* VoiceRoomGiftCell.swift in Sources */,
 				E36BE18828C8390000270D52 /* VMUserListView.swift in Sources */,
 				05D8C42728D06DFB00820391 /* VRSoundTypeCard.swift in Sources */,

@@ -277,12 +277,12 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: false)
-                    self.view.makeToast(NSLocalizedString("Apply success!", comment: ""), point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast("Apply success!".localized(), point: self.toastPoint, title: nil, image: nil, completion: nil)
                 } else {
-                    self.view.makeToast(NSLocalizedString("Apply failed!", comment: ""), point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast("Apply failed!".localized(), point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")", point: self.toastPoint, title: nil, image: nil, completion: nil)
+//                self.view.makeToast("\(error?.localizedDescription ?? "")", point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -292,13 +292,13 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .cancelApply(roomId: roomId), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast(NSLocalizedString("Cancel apply success!", comment: ""), point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast("Cancel apply success!".localized(), point: self.toastPoint, title: nil, image: nil, completion: nil)
                     self.chatBar.refresh(event: .handsUp, state: .unSelected, asCreator: false)
                 } else {
-                    self.view.makeToast(NSLocalizedString("Cancel apply failed!", comment: ""), point: self.toastPoint, title: nil, image: nil, completion: nil)
+                    self.view.makeToast("Cancel apply failed!".localized(), point: self.toastPoint, title: nil, image: nil, completion: nil)
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+//                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }

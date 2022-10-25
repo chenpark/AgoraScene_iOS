@@ -99,9 +99,9 @@ extension VoiceRoomApplyUsersViewController {
             ProgressHUD.dismiss()
             if dic != nil,error == nil,let result = dic?["result"] as? Bool {
                 if result {
-                    self.view.makeToast(NSLocalizedString("Agree success!", comment: ""))
+                    self.view.makeToast("Agree success!".localized())
                 } else {
-                    self.view.makeToast(NSLocalizedString("Agree failed!", comment: ""))
+                    self.view.makeToast("Agree failed!".localized())
                 }
             } else {
                 self.view.makeToast("\(error?.localizedDescription ?? "")")
