@@ -67,15 +67,19 @@ public class VRCreateRoomInputView: UIView,UITextFieldDelegate {
     }()
     
     lazy var timeWarning: NSAttributedString = {
+        var space = NSMutableAttributedString(string: "")
+        if NSLocale.preferredLanguages.first!.hasPrefix("zh") {
+            space = NSMutableAttributedString(string: "           ")
+        }
         let attachment = NSTextAttachment()
         attachment.image = UIImage("candel")
         attachment.bounds = CGRect(x: 0, y: -3, width: 14, height: 14)
         let host = NSMutableAttributedString(attachment: attachment)
-        host.append(NSAttributedString {
-            AttributedText("")
-            AttributedText("This product is for testing only,not for commerce.Every room will be maintained for 10 minutes.".localized()).foregroundColor(UIColor(0x3C4267)).font(.systemFont(ofSize: 12, weight: .regular)).lineBreakeMode(.byWordWrapping)
+        space.append(host)
+        space.append(NSAttributedString {
+            AttributedText("This product is for testing only, not for commerce.\nEvery room will be maintained for 10 minutes.".localized()).foregroundColor(UIColor(0x3C4267)).font(.systemFont(ofSize: 12, weight: .regular)).lineBreakeMode(.byCharWrapping).alignment(.center)
         })
-        return host
+        return space
     }()
     
     lazy var create: UIButton = {
