@@ -10,10 +10,6 @@ import ZSwiftBaseLib
 
 let chatViewWidth = ScreenWidth*(287/375.0)
 
-let json1 = ["userName":"LG","content":"手机吊饰的及哦啊江山帝景爱搜较激动我按实际氨基酸asdasdasdasdasdasdasdasdasdsad地欧萨记得加"]
-
-let json2 = ["userName":"Apple","content":"我看看奥术大师多"]
-
 public class VoiceRoomChatView: UIView,UITableViewDelegate,UITableViewDataSource {
     
     var likeAction: ((UIButton)->())?
