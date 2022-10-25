@@ -78,7 +78,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
             return
         }
         self.chatBar.refresh(event: .handsUp, state: .selected, asCreator: true)
-        self.view.makeToast("User \(user.name ?? "")"+NSLocalizedString("rejected Invitation", comment: ""),point: self.toastPoint, title: nil, image: nil, completion: nil)
+        self.view.makeToast("User \(user.name ?? "")"+"rejected Invitation".localized(),point: self.toastPoint, title: nil, image: nil, completion: nil)
     }
     
     func userJoinedRoom(roomId: String, username: String, ext: Dictionary<String,Any>?) {

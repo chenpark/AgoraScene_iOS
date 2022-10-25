@@ -200,3 +200,4 @@
 "Request Wait" = "你的请求已提交,等待房主确认";
 "Removed Stage" = "您已被请下麦";
 "Mic Closed" = "麦位已被房主关闭";
+"Create failed!" = "创建失败";

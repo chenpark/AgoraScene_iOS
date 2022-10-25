@@ -28,14 +28,19 @@ public final class LanguageManager: NSObject {
     
     private override init() {
     }
-    
-    var bundle:Bundle = Bundle.voiceRoomBundle
+        
+    lazy var bundle: Bundle = {
+        if NSLocale.preferredLanguages.first!.hasPrefix("zh") {
+            return Bundle(path: Bundle.main.path(forResource: "zh", ofType: "lproj") ?? Bundle.main.bundlePath) ?? Bundle.main
+        }
+        return Bundle(path: Bundle.main.path(forResource: "en", ofType: "lproj") ?? Bundle.main.bundlePath) ?? Bundle.main
+    }()
     
     var currentLocal: Locale {
         Locale.current
     }
     
-    private func localValue(_ key: String) -> String{
+    private func localValue(_ key: String) -> String {
         self.bundle.localizedString(forKey: key, value: nil, table: "Localizable")
     }
     
