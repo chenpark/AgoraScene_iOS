@@ -551,7 +551,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+               // self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -571,7 +571,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+               // self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -590,7 +590,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+              //  self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -604,7 +604,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+               // self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -618,7 +618,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+               // self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
@@ -634,7 +634,7 @@ extension VoiceRoomViewController {
                 } else {
                 }
             } else {
-                self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
+              //  self.view.makeToast("\(error?.localizedDescription ?? "")",point: self.toastPoint, title: nil, image: nil, completion: nil)
             }
         }
     }
