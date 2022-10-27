@@ -84,7 +84,7 @@ extension VoiceRoomViewController {
             let count = (index - 1000) / 10
             let tag = (index - 1000) % 10
             self?.rtckit.playSound(with: count, type: tag == 1 ? .ainsOff : .ainsHigh)
-            self?.rtcView.showAlienMicView = .blue
+            self?.rtcView.updateAlienMic(.blue)
         }
         preView.eqView.visitBlock = {[weak self] in
             let VC: VoiceRoomHelpViewController = VoiceRoomHelpViewController()

@@ -49,30 +49,6 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
                 blueAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
                 redAlienView.cellType = .AgoraChatRoomBaseUserCellTypeAlienActive
             }
-            blueAlienView.micView.isHidden = true
-            redAlienView.micView.isHidden = true
-        }
-    }
-    
-    public var showAlienMicView: ALIEN_TYPE = .none {
-        didSet {
-            switch showAlienMicView {
-            case .blue:
-                blueAlienView.showMicView = true
-                redAlienView.showMicView = false
-            case .red:
-                blueAlienView.showMicView = false
-                redAlienView.showMicView = true
-            case .blueAndRed:
-                blueAlienView.showMicView = true
-                redAlienView.showMicView = true
-            case .none:
-                blueAlienView.showMicView = false
-                redAlienView.showMicView = false
-            default:
-                blueAlienView.showMicView = false
-                redAlienView.showMicView = false
-            }
         }
     }
     
@@ -127,6 +103,9 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
         linkView.image = UIImage(named: "icons／solid／link")
         self.contentView.addSubview(linkView)
         
+        blueAlienView.micView.isHidden = true
+        redAlienView.micView.isHidden = true
+        
         blueAlienView.snp.makeConstraints { make in
             make.left.top.bottom.equalTo(self.contentView)
             make.width.equalTo(self.contentView).multipliedBy(0.5)
@@ -152,6 +131,26 @@ class AgoraChatRoomBaseAlienCollectionViewCell: UICollectionViewCell {
     
     public func refreshAlien(with status: Int) {
         self.cellType = status == -2 ? .AgoraChatRoomBaseUserCellTypeNonActived : .AgoraChatRoomBaseUserCellTypeActived
+    }
+    
+    public func updateAlienMic(with type: ALIEN_TYPE) {
+        switch type {
+        case .blue:
+            blueAlienView.showMicView = true
+            redAlienView.showMicView = false
+        case .red:
+            blueAlienView.showMicView = false
+            redAlienView.showMicView = true
+        case .blueAndRed:
+            blueAlienView.showMicView = true
+            redAlienView.showMicView = true
+        case .none:
+            blueAlienView.showMicView = false
+            redAlienView.showMicView = false
+        default:
+            blueAlienView.showMicView = false
+            redAlienView.showMicView = false
+        }
     }
     
 }

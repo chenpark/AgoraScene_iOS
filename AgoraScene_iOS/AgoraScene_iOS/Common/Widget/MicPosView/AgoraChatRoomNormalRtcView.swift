@@ -27,12 +27,6 @@ class AgoraChatRoomNormalRtcView: UIView {
         }
     }
     
-    var showAlienMicView: ALIEN_TYPE = .none {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
     override func draw(_ rect: CGRect) {
         // Drawing code
         if collectionView == nil {
@@ -77,6 +71,12 @@ class AgoraChatRoomNormalRtcView: UIView {
         let indexPath: IndexPath = IndexPath(item: 6, section: 0)
         guard let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseAlienCollectionViewCell else {return}
         cell.refreshAlien(with: status)
+    }
+    
+    public func updateAlienMic(_ type: ALIEN_TYPE) {
+        let indexPath: IndexPath = IndexPath(item: 6, section: 0)
+        guard let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.cellForItem(at: indexPath) as? AgoraChatRoomBaseAlienCollectionViewCell else {return}
+        cell.updateAlienMic(with: type)
     }
 
     private func layoutUI() {
@@ -142,7 +142,6 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell
             if let mic_info = micInfos?[indexPath.item] {
                 cell.cellType = mic_info.status == 5 ? .AgoraChatRoomBaseUserCellTypeActived : .AgoraChatRoomBaseUserCellTypeNonActived
-                cell.showAlienMicView = self.showAlienMicView
             }
             
             cell.clickVBlock = {
@@ -151,9 +150,5 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             }
             return cell
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("---点击--\(indexPath.item)----")
     }
 }

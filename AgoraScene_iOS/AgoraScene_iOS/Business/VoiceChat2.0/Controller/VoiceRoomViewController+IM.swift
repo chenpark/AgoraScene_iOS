@@ -187,6 +187,7 @@ extension VoiceRoomViewController: VoiceRoomIMDelegate {
                     }
                 } else {
                     if local_index == nil || mic_index == local_index {
+                        self.rtckit.setClientRole(role: .audience)     
                         self.rtckit.muteLocalAudioStream(mute: true)
                     }
                 }

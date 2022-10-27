@@ -630,11 +630,6 @@ extension VoiceRoomViewController {
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveMic(roomId: roomId, index: index), params: [:]) { dic, error in
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
-                    //                    guard let mic: VRRoomMic = self.roomInfo?.mic_info![index] else {return}
-                    //                    var mic_info = mic
-                    //                    mic_info.status = -1
-                    //                    self.roomInfo?.mic_info![index] = mic_info
-                    //                    self.rtcView.micInfos = self.roomInfo?.mic_info
                     self.rtckit.setClientRole(role: .audience)
                 } else {
                 }
@@ -843,11 +838,7 @@ extension VoiceRoomViewController: ASManagerDelegate {
     }
     
     func reportAlien(with type: ALIEN_TYPE, musicType: VMMUSIC_TYPE) {
-        print("当前是：\(type.rawValue)在讲话")
-        self.rtcView.showAlienMicView = type
-        //        if type == .ended && self.alienCanPlay && musicType == .alien {
-        //            self.alienCanPlay = false
-        //        }
+        self.rtcView.updateAlienMic(type)
     }
     
     func reportAudioVolumeIndicationOfSpeakers(speakers: [AgoraRtcAudioVolumeInfo]) {
