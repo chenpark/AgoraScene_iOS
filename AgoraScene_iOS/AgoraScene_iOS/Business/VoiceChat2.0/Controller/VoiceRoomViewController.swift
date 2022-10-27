@@ -231,7 +231,7 @@ extension VoiceRoomViewController {
         
         headerView = AgoraChatRoomHeaderView()
         headerView.completeBlock = {[weak self] action in
-            self?.didHeaderAction(with: action)
+            self?.didHeaderAction(with: action,destroyed: false)
         }
         self.view.addSubview(headerView)
         
@@ -307,7 +307,7 @@ extension VoiceRoomViewController {
             if let result = dic?["result"] as? Bool,error == nil,result {
                 self.view.makeToast("Joined successful!".localized(),point: self.toastPoint, title: nil, image: nil, completion: nil)
             } else {
-                self.didHeaderAction(with: .back)
+                self.didHeaderAction(with: .back,destroyed: false)
             }
         }
     }
@@ -316,10 +316,12 @@ extension VoiceRoomViewController {
         self.inputBar.hiddenInputBar()
     }
     
-    func didHeaderAction(with action: HEADER_ACTION) {
+    func didHeaderAction(with action: HEADER_ACTION,destroyed: Bool) {
         if action == .back || action == .popBack  {
             if self.isOwner && action != .popBack {
-                self.showEndLive()
+                if destroyed != true {
+                    self.showEndLive()
+                }
             } else {
                 self.notifySeverLeave()
                 self.rtckit.leaveChannel()

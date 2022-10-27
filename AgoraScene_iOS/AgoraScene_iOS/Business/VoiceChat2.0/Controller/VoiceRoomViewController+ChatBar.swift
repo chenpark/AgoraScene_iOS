@@ -323,7 +323,7 @@ extension VoiceRoomViewController {
         confirmView.resBlock = {[weak self] (flag) in
             self?.dismiss(animated: true)
             if flag {
-                self?.didHeaderAction(with: .popBack)
+                self?.didHeaderAction(with: .popBack,destroyed: false)
             }
         }
         self.presentViewController(vc)
