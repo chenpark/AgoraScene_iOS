@@ -49,7 +49,7 @@ public class VoiceRoomInviteCell: UITableViewCell {
         self.user = item
         self.userName.text = item?.name
         if item?.invited == false {
-            item?.invited = (item?.mic_index ?? 0 > 1)
+            item?.invited = (item?.mic_index ?? 0 != -1)
         }
         self.avatar.image = UIImage(named: item?.portrait ?? "")
         self.operation.setTitle(item?.invited == true ? LanguageManager.localValue(key: "Invited"):LanguageManager.localValue(key: "Invite"), for: .normal)
