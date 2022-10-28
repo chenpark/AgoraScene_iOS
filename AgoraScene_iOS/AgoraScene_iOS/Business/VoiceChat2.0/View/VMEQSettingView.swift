@@ -49,16 +49,16 @@ class VMEQSettingView: UIView, UITextViewDelegate {
             let anchorH: CGFloat = textHeight(text: LanguageManager.localValue(key: "This sound effect focuses on solving the problems of poor sound quality of mono anchors and compatibility with mainstream external sound cards. The sound network stereo collection and high sound quality technology can greatly improve the sound quality of anchors using sound cards and enhance the attraction of live broadcasting rooms. At present, it has been adapted to mainstream sound cards in the market. "), fontSize: 13, width: self.bounds.size.width - 80~)
             print("\(soundEffect)-----")
             switch soundEffect {
-            case LanguageManager.localValue(key: "Social Chat"):
+            case "Social Chat":
                 effectHeight = [socialH, ktvH, gameH, anchorH]
                 effectType = [.chat, .karaoke, .game, .anchor]
-            case LanguageManager.localValue(key: "Karaoke"):
+            case "Karaoke":
                 effectHeight = [ktvH, socialH, gameH, anchorH]
                 effectType = [.karaoke, .chat, .game, .anchor]
-            case LanguageManager.localValue(key: "Gaming Buddy"):
+            case "Gaming Buddy":
                 effectHeight = [gameH, socialH, ktvH, anchorH]
                 effectType = [.game, .chat, .karaoke, .anchor]
-            case LanguageManager.localValue(key: "Professional Bodcaster"):
+            case "Professional podcaster":
                 effectHeight = [anchorH, socialH, ktvH, gameH]
                 effectType = [.anchor, .chat, .karaoke, .game]
             default:
@@ -78,7 +78,7 @@ class VMEQSettingView: UIView, UITextViewDelegate {
     var settingType: AUDIO_SETTING_TYPE = .Spatial {
         didSet {
             if settingType == .Spatial {
-                titleLabel.text = "Spatial Setting"
+                titleLabel.text = "Spatial Setting".localized()
             } else if settingType == .Noise {
                 titleLabel.text = "Noise Setting".localized()
             }else if settingType == .effect {

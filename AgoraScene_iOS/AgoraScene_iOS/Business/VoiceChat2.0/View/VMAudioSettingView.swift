@@ -178,7 +178,7 @@ extension VMAudioSettingView: UITableViewDelegate, UITableViewDataSource {
             cell.iconView.image = UIImage(named: settingImage[2 + indexPath.row])
             cell.titleLabel.text = settingName[2 + indexPath.row]
             if indexPath.row == 0 {
-                cell.contentLabel.text = roomInfo?.room?.sound_effect ?? ""
+                cell.contentLabel.text = roomInfo?.room?.sound_effect?.localized() ?? ""
             } else if indexPath.row == 1 {
                 switch ains_state {
                 case .high:

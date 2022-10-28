@@ -12,7 +12,7 @@
 "Private"="私密";
 "Enter"="进入";
 "Create Room"="创建房间";
-"Karaoke"="KTV";
+"Karaoke"="K歌";
 "No Chat Room yet"="暂无房间";
 "Create a Room"="创建房间";
 "Room Name"="房间名称";
@@ -152,7 +152,7 @@
 "Current Sound" = "当前最佳音效";
 "Other Sound" = "其他最佳音效";
 "otherSound" = "切换其他最佳音效需退出房间";
-"Professional Bodcaster" = "专业音频主播";
+"Professional podcaster" = "专业音频主播";
 "Prompt" = "提醒";
 "Add Bot" = "添加机器人体验最佳音效？";
 "Exit Room" = "离开并重新创建一个新的语聊房?";

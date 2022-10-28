@@ -181,11 +181,11 @@ extension VoiceRoomViewController {
     
     func getSceneType(_ type: String) -> VMMUSIC_TYPE {
         switch type {
-        case LanguageManager.localValue(key: "Karaoke"):
+        case "Karaoke":
             return .ktv
-        case LanguageManager.localValue(key: "Gaming Buddy"):
+        case "Gaming Buddy":
             return .game
-        case LanguageManager.localValue(key: "Professional Podcaster"):
+        case "Professional podcaster":
             return .anchor
         default:
             return .social

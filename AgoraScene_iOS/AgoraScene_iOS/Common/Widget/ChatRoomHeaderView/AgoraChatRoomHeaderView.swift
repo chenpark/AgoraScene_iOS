@@ -54,7 +54,7 @@ class AgoraChatRoomHeaderView: UIView {
             self.giftBtn.snp.updateConstraints { make in
                 make.width.greaterThanOrEqualTo(gift_count >= 100 ? 50 : 40)
             }
-            self.soundSetLabel.text = entity.sound_effect
+            self.soundSetLabel.text = entity.sound_effect?.localized()
             updateGiftList()
         }
     }

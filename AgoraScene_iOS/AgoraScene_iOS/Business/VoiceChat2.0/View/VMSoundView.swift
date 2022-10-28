@@ -87,11 +87,11 @@ class VMSoundView: UIView {
         }
         var basetag = 0
         switch soundEffect {
-        case "Social Chat".localized():
+        case "Social Chat":
             basetag = 110
-        case "Karaoke".localized():
+        case "Karaoke":
             basetag = 120
-        case "Gaming Buddy".localized():
+        case "Gaming Buddy":
             basetag = 130
         default:
             basetag = 140
@@ -132,15 +132,15 @@ class VMSoundView: UIView {
     
     private func setSoundEffect(_ effect: String) {
         self.soundEffect = effect
-        typeStr = effect
+        typeStr = effect.localized()
         switch effect {
-        case "Social Chat".localized():
+        case "Social Chat":
             detailStr = "This sound effect focuses on solving the voice call problem of the Social Chat scene, including noise cancellation and echo suppression of the anchor's voice. It can enable users of different network environments and models to enjoy ultra-low delay and clear and beautiful voice in multi-person chat.".localized()
             iconImgs = images[0]
-        case "Karaoke".localized():
+        case "Karaoke":
             detailStr = "This sound effect focuses on solving all kinds of problems in the Karaoke scene of single-person or multi-person singing, including the balance processing of accompaniment and voice, the beautification of sound melody and voice line, the volume balance and real-time synchronization of multi-person chorus, etc. It can make the scenes of Karaoke more realistic and the singers' songs more beautiful.".localized()
             iconImgs = images[1]
-        case "Gaming Buddy".localized():
+        case "Gaming Buddy":
             detailStr = "This sound effect focuses on solving all kinds of problems in the game scene where the anchor plays with him, including the collaborative reverberation processing of voice and game sound, the melody of sound and the beautification of sound lines. It can make the voice of the accompanying anchor more attractive and ensure the scene feeling of the game voice. ".localized()
             iconImgs = images[2]
         default:
