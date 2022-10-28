@@ -8,13 +8,13 @@
 import UIKit
 import ZSwiftBaseLib
 
-public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+public final class VRRoomMenuBar: UIView {
     
     var selectClosure: ((IndexPath) -> ())?
     
-    static let menusMap = [["title":LanguageManager.localValue(key: "All"),"detail":"","selected":true],["title":LanguageManager.localValue(key: "Standard"),"detail":"","selected":false],["title":LanguageManager.localValue(key: "Spatial Audio"),"detail":"","selected":false]]
+    static let menusMap = [["title":LanguageManager.localValue(key: "All"),"detail":"","selected":true,"soundType":""],["title":LanguageManager.localValue(key: "Standard"),"detail":"","selected":false,"soundType":""],["title":LanguageManager.localValue(key: "Spatial Audio"),"detail":"","selected":false,"soundType":""]]
     
-    static let menusMap1 = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":"","selected":false],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":"","selected":false]]
+    static let menusMap1 = [["title":LanguageManager.localValue(key: "Chat Room"),"detail":"","selected":false,"soundType":""],["title":LanguageManager.localValue(key: "Spatial Audio Mode Room"),"detail":"","selected":false,"soundType":""]]
 
     private var indicatorImage = UIImage()
     
@@ -64,7 +64,7 @@ public final class VRRoomMenuBar: UIView, UICollectionViewDelegate, UICollection
     
 }
 
-extension VRRoomMenuBar {
+extension VRRoomMenuBar: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     static var entities: [VRRoomMenuBarEntity] {
         var items = [VRRoomMenuBarEntity]()
@@ -128,11 +128,11 @@ extension VRRoomMenuBar {
         self.dataSource.forEach { $0.selected = false }
         let item = self.dataSource[safe: indexPath.row] ?? VRRoomMenuBarEntity()
         item.selected = !item.selected
+        self.menuList.reloadData()
         self.menuList.scrollToItem(at: indexPath, at: .right, animated: true)
         if let cell = self.menuList.dequeueReusableCell(withReuseIdentifier: "VRRoomMenuBarCell", for: indexPath) as? VRRoomMenuBarCell {
             self.indicatorMove(cell)
         }
-        self.menuList.reloadData()
     }
     
     func indicatorMove(_ cell: UICollectionViewCell) {

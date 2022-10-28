@@ -322,6 +322,8 @@ extension VoiceRoomViewController {
                if destroyed != true {
                     self.showEndLive()
                 } else {
+                    self.notifySeverLeave()
+                    self.rtckit.leaveChannel()
                     self.ownerBack()
                 }
             } else {
@@ -375,7 +377,7 @@ extension VoiceRoomViewController {
     }
     
     func notifySeverLeave() {
-        guard let roomId = self.roomInfo?.room?.chatroom_id  else { return }
+        guard let roomId = self.roomInfo?.room?.room_id  else { return }
         VoiceRoomBusinessRequest.shared.sendDELETERequest(api: .leaveRoom(roomId: roomId), params: [:]) { dic, error in
             if let result = dic?["result"] as? Bool,error == nil,result {
                 debugPrint("result:\(result)")

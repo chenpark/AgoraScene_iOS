@@ -52,10 +52,8 @@ extension VRNormalRoomsViewController {
             self.roomList.refreshControl?.endRefreshing()
             if error == nil {
                 guard let total = rooms?.total else { return }
-                if total > 0 {
-                    self.fillDataSource(rooms: rooms)
-                    self.roomList.reloadData()
-                }
+                self.fillDataSource(rooms: rooms)
+                self.roomList.reloadData()
                 if self.totalCountClosure != nil {
                     self.totalCountClosure!(total)
                 }
