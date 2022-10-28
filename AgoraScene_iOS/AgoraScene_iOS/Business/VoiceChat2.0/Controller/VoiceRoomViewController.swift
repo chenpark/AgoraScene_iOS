@@ -319,8 +319,10 @@ extension VoiceRoomViewController {
     func didHeaderAction(with action: HEADER_ACTION,destroyed: Bool) {
         if action == .back || action == .popBack  {
             if self.isOwner && action != .popBack {
-                if destroyed != true {
+               if destroyed != true {
                     self.showEndLive()
+                } else {
+                    self.ownerBack()
                 }
             } else {
                 self.notifySeverLeave()
