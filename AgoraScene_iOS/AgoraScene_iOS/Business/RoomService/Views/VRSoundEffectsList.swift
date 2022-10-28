@@ -53,7 +53,7 @@ public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewData
         tableView.deselectRow(at: indexPath, animated: false)
         for item in self.datas { item.selected = false }
         self.datas[safe:indexPath.row]?.selected = true
-        self.type = self.datas[safe:indexPath.row]?.title ?? ""
+        self.type = self.datas[safe:indexPath.row]?.soundType ?? ""
         self.reloadData()
     }
 

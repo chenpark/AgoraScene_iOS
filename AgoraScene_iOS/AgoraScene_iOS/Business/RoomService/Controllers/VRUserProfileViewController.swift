@@ -79,7 +79,7 @@ extension VRUserProfileViewController {
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
                 self?.userInfo.userName.text = user?.name ?? ""
-                self?.view.makeToast("Change success!")
+                self?.view.makeToast("Change success!".localized())
             } else {
                 self?.view.makeToast("\(error?.localizedDescription ?? "")")
             }
@@ -103,7 +103,7 @@ extension VRUserProfileViewController {
                 self.userAvatar = avatar
                 VoiceRoomUserInfo.shared.user = user
                 VoiceRoomBusinessRequest.shared.userToken = user?.authorization ?? ""
-                self.view.makeToast("Change success!")
+                self.view.makeToast("Change success!".localized())
                 self.userInfo.avatar.image = UIImage(named: VoiceRoomUserInfo.shared.user?.portrait ?? self.userAvatar)
                 if self.avatarChange != nil {
                     self.avatarChange!()

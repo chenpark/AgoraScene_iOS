@@ -133,7 +133,7 @@ extension VRRoomsViewController {
             if error == nil,let result = dic?["result"] as? Bool,result {
                 self.loginIMThenPush(room: room)
             } else {
-                self.view.makeToast("Password wrong!")
+                self.view.makeToast("Password wrong!".localized())
             }
         }
     }
@@ -159,7 +159,7 @@ extension VRRoomsViewController {
         }
         self.all.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
-            self.menuBar.dataSource[0].detail = "(\($0))"
+            self.menuBar.dataSource[safe: 0]?.detail = "(\($0))"
             self.menuBar.menuList.reloadData()
         }
         
@@ -168,7 +168,7 @@ extension VRRoomsViewController {
         }
         self.normal.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
-            self.menuBar.dataSource[1].detail = "(\($0))"
+            self.menuBar.dataSource[safe: 1]?.detail = "(\($0))"
             self.menuBar.menuList.reloadData()
         }
         
@@ -177,7 +177,7 @@ extension VRRoomsViewController {
         }
         self.spatialSound.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }
-            self.menuBar.dataSource[2].detail = "(\($0))"
+            self.menuBar.dataSource[safe: 2]?.detail = "(\($0))"
             self.menuBar.menuList.reloadData()
         }
     }
