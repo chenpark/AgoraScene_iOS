@@ -108,18 +108,18 @@ class VMSoundView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         bgView.frame = CGRect(x: 0~, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
-        lineImgView.frame = CGRect(x: self.bounds.size.width / 2.0 - 20~, y: 8, width: 40~, height: 4)
-        typeLabel.frame = CGRect(x: 20~, y: 32, width: self.bounds.size.width - 40~, height: 18)
-        detailLabel.frame = CGRect(x: 20~, y: 60, width: self.bounds.size.width - 40~, height: cellHeight)
-        iconBgView.frame = CGRect(x: 20~, y: self.bounds.size.height - 94, width: self.bounds.size.width - 40~, height: 60)
+        lineImgView.frame = CGRect(x: self.bounds.size.width / 2.0 - 20, y: 8, width: 40, height: 4)
+        typeLabel.frame = CGRect(x: 20, y: 32, width: self.bounds.size.width - 40, height: 18)
+        detailLabel.frame = CGRect(x: 20, y: 60, width: self.bounds.size.width - 40, height: cellHeight)
+        iconBgView.frame = CGRect(x: 20, y: self.bounds.size.height - 94, width: self.bounds.size.width - 40, height: 60)
         yallaView.frame = CGRect(x: 30~, y: self.bounds.size.height - 62, width: 20~, height: 20)
         soulView.frame = CGRect(x: 60~, y: self.bounds.size.height - 62, width: 20~, height: 20)
-        usageLabel.frame = CGRect(x: 30~, y: self.bounds.size.height - 84, width: 300~, height: 12)
+        usageLabel.frame = CGRect(x: 30, y: self.bounds.size.height - 84, width: 300~, height: 12)
         for view in self.subviews {
             if view.isKind(of: UIImageView.self) {
                 if view.tag >= 110 && view.tag <= 150 {
                     let index = view.tag % 10
-                    view.frame = CGRect(x: 30~ + 30~ * CGFloat(index), y: self.bounds.size.height - 65~, width: 20~, height: 20~)
+                    view.frame = CGRect(x: 30 + 30 * CGFloat(index), y: self.bounds.size.height - 65, width: 20, height: 20)
                 }
             }
         }

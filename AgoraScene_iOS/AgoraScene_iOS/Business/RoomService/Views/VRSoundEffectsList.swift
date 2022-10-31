@@ -11,7 +11,7 @@ import QuartzCore
 
 public class VRSoundEffectsList: UITableView,UITableViewDelegate,UITableViewDataSource {
     
-    var type = LanguageManager.localValue(key: "Social Chat")
+    var type = "Social Chat"
     
     static var heightMap = Dictionary<String,CGFloat>()
     

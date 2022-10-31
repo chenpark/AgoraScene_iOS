@@ -17,7 +17,7 @@ public enum SOUND_TYPE {
 
 class VMSoundSelTableViewCell: UITableViewCell {
     private var bgView: UIView = UIView()
-    private var screenWidth: CGFloat = UIScreen.main.bounds.size.width - 40~
+    private var screenWidth: CGFloat = UIScreen.main.bounds.size.width - 40
     private var typeLabel: UILabel = UILabel()
     private var iconView: UIImageView = UIImageView()
     private var detailLabel: UILabel = UILabel()
@@ -140,19 +140,19 @@ class VMSoundSelTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bgView.frame = CGRect(x: 20~, y: 0, width: self.bounds.size.width - 40~, height: self.bounds.size.height - 20)
-        typeLabel.frame = CGRect(x: 20~, y: 15~, width: 200~, height: 17~)
-        iconView.frame = CGRect(x: screenWidth - 30~, y: 15~, width: 20~, height: 20~)
-        detailLabel.frame = CGRect(x: 20~, y: 40~, width: self.bounds.size.width - 80~, height: cellHeight)
-        selView.frame = CGRect(x: screenWidth - 10~, y: self.bounds.size.height - 50~, width: 30~, height: 30~)
-        usageLabel.frame = CGRect(x: 20~, y: self.bounds.size.height - 74~, width: 200~, height: 12~)
-        lineView.frame = CGRect(x: 20~, y: self.bounds.size.height - 82~, width: self.bounds.size.width - 80~, height: 1)
+        bgView.frame = CGRect(x: 20, y: 0, width: self.bounds.size.width - 40, height: self.bounds.size.height - 20)
+        typeLabel.frame = CGRect(x: 20, y: 15, width: 200, height: 17)
+        iconView.frame = CGRect(x: screenWidth - 30, y: 15, width: 20, height: 20)
+        detailLabel.frame = CGRect(x: 20, y: 40, width: self.bounds.size.width - 80, height: cellHeight)
+        selView.frame = CGRect(x: screenWidth - 10, y: self.bounds.size.height - 50, width: 30, height: 30)
+        usageLabel.frame = CGRect(x: 20, y: self.bounds.size.height - 74, width: 200, height: 12)
+        lineView.frame = CGRect(x: 20, y: self.bounds.size.height - 82, width: self.bounds.size.width - 80, height: 1)
         
         for view in self.subviews {
             if view.isKind(of: UIImageView.self) {
                 if view.tag >= 10 && view.tag <= 50 {
                     let index = view.tag % 10
-                    view.frame = CGRect(x: 40~ + 30~ * CGFloat(index), y: self.bounds.size.height - 55~, width: 20~, height: 20~)
+                    view.frame = CGRect(x: 40 + 30 * CGFloat(index), y: self.bounds.size.height - 55, width: 20, height: 20)
                 }
             }
         }

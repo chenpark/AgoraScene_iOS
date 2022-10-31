@@ -42,9 +42,9 @@ class AgoraChatRoomHeaderView: UIView {
     
     var entity: VRRoomEntity = VRRoomEntity() {
         didSet {
-            guard let user = VoiceRoomUserInfo.shared.user else {return}
-            self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
-            self.titleLabel.text = user.name
+            guard let owner = entity.owner else {return}
+            self.iconImgView.image = UIImage(named: owner.portrait ?? "avatar1")
+            self.titleLabel.text = owner.name
             self.roomLabel.text = entity.name
             self.lookBtn.setTitle(" \(entity.click_count ?? 0)" , for: .normal)
             self.totalCountLabel.text = "\(entity.member_count ?? 0)"
@@ -77,8 +77,9 @@ class AgoraChatRoomHeaderView: UIView {
         
         self.iconImgView.layer.cornerRadius = 16~;
         self.iconImgView.layer.masksToBounds = true;
-        guard let user = VoiceRoomUserInfo.shared.user else {return}
-        self.iconImgView.image = UIImage(named: user.portrait ?? "avatar1")
+//        if let owner = entity.owner {
+//            self.iconImgView.image = UIImage(named: owner.portrait ?? "avatar1")
+//        }
         self.addSubview(self.iconImgView)
         
         self.roomLabel.textColor = .white;
@@ -88,7 +89,7 @@ class AgoraChatRoomHeaderView: UIView {
         
         self.titleLabel.textColor = .white
         self.titleLabel.font = UIFont.systemFont(ofSize: 10)
-        self.titleLabel.text = user.name
+       // self.titleLabel.text = owner.name
         self.titleLabel.alpha = 0.8
         self.addSubview(self.titleLabel)
         
