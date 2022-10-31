@@ -132,7 +132,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
             /*
              0: 正常 1: 闭麦 2: 禁言 3: 锁麦 4: 锁麦和禁言 -1: 空闲
              */
-            if micInfos != nil && micInfos?.count == 7{
+            if micInfos != nil && micInfos?.count ?? 0 >= 7{
                 if let mic_info = micInfos?[indexPath.item] {
                     cell.refreshUser(with: mic_info)
                 }
@@ -143,7 +143,7 @@ extension AgoraChatRoomNormalRtcView: UICollectionViewDelegate, UICollectionView
         } else {
             let cell: AgoraChatRoomBaseAlienCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: aIdentifier, for: indexPath) as! AgoraChatRoomBaseAlienCollectionViewCell
             
-            if micInfos != nil && micInfos?.count == 7{
+            if micInfos != nil && micInfos?.count ?? 0 >= 7{
                 if let mic_info = micInfos?[indexPath.item] {
                     cell.cellType = mic_info.status == 5 ? .AgoraChatRoomBaseUserCellTypeActived : .AgoraChatRoomBaseUserCellTypeNonActived
                 }
