@@ -66,7 +66,7 @@ public class VoiceRoomGiftCell: UITableViewCell {
         }
         self.avatar.image = self.gift?.avatar
         self.userName.text = self.gift?.userName ?? ""
-        self.giftName.text = "Sent "+(self.gift?.gift_name ?? "")
+        self.giftName.text = "Sent".localized()+" "+(self.gift?.gift_name ?? "")
         self.giftIcon.image = UIImage("\(self.gift?.gift_id ?? "")")
         self.giftNumbers.text = "X \(self.gift?.gift_count ?? "1")"
     }
