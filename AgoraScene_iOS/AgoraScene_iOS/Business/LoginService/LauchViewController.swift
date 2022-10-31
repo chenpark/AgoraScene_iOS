@@ -37,12 +37,9 @@ final class LauchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        VoiceRoomIMManager.shared?.configIM(appkey: "52117440#955012")
+        VoiceRoomIMManager.shared?.configIM(appkey: "")
         //MARK: - you can replace request host call this.
-        VoiceRoomBusinessRequest.shared.changeHost(host: "http://a1-test-voiceroom.easemob.com")
-//        VoiceRoomIMManager.shared?.configIM(appkey: "81399972#1019272")
-//        //MARK: - you can replace request host call this.
-//        VoiceRoomBusinessRequest.shared.changeHost(host: "http://ad-fulldemo-gateway-chat-staging.sh2.agoralab.co/")
+        VoiceRoomBusinessRequest.shared.changeHost(host: "")
         self.login()
         self.view.addSubViews([self.background])
     }
