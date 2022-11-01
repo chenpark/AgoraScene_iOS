@@ -49,7 +49,7 @@ class VoiceRoomViewController: VRBaseViewController {
         VoiceRoomInputBar(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 60)).backgroundColor(.white)
     }()
     
-    var preView: VMPresentView!
+    var preView: VMPresentView?
     var noticeView: VMNoticeView!
     var isShowPreSentView: Bool = false
     var rtckit: ASRTCKit = ASRTCKit.getSharedInstance()
@@ -390,9 +390,9 @@ extension VoiceRoomViewController {
         self.inputBar.hiddenInputBar()
         if self.isShowPreSentView {
             UIView.animate(withDuration: 0.5, animations: {
-                self.preView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~)
+                self.preView?.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 450~)
             }) { _ in
-                self.preView.removeFromSuperview()
+                self.preView?.removeFromSuperview()
                 self.preView = nil
                 self.sRtcView.isUserInteractionEnabled = true
                 self.rtcView.isUserInteractionEnabled = true
@@ -708,7 +708,7 @@ extension VoiceRoomViewController {
             if error == nil,dic != nil,let result = dic?["result"] as? Bool {
                 if result {
                     self.local_index = to
-                    self.micExchange(from, to: to)
+                   // self.micExchange(from, to: to)
                 } else {
                 }
             } else {

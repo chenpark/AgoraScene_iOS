@@ -12,11 +12,11 @@ extension VoiceRoomViewController {
     
     func showEQView() {
         preView = VMPresentView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 280~))
-        preView.isAudience = !isOwner
-        preView.roomInfo = roomInfo
-        preView.ains_state = ains_state
-        preView.isTouchAble = roomInfo?.room?.use_robot ?? false
-        preView.selBlock = {[weak self] state in
+        preView?.isAudience = !isOwner
+        preView?.roomInfo = roomInfo
+        preView?.ains_state = ains_state
+        preView?.isTouchAble = roomInfo?.room?.use_robot ?? false
+        preView?.selBlock = {[weak self] state in
             self?.ains_state = state
             self?.rtckit.setAINS(with: state)
             if self?.isOwner == false || self?.roomInfo?.room?.use_robot == false {return}
@@ -28,7 +28,7 @@ extension VoiceRoomViewController {
                 self?.rtckit.playMusic(with: .ainsOff)
             }
         }
-        preView.useRobotBlock = {[weak self] flag in
+        preView?.useRobotBlock = {[weak self] flag in
             if self?.alienCanPlay == true && flag == true {
                 self?.roomInfo?.room?.use_robot = true
                 self?.rtckit.playMusic(with: .alien)
@@ -41,13 +41,13 @@ extension VoiceRoomViewController {
                 self?.roomInfo?.room?.use_robot = false
                 self?.rtckit.stopPlayMusic()
             }
-            self?.preView.isTouchAble = flag
+            self?.preView?.isTouchAble = flag
             self?.activeAlien(flag)
         }
-        preView.volBlock = {[weak self] vol in
+        preView?.volBlock = {[weak self] vol in
             self?.updateVolume(vol)
         }
-        preView.eqView.effectClickBlock = {[weak self] type in
+        preView?.eqView.effectClickBlock = {[weak self] type in
 
             /**
              1.如果是观众，则toast 提示
@@ -70,7 +70,7 @@ extension VoiceRoomViewController {
             guard let effect = self?.roomInfo?.room?.sound_effect else {return}
             self?.rtckit.playMusic(with: self?.getSceneType(effect) ?? .social)
         }
-        preView.eqView.soundBlock = {[weak self] index in
+        preView?.eqView.soundBlock = {[weak self] index in
             if self?.isOwner == false {
                 self?.view.makeToast("Host Bot".localized())
                 return
@@ -86,18 +86,18 @@ extension VoiceRoomViewController {
             self?.rtckit.playSound(with: count, type: tag == 1 ? .ainsOff : .ainsHigh)
             self?.rtcView.updateAlienMic(.blue)
         }
-        preView.eqView.visitBlock = {[weak self] in
+        preView?.eqView.visitBlock = {[weak self] in
             let VC: VoiceRoomHelpViewController = VoiceRoomHelpViewController()
             self?.navigationController?.pushViewController(VC, animated: true)
         }
-        self.view.addSubview(preView)
+        self.view.addSubview(preView!)
         self.isShowPreSentView = true
         self.sRtcView.isUserInteractionEnabled = false
         self.rtcView.isUserInteractionEnabled = false
         self.headerView.isUserInteractionEnabled = false
         
         UIView.animate(withDuration: 0.5, animations: {
-            self.preView.frame = CGRect(x: 0, y: ScreenHeight - 360~, width: ScreenWidth, height: 360~)
+            self.preView?.frame = CGRect(x: 0, y: ScreenHeight - 360~, width: ScreenWidth, height: 360~)
         }, completion: nil)
     }
     
