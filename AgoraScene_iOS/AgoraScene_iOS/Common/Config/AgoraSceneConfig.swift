@@ -9,7 +9,7 @@ import Foundation
 
 public struct AgoraConfig {
     // agoraRtc id and token
-    public static let rtcId: String = ""
+    public static let rtcId: String = "72d8d5c7b38445e5bb26f1f270ee4649"
     public static let rtcToken: String? = nil
     //agoraChat id and token
     public static let chatId: String = ""

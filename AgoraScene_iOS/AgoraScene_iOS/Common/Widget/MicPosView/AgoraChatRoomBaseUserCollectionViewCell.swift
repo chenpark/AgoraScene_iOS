@@ -67,7 +67,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             bgIcon = mic.member == nil ? "icons／solid／mute" : ""
             if mic.member != nil {
                 rtcUserView.micView.isHidden = false
-                rtcUserView.micView.setState(.off)
+                rtcUserView.micView.setState(.forbidden)
             } else {
                 rtcUserView.micView.isHidden = true
             }
@@ -77,7 +77,7 @@ class AgoraChatRoomBaseUserCollectionViewCell: UICollectionViewCell {
             bgIcon = mic.member == nil ? "icons／solid／mute" : ""
             if mic.member != nil {
                 rtcUserView.micView.isHidden = false
-                rtcUserView.micView.setState(.off)
+                rtcUserView.micView.setState(.forbidden)
             } else {
                 rtcUserView.micView.isHidden = true
             }
