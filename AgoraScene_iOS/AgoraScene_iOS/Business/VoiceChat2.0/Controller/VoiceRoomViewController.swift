@@ -367,6 +367,7 @@ extension VoiceRoomViewController {
                 } else {
                     if local_index != nil {
                         changeMic(from: local_index!, to: tag - 200)
+                        
                     } else {
                         userApplyAlert(tag - 200)
                     }
