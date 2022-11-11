@@ -77,7 +77,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
         VoiceRoomIMManager.shared?.loginIM(userName: VoiceRoomUserInfo.shared.user?.chat_uid ?? "", token: VoiceRoomUserInfo.shared.user?.im_token ?? "", completion: { userName, error in
             ProgressHUD.dismiss()
             if error == nil {
-                self.goLive()
+                self.createRoom()
             } else {
                 self.view.makeToast("Login failed!",point: self.view.center, title: nil, image: nil, completion: nil)
             }
