@@ -172,8 +172,9 @@ extension VRRoomsViewController {
             self.menuBar.menuList.reloadData()
         }
         
-        self.spatialSound.didSelected = { [weak self] in
-            self?.entryRoom(room: $0)
+        self.spatialSound.didSelected = { [weak self] _ in
+            self?.view.makeToast("Spatial Audio Room is coming soon".localized())
+//            self?.entryRoom(room: $0)
         }
         self.spatialSound.totalCountClosure = { [weak self] in
             guard let `self` = self else { return }

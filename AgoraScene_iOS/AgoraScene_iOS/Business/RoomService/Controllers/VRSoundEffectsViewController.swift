@@ -56,7 +56,7 @@ public class VRSoundEffectsViewController: VRBaseViewController {
             self.view.makeToast("No Room Name".localized(),point: self.view.center, title: nil, image: nil, completion: nil)
         }
         Throttler.throttle {
-            self.createRoom()
+            self.entryRoom()
         }
     }
     

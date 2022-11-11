@@ -31,7 +31,8 @@ public final class VRCreateRoomViewController: VRBaseViewController {
             if self.container.idx <= 0 {
                 self.settingSound()
             } else {
-                self.goLive()
+                self.view.makeToast("Spatial Audio Room is coming soon".localized())
+                self.entryRoom()
             }
         }
     }
